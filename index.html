@@ -570,6 +570,20 @@ html[data-theme=light] .lpkpi>div,html[data-theme=light] .lprow{background:rgba(
 .drvdlg{border:0;border-radius:16px;padding:0;width:min(960px,calc(100% - 24px));background:#000;box-shadow:0 20px 60px rgba(0,0,0,.5)}.drvdlg::backdrop{background:rgba(0,0,0,.7)}
 .drvh{display:flex;gap:12px;align-items:center;padding:10px 14px;background:#10232f;color:#fff;font:14px Inter}.drvh b{flex:1}.drvh a{color:#8fe3b8}.drvh button{background:none;border:0;color:#fff;font-size:20px;cursor:pointer}
 .drvv{position:relative;padding-top:56.25%}.drvv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+#pfview{display:none;width:100%;max-width:980px}
+.pfbtn{width:34px;height:34px;border-radius:50%;padding:0;margin-left:4px;border:2px solid #8fe3b8!important;overflow:hidden;display:grid;place-items:center;background:#1d8656!important;color:#fff!important;font:700 13px Inter;cursor:pointer}
+.pfbtn[hidden]{display:none!important}.pfbtn img{width:100%;height:100%;object-fit:cover;display:block}.pfbtn span{font-family:Tajawal,Inter;font-size:14px;line-height:1}
+.pfsheet{background:#fff;color:#10232f;border-radius:20px;padding:24px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+.pfsheet .sbtn{color:#13285c;background:#eef3fb;border:1.5px solid #c9d6ea;margin:0;cursor:pointer}.pfsheet .sbtn.pri{background:#1d8656;color:#fff;border-color:#1d8656}
+.pfgrid{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start}
+.pfphoto{display:grid;gap:10px;justify-items:center;text-align:center}.pfbig{width:160px;height:160px;border-radius:50%;overflow:hidden;background:#1d8656;color:#fff;display:grid;place-items:center;font:700 52px Tajawal,Inter;box-shadow:0 0 0 4px #e3f4ea}.pfbig img{width:100%;height:100%;object-fit:cover}
+.pfup{display:inline-flex;gap:6px;align-items:center}.pfhint{font-size:12.5px;color:#53687a;margin:0}
+.pfform{display:grid;gap:14px}.pfform label{display:flex;justify-content:space-between;gap:10px;margin:0 0 6px;font:600 13px Inter;color:#13285c}.pfform label .ar{font:500 14px Tajawal;color:#53687a}
+.pfval{padding:11px 12px;border-radius:10px;background:#f2f5f8;border:1px solid #e1e7ee;font:16px Tajawal,Inter;color:#10232f;display:flex;justify-content:space-between;gap:8px}.pflock{opacity:.6;font-size:13px}
+.pfed input,.pfpin input{width:100%;box-sizing:border-box;padding:11px 12px;border-radius:10px;border:1.5px solid #cad5dd;font:16px Inter;color:#10232f;background:#fff}.pfed input:focus,.pfpin input:focus{outline:none;border-color:#2b6fb8;box-shadow:0 0 0 3px rgba(43,111,184,.15)}
+.pfbtns{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.pfmsg{font-size:13px;color:#1d8656}.pfmsg.bad{color:#c03c2c}
+.pfsec{border-top:1px solid #e3e9ef;padding-top:14px;display:grid;gap:8px}.pfsec h3{margin:0;font:700 16px Inter}.pfpin{display:grid;grid-template-columns:1fr 1fr auto;gap:8px}
+@media(max-width:640px){.pfgrid{grid-template-columns:1fr}.pfpin{grid-template-columns:1fr}.pfsheet{padding:16px}}
 #gbview{display:none;width:100%;max-width:1400px}
 .gbsel{display:flex;gap:8px;align-items:center;margin:0;font-size:13px;color:var(--muted)}.gbsel select{background:rgba(0,0,0,.25);color:var(--ink);border:1px solid rgba(143,227,184,.3);border-radius:10px;padding:8px 10px;font:600 14px Inter}
 html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,.2)}
@@ -710,7 +724,7 @@ body.nbopen{overflow:hidden}
 <svg data-own class="helix l" viewBox="0 0 120 1000" preserveAspectRatio="xMidYMid slice" id="h1"></svg>
 <svg data-own class="helix r" viewBox="0 0 120 1000" preserveAspectRatio="xMidYMid slice" id="h2"></svg>
 
-<div id="themesw" data-own role="group" aria-label="Colour theme"><button data-m="light" aria-pressed="false" title="Light mode">☀<span>Light</span></button><button data-m="dark" aria-pressed="false" title="Dark mode">☾<span>Dark</span></button><button data-m="auto" aria-pressed="false" title="Follow device setting">◐<span>Auto</span></button></div>
+<div id="themesw" data-own role="group" aria-label="Colour theme"><button data-m="light" aria-pressed="false" title="Light mode">☀<span>Light</span></button><button data-m="dark" aria-pressed="false" title="Dark mode">☾<span>Dark</span></button><button type="button" id="pfbtn" class="pfbtn" hidden aria-label="My profile · الملف الشخصي"></button></div>
 <nav id="sidenav" data-own aria-label="Dashboard"></nav>
 <div id="navhist" data-own hidden role="navigation" aria-label="Page history"><button type="button" id="nhback" title="Previous page (Alt+←)" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button><button type="button" id="nhhome" title="Dashboard" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><button type="button" id="nhfwd" title="Next page (Alt+→)" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></div>
 <main class="wrap" data-own>
@@ -778,6 +792,14 @@ body.nbopen{overflow:hidden}
     </div>
     <div class="remind" id="tremind"></div>
     <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section id="pfview">
+    <div class="card tbar fade">
+      <div><h2>My Profile <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· الملف الشخصي</span></h2><div class="cls">Email, mobile and photo can be edited · name and ID are fixed</div></div>
+      <div class="arow"><button class="out" id="pfback" style="margin-top:0">← Dashboard</button></div>
+    </div>
+    <div class="pfsheet" id="pfsheet"></div>
   </section>
 
   <section id="gbview">
@@ -2773,7 +2795,7 @@ async function hsLiveDraw(){
 function hsPinUI(){const box=$("idm");if(!box||$("hspinbtn"))return;const b=document.createElement("button");b.id="hspinbtn";b.type="button";b.className="sbtn";b.textContent="Change PIN";b.style.marginLeft="10px";box.after(b);
   b.onclick=async()=>{const o=prompt("Current PIN (6 digits):");if(!o)return;const n=prompt("New PIN (6 digits):");if(!n)return;if(!/^\d{6}$/.test(n)){alert("The new PIN must be 6 digits.");return;}
     try{const r=await hrpc("portal_change_pin",{p_token:HS.token,p_old:o,p_new:n});alert(r.ok?"PIN changed.":r.error==="bad_pin"?"The current PIN is wrong.":"Could not change the PIN.");}catch(_){alert("Could not change the PIN.");}};}
-{const s0=show;show=function(st,id){const r=s0.apply(this,arguments);if(!st.t)hsPinUI();return r;};}
+
 }
 
 /* ===== Weekly Assessment: manual gradebook, statistics, Excel and PDF reports (teacher only) ===== */
@@ -3131,9 +3153,68 @@ $("gbsem").onchange=async e=>{await gbSaveNow();GB.sem=e.target.value;$("gbsheet
 {const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)&&!st.l.some(x=>x[1]==="#gradebook")){const i=st.l.findIndex(x=>x[0]==="Gradebook");st.l.splice(i>=0?i+1:st.l.length,0,["Weekly Assessment","#gradebook","weekly"]);}return st0.apply(this,arguments);};}
 addEventListener("beforeunload",()=>{if(GB.saveT&&GB.data)gbSaveNow();});
 
+/* ===== My Profile (الملف الشخصي): email, mobile and photo are editable; name and national ID are not ===== */
+const PF={data:null,photo:null};
+const pfHosted=()=>!!(window.HOSTED&&window.HS?.token);
+const pfInitials=n=>String(n||"?").trim().split(/\s+/).map(s=>s[0]).slice(0,2).join("");
+async function pfLoad(){
+  const u=CAL.user,id=CAL.uid;if(!u)return null;
+  let d={email:"",mobile:"",photo:""};
+  if(pfHosted()){try{const r=await hrpc("portal_profile_get",{p_token:HS.token});d={email:r?.email||"",mobile:r?.mobile||"",photo:r?.photo||""};}catch(_){}}
+  else{try{Object.assign(d,JSON.parse(localStorage.getItem("pf_"+id)||"{}"));}catch(_){}}
+  PF.data=d;pfAvatar();return d;
+}
+async function pfSave(d){
+  if(pfHosted()){const r=await hrpc("portal_profile_save",{p_token:HS.token,p_email:d.email,p_mobile:d.mobile,p_photo:d.photo||""});if(r?.error)throw new Error(r.error);}
+  else{localStorage.setItem("pf_"+CAL.uid,JSON.stringify(d));}
+  PF.data=d;pfAvatar();
+}
+function pfAvatar(){const b=$("pfbtn");if(!b)return;const on=!!CAL.user&&$("login").style.display==="none";b.hidden=!on;if(!on)return;
+  const p=PF.data?.photo;b.innerHTML=p?`<img src="${p}" alt="">`:`<span>${esc(pfInitials(CAL.user.n))}</span>`;b.title=`${CAL.user.n} · My profile · الملف الشخصي`;}
+function openProfile(){
+  if(!CAL.user)return;hideAllViews();$("pfview").style.display="block";scrollTo(0,0);pfRender();
+  if(!PF.data)pfLoad().then(pfRender);
+}
+function pfRender(){
+  const u=CAL.user,id=CAL.uid||"",d=PF.data||{email:"",mobile:"",photo:""},T=!!u.t;PF.photo=d.photo||"";
+  $("pfsheet").innerHTML=`<div class="pfgrid">
+    <div class="pfphoto"><div class="pfbig" id="pfbig">${PF.photo?`<img src="${PF.photo}" alt="Profile photo">`:`<span>${esc(pfInitials(u.n))}</span>`}</div>
+      <label class="sbtn pfup">📷 ${PF.photo?"Change photo":"Add photo"}<input type="file" id="pffile" accept="image/*" hidden></label>
+      ${PF.photo?`<button class="sbtn" id="pfrm" type="button">Remove photo</button>`:""}<p class="pfhint">The photo is resized to a small square before it is saved.</p></div>
+    <form class="pfform" id="pfform" autocomplete="on" novalidate>
+      <div class="pfro"><label>Name <span class="ar">الاسم</span></label><div class="pfval" dir="auto">${esc(u.n)} <span class="pflock" title="Can't be changed">🔒</span></div></div>
+      <div class="pfro"><label>National ID <span class="ar">رقم الهوية</span></label><div class="pfval">${esc(id)} <span class="pflock" title="Can't be changed">🔒</span></div></div>
+      <div class="pfro"><label>${T?"Role":"Grade"} <span class="ar">${T?"الدور":"الصف"}</span></label><div class="pfval">${esc(T?"Teacher":u.g||"")} <span class="pflock">🔒</span></div></div>
+      <div class="pfed"><label for="pfemail">Email <span class="ar">البريد الإلكتروني</span></label><input id="pfemail" type="email" inputmode="email" autocomplete="email" maxlength="120" value="${esc(d.email||"")}" placeholder="name@example.com"></div>
+      <div class="pfed"><label for="pfmob">Mobile <span class="ar">رقم الجوال</span></label><input id="pfmob" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" value="${esc(d.mobile||"")}" placeholder="05XXXXXXXX or +9665XXXXXXXX" dir="ltr"></div>
+      <div class="pfbtns"><button class="sbtn pri" type="submit">Save changes · حفظ</button><span class="pfmsg" id="pfmsg"></span></div>
+      ${pfHosted()?`<div class="pfsec"><h3>PIN · الرقم السري</h3><p class="pfhint">Change the 6-digit PIN you use to log in.</p><div class="pfpin"><input id="pfold" type="password" inputmode="numeric" maxlength="6" placeholder="Current PIN" autocomplete="current-password"><input id="pfnew" type="password" inputmode="numeric" maxlength="6" placeholder="New PIN" autocomplete="new-password"><button class="sbtn" type="button" id="pfpinb">Change PIN</button></div><span class="pfmsg" id="pfpinm"></span></div>`:""}
+    </form></div>`;
+  $("pffile").onchange=async e=>{const f=e.target.files[0];if(!f)return;const m=$("pfmsg");if(!/^image\//.test(f.type)){m.textContent="Choose an image file.";m.className="pfmsg bad";return;}
+    try{PF.photo=await pfShrink(f);$("pfbig").innerHTML=`<img src="${PF.photo}" alt="Profile photo">`;m.textContent="Photo ready · press Save to keep it.";m.className="pfmsg";}catch(_){m.textContent="Could not read this image.";m.className="pfmsg bad";}};
+  const rm=$("pfrm");if(rm)rm.onclick=()=>{PF.photo="";$("pfbig").innerHTML=`<span>${esc(pfInitials(u.n))}</span>`;$("pfmsg").textContent="Photo removed · press Save to confirm.";};
+  $("pfform").onsubmit=async e=>{e.preventDefault();const m=$("pfmsg"),email=$("pfemail").value.trim(),mob=$("pfmob").value.replace(/[\s-]/g,"").replace(/[٠-٩]/g,c=>"٠١٢٣٤٥٦٧٨٩".indexOf(c));
+    if(email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){m.textContent="Check the email address.";m.className="pfmsg bad";return;}
+    if(mob&&!/^\+?[0-9]{8,15}$/.test(mob)){m.textContent="Check the mobile number (digits only, e.g. 05XXXXXXXX).";m.className="pfmsg bad";return;}
+    m.textContent="Saving…";m.className="pfmsg";
+    try{await pfSave({email,mobile:mob,photo:PF.photo});m.textContent="✓ Saved";$("pfmob").value=mob;pfRender();$("pfmsg").textContent="✓ Saved";}
+    catch(err){m.textContent=err.message==="photo"?"The photo is too large. Try another one.":"Could not save. Check the internet and try again.";m.className="pfmsg bad";}};
+  const pb=$("pfpinb");if(pb)pb.onclick=async()=>{const o=$("pfold").value,n=$("pfnew").value,m=$("pfpinm");if(!/^\d{6}$/.test(n)){m.textContent="The new PIN must be 6 digits.";m.className="pfmsg bad";return;}
+    try{const r=await hrpc("portal_change_pin",{p_token:HS.token,p_old:o,p_new:n});m.textContent=r.ok?"✓ PIN changed":r.error==="bad_pin"?"The current PIN is wrong.":"Could not change the PIN.";m.className="pfmsg"+(r.ok?"":" bad");if(r.ok){$("pfold").value="";$("pfnew").value="";}}catch(_){m.textContent="Could not change the PIN.";m.className="pfmsg bad";}};
+}
+function pfShrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{const s=Math.min(im.width,im.height),c=document.createElement("canvas");c.width=c.height=240;const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,240,240);x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,240,240);URL.revokeObjectURL(url);res(c.toDataURL("image/jpeg",0.82));};im.onerror=()=>{URL.revokeObjectURL(url);rej();};im.src=url;});}
+$("pfbtn").onclick=()=>openProfile();
+$("pfback").onclick=()=>goHome();
+{const s0=show;show=function(st,id){const r=s0.apply(this,arguments);PF.data=null;pfAvatar();pfLoad();return r;};}
+{const lo=logout;logout=function(){PF.data=null;const r=lo.apply(this,arguments);const v=$("pfview");if(v)v.style.display="none";pfAvatar();return r;};}
+{const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const v=$("pfview");if(v)v.style.display="none";return r;};}
+["openProgress","openCourses","openCalendar","openAnalytics","openLesson","openGradebook"].forEach(n=>{const f=window[n];if(typeof f!=="function")return;window[n]=function(){const v=$("pfview");if(v)v.style.display="none";return f.apply(this,arguments);};});
+{const mo=new MutationObserver(()=>pfAvatar());["login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
+pfAvatar();
+
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
-const VIEWS={gbview:"#gradebook",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
+const VIEWS={pfview:"#profile",gbview:"#gradebook",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
 const HOME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const OUT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>';
 function hideAllViews(){if(LX.sim)LX.sim.stop();["analytics","calview","coursesview","progview","lessonview","teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});}
@@ -3168,7 +3249,7 @@ function navSync(){
   if(show)buildNav(active);
 }
 {const mo=new MutationObserver(()=>{clearTimeout(navSync._t);navSync._t=setTimeout(navSync,0);});
- ["gbview","analytics","calview","coursesview","progview","lessonview","teach","home","login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
+ ["pfview","gbview","analytics","calview","coursesview","progview","lessonview","teach","home","login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 
 /* ===== Visited-page history: back / home / forward (bottom-left) ===== */
 const NAVH={s:[],i:-1,replay:false,tick:false};
@@ -3183,7 +3264,7 @@ function navPush(r){
 function navReplay(r){
   NAVH.replay=true;
   try{if(r.v!=="lesson")hideAllViews();
-    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="cal")openCalendar();
+    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="pf")openProfile();else if(r.v==="cal")openCalendar();
     else if(r.v==="courses")openCourses(r.k);else if(r.v==="bio"){openCourses("bio");openBio(r.id);}
     else if(r.v==="prog")openProgress(r.k);else if(r.v==="lesson"){if(LX.id!==r.id||$("lessonview").style.display!=="block")openLesson(r.id,r.tab);else lxShow(r.tab);}}
   catch(e){goHome();}
@@ -3198,7 +3279,7 @@ function navBar(){
   const cur=NAVH.s[NAVH.i];$("nhhome").classList.toggle("on",!cur||cur.v==="home");
 }
 {const wrap=(name,mk)=>{const f=window[name];if(typeof f!=="function")return;window[name]=function(...a){const r=f.apply(this,a);try{navPush(mk(...a));}catch(_){}return r;};};
- wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
+ wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openProfile",()=>({v:"pf"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
  wrap("openCourses",k=>({v:"courses",k:k||null}));wrap("openBio",id=>({v:"bio",id:id||null}));wrap("openProgress",k=>({v:"prog",k:k||null}));
  wrap("openLesson",(id,tab)=>({v:"lesson",id,tab:tab||"launch"}));wrap("lxShow",t=>({v:"lesson",id:LX.id,tab:t}));
  const lo=window.logout;if(typeof lo==="function")window.logout=function(...a){NAVH.s=[];NAVH.i=-1;const r=lo.apply(this,a);navBar();return r;};}
@@ -3211,9 +3292,9 @@ navBar();
 
 /* theme switch */
 function applyTheme(m){const d=m==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.setAttribute("data-theme",d);document.documentElement.setAttribute("data-theme-mode",m);
-  document.querySelectorAll("#themesw button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));try{localStorage.setItem("bio_theme",m)}catch(_){}
+  document.querySelectorAll("#themesw button[data-m]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));try{localStorage.setItem("bio_theme",m)}catch(_){}
   document.querySelectorAll("#arep,#srep").forEach(h=>h._draw&&h.offsetParent&&h._draw());}
-document.querySelectorAll("#themesw button").forEach(b=>b.onclick=()=>applyTheme(b.dataset.m));
+document.querySelectorAll("#themesw button[data-m]").forEach(b=>b.onclick=()=>applyTheme(b.dataset.m));
 matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{if((document.documentElement.getAttribute("data-theme-mode")||"dark")==="auto")applyTheme("auto");});
 applyTheme(document.documentElement.getAttribute("data-theme-mode")||"dark");
 
