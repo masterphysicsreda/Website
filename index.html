@@ -669,6 +669,61 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 .pcard.submitted .pct{color:#10232f}.pcard.reviewed{opacity:.93}
 .padempty{background:rgba(255,255,255,.85);border-radius:14px;padding:30px;text-align:center;color:#53687a;font-size:15px;margin:0}
 
+/* ===== assessments ===== */
+#testsview{display:none;width:100%;max-width:1400px}
+.tfbar{margin-bottom:14px}.pfdd.wide{max-width:520px;flex:2 1 340px}
+.tlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.tcard{background:#fff;color:#10232f;border-radius:16px;padding:14px 16px;display:grid;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.14);border-top:5px solid #8a99a8}
+.tcard.open{border-top-color:#1d8656}.tcard.sched{border-top-color:#4472c4}.tcard.closed{border-top-color:#8a99a8}.tcard.draft{border-top-color:#d9a21b}.tcard.done{border-top-color:#1d8656}
+.tch{display:flex;justify-content:space-between;gap:8px;font:600 12px Inter;color:#53687a}.tcard h3{margin:0;font:800 18px Inter}
+.tstate{font:700 11.5px Inter;padding:2px 10px;border-radius:999px;background:#e9eef2;color:#53687a}.tstate.open,.tstate.done{background:#dff3e8;color:#14683f}.tstate.sched{background:#e3ecfb;color:#1f3864}.tstate.draft{background:#fdf0d5;color:#8a5a00}
+.tmeta{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:13px;color:#53687a}.tstat{font-size:14px}.tact{display:flex;gap:6px;flex-wrap:wrap}
+.tdlg{width:100vw;height:100dvh;max-width:100vw;max-height:100dvh;margin:0;padding:0;border:0;background:#eef2f5;color:#10232f;display:none;flex-direction:column;--ink:#10232f;--mu:#53687a;--ln:#cad5dd;--sf:#fff;--s2:#f4f7f9;--ac:#b8720c;--up:#1d8656;--dn:#c03c2c}.tdlg[open]{display:flex}.tdlg::backdrop{background:rgba(5,20,15,.6)}
+.tebody{flex:1;min-height:0;display:grid;grid-template-columns:270px minmax(0,1fr) 300px;overflow:hidden}.tdlg .tebody:not(:has(.teprops)){grid-template-columns:270px minmax(0,1fr)}
+.teset,.teprops{background:#fff;overflow:auto;padding:14px;display:grid;gap:10px;align-content:start}.teset{border-right:1px solid #d6dee5}.teprops{border-left:1px solid #d6dee5}
+.tel{display:grid;gap:4px;font:600 12.5px Inter;color:#53687a;margin:0}.tel input,.tel select,.tel textarea{font:500 14px Inter,Tajawal;color:#10232f;border:1px solid #cad5dd;border-radius:8px;padding:7px 9px;background:#fff;width:100%;box-sizing:border-box}.tel small{font-weight:400;color:#8a99a8}
+.terad{display:grid;gap:4px;font:500 13.5px Inter;color:#10232f}.tdlg .terad label,.tdlg .testu label{display:flex;flex-direction:row;justify-content:flex-start;text-align:left;gap:6px;align-items:center;margin:0;font:500 13.5px Inter,Tajawal;color:#10232f;letter-spacing:0;text-transform:none}.tdlg .terad input,.tdlg .testu input,.tdlg .tebi input[type=checkbox]{width:auto;flex:none;margin:0}.tdlg input,.tdlg select,.tdlg textarea{letter-spacing:normal}.tel select{max-width:100%}.testu{max-height:220px;overflow:auto;border:1px solid #e3e9ee;border-radius:8px;padding:6px 8px;display:grid;gap:3px;font:13px Inter,Tajawal;color:#10232f}
+.tenote{font-size:12.5px;color:#8a5a00;background:#fdf6e6;border-radius:8px;padding:8px;margin:0}
+.temain{overflow:auto;padding:14px;min-width:0}.teempty{background:#fff;border-radius:14px;padding:30px;text-align:center;max-width:560px;margin:40px auto;display:grid;gap:10px;justify-items:center}.teempty h3{margin:0}
+.tetools{position:sticky;top:-14px;z-index:5;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#eef2f5;padding:6px 0 10px;font:600 13px Inter;color:#53687a}
+.tetool{display:grid;justify-items:center;border:1px solid #cad5dd;background:#fff;border-radius:10px;padding:5px 10px;cursor:pointer;color:#10232f}.tetool b{font:800 13px Inter}.tetool small{font:11px Inter;color:#53687a}.tetool.on{background:#13285c;color:#fff;border-color:#13285c}.tetool.on small{color:#cfe0ff}
+.teup{position:relative;cursor:pointer}.temsg{font-weight:500;color:#b8720c}
+.tesheet,.ttsheet{display:grid;gap:16px;justify-items:center}
+.tpgwrap{width:100%;max-width:1000px;overflow:hidden}.tpg{position:relative;width:1000px;transform-origin:0 0;background:#fff;box-shadow:0 4px 18px rgba(16,35,47,.15);min-height:200px}.tpg img{display:block;width:1000px;user-select:none}.tpgload{padding:60px;text-align:center;color:#8a99a8}
+.tpos{position:absolute;display:flex;gap:4px;align-items:flex-start}.tpos.ed{outline:1.5px dashed rgba(68,114,196,.7);outline-offset:2px;cursor:move;background:rgba(68,114,196,.06);border-radius:6px}.tpos.sel{outline:2px solid #b8720c;background:rgba(184,114,12,.08)}
+.tqn{position:absolute;left:-22px;top:4px;font:800 11px Inter;color:#fff;background:#4472c4;border-radius:999px;min-width:18px;height:18px;display:grid;place-items:center;padding:0 3px;opacity:.85}
+.tgrip{position:absolute;right:-18px;top:0;font-size:14px;color:#4472c4;cursor:move}.tsize{position:absolute;right:-6px;bottom:-6px;width:12px;height:12px;border-right:3px solid #b8720c;border-bottom:3px solid #b8720c;cursor:nwse-resize}
+.tfld{display:inline-flex;gap:4px}.tfld button{min-width:30px;height:30px;border-radius:8px;border:1.5px solid rgba(68,114,196,.65);background:rgba(255,255,255,.55);font:800 14px Inter;color:#1f3864;cursor:pointer;padding:0 6px}
+.tfld button.on{background:#4472c4;color:#fff;border-color:#4472c4}.tfld button.key{box-shadow:0 0 0 3px #1d8656}.tpos.ed .tfld button,.tpos.ed input,.tpos.ed textarea,.tpos.ed select{pointer-events:none}
+.tfld input{height:30px;width:100%;box-sizing:border-box;border:1.5px solid rgba(68,114,196,.65);border-radius:8px;background:rgba(255,255,255,.6);font:600 15px Inter,Tajawal;color:#10232f;padding:0 8px}.tfld.blank,.tfld.num{width:100%}
+.tfld.open{width:100%;height:100%}.tfld.open textarea{width:100%;height:100%;box-sizing:border-box;border:1.5px solid rgba(68,114,196,.65);border-radius:8px;background:rgba(255,255,255,.6);font:15px/1.4 Inter,Tajawal;color:#10232f;padding:6px 8px;resize:none}
+.tfld.match{display:grid;gap:4px}.tfld.match label{display:flex;gap:4px;align-items:center;margin:0;font:800 12px Inter;color:#1f3864}.tfld.match select{height:30px;border:1.5px solid rgba(68,114,196,.65);border-radius:8px;background:rgba(255,255,255,.7);font:700 14px Inter;color:#10232f}
+.tfld.ok input,.tfld.ok textarea{border-color:#1d8656;background:rgba(29,134,86,.12)}.tfld.no input,.tfld.no textarea{border-color:#c03c2c;background:rgba(192,60,44,.12)}.tfld.ok button.on{background:#1d8656;border-color:#1d8656;color:#fff}.tfld.no button.on{background:#c03c2c;border-color:#c03c2c;color:#fff}.tfld.half input,.tfld.half select{border-color:#d9a21b}
+.tmk{position:absolute;left:calc(100% + 8px);top:2px;font:800 15px Inter;white-space:nowrap;display:flex;gap:6px;align-items:center}.tmk.ok{color:#1d8656}.tmk.no{color:#c03c2c}.tmk.half{color:#b8720c}.tmk.pend{color:#4472c4}.tmk i{font:600 12px Inter;font-style:normal;background:#dff3e8;color:#14683f;border-radius:6px;padding:1px 6px}
+.teql{display:grid;gap:4px}.teqi{display:grid;grid-template-columns:26px 1fr auto;grid-template-rows:auto auto;gap:0 8px;text-align:left;border:1px solid #e3e9ee;background:#fff;border-radius:8px;padding:6px 8px;cursor:pointer;color:#10232f;font:13px Inter}.teqi b{grid-row:1/3;font:800 14px Inter;color:#4472c4}.teqi em{font-style:normal;color:#1d8656;font-size:12px;grid-column:2}.teqi i{grid-row:1/3;grid-column:3;font-style:normal;font-weight:700;color:#53687a}.teqi.on{border-color:#b8720c;background:#fff8ec}.teqi.miss em{color:#c03c2c}
+.tecur{display:grid;gap:8px;border:1.5px solid #b8720c;border-radius:12px;padding:10px;background:#fffaf2}.tekb{display:flex;gap:6px;flex-wrap:wrap}.tekb button{min-width:44px;height:38px;border-radius:9px;border:1.5px solid #cad5dd;background:#fff;font:800 15px Inter;cursor:pointer;color:#10232f}.tekb button.on{background:#1d8656;color:#fff;border-color:#1d8656}
+.tekm{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}.tekm label{display:flex;gap:4px;align-items:center;margin:0;font:800 13px Inter}.tekm select{flex:1;height:32px;border:1px solid #cad5dd;border-radius:7px}
+.tebank{display:grid;gap:12px;max-width:980px;margin:0 auto}.tebh{display:flex;justify-content:space-between;align-items:baseline}.tebh h3{margin:0}.tebh span{color:#53687a;font-size:13px}
+.tesrc{background:#fff;border-radius:12px;padding:10px 12px;display:grid;gap:4px}.tesrch{display:flex;gap:8px;align-items:center;padding-bottom:6px;border-bottom:1px solid #e3e9ee}.tesrch b{flex:1;font:800 15px Inter}.tesrch span{color:#53687a;font-size:13px}
+.tebi{display:grid;grid-template-columns:22px 64px 1fr 62px;gap:8px;align-items:center;padding:7px 4px;border-bottom:1px solid #f0f3f6;margin:0;cursor:pointer;font:14px Inter,Tajawal;color:#10232f}.tebi.on{background:#f3f8ff}.tet{font:700 11px Inter;color:#4472c4;background:#e3ecfb;border-radius:6px;padding:2px 4px;text-align:center}.tes small{display:block;color:#1d8656;font-size:12px}.tepts{width:56px;border:1px solid #cad5dd;border-radius:7px;padding:4px;font:600 13px Inter}
+.ttbody{flex:1;overflow:auto;padding:14px}.ttime{font:800 18px ui-monospace,monospace;color:#13285c;background:#e3ecfb;border-radius:10px;padding:4px 12px}.ttime.low{background:#fbe1dd;color:#a3271a}.ttsave{font-size:12.5px;color:#53687a;min-width:70px}.ttscore{font:800 17px Inter;color:#1d8656}
+.ttsum{display:flex;gap:16px;align-items:center;background:#fff;border-radius:14px;padding:14px 18px;max-width:1000px;margin:0 auto 14px;box-sizing:border-box}.ttsum>div{display:grid;gap:3px}.ttsum span{color:#53687a;font-size:13.5px}.ttbig{font:800 40px Georgia,serif;color:#1d8656}
+.tbank{display:grid;gap:12px;width:100%;max-width:900px}.tbq{background:#fff;border-radius:14px;padding:14px 16px;display:grid;gap:10px;border-left:4px solid #cad5dd}.tbq.ok{border-left-color:#1d8656}.tbq.no{border-left-color:#c03c2c}.tbq.half{border-left-color:#d9a21b}.tbq.pend{border-left-color:#4472c4}
+.tbqh{display:flex;gap:10px;align-items:flex-start}.tbn{flex:none;width:26px;height:26px;border-radius:50%;background:#13285c;color:#fff;display:grid;place-items:center;font:800 13px Inter}.tbstem{flex:1;font:16px/1.45 Inter,Tajawal}.tbqh em{font:600 12px Inter;font-style:normal;color:#8a99a8;white-space:nowrap}
+.tbfig{margin:0;max-width:560px}.tbopts{display:grid;gap:6px}.tbopts.tfrow{grid-template-columns:1fr 1fr;max-width:360px}.tbopts button{display:flex;gap:10px;align-items:center;text-align:left;border:1.5px solid #d6dee5;background:#f8fafb;border-radius:10px;padding:9px 12px;font:15px Inter,Tajawal;color:#10232f;cursor:pointer}.tbopts button b{width:24px;height:24px;border-radius:50%;background:#e3ecfb;color:#1f3864;display:grid;place-items:center;flex:none;font-size:13px}
+.tbopts button.on{border-color:#4472c4;background:#eef4ff}.tbopts button.on b{background:#4472c4;color:#fff}.tbq.no .tbopts button.on:not(.key),.tbq.half .tbopts button.on:not(.key){border-color:#c03c2c;background:#fdf0ee}.tbq.no .tbopts button.on:not(.key) b{background:#c03c2c;color:#fff}.tbopts button.key{border-color:#1d8656;box-shadow:inset 0 0 0 1px #1d8656}.tbopts button.key b{background:#1d8656;color:#fff}
+.tbin{display:flex;gap:8px;align-items:center}.tbin input,.tbin textarea{flex:1;border:1.5px solid #d6dee5;border-radius:10px;padding:9px 12px;font:15px Inter,Tajawal;color:#10232f;max-width:520px}.tbin textarea{max-width:none;resize:vertical}
+.tbmatch{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px}.tbmatch label{display:flex;gap:8px;align-items:center;margin:0 0 6px;font:14px Inter,Tajawal;color:#10232f}.tbmatch label span{flex:1}.tbmatch select{height:32px;border:1.5px solid #d6dee5;border-radius:8px;font:700 14px Inter}.tbmatch ol{margin:0;padding-left:22px;font:14px Inter,Tajawal;display:grid;gap:6px}
+@media(max-width:700px){.tbmatch{grid-template-columns:1fr}}
+.tres{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.tchip{font:700 12px Inter;padding:3px 10px;border-radius:999px;background:#e9eef2;color:#53687a}.tchip.ok{background:#dff3e8;color:#14683f}.tchip.no{background:#fbe1dd;color:#a3271a}.tchip.half{background:#fdf0d5;color:#8a5a00}.tchip.pend{background:#e3ecfb;color:#1f3864}.tkey{font-size:13px;color:#14683f}
+.trk{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;max-width:1100px;margin:0 auto}.trk div{background:#fff;border-radius:12px;padding:10px 12px;display:grid}.trk b{font:800 22px Inter}.trk span{font-size:12.5px;color:#53687a}
+.trh{max-width:1100px;margin:18px auto 8px;font:800 15px Inter}.trtbl,.tritem{max-width:1100px;margin:0 auto;background:#fff;border-radius:12px;padding:6px}
+.trr{display:grid;grid-template-columns:2fr 1.2fr .8fr .6fr .7fr 70px;gap:8px;align-items:center;width:100%;border:0;border-bottom:1px solid #eef2f5;background:none;padding:9px 8px;font:14px Inter,Tajawal;color:#10232f;text-align:left;cursor:pointer;border-radius:8px}.trr:hover:not(:disabled){background:#f3f7fa}.trr:disabled{cursor:default;color:#8a99a8}.trr.trhd{font:700 11.5px Inter;letter-spacing:.05em;text-transform:uppercase;color:#53687a;cursor:default}.trr .go{color:#1d6fb8;font-weight:700;text-align:right}
+.tritem>div{display:grid;grid-template-columns:30px minmax(0,1.5fr) 2fr 48px;gap:8px;align-items:center;padding:5px 6px;font-size:13.5px}.tritem i{height:10px;background:#eef2f5;border-radius:6px;overflow:hidden}.tritem em{display:block;height:100%}.trt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#53687a}
+.tawrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start}.tamark{background:#fff;border-radius:12px;padding:12px;display:grid;gap:8px;position:sticky;top:0;max-height:calc(100dvh - 110px);overflow:auto}
+.tami{border-left:3px solid #cad5dd;padding:4px 8px;display:grid;gap:2px;font-size:13px}.tami.ok{border-left-color:#1d8656}.tami.no{border-left-color:#c03c2c}.tami.half{border-left-color:#d9a21b}.tami.pend{border-left-color:#4472c4;background:#f3f7ff}.tamk{color:#53687a}.tamk span{color:#10232f}.tami label{display:flex;gap:6px;align-items:center;margin:0;font-weight:600}.tami input{width:62px;border:1px solid #cad5dd;border-radius:7px;padding:4px;font:600 14px Inter}
+@media(max-width:1000px){.tebody,.tdlg .tebody:not(:has(.teprops)){grid-template-columns:1fr;grid-template-rows:auto auto auto;overflow:auto}.teset,.teprops{border:0}.temain{overflow:visible}.tawrap{grid-template-columns:1fr}.tamark{position:static;max-height:none}.trr{grid-template-columns:1.6fr 1fr .8fr 60px}.trr span:nth-child(4),.trr span:nth-child(5){display:none}}
+
 /* ===== submissions ===== */
 #subview,#myworkview{display:none;width:100%;max-width:1400px}
 .subdlg,.mwcard,.sublist{--bg:#edf1f3;--sf:#fff;--s2:#f4f7f9;--ink:#10232f;--mu:#53687a;--ln:#cad5dd;--ac:#b8720c;--up:#1d8656;--dn:#c03c2c}
@@ -1074,12 +1129,12 @@ function renderTiles(box,links){
   if(box.id==="tiles"||box.id==="stiles")NAVLINKS=links;
   links.filter(x=>x[0][0]!=="_").forEach(([lb,url],i)=>{const m=META[lb]||{c:"#8fe3b8",svg:"",ar:""};
     const a=document.createElement(url?"a":"div");a.className="tile"+(url?"":" off");
-    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")gbHub(a);else if(url==="#ashub")asHub(a);else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
+    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")gbHub(a);else if(url==="#ashub")asHub(a);else if(url==="#tests")openTests();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
     else if(url){a.href=url;a.target="_blank";a.rel="noopener";}
     a.style.setProperty("--c",m.c);a.style.animationDelay=(i*0.05)+"s";
     a.innerHTML=`<span class="ti">${m.svg}</span><span class="tl"></span><span class="ta"></span><span class="go"></span>`;
     a.querySelector(".tl").textContent=lb;a.querySelector(".ta").textContent=m.ar;
-    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#gbhub"?"Weekly Assessment · McGraw Hill →":url==="#ashub"?(box.id==="tiles"?"Student submissions · McGraw Hill →":"My work & feedback · McGraw Hill →"):url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
+    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#gbhub"?"Weekly Assessment · McGraw Hill →":url==="#tests"?(box.id==="tiles"?"Assign, mark & analyse tests →":"Your tests & results →"):url==="#ashub"?(box.id==="tiles"?"Student submissions · McGraw Hill →":"My work & feedback · McGraw Hill →"):url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
 }
 function showTeacher(st){
   $("login").style.display="none";$("home").style.display="none";$("teach").style.display="block";
@@ -3731,10 +3786,10 @@ $("gbsem").onchange=async e=>{await gbSaveNow();GB.sem=e.target.value;$("gbsheet
 let GB_MH=null;
 {const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)){st.l=st.l.filter(x=>x[1]!=="#gradebook");const g=st.l.find(x=>x[0]==="Gradebook");if(g){if(g[1]!=="#gbhub"){GB_MH=g[1]||null;g[1]="#gbhub";}}else st.l.push(["Gradebook","#gbhub"]);}return st0.apply(this,arguments);};}
 function gbHub(tile){let m=$("gbhub");if(!m){m=document.createElement("div");m.id="gbhub";m.className="gbhub";m.setAttribute("role","menu");document.body.appendChild(m);
-    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#gbhub"],[data-nav="#gbhub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{m.hidden=true;},{passive:true});}
+    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#gbhub"],[data-nav="#gbhub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{if(!m.hidden&&Math.abs(scrollY-(m._sy??scrollY))>60)m.hidden=true;},{passive:true});}
   m.innerHTML=`<button type="button" data-g="wa" role="menuitem"><b>Weekly Assessment <span class="ar">التقييم الأسبوعي</span></b><small>Quizzes, chapter tests &amp; term marks · statistics · Excel/PDF reports</small></button>${GB_MH?`<a href="${esc(GB_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Gradebook ↗ <span class="ar">سجل درجات ماكجروهيل</span></b><small>Online assignment scores on my.mheducation.com</small></a>`:""}`;
   m.querySelector('[data-g=wa]').onclick=()=>{m.hidden=true;openGradebook();};m.querySelectorAll("a").forEach(a=>a.onclick=()=>{m.hidden=true;});
-  m.hidden=false;const r=(tile||document.querySelector('a[href="#gbhub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
+  m.hidden=false;m._sy=scrollY;const r=(tile||document.querySelector('a[href="#gbhub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
   m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";const h=m.offsetHeight;if(tile&&tile.closest("#sidenav")&&innerWidth>760){m.style.left=(r.right+8)+"px";m.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top))+"px";}else m.style.top=(r.bottom+8+h<innerHeight?r.bottom+8:Math.max(8,r.top-h-8))+"px";m.querySelector("button").focus();}
 addEventListener("beforeunload",()=>{if(GB.saveT&&GB.data)gbSaveNow();});
 
@@ -3922,11 +3977,11 @@ function subDecorate(){if(subT()||!BIOX?.node)return;const L=LXLESSONS[BIOX.node
 {const rt=renderTiles;renderTiles=function(box,links){if(links&&(box.id==="tiles"||box.id==="stiles")){links=links.map(x=>x.slice());const i=links.findIndex(x=>x[0]==="Assignments");
     if(i>=0){if(links[i][1]!=="#ashub"){AS_MH=links[i][1]||null;links[i][1]="#ashub";}}else links.push(["Assignments","#ashub"]);}return rt.call(this,box,links);};}
 async function asHub(tile){let m=$("ashub");if(!m){m=document.createElement("div");m.id="ashub";m.className="gbhub";m.setAttribute("role","menu");document.body.appendChild(m);
-    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#ashub"],[data-nav="#ashub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{m.hidden=true;},{passive:true});}
+    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#ashub"],[data-nav="#ashub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{if(!m.hidden&&Math.abs(scrollY-(m._sy??scrollY))>60)m.hidden=true;},{passive:true});}
   const T=subT();
   m.innerHTML=`<button type="button" data-g="sub" role="menuitem"><b>${T?"Assignments & Grades":"My Work & Feedback"} <span class="ar">${T?"الواجبات والدرجات":"أعمالي والملاحظات"}</span> <em class="hubn" id="ashubn"></em></b><small>${T?"Review submitted activities, write feedback and mark with a pen":"Everything you submitted and your teacher's feedback"}</small></button>${AS_MH?`<a href="${esc(AS_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Assignments ↗ <span class="ar">واجبات ماكجروهيل</span></b><small>Online assignments on my.mheducation.com</small></a>`:""}`;
   m.querySelector("[data-g=sub]").onclick=()=>{m.hidden=true;T?openSubs():openMyWork();};m.querySelectorAll("a").forEach(a=>a.onclick=()=>{m.hidden=true;});
-  m.hidden=false;const r=(tile||document.querySelector('a[href="#ashub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
+  m.hidden=false;m._sy=scrollY;const r=(tile||document.querySelector('a[href="#ashub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
   m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";const h=m.offsetHeight;
   if(tile&&tile.closest("#sidenav")&&innerWidth>760){m.style.left=(r.right+8)+"px";m.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top))+"px";}else m.style.top=(r.bottom+8+h<innerHeight?r.bottom+8:Math.max(8,r.top-h-8))+"px";
   m.querySelector("button").focus();
@@ -4115,9 +4170,384 @@ async function subDash(){const host=$("tremind");if(!host||!subT())return;let bo
 {const st0=showTeacher;showTeacher=function(){const r=st0.apply(this,arguments);setTimeout(()=>subDash().catch(()=>{}),0);return r;};}
 {const gh=goHome;goHome=function(){const r=gh.apply(this,arguments);if(subT())subDash().catch(()=>{});return r;};}
 
+/* ===== Assessments (التقييمات) =====
+   Teacher: assign a test to a grade (all students or chosen ones), with a title, opening / due time and a time limit.
+   Two ways to build it: (1) upload a Word / PDF / image file and place transparent answer fields on its pages
+   (True/False, A–D, fill-in blank, number, open answer box, matching) with the correct answers as the marking key;
+   (2) pick questions from a lesson's Practice, Vocabulary and Lesson Check. Submitted sheets are marked instantly
+   on the server and re-marked whenever the key changes; open answers get the teacher's points. */
+const TQT={tf:["True / False","T / F"],mcq:["Multiple choice","A B C D"],blank:["Fill in the blank","___"],num:["Number answer","123"],open:["Open answer box","¶"],match:["Matching","1→A"]};
+const TPW=1000;/* logical page width for field positions */
+const TS={list:[],E:null,pages:{},T:null};
+const tHosted=()=>!!(window.HOSTED&&window.HS?.token);
+const tTeacher=()=>!!CAL.user?.t;
+const tLetters=n=>"ABCDEFGHIJ".slice(0,n).split("");
+const tRid=()=>Math.random().toString(36).slice(2,8);
+const tLocalDT=iso=>{if(!iso)return "";const d=new Date(iso);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;};
+const tFmt=iso=>{if(!iso)return "";const d=new Date(iso);return d.toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});};
+const tLessonName=id=>{const n=id&&BIOX.byId[id];return n?n.t.replace(/^Lesson (\d+):\s*/,"L$1 · "):"";};
+function tLessonOpts(sel,allLabel){const units=MHTOC.filter(n=>n.k==="unit"||n.k==="module"),mods=units.flatMap(u=>u.k==="module"?[u]:(u.c||[]).filter(m=>m.k==="module"));
+  return `<option value="">${allLabel||"All modules and lessons"}</option>`+mods.map(m=>`<optgroup label="${esc(m.t)}">${(m.c||[]).filter(l=>l.k==="lesson").map(l=>`<option value="${l.id}" ${sel===l.id?"selected":""}>${LXLESSONS[l.id]?"⚡ ":""}${esc(l.t)}</option>`).join("")}</optgroup>`).join("");}
+function tGrades(){return [...new Set([...Object.keys(CAL.user?.r||{}),...(typeof GRADES!=="undefined"?GRADES:[]),...(TS.list||[]).map(t=>t.grade).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));}
+function tRoster(g){if(tHosted()&&HS.roster)return HS.roster.filter(s=>s.g===g).map(s=>({id:s.id,n:s.n}));return (CAL.user?.r?.[g]||[]).map(s=>({id:s.i,n:s.n}));}
+
+/* ---------- marking (mirror of app.mark_test, for this-device mode and previews) ---------- */
+const tNorm=x=>String(x??"").trim().toLowerCase().replace(/\s+/g," ").replace(/[\s.,;:!?]+$/,"");
+function tMark(q,k,a,o){let score=0,max=0,pending=0;const items={};o=o||{};a=a||{};
+  (q||[]).forEach(e=>{if(e.t==="info")return;const pts=+(e.p??1),kv=k?.[e.id],av=a[e.id];let p=null,ok=null;max+=pts;
+    if(o[e.id]!=null){p=Math.min(pts,Math.max(0,+o[e.id]));ok=p>=pts;}
+    else if(kv==null){}
+    else if(e.t==="tf"||e.t==="mcq"){ok=String(av??"").toUpperCase()===String(kv).toUpperCase();p=ok?pts:0;}
+    else if(e.t==="blank"){ok=String(kv).split("|").some(x=>tNorm(x)&&tNorm(x)===tNorm(av));p=ok?pts:0;}
+    else if(e.t==="num"){const x=parseFloat(String(av??"").trim().replace(",","."));ok=!isNaN(x)&&Math.abs(x-kv.v)<=Math.max(Math.abs(kv.v)*(kv.tol||0),1e-6);p=ok?pts:0;}
+    else if(e.t==="match"){const n=kv.length;let c=0;for(let i=0;i<n;i++)if(Array.isArray(av)&&String(av[i]||"").toUpperCase()===String(kv[i]).toUpperCase())c++;p=n?Math.round(pts*c/n*100)/100:0;ok=c===n;}
+    if(p==null)pending++;else score+=p;items[e.id]={p,ok};});
+  return {score:Math.round(score*100)/100,max,pending,items};}
+
+/* ---------- storage: Supabase when hosted, this device otherwise ---------- */
+function tLoc(){try{return JSON.parse(localStorage.getItem("bio_tests")||'{"t":[],"a":[],"p":{}}')}catch(_){return {t:[],a:[],p:{}}}}
+function tLocSave(D){try{localStorage.setItem("bio_tests",JSON.stringify(D));return true}catch(_){return false}}
+async function tApi(fn,a={}){
+  if(tHosted())return hrpc("portal_"+fn,{p_token:HS.token,...a});
+  const D=tLoc(),uid=CAL.uid,u=CAL.user||{},now=new Date().toISOString(),T=id=>D.t.find(x=>x.id===id);
+  const openFor=t=>t.status==="published"&&t.grade===u.g&&(!t.students||t.students.includes(uid)||t.students.includes(String(uid).slice(-4)));
+  const rel=(t,at)=>at?.submitted_at&&(t.show==="submit"||(t.show==="due"&&t.due_at&&now>t.due_at));
+  if(fn==="tests"){if(tTeacher())return D.t.map(t=>{const A=D.a.filter(x=>x.test_id===t.id),S=A.filter(x=>x.submitted_at);return {id:t.id,title:t.title,grade:t.grade,students:t.students,lesson:t.lesson,kind:t.kind,opens:t.opens_at,due:t.due_at,dur:t.duration_min,show:t.show,status:t.status,nq:t.q.length,npages:t.npages,nsub:S.length,nstart:A.length,avg:S.length?Math.round(S.reduce((s,x)=>s+x.result.score/(x.result.max||1),0)/S.length*1000)/10:null};});
+    return D.t.filter(openFor).map(t=>{const at=D.a.find(x=>x.test_id===t.id&&x.user_id===uid);return {id:t.id,title:t.title,lesson:t.lesson,kind:t.kind,opens:t.opens_at,due:t.due_at,dur:t.duration_min,show:t.show,nq:t.q.length,started:at?.started_at,submitted:at?.submitted_at,result:rel(t,at)?at.result:null};});}
+  if(fn==="test_get"){const t=T(a.p_id);if(!t)return {error:"not_found"};if(tTeacher())return t;if(!openFor(t))return {error:"not_found"};const at=D.a.find(x=>x.test_id===t.id&&x.user_id===uid);
+    return {id:t.id,title:t.title,lesson:t.lesson,kind:t.kind,opens:t.opens_at,due:t.due_at,dur:t.duration_min,show:t.show,q:t.q,npages:t.npages,now,attempt:at?{answers:at.answers,started:at.started_at,submitted:at.submitted_at,result:rel(t,at)?at.result:null}:null,key:rel(t,at)?t.key:null};}
+  if(fn==="test_page")return D.p[a.p_id]?.[a.p_n]||null;
+  if(fn==="test_save"){const m=a.p_meta;let t=a.p_id!=null&&T(a.p_id);const row={title:m.title,grade:m.grade,students:m.students||null,lesson:m.lesson||null,kind:m.kind||"doc",opens_at:m.opens||null,due_at:m.due||null,duration_min:m.dur?+m.dur:null,show:m.show||"submit",status:m.status||"draft",q:a.p_q,key:a.p_key,npages:m.npages??t?.npages??0,updated_at:now};
+    if(t){Object.assign(t,row);D.a.filter(x=>x.test_id===t.id&&x.submitted_at).forEach(x=>x.result=tMark(t.q,t.key,x.answers,x.overrides));}else{t={id:Date.now(),...row};D.t.push(t);}
+    return tLocSave(D)?{ok:true,id:t.id}:{error:"too_large"};}
+  if(fn==="test_page_save"){const P=D.p[a.p_id]=D.p[a.p_id]||{};if(a.p_img==null)Object.keys(P).forEach(n=>{if(+n>=a.p_n)delete P[n];});else P[a.p_n]=a.p_img;return tLocSave(D)?{ok:true}:{error:"too_large"};}
+  if(fn==="test_delete"){D.t=D.t.filter(x=>x.id!==a.p_id);D.a=D.a.filter(x=>x.test_id!==a.p_id);delete D.p[a.p_id];tLocSave(D);return {ok:true};}
+  if(fn==="test_start"){const t=T(a.p_id);if(!t||!openFor(t))return {error:"not_found"};let at=D.a.find(x=>x.test_id===t.id&&x.user_id===uid);
+    if(!at){if(t.opens_at&&now<t.opens_at)return {error:"not_open"};if(t.due_at&&now>t.due_at)return {error:"closed"};at={id:Date.now(),test_id:t.id,user_id:uid,n:u.n,g:u.g,answers:{},overrides:{},started_at:now,submitted_at:null,result:null};D.a.push(at);tLocSave(D);}
+    return {ok:true,started:at.started_at,submitted:at.submitted_at,answers:at.answers,now};}
+  if(fn==="test_answer"){const t=T(a.p_id),at=D.a.find(x=>x.test_id===a.p_id&&x.user_id===uid);if(!t||!at)return {error:"not_started"};if(at.submitted_at)return {error:"already_submitted"};
+    at.answers=a.p_answers;if(a.p_final){at.submitted_at=now;at.result=tMark(t.q,t.key,at.answers,at.overrides);}tLocSave(D);return {ok:true,submitted:at.submitted_at,result:rel(t,at)?at.result:null,key:rel(t,at)?t.key:null};}
+  if(fn==="test_results")return D.a.filter(x=>x.test_id===a.p_id).map(x=>({id:x.id,uid:x.user_id,n:x.n,g:x.g,i:String(x.user_id).slice(-4),started:x.started_at,submitted:x.submitted_at,answers:x.answers,overrides:x.overrides,result:x.result}));
+  if(fn==="test_override"){const at=D.a.find(x=>x.id===a.p_attempt),t=at&&T(at.test_id);if(!at)return {error:"not_found"};at.overrides=a.p_overrides||{};if(at.submitted_at)at.result=tMark(t.q,t.key,at.answers,at.overrides);tLocSave(D);return {ok:true,result:at.result};}
+  if(fn==="test_force_submit"){const at=D.a.find(x=>x.id===a.p_attempt),t=at&&T(at.test_id);if(!at)return {error:"not_found"};at.submitted_at=at.submitted_at||now;at.result=tMark(t.q,t.key,at.answers,at.overrides);tLocSave(D);return {ok:true};}
+  return {error:"unknown"};}
+async function tPage(id,n){TS.pages[id]=TS.pages[id]||{};if(TS.pages[id][n])return TS.pages[id][n];const img=await tApi("test_page",{p_id:id,p_n:n});if(img)TS.pages[id][n]=img;return img;}
+
+/* ---------- question bank from a lesson ---------- */
+function tShuf(arr,seed){const a=arr.slice();let h=2166136261;for(const c of String(seed)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)>>>0;}const rnd=()=>{h=(h+0x6D2B79F5)>>>0;let t=h;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function tBank(lessonId){const L=LXLESSONS[lessonId];if(!L)return [];const B=[];
+  L.quiz.forEach((q,i)=>{const id="lc"+i,src="Lesson Check";
+    if(q.type==="mcq"){const idx=tShuf(q.opts.map((_,j)=>j),L.key+id);B.push({src,q:{id,t:"mcq",p:1,stem:q.stem,fig:q.fig||null,opts:idx.map(j=>q.opts[j])},key:tLetters(idx.length)[idx.indexOf(q.a)]});}
+    else if(q.type==="tf")B.push({src,q:{id,t:"tf",p:1,stem:q.stem,fig:q.fig||null},key:q.a?"T":"F"});
+    else if(q.type==="num")B.push({src,q:{id,t:"num",p:1,stem:q.stem,fig:q.fig||null,unit:q.unit||""},key:{v:q.a,tol:q.tol||0.01}});
+    else if(q.type==="write")B.push({src,q:{id,t:"open",p:2,stem:q.stem,fig:q.fig||null,rubric:q.rubric||""},key:q.model||""});});
+  (L.vocab||[]).forEach(([t,d],i)=>B.push({src:"Vocabulary",q:{id:"vb"+i,t:"blank",p:1,stem:`Write the term: <i>${esc(d)}</i>`},key:t}));
+  for(let s=0;s<(L.vocab||[]).length;s+=5){const grp=L.vocab.slice(s,s+5);if(grp.length<3)break;const right=tShuf(grp.map(g=>g[0]),L.key+"m"+s),let_=tLetters(right.length);
+    B.push({src:"Vocabulary",q:{id:"vm"+s,t:"match",p:grp.length,stem:"Match each definition with its term.",left:grp.map(g=>g[1]),right},key:grp.map(g=>let_[right.indexOf(g[0])])});}
+  const prac=(arr,opts,stemF,keyF,pre)=>arr.forEach((r,i)=>B.push({src:"Practice",q:{id:pre+i,t:"mcq",p:1,stem:stemF(r),opts},key:tLetters(opts.length)[keyF(r)]}));
+  if(L.key==="M2L1"&&typeof LXSORT!=="undefined"){const ks=Object.keys(LXREL);prac(LXSORT,ks.map(k=>LXREL[k][0]),r=>"Which relationship is this? "+esc(r[0]),r=>ks.indexOf(r[1]),"ps");
+    if(typeof LXBIO!=="undefined")prac(LXBIO,["Abiotic factor","Biotic factor"],r=>`Is <b>${esc(r[0])}</b> an abiotic or a biotic factor?`,r=>r[1]==="a"?0:1,"pb");}
+  if(L.key==="M24L3"&&typeof XORGQ!=="undefined"){const ko=Object.keys(XORG);prac(XORGQ,ko.map(k=>XORG[k]),r=>"Which organ excretes it? "+esc(r[0]),r=>ko.indexOf(r[1]),"po");
+    const kp=Object.keys(XPROC);prac(XPROCQ,kp.map(k=>XPROC[k]),r=>"Filtration, reabsorption or secretion? "+esc(r[0]),r=>kp.indexOf(r[1]),"pp");}
+  return B;}
+
+/* ---------- one field / one question, for edit, take and view ---------- */
+function tKeyText(q,k){if(k==null||k==="")return "–";if(q.t==="tf")return k==="T"?"True":"False";if(q.t==="num")return `${k.v}${q.unit?" "+q.unit:""}`;if(q.t==="match")return k.map((x,i)=>`${i+1}→${x}`).join("  ");if(q.t==="mcq"&&q.opts)return `${k}) ${subTxt(q.opts[tLetters(10).indexOf(k)]||"")}`;return String(k).split("|").join(" / ");}
+function tField(q,mode,A,R,K){const a=A?.[q.id],res=R?.items?.[q.id],ro=mode!=="take",cls=res?(res.p==null?"pend":res.ok?"ok":res.p>0?"half":"no"):"";
+  const n=q.n||"";const keyv=K?.[q.id];
+  if(q.t==="tf")return `<span class="tfld tf ${cls}" data-q="${q.id}">${["T","F"].map(v=>`<button type="button" data-v="${v}" class="${a===v?"on":""}${mode==="edit"&&keyv===v?" key":""}" ${ro?"tabindex=-1":""}>${v}</button>`).join("")}</span>`;
+  if(q.t==="mcq")return `<span class="tfld mcq ${cls}" data-q="${q.id}">${tLetters(q.no||4).map(v=>`<button type="button" data-v="${v}" class="${a===v?"on":""}${mode==="edit"&&keyv===v?" key":""}" ${ro?"tabindex=-1":""}>${v}</button>`).join("")}</span>`;
+  if(q.t==="blank"||q.t==="num")return `<span class="tfld ${q.t} ${cls}" data-q="${q.id}"><input type="text" ${q.t==="num"?'inputmode="decimal"':""} value="${esc(a??"")}" ${ro?"readonly":""} placeholder="${mode==="edit"?esc(q.t==="num"?(keyv?.v??"?"):(keyv||"answer")):""}" aria-label="Answer ${n}"></span>`;
+  if(q.t==="open")return `<span class="tfld open ${cls}" data-q="${q.id}"><textarea ${ro?"readonly":""} placeholder="${mode==="edit"?"Open answer box":"Write your answer…"}" aria-label="Answer ${n}">${esc(a??"")}</textarea></span>`;
+  if(q.t==="match"){const L=tLetters(q.nr||4);return `<span class="tfld match ${cls}" data-q="${q.id}">${Array.from({length:q.nl||4},(_,i)=>`<label><b>${i+1}</b><select data-i="${i}" ${ro?"disabled":""}><option value=""></option>${L.map(l=>`<option ${Array.isArray(a)&&a[i]===l?"selected":""}${mode==="edit"&&keyv?.[i]===l?" selected":""}>${l}</option>`).join("")}</select></label>`).join("")}</span>`;}
+  return "";}
+function tBankQ(q,i,mode,A,R,K){const a=A?.[q.id],res=R?.items?.[q.id],ro=mode!=="take",cls=res?(res.p==null?"pend":res.ok?"ok":res.p>0?"half":"no"):"",kv=K?.[q.id];
+  let body="";
+  if(q.t==="mcq")body=`<div class="tbopts" data-q="${q.id}">${q.opts.map((o,j)=>{const l=tLetters(10)[j];return `<button type="button" data-v="${l}" class="${a===l?"on":""}${K&&kv===l?" key":""}" ${ro?"tabindex=-1":""}><b>${l}</b><span>${o}</span></button>`;}).join("")}</div>`;
+  else if(q.t==="tf")body=`<div class="tbopts tfrow" data-q="${q.id}">${[["T","True"],["F","False"]].map(([v,l])=>`<button type="button" data-v="${v}" class="${a===v?"on":""}${K&&kv===v?" key":""}" ${ro?"tabindex=-1":""}><b>${v}</b><span>${l}</span></button>`).join("")}</div>`;
+  else if(q.t==="blank"||q.t==="num")body=`<div class="tbin" data-q="${q.id}"><input type="text" ${q.t==="num"?'inputmode="decimal"':""} value="${esc(a??"")}" ${ro?"readonly":""} placeholder="Your answer">${q.unit?`<span>${esc(q.unit)}</span>`:""}</div>`;
+  else if(q.t==="open")body=`<div class="tbin" data-q="${q.id}"><textarea rows="4" ${ro?"readonly":""} placeholder="Write your answer…">${esc(a??"")}</textarea></div>`;
+  else if(q.t==="match")body=`<div class="tbmatch" data-q="${q.id}"><div>${q.left.map((l,j)=>`<label><b>${j+1}</b><span>${esc(l)}</span><select data-i="${j}" ${ro?"disabled":""}><option value=""></option>${tLetters(q.right.length).map(x=>`<option ${Array.isArray(a)&&a[j]===x?"selected":""}>${x}</option>`).join("")}</select></label>`).join("")}</div><ol type="A">${q.right.map(r=>`<li>${esc(r)}</li>`).join("")}</ol></div>`;
+  const fig=q.fig&&LXFIG[q.fig]?`<figure class="tbfig">${LXFIG[q.fig]()}</figure>`:"";
+  return `<div class="tbq ${cls}" id="tbq-${q.id}"><div class="tbqh"><span class="tbn">${i+1}</span><div class="tbstem">${q.stem||""}</div><em>${q.p} mark${q.p==1?"":"s"}</em></div>${fig}${body}${tResLine(q,res,K)}</div>`;}
+function tResLine(q,res,K){if(!res)return "";const kv=K?.[q.id];
+  return `<div class="tres">${res.p==null?`<span class="tchip pend">Waiting for the teacher</span>`:`<span class="tchip ${res.ok?"ok":res.p>0?"half":"no"}">${res.ok?"✓":res.p>0?"½":"✗"} ${+res.p} / ${q.p}</span>`}${K&&!res.ok&&kv!=null&&q.t!=="open"?`<span class="tkey">Correct: ${esc(tKeyText(q,kv))}</span>`:""}${K&&q.t==="open"&&kv?`<span class="tkey">Model answer: ${esc(kv)}</span>`:""}</div>`;}
+
+/* ---------- sheet (pages + fields, or the bank questions) ---------- */
+async function tSheet(host,T,mode,A,R,K,onEdit){host.innerHTML="";
+  if(T.kind==="bank"){host.innerHTML=`<div class="tbank">${T.q.map((q,i)=>tBankQ(q,i,mode,A,R,K)).join("")||'<p class="gbsub">No questions selected yet.</p>'}</div>`;return;}
+  for(let n=0;n<(T.npages||0);n++){const pg=document.createElement("div");pg.className="tpgwrap";pg.innerHTML=`<div class="tpg" data-n="${n}"><div class="tpgload">Loading page ${n+1}…</div></div>`;host.appendChild(pg);}
+  const fit=()=>host.querySelectorAll(".tpgwrap").forEach(w=>{const p=w.firstElementChild,s=Math.min(1,(w.clientWidth||TPW)/TPW);p.style.transform=`scale(${s})`;w.style.height=(p.offsetHeight*s)+"px";});
+  const ro=new ResizeObserver(fit);ro.observe(host);
+  for(let n=0;n<(T.npages||0);n++){const img=T.localPages?T.localPages[n]:await tPage(T.id,n),pg=host.querySelector(`.tpg[data-n="${n}"]`);if(!pg)continue;
+    pg.innerHTML=img?`<img src="${img}" alt="Page ${n+1}" draggable="false">`:`<div class="tpgload">Page ${n+1} is missing.</div>`;
+    T.q.filter(q=>q.pg===n).forEach(q=>{const el=document.createElement("div");el.className="tpos"+(mode==="edit"?" ed":"")+(TS.E?.sel===q.id&&mode==="edit"?" sel":"");el.dataset.q=q.id;
+      el.style.cssText=`left:${q.x}px;top:${q.y}px;${q.w?`width:${q.w}px;`:""}${q.h?`height:${q.h}px;`:""}`;
+      el.innerHTML=`<span class="tqn">${q.n}</span>`+tField(q,mode,A,R,K)+(R&&R.items?.[q.id]?`<span class="tmk ${R.items[q.id].p==null?"pend":R.items[q.id].ok?"ok":R.items[q.id].p>0?"half":"no"}" title="${esc(K?tKeyText(q,K[q.id]):"")}">${R.items[q.id].p==null?"…":R.items[q.id].ok?"✓":R.items[q.id].p>0?"½":"✗"}${K&&!R.items[q.id].ok&&K[q.id]!=null&&q.t!=="open"?`<i>${esc(tKeyText(q,K[q.id]))}</i>`:""}</span>`:"")+(mode==="edit"?`<span class="tgrip" title="Drag to move">⠿</span>${q.t==="open"||q.t==="blank"||q.t==="num"?'<span class="tsize" title="Drag to resize"></span>':""}`:"");
+      pg.appendChild(el);});
+    if(onEdit)onEdit(pg,n);}
+  requestAnimationFrame(fit);setTimeout(fit,300);}
+function tCollect(host,T){const A={};
+  host.querySelectorAll("[data-q]").forEach(el=>{const id=el.dataset.q,q=T.q.find(x=>x.id===id);if(!q||el.classList.contains("tpos"))return;
+    if(q.t==="tf"||q.t==="mcq"){const b=el.querySelector("button.on");if(b)A[id]=b.dataset.v;}
+    else if(q.t==="blank"||q.t==="num"){const v=el.querySelector("input")?.value.trim();if(v)A[id]=v;}
+    else if(q.t==="open"){const v=el.querySelector("textarea")?.value.trim();if(v)A[id]=v;}
+    else if(q.t==="match"){const v=[...el.querySelectorAll("select")].map(s=>s.value);if(v.some(Boolean))A[id]=v;}});
+  return A;}
+function tWireTake(host,onChange){host.querySelectorAll(".tfld.tf, .tfld.mcq, .tbopts").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{const was=b.classList.contains("on");g.querySelectorAll("button").forEach(x=>x.classList.remove("on"));if(!was)b.classList.add("on");onChange();}));
+  host.querySelectorAll("input,textarea").forEach(e=>e.oninput=onChange);host.querySelectorAll("select").forEach(e=>e.onchange=onChange);}
+
+/* ---------- views ---------- */
+function tView(){let v=$("testsview");if(v)return v;v=document.createElement("section");v.id="testsview";$("gbview").after(v);window.NAVMO?.observe(v,{attributes:true,attributeFilter:["style"]});return v;}
+{const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const v=$("testsview");if(v)v.style.display="none";return r;};}
+{const rt=renderTiles;renderTiles=function(box,links){if(links&&(box.id==="tiles"||box.id==="stiles")){links=links.map(x=>x.slice());const i=links.findIndex(x=>x[0]==="Assessments");if(i>=0)links[i][1]="#tests";else links.push(["Assessments","#tests"]);}return rt.call(this,box,links);};}
+const TF={grade:"",lesson:"",status:""};
+async function openTests(){const v=tView();hideAllViews();v.style.display="block";scrollTo(0,0);const T=tTeacher();
+  v.innerHTML=`<div class="card tbar fade"><div><h2>${T?"Assessments":"My Assessments"} <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· ${T?"التقييمات":"اختباراتي"}</span></h2><div class="cls" id="tcount">Loading…</div></div>
+    <div class="arow">${T?`<button class="out" id="tnewdoc" style="margin-top:0">＋ Upload Word / PDF</button><button class="out" id="tnewbank" style="margin-top:0">＋ From lesson questions</button>`:""}<button class="out" id="tback" style="margin-top:0">← Dashboard</button></div></div>
+    ${T?`<div class="padf tfbar"><div class="pfbar"><label class="pfdd${TF.grade?" set":""}" for="tfg"><span class="pfic">🎓</span><span class="pfcap">Grade · الصف</span><select id="tfg"><option value="">All grades</option>${tGrades().map(g=>`<option ${TF.grade===g?"selected":""}>${esc(g)}</option>`).join("")}</select><b class="pfar">▾</b></label>
+      <label class="pfdd wide${TF.lesson?" set":""}" for="tfl"><span class="pfic">📖</span><span class="pfcap">Module & lesson · الوحدة والدرس</span><select id="tfl">${tLessonOpts(TF.lesson)}</select><b class="pfar">▾</b></label>
+      <label class="pfdd" for="tfs"><span class="pfic">🔖</span><span class="pfcap">Status · الحالة</span><select id="tfs"><option value="">All</option><option value="draft" ${TF.status==="draft"?"selected":""}>Draft</option><option value="open" ${TF.status==="open"?"selected":""}>Open now</option><option value="sched" ${TF.status==="sched"?"selected":""}>Scheduled</option><option value="closed" ${TF.status==="closed"?"selected":""}>Closed</option></select><b class="pfar">▾</b></label></div></div>`:""}
+    <div id="tlist" class="tlist"><p class="gbsub">Loading…</p></div>`;
+  $("tback").onclick=goHome;
+  if(T){$("tnewdoc").onclick=()=>tEdit(null,"doc");$("tnewbank").onclick=()=>tEdit(null,"bank");["tfg","tfl","tfs"].forEach((id,i)=>$(id).onchange=e=>{TF[["grade","lesson","status"][i]]=e.target.value;tListRender();openTestsKeepFilters();});}
+  try{TS.list=await tApi("tests")||[];}catch(_){TS.list=[];$("tlist").innerHTML='<p class="gbsub">Could not load the assessments. Check the internet.</p>';return;}
+  tListRender();}
+function openTestsKeepFilters(){["tfg","tfl","tfs"].forEach((id,i)=>{const e=$(id);if(e)e.closest(".pfdd").classList.toggle("set",!!TF[["grade","lesson","status"][i]]);});}
+function tState(t){const now=Date.now();if(t.status==="draft")return ["draft","Draft"];if(t.opens&&new Date(t.opens)>now)return ["sched","Scheduled"];if(t.due&&new Date(t.due)<now)return ["closed","Closed"];return ["open","Open now"];}
+function tListRender(){const T=tTeacher(),L=(TS.list||[]).filter(t=>!T||((!TF.grade||t.grade===TF.grade)&&(!TF.lesson||t.lesson===TF.lesson)&&(!TF.status||tState(t)[0]===TF.status)));
+  const box=$("tlist");if(!box)return;
+  if(T){const n=TS.list.length,open=TS.list.filter(t=>tState(t)[0]==="open").length;$("tcount").textContent=`${n} assessment${n===1?"":"s"} · ${open} open now`;}
+  else{const todo=L.filter(t=>!t.submitted&&tState(t)[0]==="open").length;$("tcount").textContent=`${L.length} assigned · ${todo} to do now`;}
+  if(!L.length){box.innerHTML=`<p class="gbsub">${T?(TS.list.length?"No assessments match these filters.":"No assessments yet. Upload a Word or PDF test, or build one from a lesson's questions."):"No assessments assigned to you yet."}</p>`;return;}
+  box.innerHTML=L.map(t=>{const [sk,sl]=tState(t),ln=tLessonName(t.lesson);
+    if(T)return `<div class="tcard ${sk}"><div class="tch"><span class="tkind">${t.kind==="bank"?"📚 Lesson questions":"📄 Uploaded file"}</span><span class="tstate ${sk}">${sl}</span></div><h3>${esc(t.title)}</h3>
+      <div class="tmeta"><span>🎓 ${esc(t.grade)}${t.students?` · ${t.students.length} student${t.students.length===1?"":"s"}`:" · all students"}</span>${ln?`<span>📖 ${esc(ln)}</span>`:""}<span>🕑 ${t.opens?esc(tFmt(t.opens)):"Now"} → ${t.due?esc(tFmt(t.due)):"no due date"}</span><span>⏱ ${t.dur?t.dur+" min":"no time limit"} · ${t.nq} question${t.nq===1?"":"s"}</span></div>
+      <div class="tstat"><b>${t.nsub}</b> submitted · ${t.nstart-t.nsub} in progress${t.avg!=null?` · class average <b>${t.avg}%</b>`:""}</div>
+      <div class="tact"><button class="lxbtn pri" data-r="${t.id}">Results</button><button class="lxbtn" data-e="${t.id}">Edit</button><button class="lxbtn" data-d="${t.id}">Delete</button></div></div>`;
+    const done=!!t.submitted,can=!done&&sk==="open";
+    return `<div class="tcard ${done?"done":sk}"><div class="tch"><span class="tkind">${ln?esc(ln):"Biology"}</span><span class="tstate ${done?"done":sk}">${done?"Submitted ✓":t.started&&sk==="open"?"In progress":sl}</span></div><h3>${esc(t.title)}</h3>
+      <div class="tmeta">${t.opens?`<span>Opens ${esc(tFmt(t.opens))}</span>`:""}${t.due?`<span>Due ${esc(tFmt(t.due))}</span>`:""}<span>⏱ ${t.dur?t.dur+" minutes":"no time limit"} · ${t.nq} question${t.nq===1?"":"s"}</span></div>
+      ${done?(t.result?`<div class="tstat">Score <b>${+t.result.score} / ${t.result.max}</b> (${Math.round(t.result.score/(t.result.max||1)*100)}%)${t.result.pending?` · ${t.result.pending} answer${t.result.pending===1?"":"s"} waiting for the teacher`:""}</div>`:`<div class="tstat">${t.show==="due"?"Results after the due date":"Your teacher will share the results"}</div>`):""}
+      <div class="tact">${can?`<button class="lxbtn pri" data-t="${t.id}">${t.started?"Continue":"Start"}</button>`:done?`<button class="lxbtn" data-t="${t.id}">View my answers</button>`:""}</div></div>`;}).join("");
+  box.querySelectorAll("[data-e]").forEach(b=>b.onclick=()=>tEdit(+b.dataset.e||b.dataset.e));box.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>tResults(+b.dataset.r||b.dataset.r));
+  box.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>tTake(+b.dataset.t||b.dataset.t));
+  box.querySelectorAll("[data-d]").forEach(b=>b.onclick=async()=>{const t=TS.list.find(x=>String(x.id)===b.dataset.d);if(!window.confirm(`Delete “${t.title}” and all ${t.nstart} student attempts? This cannot be undone.`))return;await tApi("test_delete",{p_id:t.id});openTests();});}
+
+/* ---------- file → page images ---------- */
+function tLoadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>no(new Error("Could not load "+src));document.head.appendChild(s);});}
+const tCanvasJpeg=(cv,maxW=1400)=>{if(cv.width>maxW){const c2=document.createElement("canvas");c2.width=maxW;c2.height=Math.round(cv.height*maxW/cv.width);c2.getContext("2d").drawImage(cv,0,0,c2.width,c2.height);cv=c2;}return cv.toDataURL("image/jpeg",0.82);};
+async function tFileToPages(file,msg){const name=file.name.toLowerCase(),buf=await file.arrayBuffer();
+  if(/\.pdf$/.test(name)){msg("Reading the PDF…");const pdfjs=await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs");pdfjs.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs";
+    const doc=await pdfjs.getDocument({data:buf}).promise,out=[];for(let i=1;i<=Math.min(doc.numPages,30);i++){msg(`Converting page ${i} of ${doc.numPages}…`);const p=await doc.getPage(i),v0=p.getViewport({scale:1}),v=p.getViewport({scale:1400/v0.width}),cv=document.createElement("canvas");cv.width=Math.round(v.width);cv.height=Math.round(v.height);
+      const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height);await p.render({canvasContext:x,viewport:v}).promise;out.push(tCanvasJpeg(cv));}return out;}
+  if(/\.(png|jpe?g|webp|gif)$/.test(name)){const url=URL.createObjectURL(file),im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=no;im.src=url;});const cv=document.createElement("canvas");cv.width=im.naturalWidth;cv.height=im.naturalHeight;const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height);x.drawImage(im,0,0);URL.revokeObjectURL(url);return [tCanvasJpeg(cv)];}
+  if(/\.docx$/.test(name)){msg("Reading the Word file…");if(!window.mammoth)await tLoadScript("https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js");
+    const r=await window.mammoth.convertToHtml({arrayBuffer:buf});msg("Laying out the pages…");return await tHtmlToPages(r.value);}
+  if(/\.doc$/.test(name))throw new Error("This is an old Word (.doc) file. In Word choose File → Save As → PDF (or .docx), then upload that.");
+  throw new Error("Choose a PDF, Word (.docx) or image file.");}
+async function tHtmlToPages(html){const W=1000,PH=1414,box=document.createElement("div");box.style.cssText=`position:fixed;left:-20000px;top:0;width:${W}px;background:#fff;color:#000;font:18px/1.45 Calibri,Carlito,Arial,sans-serif;padding:70px 80px;box-sizing:border-box`;
+  const tpl=document.createElement("template");tpl.innerHTML=html;tpl.content.querySelectorAll("script,style,iframe,object,embed,link,meta").forEach(e=>e.remove());tpl.content.querySelectorAll("*").forEach(e=>[...e.attributes].forEach(a=>{if(/^on/i.test(a.name)||(a.name==="href"&&/^javascript:/i.test(a.value)))e.removeAttribute(a.name);}));
+  box.appendChild(tpl.content);const css=`table{border-collapse:collapse;margin:6px 0}td,th{border:1px solid #888;padding:4px 8px;vertical-align:top}img{max-width:100%}p{margin:0 0 8px}h1,h2,h3{margin:12px 0 8px}`;
+  const st=document.createElement("style");st.textContent=css;box.prepend(st);document.body.appendChild(box);await new Promise(r=>setTimeout(r,60));
+  const blocks=[...box.children].filter(e=>e.tagName!=="STYLE"),cuts=[0];let start=0;blocks.forEach(b=>{const bot=b.offsetTop+b.offsetHeight;if(bot-start>PH-70&&b.offsetTop>start){cuts.push(b.offsetTop);start=b.offsetTop;}});
+  const H=box.scrollHeight;const xml=new XMLSerializer().serializeToString(box);box.remove();
+  const sc=1.4,svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W*sc}" height="${H*sc}"><foreignObject width="${W}" height="${H}" transform="scale(${sc})">${xml}</foreignObject></svg>`;
+  const im=new Image();await new Promise((ok,no)=>{im.onload=ok;im.onerror=()=>no(new Error("The Word file could not be drawn here. Save it as PDF and upload the PDF."));im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);});
+  const out=[];for(let i=0;i<cuts.length;i++){const y0=cuts[i],y1=Math.min(H,i+1<cuts.length?cuts[i+1]:H),cv=document.createElement("canvas");cv.width=W*sc;cv.height=Math.max(PH,y1-y0)*sc;const x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,cv.width,cv.height);
+    x.drawImage(im,0,y0*sc,W*sc,(y1-y0)*sc,0,i?60*sc:0,W*sc,(y1-y0)*sc);try{out.push(tCanvasJpeg(cv));}catch(_){throw new Error("This browser cannot convert Word files. Save the file as PDF and upload the PDF.");}}
+  return out;}
+
+/* ---------- editor ---------- */
+const tDlg=(id,cls)=>{let d=$(id);if(!d){d=document.createElement("dialog");d.id=id;d.className="tdlg "+(cls||"");document.body.appendChild(d);}return d;};
+async function tEdit(id,kind){const d=tDlg("tedlg");d.innerHTML='<div class="sdh"><b>Loading…</b></div>';if(!d.open)d.showModal();
+  let T;if(id!=null){const r=await tApi("test_get",{p_id:id});if(!r||r.error){d.innerHTML='<div class="sdh"><b>Could not open this assessment.</b><button class="sdx">✕</button></div>';d.querySelector(".sdx").onclick=()=>d.close();return;}
+    T={id:r.id,title:r.title,grade:r.grade,students:r.students,lesson:r.lesson,kind:r.kind,opens:r.opens_at,due:r.due_at,dur:r.duration_min,show:r.show,status:r.status,q:r.q||[],key:r.key||{},npages:r.npages||0,localPages:[]};
+    for(let n=0;n<T.npages;n++)T.localPages[n]=await tPage(T.id,n);}
+  else{const now=new Date(),later=new Date(now.getTime()+7*864e5);now.setMinutes(0,0,0);later.setHours(23,59,0,0);
+    T={id:null,title:"",grade:TF.grade||tGrades()[0]||"",students:null,lesson:TF.lesson||"",kind,opens:now.toISOString(),due:later.toISOString(),dur:40,show:"submit",status:"draft",q:[],key:{},npages:0,localPages:[]};}
+  TS.E={T,sel:null,place:null,dirtyPages:false,dirty:false};tEditRender();}
+function tRenumber(T){if(T.kind!=="doc")return;T.q.sort((a,b)=>a.pg-b.pg||a.y-b.y||a.x-b.x);T.q.forEach((q,i)=>q.n=i+1);}
+function tEditRender(){const d=$("tedlg"),E=TS.E,T=E.T,ros=tRoster(T.grade);
+  const total=T.q.reduce((s,q)=>s+(+q.p||0),0);
+  d.innerHTML=`<div class="sdh"><div><b>${T.id?"Edit assessment":"New assessment"} · ${T.kind==="bank"?"from lesson questions":"from a file"}</b><span>${T.q.length} question${T.q.length===1?"":"s"} · ${total} marks</span></div>
+    <div class="sdnav"><span id="tesave"></span><button class="lxbtn" id="tedraft">Save draft</button><button class="lxbtn pri" id="tepub">${T.status==="published"?"Save & keep published":"Publish to students"}</button></div><button class="sdx" aria-label="Close">✕</button></div>
+  <div class="tebody"><aside class="teset">
+    <label class="tel">Title<input id="te_title" value="${esc(T.title)}" placeholder="e.g. Quiz 3 · The Excretory System"></label>
+    <label class="tel">Grade · الصف<select id="te_grade">${tGrades().map(g=>`<option ${T.grade===g?"selected":""}>${esc(g)}</option>`).join("")}</select></label>
+    <label class="tel">Module & lesson<select id="te_lesson">${tLessonOpts(T.lesson,"— none —")}</select></label>
+    <div class="tel">Students<div class="terad"><label><input type="radio" name="te_who" value="all" ${!T.students?"checked":""}> All in ${esc(T.grade||"the grade")}</label><label><input type="radio" name="te_who" value="some" ${T.students?"checked":""}> Choose students</label></div>
+      ${T.students?`<div class="testu">${ros.length?ros.map(s=>`<label><input type="checkbox" value="${esc(s.id)}" ${T.students.includes(s.id)?"checked":""}> ${esc(s.n)}</label>`).join(""):"<small>No students found for this grade.</small>"}</div>`:""}</div>
+    <label class="tel">Opens<input type="datetime-local" id="te_opens" value="${tLocalDT(T.opens)}"></label>
+    <label class="tel">Due<input type="datetime-local" id="te_due" value="${tLocalDT(T.due)}"></label>
+    <label class="tel">Time limit (minutes, empty = none)<input type="number" min="1" id="te_dur" value="${T.dur??""}"></label>
+    <label class="tel">Show results to students<select id="te_show"><option value="submit" ${T.show==="submit"?"selected":""}>Right after submitting</option><option value="due" ${T.show==="due"?"selected":""}>After the due date</option><option value="never" ${T.show==="never"?"selected":""}>Not shown</option></select></label>
+    ${T.id?`<p class="tenote">Changing a correct answer re-marks every submitted sheet when you save.</p>`:""}
+  </aside><div class="temain" id="temain"></div>${T.kind==="doc"?`<aside class="teprops" id="teprops"></aside>`:""}</div>`;
+  d.querySelector(".sdx").onclick=()=>{if(E.dirty&&!window.confirm("Close without saving your changes?"))return;d.close();};
+  d.oncancel=e=>{if(E.dirty&&!window.confirm("Close without saving your changes?"))e.preventDefault();};
+  const set=(k,v)=>{T[k]=v;E.dirty=true;};
+  $("te_title").oninput=e=>set("title",e.target.value);$("te_grade").onchange=e=>{set("grade",e.target.value);if(T.students)T.students=[];tEditRender();};
+  $("te_lesson").onchange=e=>{set("lesson",e.target.value);if(T.kind==="bank")tBankRender();};
+  d.querySelectorAll('[name="te_who"]').forEach(r=>r.onchange=()=>{T.students=r.value==="all"?null:[];E.dirty=true;tEditRender();});
+  d.querySelectorAll(".testu input").forEach(c=>c.onchange=()=>{T.students=[...d.querySelectorAll(".testu input:checked")].map(x=>x.value);E.dirty=true;});
+  $("te_opens").onchange=e=>set("opens",e.target.value?new Date(e.target.value).toISOString():null);$("te_due").onchange=e=>set("due",e.target.value?new Date(e.target.value).toISOString():null);
+  $("te_dur").oninput=e=>set("dur",e.target.value?+e.target.value:null);$("te_show").onchange=e=>set("show",e.target.value);
+  $("tedraft").onclick=()=>tSave("draft");$("tepub").onclick=()=>tSave("published");
+  if(T.kind==="bank")tBankRender();else tDocRender();}
+
+/* bank builder */
+function tBankRender(){const E=TS.E,T=E.T,m=$("temain");
+  if(!T.lesson||!LXLESSONS[T.lesson]){m.innerHTML=`<div class="teempty"><h3>Choose a lesson</h3><p>Pick a lesson marked ⚡ in <b>Module & lesson</b> on the left. Its Practice, Vocabulary and Lesson Check questions will appear here to choose from.</p></div>`;return;}
+  const B=tBank(T.lesson),chosen=new Set(T.q.map(q=>q.id)),srcs=[...new Set(B.map(b=>b.src))];
+  m.innerHTML=`<div class="tebank"><div class="tebh"><h3>${esc(LXLESSONS[T.lesson].title)}</h3><span>${chosen.size} of ${B.length} questions chosen</span></div>${srcs.map(src=>{const S=B.filter(b=>b.src===src);return `<div class="tesrc"><div class="tesrch"><b>${src}</b><span>${S.filter(b=>chosen.has(b.q.id)).length} / ${S.length}</span><button class="lxbtn" data-all="${src}">Select all</button><button class="lxbtn" data-none="${src}">Clear</button></div>
+    ${S.map(b=>{const q=T.q.find(x=>x.id===b.q.id)||b.q;return `<label class="tebi ${chosen.has(b.q.id)?"on":""}"><input type="checkbox" data-id="${b.q.id}" ${chosen.has(b.q.id)?"checked":""}><span class="tet">${TQT[b.q.t][1]}</span><span class="tes">${subTxt(b.q.stem)}${b.q.t==="match"?" ("+b.q.left.length+" pairs)":""}<small>Answer: ${esc(tKeyText(b.q,T.key[b.q.id]??b.key))}</small></span><input type="number" min="0.5" step="0.5" class="tepts" data-p="${b.q.id}" value="${q.p}" title="Marks"></label>`;}).join("")}</div>`;}).join("")}</div>`;
+  const sync=()=>{const ids=new Set([...m.querySelectorAll("input[data-id]:checked")].map(c=>c.dataset.id));const keep=T.q.filter(q=>ids.has(q.id));
+    B.forEach(b=>{if(ids.has(b.q.id)&&!keep.find(q=>q.id===b.q.id)){keep.push({...b.q});T.key[b.q.id]=b.key;}});
+    const order=B.map(b=>b.q.id);keep.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));Object.keys(T.key).forEach(k=>{if(!ids.has(k))delete T.key[k];});T.q=keep;E.dirty=true;tBankRender();tHeadCount();};
+  m.querySelectorAll("input[data-id]").forEach(c=>c.onchange=sync);
+  m.querySelectorAll("[data-all]").forEach(b=>b.onclick=e=>{e.preventDefault();m.querySelectorAll(".tesrc").forEach(s=>{if(s.querySelector(".tesrch b").textContent===b.dataset.all)s.querySelectorAll("input[data-id]").forEach(c=>c.checked=true);});sync();});
+  m.querySelectorAll("[data-none]").forEach(b=>b.onclick=e=>{e.preventDefault();m.querySelectorAll(".tesrc").forEach(s=>{if(s.querySelector(".tesrch b").textContent===b.dataset.none)s.querySelectorAll("input[data-id]").forEach(c=>c.checked=false);});sync();});
+  m.querySelectorAll("[data-p]").forEach(i=>{i.onclick=e=>e.stopPropagation();i.onchange=()=>{const q=T.q.find(x=>x.id===i.dataset.p);if(q){q.p=Math.max(0.5,+i.value||1);E.dirty=true;tHeadCount();}};});}
+function tHeadCount(){const T=TS.E.T,sp=$("tedlg").querySelector(".sdh span");if(sp)sp.textContent=`${T.q.length} question${T.q.length===1?"":"s"} · ${T.q.reduce((s,q)=>s+(+q.p||0),0)} marks`;}
+
+/* file builder */
+function tDocRender(){const E=TS.E,T=E.T,m=$("temain");
+  m.innerHTML=`<div class="tetools"><span>Add an answer field:</span>${Object.entries(TQT).map(([k,[n,s]])=>`<button class="tetool ${E.place===k?"on":""}" data-t="${k}" title="${n}"><b>${s}</b><small>${n}</small></button>`).join("")}
+    <label class="lxbtn teup">📄 ${T.npages?"Replace file":"Upload file"}<input type="file" id="tefile" accept=".pdf,.docx,.doc,image/*" hidden></label>${T.npages?`<label class="lxbtn teup">＋ Add pages<input type="file" id="tefile2" accept=".pdf,.docx,image/*" hidden></label>`:""}<span class="temsg" id="temsg">${E.place?"Click on the page where the answer goes.":""}</span></div>
+    <div class="tesheet" id="tesheet">${T.npages?"":`<div class="teempty"><h3>Upload the test</h3><p>Choose a <b>PDF</b>, <b>Word (.docx)</b> or a photo of the paper. Then choose a field type above and click on the page to place each answer field. Set the correct answer on the right.</p><label class="lxbtn pri teup">📄 Choose file<input type="file" id="tefile3" accept=".pdf,.docx,.doc,image/*" hidden></label></div>`}</div>`;
+  m.querySelectorAll(".tetool").forEach(b=>b.onclick=()=>{E.place=E.place===b.dataset.t?null:b.dataset.t;tDocRender();});
+  const up=async(inp,append)=>{const f=inp.files[0];if(!f)return;const msg=t=>{$("temsg").textContent=t;};
+    try{const pages=await tFileToPages(f,msg);if(!append){T.localPages=pages;if(T.q.length&&!window.confirm("Keep the answer fields you already placed?"))T.q=[];T.q=T.q.filter(q=>q.pg<pages.length);}else T.localPages=[...T.localPages,...pages];
+      T.npages=T.localPages.length;E.dirtyPages=true;E.dirty=true;if(!T.title)T.title=f.name.replace(/\.[^.]+$/,"").replace(/[_-]+/g," ");tEditRender();}
+    catch(e){msg("⚠ "+(e?.message||e));}};
+  ["tefile","tefile3"].forEach(id=>{const i=$(id);if(i)i.onchange=()=>up(i,false);});const i2=$("tefile2");if(i2)i2.onchange=()=>up(i2,true);
+  tHeadCount();  if(T.npages)tSheet($("tesheet"),T,"edit",null,null,T.key,(pg,n)=>tWirePage(pg,n));tPropsRender();}
+function tDefaultSize(t){return t==="tf"?[92,34]:t==="mcq"?[170,34]:t==="blank"?[200,34]:t==="num"?[130,34]:t==="open"?[460,120]:[120,4*34];}
+function tWirePage(pg,n){const E=TS.E,T=E.T;
+  const toPt=e=>{const r=pg.getBoundingClientRect(),s=r.width/TPW;return [(e.clientX-r.left)/s,(e.clientY-r.top)/s];};
+  pg.onclick=e=>{if(!E.place||e.target.closest(".tpos"))return;const [x,y]=toPt(e),[w,h]=tDefaultSize(E.place),id="q"+tRid();
+    const q={id,t:E.place,p:E.place==="open"?3:E.place==="match"?4:1,pg:n,x:Math.round(Math.max(0,Math.min(TPW-w-24,x-12))),y:Math.round(Math.max(0,y-h/2))};
+    if(q.t==="mcq")q.no=4;if(q.t==="match"){q.nl=4;q.nr=4;q.h=4*34;}if(q.t==="open"){q.w=w;q.h=h;}if(q.t==="blank"||q.t==="num")q.w=w;
+    T.q.push(q);T.key[id]=q.t==="match"?Array(4).fill(""):q.t==="num"?{v:null,tol:0.01}:"";tRenumber(T);E.sel=id;E.dirty=true;tDocRender();};
+  pg.querySelectorAll(".tpos").forEach(el=>{const q=T.q.find(x=>x.id===el.dataset.q);
+    el.addEventListener("pointerdown",e=>{if(e.target.closest("input,textarea,select,button")&&!e.target.closest(".tgrip"))return;E.sel=q.id;pg.querySelectorAll(".tpos").forEach(x=>x.classList.toggle("sel",x===el));tPropsRender();
+      const rs=e.target.classList.contains("tsize"),[sx,sy]=toPt(e),o={x:q.x,y:q.y,w:q.w||el.offsetWidth,h:q.h||el.offsetHeight};e.preventDefault();el.setPointerCapture(e.pointerId);
+      const mv=ev=>{const [cx,cy]=toPt(ev);if(rs){q.w=Math.max(60,Math.round(o.w+cx-sx));if(q.t==="open")q.h=Math.max(40,Math.round(o.h+cy-sy));el.style.width=q.w+"px";if(q.h)el.style.height=q.h+"px";}else{q.x=Math.round(Math.max(0,Math.min(TPW-30,o.x+cx-sx)));q.y=Math.round(Math.max(0,o.y+cy-sy));el.style.left=q.x+"px";el.style.top=q.y+"px";}E.dirty=true;};
+      const upf=()=>{el.removeEventListener("pointermove",mv);el.removeEventListener("pointerup",upf);tRenumber(T);tPropsRender();pg.querySelectorAll(".tpos").forEach(x=>{const qq=T.q.find(z=>z.id===x.dataset.q);x.querySelector(".tqn").textContent=qq.n;});};
+      el.addEventListener("pointermove",mv);el.addEventListener("pointerup",upf);});});}
+function tPropsRender(){const E=TS.E,T=E.T,p=$("teprops");if(!p)return;const q=T.q.find(x=>x.id===E.sel);
+  const list=`<div class="teql"><div class="sdtl">Questions · ${T.q.length}</div>${T.q.map(x=>`<button class="teqi ${x.id===E.sel?"on":""} ${tKeyMissing(x,T.key[x.id])?"miss":""}" data-s="${x.id}"><b>${x.n}</b><span>${TQT[x.t][0]}</span><em>${esc(tKeyMissing(x,T.key[x.id])?"no answer yet":tKeyText(x,T.key[x.id]))}</em><i>${x.p}</i></button>`).join("")||'<small>No fields yet. Choose a type above, then click on the page.</small>'}</div>`;
+  if(!q){p.innerHTML=list;p.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>tSelect(b.dataset.s));return;}
+  const k=T.key[q.id];let ans="";
+  if(q.t==="tf")ans=`<div class="tekb">${["T","F"].map(v=>`<button class="${k===v?"on":""}" data-k="${v}">${v==="T"?"True":"False"}</button>`).join("")}</div>`;
+  else if(q.t==="mcq")ans=`<label class="tel">Number of options<select id="tp_no">${[2,3,4,5,6].map(n=>`<option ${q.no===n?"selected":""}>${n}</option>`).join("")}</select></label><div class="tekb">${tLetters(q.no).map(v=>`<button class="${k===v?"on":""}" data-k="${v}">${v}</button>`).join("")}</div>`;
+  else if(q.t==="blank")ans=`<label class="tel">Correct answer<input id="tp_k" value="${esc(k||"")}" placeholder="e.g. nephron | nephrons"><small>Separate other accepted answers with | . Capitals, spaces and a final full stop are ignored.</small></label>`;
+  else if(q.t==="num")ans=`<label class="tel">Correct number<input id="tp_k" inputmode="decimal" value="${k?.v??""}"></label><label class="tel">Accept within ± (%)<input id="tp_tol" type="number" min="0" step="0.1" value="${Math.round((k?.tol??0.01)*1000)/10}"></label>`;
+  else if(q.t==="open")ans=`<label class="tel">Model answer (for marking)<textarea id="tp_k" rows="5">${esc(k||"")}</textarea><small>Open answers are marked by you in Results.</small></label>`;
+  else if(q.t==="match")ans=`<label class="tel">Items (numbers)<select id="tp_nl">${[2,3,4,5,6,7,8,9,10].map(n=>`<option ${q.nl===n?"selected":""}>${n}</option>`).join("")}</select></label><label class="tel">Choices (letters)<select id="tp_nr">${[2,3,4,5,6,7,8,9,10].map(n=>`<option ${q.nr===n?"selected":""}>${n}</option>`).join("")}</select></label>
+    <div class="tekm">${Array.from({length:q.nl},(_,i)=>`<label><b>${i+1}</b><select data-mi="${i}"><option value=""></option>${tLetters(q.nr).map(l=>`<option ${k?.[i]===l?"selected":""}>${l}</option>`).join("")}</select></label>`).join("")}</div>`;
+  p.innerHTML=`<div class="tecur"><div class="sdtl">Question ${q.n} · ${TQT[q.t][0]}</div>${ans}<label class="tel">Marks<input type="number" min="0.5" step="0.5" id="tp_p" value="${q.p}"></label><div class="sdsave"><button class="lxbtn" id="tp_done">Done</button><button class="lxbtn" id="tp_del">Delete field</button></div></div>`+list;
+  const K=v=>{T.key[q.id]=v;E.dirty=true;};
+  p.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{K(b.dataset.k);tDocRender();});
+  const tk=$("tp_k");if(tk)tk.oninput=()=>{if(q.t==="num")K({v:tk.value===""?null:parseFloat(tk.value.replace(",",".")),tol:(+($("tp_tol")?.value)||0)/100});else K(tk.value);};
+  const tt=$("tp_tol");if(tt)tt.oninput=()=>K({v:T.key[q.id]?.v??null,tol:(+tt.value||0)/100});
+  const no=$("tp_no");if(no)no.onchange=()=>{q.no=+no.value;q.w=null;if(!tLetters(q.no).includes(T.key[q.id]))T.key[q.id]="";E.dirty=true;tDocRender();};
+  const nl=$("tp_nl"),nr=$("tp_nr");if(nl)nl.onchange=()=>{q.nl=+nl.value;q.h=q.nl*34;const a=(T.key[q.id]||[]).slice(0,q.nl);while(a.length<q.nl)a.push("");T.key[q.id]=a;E.dirty=true;tDocRender();};
+  if(nr)nr.onchange=()=>{q.nr=+nr.value;T.key[q.id]=(T.key[q.id]||[]).map(x=>tLetters(q.nr).includes(x)?x:"");E.dirty=true;tDocRender();};
+  p.querySelectorAll("[data-mi]").forEach(s=>s.onchange=()=>{const a=(T.key[q.id]||[]).slice();a[+s.dataset.mi]=s.value;K(a);tDocRender();});
+  $("tp_p").oninput=e=>{q.p=Math.max(0.5,+e.target.value||1);E.dirty=true;tHeadCount();};
+  $("tp_done").onclick=()=>{E.sel=null;tDocRender();};$("tp_del").onclick=()=>{T.q=T.q.filter(x=>x.id!==q.id);delete T.key[q.id];tRenumber(T);E.sel=null;E.dirty=true;tDocRender();tHeadCount();};
+  p.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>tSelect(b.dataset.s));}
+function tKeyMissing(q,k){return q.t==="match"?!(k||[]).every(Boolean):q.t==="num"?(k?.v==null||isNaN(k.v)):!k;}
+function tSelect(id){TS.E.sel=id;tDocRender();const el=document.querySelector(`#tesheet .tpos[data-q="${id}"]`);if(el)el.scrollIntoView({block:"center",behavior:"smooth"});}
+async function tSave(status){const E=TS.E,T=E.T,msg=$("tesave");
+  if(!T.title.trim()){msg.innerHTML='<span class="sch no">Add a title</span>';$("te_title").focus();return;}
+  if(!T.grade){msg.innerHTML='<span class="sch no">Choose a grade</span>';return;}
+  if(status==="published"){if(!T.q.length){msg.innerHTML='<span class="sch no">Add at least one question</span>';return;}
+    if(T.students&&!T.students.length){msg.innerHTML='<span class="sch no">Choose at least one student</span>';return;}
+    if(T.opens&&T.due&&T.due<=T.opens){msg.innerHTML='<span class="sch no">The due time must be after the opening time</span>';return;}
+    const miss=T.q.filter(q=>q.t!=="open"&&tKeyMissing(q,T.key[q.id]));if(miss.length&&!window.confirm(`${miss.length} question${miss.length===1?" has":"s have"} no correct answer yet (${miss.map(q=>q.n||"").join(", ")}). They will wait for you to mark them. Publish anyway?`))return;}
+  msg.textContent="Saving…";const btns=[$("tedraft"),$("tepub")];btns.forEach(b=>b.disabled=true);
+  try{const q=T.q.map(x=>{const o={...x};return o;});
+    const meta={title:T.title.trim(),grade:T.grade,students:T.students,lesson:T.lesson||"",kind:T.kind,opens:T.opens||"",due:T.due||"",dur:T.dur||"",show:T.show,status,npages:T.kind==="doc"?T.npages:0};
+    const r=await tApi("test_save",{p_id:T.id,p_meta:meta,p_q:q,p_key:T.key});if(!r?.ok)throw new Error(r?.error||"error");T.id=r.id;T.status=status;
+    if(E.dirtyPages){for(let n=0;n<T.localPages.length;n++){msg.textContent=`Uploading page ${n+1} of ${T.localPages.length}…`;const pr=await tApi("test_page_save",{p_id:T.id,p_n:n,p_img:T.localPages[n]});if(!pr?.ok)throw new Error(pr?.error==="too_large"?"A page image is too large":"page upload failed");}
+      await tApi("test_page_save",{p_id:T.id,p_n:T.localPages.length,p_img:null});TS.pages[T.id]={...T.localPages};E.dirtyPages=false;}
+    E.dirty=false;msg.innerHTML=`<span class="sch ok">✓ ${status==="published"?"Published":"Saved"}</span>`;lxToast(status==="published"?"Published to students ✓":"Draft saved");$("tepub").textContent=status==="published"?"Save & keep published":"Publish to students";
+    if($("testsview")?.style.display==="block"){TS.list=await tApi("tests")||[];tListRender();}}
+  catch(e){msg.innerHTML=`<span class="sch no">Could not save: ${esc(e?.message||e)}</span>`;}
+  btns.forEach(b=>b.disabled=false);}
+
+/* ---------- student: take the test ---------- */
+async function tTake(id){const d=tDlg("ttdlg","take");d.innerHTML='<div class="sdh"><b>Opening…</b></div>';if(!d.open)d.showModal();
+  const close=()=>{clearInterval(TS.timer);d.close();openTests();};
+  let T=await tApi("test_get",{p_id:id});if(!T||T.error){d.innerHTML=`<div class="sdh"><b>This assessment is not available.</b><button class="sdx">✕</button></div>`;d.querySelector(".sdx").onclick=close;return;}
+  if(T.attempt?.submitted)return tShowResult(d,T,T.attempt.answers,T.attempt.result,T.key,close);
+  const st=await tApi("test_start",{p_id:id});if(!st?.ok){d.innerHTML=`<div class="sdh"><b>${st?.error==="not_open"?"This assessment has not opened yet.":st?.error==="closed"?"This assessment is closed.":"Could not start."}</b><button class="sdx">✕</button></div>`;d.querySelector(".sdx").onclick=close;return;}
+  if(st.submitted){T=await tApi("test_get",{p_id:id});return tShowResult(d,T,T.attempt?.answers,T.attempt?.result,T.key,close);}
+  const skew=new Date(st.now).getTime()-Date.now(),ends=[T.dur?new Date(st.started).getTime()+T.dur*60000:null,T.due?new Date(T.due).getTime():null].filter(Boolean),end=ends.length?Math.min(...ends):null;
+  d.innerHTML=`<div class="sdh"><div><b>${esc(T.title)}</b><span>${T.q.length} questions · answers save automatically</span></div><div class="sdnav"><span class="ttime" id="tttime"></span><span id="ttsave" class="ttsave"></span><button class="lxbtn pri" id="ttsub">Submit · تسليم</button></div><button class="sdx" aria-label="Close">✕</button></div><div class="ttbody"><div class="ttsheet" id="ttsheet"></div></div>`;
+  d.querySelector(".sdx").onclick=async()=>{await save(false);close();};
+  const sheet=$("ttsheet");await tSheet(sheet,T,"take",st.answers||{},null,null);
+  let t0=null,busy=false,done=false;
+  const save=async fin=>{if(done)return;const A=tCollect(sheet,T);$("ttsave").textContent=fin?"Submitting…":"Saving…";
+    try{const r=await tApi("test_answer",{p_id:id,p_answers:A,p_final:!!fin});if(r?.submitted){done=true;clearInterval(TS.timer);const T2=await tApi("test_get",{p_id:id});tShowResult(d,T2,A,r.result||T2.attempt?.result,r.key||T2.key,close);return;}
+      if(r?.error)throw new Error(r.error);$("ttsave").textContent="Saved ✓";}catch(_){$("ttsave").textContent="⚠ Not saved – check the internet";}};
+  tWireTake(sheet,()=>{clearTimeout(t0);$("ttsave").textContent="…";t0=setTimeout(()=>save(false),1200);});
+  $("ttsub").onclick=async()=>{const A=tCollect(sheet,T),left=T.q.filter(q=>q.t!=="info"&&A[q.id]==null).length;if(!window.confirm(left?`${left} question${left===1?" is":"s are"} not answered. Submit anyway?`:"Submit your answers now? You cannot change them after submitting."))return;if(busy)return;busy=true;await save(true);busy=false;};
+  d.oncancel=e=>{e.preventDefault();};
+  const tick=()=>{if(!end){$("tttime").textContent="";return;}const left=end-(Date.now()+skew);if(left<=0){$("tttime").textContent="Time is up";if(!done){done=false;save(true);}clearInterval(TS.timer);return;}
+    const m=Math.floor(left/60000),s=Math.floor(left/1000)%60;$("tttime").textContent=`⏱ ${m}:${pad(s)}`;$("tttime").classList.toggle("low",left<120000);};
+  clearInterval(TS.timer);tick();TS.timer=setInterval(tick,1000);}
+function tShowResult(d,T,A,R,K,close){const pct=R?Math.round(R.score/(R.max||1)*100):null;
+  d.innerHTML=`<div class="sdh"><div><b>${esc(T.title)}</b><span>Submitted ✓</span></div><div class="sdnav">${R?`<span class="ttscore">${+R.score} / ${R.max} · ${pct}%</span>`:""}</div><button class="sdx" aria-label="Close">✕</button></div>
+    <div class="ttbody">${R?`<div class="ttsum"><div class="ttbig">${pct}%</div><div><b>${+R.score} of ${R.max} marks</b>${R.pending?`<span>${R.pending} answer${R.pending===1?"":"s"} will be marked by your teacher.</span>`:""}${K?"<span>Correct answers are shown in green.</span>":""}</div></div>`:`<div class="ttsum"><div><b>Your answers were submitted.</b><span>${T.show==="due"?"Results appear after the due date.":"Your teacher will share the results."}</span></div></div>`}<div class="ttsheet" id="ttsheet"></div></div>`;
+  d.querySelector(".sdx").onclick=close;d.oncancel=null;tSheet($("ttsheet"),T,"view",A||{},R,K);}
+
+/* ---------- teacher: results ---------- */
+async function tResults(id){const d=tDlg("trdlg");d.innerHTML='<div class="sdh"><b>Loading…</b></div>';if(!d.open)d.showModal();
+  const [T,A]=await Promise.all([tApi("test_get",{p_id:id}),tApi("test_results",{p_id:id})]);
+  const meta={...T,dur:T.duration_min,due:T.due_at,opens:T.opens_at},ros=tRoster(T.grade).filter(s=>!T.students||T.students.includes(s.id)||T.students.includes(String(s.id).slice(-4)));
+  const byId={};(A||[]).forEach(a=>{byId[a.uid]=a;byId[a.i]=a;});
+  const rows=ros.map(s=>({s,a:byId[s.id]||byId[String(s.id).slice(-4)]||null}));(A||[]).forEach(a=>{if(!rows.find(r=>r.a===a))rows.push({s:{id:a.uid,n:a.n},a});});const rk=r=>r.a?.submitted?0:r.a?1:2;rows.sort((x,y)=>rk(x)-rk(y)||String(x.s.n).localeCompare(String(y.s.n)));
+  const sub=rows.filter(r=>r.a?.submitted&&r.a.result),pc=sub.map(r=>r.a.result.score/(r.a.result.max||1)*100).sort((a,b)=>a-b);
+  const mean=pc.length?pc.reduce((s,x)=>s+x,0)/pc.length:null,med=pc.length?(pc.length%2?pc[(pc.length-1)/2]:(pc[pc.length/2-1]+pc[pc.length/2])/2):null;
+  const item=T.q.filter(q=>q.t!=="info").map((q,i)=>{const R=sub.map(r=>r.a.result.items?.[q.id]).filter(x=>x&&x.p!=null);return {q,i,n:R.length,pct:R.length?R.reduce((s,x)=>s+x.p/(q.p||1),0)/R.length*100:null};});
+  d.innerHTML=`<div class="sdh"><div><b>Results · ${esc(T.title)}</b><span>${esc(T.grade)} · ${T.q.length} questions · ${T.q.reduce((s,q)=>s+(+q.p||0),0)} marks</span></div><div class="sdnav"><button class="lxbtn" id="trxl">Excel ⬇</button><button class="lxbtn" id="trref">⟳</button></div><button class="sdx" aria-label="Close">✕</button></div>
+    <div class="ttbody"><div class="trk">${[[`${sub.length} / ${rows.length}`,"submitted"],[`${rows.filter(r=>r.a&&!r.a.submitted).length}`,"in progress"],[mean==null?"–":Math.round(mean)+"%","class mean"],[med==null?"–":Math.round(med)+"%","median"],[pc.length?Math.round(pc[pc.length-1])+"%":"–","highest"],[pc.length?Math.round(pc[0])+"%":"–","lowest"],[`${sub.filter(r=>r.a.result.pending).length}`,"need your marking"]].map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>
+    <h4 class="trh">Students</h4><div class="trtbl"><div class="trr trhd"><span>Student</span><span>Status</span><span>Score</span><span>%</span><span>Time</span><span></span></div>${rows.map((r,i)=>{const a=r.a,res=a?.result,mins=a?.submitted?Math.round((new Date(a.submitted)-new Date(a.started))/60000):null;
+      return `<button class="trr ${a?.submitted?(res?.pending?"pend":"done"):a?"prog":"none"}" data-i="${i}" ${a?"":"disabled"}><span><b>${esc(r.s.n)}</b></span><span>${a?.submitted?(res?.pending?`<span class="tchip pend">${res.pending} to mark</span>`:`<span class="tchip ok">Marked</span>`):a?`<span class="tchip half">In progress</span>`:`<span class="tchip">Not started</span>`}</span><span>${res?`${+res.score} / ${res.max}`:"–"}</span><span>${res?Math.round(res.score/(res.max||1)*100)+"%":"–"}</span><span>${mins!=null?mins+" min":""}</span><span class="go">${a?"Open ›":""}</span></button>`;}).join("")}</div>
+    <h4 class="trh">Questions · % of marks earned</h4><div class="tritem">${item.map(x=>`<div><span class="tbn">${x.q.n||x.i+1}</span><span class="trt">${TQT[x.q.t][0]}${T.kind==="bank"?" · "+esc(subTxt(x.q.stem).slice(0,60)):""}</span><i><em style="width:${x.pct??0}%;background:${x.pct==null?"#cad5dd":x.pct>=70?"#1d8656":x.pct>=40?"#d9a21b":"#c03c2c"}"></em></i><b>${x.pct==null?"–":Math.round(x.pct)+"%"}</b></div>`).join("")}</div></div>`;
+  d.querySelector(".sdx").onclick=()=>{d.close();if($("testsview")?.style.display==="block")openTests();};$("trref").onclick=()=>tResults(id);
+  $("trxl").onclick=()=>tResultsXlsx(T,rows);
+  d.querySelectorAll(".trr[data-i]").forEach(b=>b.onclick=()=>{const r=rows[+b.dataset.i];if(r.a)tAttempt(T,r,()=>tResults(id));});}
+async function tAttempt(T,r,back){const d=$("trdlg"),a=r.a,o={...(a.overrides||{})};
+  d.innerHTML=`<div class="sdh"><div><b>${esc(r.s.n)}</b><span>${esc(T.title)} · ${a.submitted?"submitted "+esc(tFmt(a.submitted)):"in progress"}</span></div><div class="sdnav"><span class="ttscore" id="tascore">${a.result?`${+a.result.score} / ${a.result.max}`:""}</span>${a.submitted?"":`<button class="lxbtn" id="taforce">Submit for the student</button>`}<button class="lxbtn" id="taback">‹ All students</button></div><button class="sdx" aria-label="Close">✕</button></div>
+    <div class="ttbody tawrap"><div class="ttsheet" id="tasheet"></div><aside class="tamark"><div class="sdtl">Marks · ${T.q.length} questions</div>${T.q.filter(q=>q.t!=="info").map((q,i)=>{const it=a.result?.items?.[q.id],k=T.key[q.id];
+      return `<div class="tami ${it?(it.p==null?"pend":it.ok?"ok":it.p>0?"half":"no"):""}"><div><b>${q.n||i+1}</b> ${TQT[q.t][0]}</div><div class="tamk">Answer: <span dir="auto">${esc(Array.isArray(a.answers?.[q.id])?a.answers[q.id].map((x,j)=>`${j+1}→${x||"–"}`).join(" "):a.answers?.[q.id]??"–")}</span></div><div class="tamk">${q.t==="open"?"Model":"Key"}: <span dir="auto">${esc(tKeyText(q,k))}</span></div><label>Points <input type="number" min="0" max="${q.p}" step="0.5" data-o="${q.id}" value="${o[q.id]??(it?.p??"")}" placeholder="${it?.p??"–"}"> / ${q.p}</label></div>`;}).join("")}
+      <button class="lxbtn pri" id="tasave">Save marks</button><small>Points you type here replace the automatic mark for that question.</small><span id="tamsg"></span></aside></div>`;
+  d.querySelector(".sdx").onclick=()=>d.close();$("taback").onclick=back;
+  tSheet($("tasheet"),T,"view",a.answers||{},a.result,T.key);
+  const f=$("taforce");if(f)f.onclick=async()=>{if(!window.confirm("Submit this student's saved answers now?"))return;await tApi("test_force_submit",{p_attempt:a.id});back();};
+  $("tasave").onclick=async()=>{const nw={};d.querySelectorAll("[data-o]").forEach(i=>{const q=T.q.find(x=>x.id===i.dataset.o),auto=a.result?.items?.[q.id]?.p;if(i.value!==""&&(+i.value!==auto||q.t==="open"||o[q.id]!=null))nw[q.id]=Math.min(q.p,Math.max(0,+i.value));});
+    const r2=await tApi("test_override",{p_attempt:a.id,p_overrides:nw});if(r2?.ok){a.overrides=nw;a.result=r2.result;$("tamsg").innerHTML='<span class="sch ok">✓ Saved</span>';$("tascore").textContent=a.result?`${+a.result.score} / ${a.result.max}`:"";tSheet($("tasheet"),T,"view",a.answers||{},a.result,T.key);}else $("tamsg").innerHTML='<span class="sch no">Could not save</span>';};}
+function tResultsXlsx(T,rows){const qs=T.q.filter(q=>q.t!=="info");const H=["#","Student","Status","Score","Max","%",...qs.map((q,i)=>`Q${q.n||i+1} (/${q.p})`)];
+  const data=[H.map(v=>({v,s:1})),...rows.map((r,i)=>{const res=r.a?.result;return [i+1,r.s.n,r.a?.submitted?"Submitted":r.a?"In progress":"Not started",res?res.score:"",res?res.max:"",res?{v:res.score/(res.max||1),s:5}:"",...qs.map(q=>{const p=res?.items?.[q.id]?.p;return p==null?"":p;})];})];
+  const BC=brandXlsxCover({title:"Assessment results · "+T.title,sub:tLessonName(T.lesson)||"Biology",label:"Class:",name:T.grade});
+  const s1=gbSheet(data,[5,34,13,8,7,8,...qs.map(()=>9)],{freeze:[2,1]});
+  const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="0.0%"/></numFmts><fonts count="5"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="16"/><color rgb="FF1F3864"/><name val="Calibri"/></font><font><b/><sz val="12"/><color rgb="FF44546A"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF4472C4"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="8"><xf/><xf fontId="1" fillId="2" applyFont="1" applyFill="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf><xf fontId="2" applyFont="1"/><xf numFmtId="2" applyNumberFormat="1"/><xf numFmtId="2" fontId="2" applyNumberFormat="1" applyFont="1"/><xf numFmtId="164" applyNumberFormat="1"/><xf fontId="3" applyFont="1"/><xf fontId="4" applyFont="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const sheets=[["Cover",BC.sheet],["Results",s1]];
+  const files=[["[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>${BC.types}<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")}</Types>`],
+    ["_rels/.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ["xl/workbook.xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>${sheets.map(([n],i)=>`<sheet name="${n}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets></workbook>`],
+    ["xl/_rels/workbook.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ["xl/styles.xml",styles],...sheets.map(([_,x],i)=>[`xl/worksheets/sheet${i+1}.xml`,x]),["xl/worksheets/_rels/sheet1.xml.rels",BC.sheetRels],...BC.files];
+  capUse("downloads").then(async dl=>{if(!dl){lxToast("Downloads aren't available in this view.",true);return;}try{await dl.save({filename:`Results_${T.title.replace(/[^\w؀-ۿ -]/g,"").replace(/\s+/g,"_")}.xlsx`,data:gbZip(files)});}catch(_){}});}
+
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
-const VIEWS={pfview:"#profile",gbview:"#gbhub",subview:"#ashub",myworkview:"#ashub",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
+const VIEWS={pfview:"#profile",gbview:"#gbhub",subview:"#ashub",testsview:"#tests",myworkview:"#ashub",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
 const HOME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const OUT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>';
 function hideAllViews(){if(LX.sim)LX.sim.stop();["analytics","calview","coursesview","progview","lessonview","teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});}
@@ -4129,7 +4559,7 @@ function goHome(){
 }
 function navGo(url){
   hideAllViews();
-  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")openGradebook();else if(url==="#ashub")(CAL.user?.t?openSubs():openMyWork());
+  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")openGradebook();else if(url==="#ashub")(CAL.user?.t?openSubs():openMyWork());else if(url==="#tests")openTests();
 }
 function buildNav(active){
   const nav=$("sidenav");if(!NAVLINKS){nav.innerHTML="";return;}
@@ -4167,7 +4597,7 @@ function navPush(r){
 function navReplay(r){
   NAVH.replay=true;
   try{if(r.v!=="lesson")hideAllViews();
-    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="subs")openSubs();else if(r.v==="mywork")openMyWork();else if(r.v==="pf")openProfile();else if(r.v==="cal")openCalendar();
+    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="subs")openSubs();else if(r.v==="tests")openTests();else if(r.v==="mywork")openMyWork();else if(r.v==="pf")openProfile();else if(r.v==="cal")openCalendar();
     else if(r.v==="courses")openCourses(r.k);else if(r.v==="bio"){openCourses("bio");openBio(r.id);}
     else if(r.v==="prog")openProgress(r.k);else if(r.v==="lesson"){if(LX.id!==r.id||$("lessonview").style.display!=="block")openLesson(r.id,r.tab);else lxShow(r.tab);}}
   catch(e){goHome();}
@@ -4182,7 +4612,7 @@ function navBar(){
   const cur=NAVH.s[NAVH.i];$("nhhome").classList.toggle("on",!cur||cur.v==="home");
 }
 {const wrap=(name,mk)=>{const f=window[name];if(typeof f!=="function")return;window[name]=function(...a){const r=f.apply(this,a);try{navPush(mk(...a));}catch(_){}return r;};};
- wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openSubs",()=>({v:"subs"}));wrap("openMyWork",()=>({v:"mywork"}));wrap("openProfile",()=>({v:"pf"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
+ wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openSubs",()=>({v:"subs"}));wrap("openTests",()=>({v:"tests"}));wrap("openMyWork",()=>({v:"mywork"}));wrap("openProfile",()=>({v:"pf"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
  wrap("openCourses",k=>({v:"courses",k:k||null}));wrap("openBio",id=>({v:"bio",id:id||null}));wrap("openProgress",k=>({v:"prog",k:k||null}));
  wrap("openLesson",(id,tab)=>({v:"lesson",id,tab:tab||"launch"}));wrap("lxShow",t=>({v:"lesson",id:LX.id,tab:t}));
  const lo=window.logout;if(typeof lo==="function")window.logout=function(...a){NAVH.s=[];NAVH.i=-1;const r=lo.apply(this,a);navBar();return r;};}
