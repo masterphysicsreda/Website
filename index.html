@@ -566,6 +566,10 @@ html[data-theme=light] .lpkpi>div,html[data-theme=light] .lprow{background:rgba(
 .mhddl{display:none;background:#f7f9fd}.mhdd.open .mhddl{display:flex;flex-direction:column}.mhddl .mhli{padding-left:30px}
 .mhdd .mhddh:hover{background:#f2f6fc}.mhdd .mhddh:focus-visible{outline:2px solid #1652b8;outline-offset:-2px}
 .mhlist.mhdd{max-height:none}
+.mhres.drv .drvbtns{display:flex;gap:6px;align-items:center}.mhres.drv .drvdl{min-width:0;padding-left:10px;padding-right:10px}.tg.drvt{background:#e8f0fe;color:#1a56b8}
+.drvdlg{border:0;border-radius:16px;padding:0;width:min(960px,calc(100% - 24px));background:#000;box-shadow:0 20px 60px rgba(0,0,0,.5)}.drvdlg::backdrop{background:rgba(0,0,0,.7)}
+.drvh{display:flex;gap:12px;align-items:center;padding:10px 14px;background:#10232f;color:#fff;font:14px Inter}.drvh b{flex:1}.drvh a{color:#8fe3b8}.drvh button{background:none;border:0;color:#fff;font-size:20px;cursor:pointer}
+.drvv{position:relative;padding-top:56.25%}.drvv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 #gbview{display:none;width:100%;max-width:1400px}
 .gbsel{display:flex;gap:8px;align-items:center;margin:0;font-size:13px;color:var(--muted)}.gbsel select{background:rgba(0,0,0,.25);color:var(--ink);border:1px solid rgba(143,227,184,.3);border-radius:10px;padding:8px 10px;font:600 14px Inter}
 html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,.2)}
@@ -1484,10 +1488,11 @@ const kindLabel={program:"Program",unit:"Unit",module:"Module",lesson:"Lesson"};
 const ancestors=id=>{const a=[];let p=BIOX.parent[id];while(p){a.unshift(BIOX.byId[p]);p=BIOX.parent[p];}return a;};
 
 /* section templates (standard Inspire Biology layout) */
+function drvMerge(id,secs){secs.forEach(s=>{if(s.items)s.items=[...s.items,...drvAdd(id,s.h)];});return secs;}
 function lessonSections(n){
   const L=short(n.title||n.t),mod=BIOX.byId[BIOX.parent[n.id]],M=mod?short(mod.t):L;
-  const R=(t,d,tags,teacher)=>({t,d,tags,teacher});
-  return [
+  const R=(t,d,tags,teacher)=>drvRepl(n.id,{t,d,tags,teacher});
+  return drvMerge(n.id,[
     {h:"Lesson Planning and Presentation Resources",sub:"Use these instructional resources as you plan and guide instruction for the lesson.",teacher:true,items:[
       R(`Teacher Edition: ${M}`,"Teacher Edition for this module",["eBook"],1),R(`Science Notebook Answer Key: ${L}`,"Answer key for the Cornell-style study notebook",["PDF"],1),
       R(`Reading Essentials Answer Key: ${L}`,"Answer key for the Reading Essentials workbook",["PDF"],1),R(`Teacher PowerPoint: ${L}`,"Ready-made lesson presentation",["MS PowerPoint"],1)]},
@@ -1505,18 +1510,18 @@ function lessonSections(n){
       R(`Lesson Check Answer Key: ${L}`,"Answer key for the Lesson Check",["PDF"],1)]},
     {h:"Lesson Library",sub:"Videos, simulations, virtual investigations and interactives for this lesson.",items:[R(`Videos, Simulations, and Interactives: ${L}`,"Open the lesson in McGraw Hill to see its investigations, tutors and videos",["Web"])]},
     {h:"Teacher-added Resources",sub:"Resources you add for this class.",teacher:true,items:[R("Upload a resource or add a web link","Add your own files and links in McGraw Hill",["Web"],1)]},
-    ...(LXLESSONS[n.id]?[{h:isT()?"Class Results":"My Report",tag:isT()?"Teacher":"Score & result code",sub:isT()?"Import student result codes for this lesson and download the class CSV.":"Your overall score for this lesson, every part, and the result code to send to your teacher.",items:[isT()?{t:`Class results: ${L}`,d:"Import result codes · class table · download CSV",tags:["Teacher"],lx:"results"}:{t:`My report: ${L}`,d:"Score, grade and result code for this lesson",tags:["Report"],lx:"report"}]}]:[])];
+    ...(LXLESSONS[n.id]?[{h:isT()?"Class Results":"My Report",tag:isT()?"Teacher":"Score & result code",sub:isT()?"Import student result codes for this lesson and download the class CSV.":"Your overall score for this lesson, every part, and the result code to send to your teacher.",items:[isT()?{t:`Class results: ${L}`,d:"Import result codes · class table · download CSV",tags:["Teacher"],lx:"results"}:{t:`My report: ${L}`,d:"Score, grade and result code for this lesson",tags:["Report"],lx:"report"}]}]:[])]);
 }
 function moduleSections(n){
-  const M=short(n.t),R=(t,d,tags,teacher)=>({t,d,tags,teacher});
-  return [
+  const M=short(n.t),R=(t,d,tags,teacher)=>drvRepl(n.id,{t,d,tags,teacher});
+  return drvMerge(n.id,[
     {h:"Module Planning and Presentation Resources",sub:"Plan and present the whole module.",teacher:true,items:[R(`Teacher Edition: ${M}`,"Teacher Edition for this module",["eBook"],1),R(`Module Planning Guide: ${M}`,"Pacing, standards and lesson overview",["PDF"],1)]},
     {h:"Learning Resources",sub:"Student-facing reading and study tools for the module.",items:[R(`Student Edition: ${M}`,"Student Edition for this module",["eBook"]),R(`Reading Essentials: ${M}`,"Workbook for the whole module",["PDF"])]},
     {h:"Module Opener",sub:"Introduce the module phenomenon and driving questions.",items:[R(`Module Opener: ${M}`,"Encounter the phenomenon and ask questions",["Learning Resource"])]},
     {h:"Lessons",lessons:true},
     {h:"Module Wrap-Up",sub:"Revisit the phenomenon and the driving questions.",items:[R(`Module Wrap-Up: ${M}`,"Pull the module ideas together",["Learning Resource"])]},
     {h:"Module Assessment",sub:"Check understanding of the whole module.",items:[R(`Module Test: ${M}`,"Summative assessment",["Assessment"]),R(`Module Test Answer Key: ${M}`,"Answer key",["PDF"],1)]},
-    {h:"Module Library",sub:"Extra videos, labs and interactives for the module.",items:[R(`Module Library: ${M}`,"Open the module in McGraw Hill to browse its library",["Web"])]}];
+    {h:"Module Library",sub:"Extra videos, labs and interactives for the module.",items:[R(`Module Library: ${M}`,"Open the module in McGraw Hill to browse its library",["Web"])]}]);
 }
 
 /* render */
@@ -1554,6 +1559,7 @@ function drawSide(){
   $("biobrowse").onclick=openBrowse;
 }
 function resItem(r){
+  if(r.drv&&drvFile(r.drv))return drvItem(r);
   if(r.lx)return `<div class="mhres lx"><div class="mhrt"><a href="#" data-lx="${r.lx}">${esc(r.t)}</a><p>${esc(r.d)}</p><div class="tags">${r.tags.map(x=>`<span class="tg">${esc(x)}</span>`).join("")}<span class="tg s">Interactive · graded</span></div></div><a class="mhpres" href="#" data-lx="${r.lx}">Open ›</a></div>`;
   const vis=r.teacher?`<span class="tg t">Teacher Only</span>`:`<span class="tg s">Visible to Students</span>`;
   return `<div class="mhres"><div class="mhrt"><a href="${mhUrl(BIOX.byId[BIOX.node])}" target="_blank" rel="noopener">${esc(r.t)}</a><p>${esc(r.d)}</p><div class="tags">${r.tags.map(x=>`<span class="tg">${esc(x)}</span>`).join("")}${isT()?vis:""}</div></div><a class="mhpres" href="${mhUrl(BIOX.byId[BIOX.node])}" target="_blank" rel="noopener">Present ↗</a></div>`;
@@ -1585,7 +1591,7 @@ function drawMain(){
     el.querySelectorAll(".mhsech").forEach(b=>b.onclick=()=>{const s=b.parentElement,k=s.dataset.key;if(BIOX.open.has(k))BIOX.open.delete(k);else BIOX.open.add(k);s.classList.toggle("open");b.setAttribute("aria-expanded",s.classList.contains("open"));syncExpand();});
   }
   el.querySelectorAll("[data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();openBio(a.dataset.go);});
-  el.querySelectorAll("[data-lx]").forEach(a=>a.onclick=e=>{e.preventDefault();openLesson(BIOX.node,a.dataset.lx);});
+  el.querySelectorAll("[data-lx]").forEach(a=>a.onclick=e=>{e.preventDefault();openLesson(BIOX.node,a.dataset.lx);});drvWire(el);
   const ex=$("bioexp");if(ex){ex.onclick=()=>{const all=[...el.querySelectorAll(".mhsec")],anyClosed=all.some(s=>!s.classList.contains("open"));all.forEach(s=>{s.classList.toggle("open",anyClosed);anyClosed?BIOX.open.add(s.dataset.key):BIOX.open.delete(s.dataset.key);s.querySelector(".mhsech").setAttribute("aria-expanded",anyClosed);});syncExpand();};syncExpand();}
   const inf=$("bioinfo");if(inf)inf.onclick=()=>{BIOX.info=!BIOX.info;drawMain();};
   const ic=$("bioinfox");if(ic)ic.onclick=()=>{BIOX.info=false;drawMain();};
@@ -1679,6 +1685,58 @@ fields:()=>{const F=[["Field X",360,2],["Field Y",450,3],["Field Z",300,1.5]];co
   s+=`<text transform="translate(16 ${T+ph/2}) rotate(-90)" font-size="12" text-anchor="middle" fill="#53687a">Number of mice</text>`;
   return s+"</svg>";}
 };
+
+/* ===== Google Drive resources: links on the Biology course pages ===== */
+/* Student-visible files. Teacher-only files (answer keys, planners, teacher slides) are NOT listed here:
+   their Drive IDs reach the page only after the teacher logs in (window.TDRV). */
+const DRV_PUB={
+  L1_SN:["1stlVTVrk7-KgKoHcmYYnd6hf0TVNJfE4","pdf"],L1_RE:["1qj0NG21enLgCgH2guPZcXeWkGUMhKVMg","pdf"],L1_BIOLAB:["12GaQxSPdpirxqlMTpCCrGuCo5iEkFO-p","docx"],
+  M2_VIDEO_PHEN:["1T39LvZaT7iFK7jtxnFX20CGrRotjEGdm","mp4"],M2_VIDEO_SMITH:["1stSTgV4woH-nEZAbvq9KWXEfBOzavyLf","mp4"],
+  M2_STEM_ECO:["1uaKJB8zjIjoMTE43-DVzMm-0GZd41Af1","pdf"],M2_GOFURTHER:["1do0v01OYDJQpXi_8upkidoTkuntGOE3U","pdf"],M2_FOODWEB:["1Orr1RVmG64wLFVGSPG2-lbTCftyMtHY2","pdf"],
+  M2_CO2:["1m-YQXtz7XFEbrN5XOpsAA8KJN-yz0x_C","pdf"],M2_JAR:["1lbCBSbuaevOAd-yG6hswXCfG2c3cfnRd","pdf"],M2_RE:["1wkm5zSjszSgXBMaSbTN40yZqgAGzJZFk","pdf"],
+  M2_SN:["12Nqzw_z45LuOz2I7X9Uwevvd7OjfSKSX","pdf"],M2_RE_ES:["1-v38hg-HQmhRpV5IR3DG8-GNwVJJYkTj","pdf"],M2_SE_ES:["1p4OyyWc9e4HN8Vb-V5B2DA1UFSi71Xvw","pdf"],
+  M2_LAUNCH:["1U1fyMhtYxmMKg0jNo7YaIYMs6SsLBeWa","docx"]};
+let TDRV=null;
+const TDRV_ENC=null;
+const L1="6940108f-4125-4b9b-86a6-b1739347f9ec",L2="d65fd7ab-4da3-41e7-bc07-8c2212e66445",L3="c546ab0f-5fe8-4117-b83c-b94a3f9e6f33",M2="a7f22b6a-548b-4890-aaf1-08cb3106fb58";
+/* where each file goes: repl = replace the McGraw Hill link of an existing item (matched by the title before ":"); add = extra items per section */
+const DRV_PLACE={
+  [L1]:{repl:{"Science Notebook Answer Key":"L1_SN_AK","Reading Essentials Answer Key":"L1_RE_AK","Teacher PowerPoint":"M2_PPT","Science Notebook":"L1_SN","Reading Essentials":"L1_RE","Lesson Check Answer Key":"L1_LC_AK"},
+    add:{"Engage":[["M2_VIDEO_PHEN","Encounter the Phenomenon: Principles of Ecology","Module phenomenon video to open the lesson",["Video"]]],
+      "Elaborate":[["L1_BIOLAB","BioLab: Explore Habitat Size and Species Diversity","Hands-on lab worksheet (Word)",["Lab","Word"]],["L1_BIOLAB_AK","BioLab Answer Key: Explore Habitat Size and Species Diversity","Teacher guide and answers",["PDF"],1],
+        ["M2_STEM_ECO","STEM Connection: Studying a Species like a Theoretical Ecologist","Career reading and modelling task",["STEM","PDF"]],["M2_STEM_ECO_AK","STEM Connection Answer Key: Studying a Species like a Theoretical Ecologist","Teacher guide and answers",["PDF"],1],
+        ["M2_GOFURTHER","Go Further Data Analysis Lab: Does temperature affect growth rates of protozoans?","Graph analysis with a Claim–Evidence–Reasoning question",["Data Analysis","CER","PDF"]],["M2_GOFURTHER_AK","Go Further Answer Key: Does temperature affect growth rates of protozoans?","Teacher guide and answers",["PDF"],1]]}},
+  [L2]:{repl:{"Teacher PowerPoint":"M2_PPT"},
+    add:{"Elaborate":[["M2_FOODWEB","Enrichment: Diagramming a Food Web","Build a food web and label trophic levels",["Enrichment","PDF"]],["M2_FOODWEB_AK","Enrichment Answer Key: Diagramming a Food Web","Teacher guide and answers",["PDF"],1]]}},
+  [L3]:{repl:{"Teacher PowerPoint":"M2_PPT"},
+    add:{"Explore":[["M2_VIDEO_SMITH","Smithsonian · Ecosystems on the Edge: Nutrient Odyssey","Video on how nutrients cycle through ecosystems",["Video"]]],
+      "Elaborate":[["M2_JAR","Real-World Biology Lab: Ecosystem in a Jar","Build a balanced, self-sustaining ecosystem",["Lab","PDF"]],["M2_JAR_AK","Real-World Biology Answer Key: Ecosystem in a Jar","Teacher guide and answers",["PDF"],1],
+        ["M2_CO2","STEM Connection: Looking for Carbon Dioxide","Climate scientist career reading on the carbon cycle",["STEM","PDF"]],["M2_CO2_AK","STEM Connection Answer Key: Looking for Carbon Dioxide","Teacher guide and answers",["PDF"],1]]}},
+  [M2]:{repl:{"Module Planning Guide":"M2_PLANNER","Reading Essentials":"M2_RE","Module Test Answer Key":"M2_TEST_AK"},
+    add:{"Module Planning and Presentation Resources":[["M2_PPT","Teacher PowerPoint: Principles of Ecology","Module presentation",["PowerPoint"],1],["M2_SN_AK","Science Notebook Answer Key: Principles of Ecology","Answer key for the module notebook",["PDF"],1],["M2_RE_AK","Reading Essentials Answer Key: Principles of Ecology","Answer key for the module workbook",["PDF"],1]],
+      "Learning Resources":[["M2_SN","Science Notebook: Principles of Ecology","Cornell-style notebook for the whole module",["PDF"]],["M2_RE_ES","Reading Essentials (Spanish): Principles of Ecology","Spanish edition of the workbook",["PDF","Español"]],["M2_SE_ES","Student Edition (Spanish): Principles of Ecology","Spanish Student Edition for the module",["PDF","Español"]]],
+      "Module Opener":[["M2_VIDEO_PHEN","Encounter the Phenomenon: Principles of Ecology","Watch the module phenomenon and write your questions",["Video"]],["M2_LAUNCH","Launch Lab: Problems in Drosophila World?","Opening lab worksheet (Word)",["Lab","Word"]],["M2_LAUNCH_AK","Launch Lab Answer Key: Problems in Drosophila World?","Teacher guide and answers",["PDF"],1]],
+      "Module Wrap-Up":[["M2_PPT_WRAP","Teacher PowerPoint: Module Wrap-Up","Slides to pull the module together",["PowerPoint"],1],["M2_VOCAB_AK","Module Vocabulary Practice Answer Key: Principles of Ecology","Answer key for the vocabulary practice",["PDF"],1]],
+      "Module Assessment":[["M2_PRETEST_AK","Module Pretest Answer Key: Principles of Ecology","Answer key for the pretest",["PDF"],1]]}}};
+function drvFile(key){return DRV_PUB[key]||(TDRV&&TDRV[key])||null;}
+function drvRepl(nodeId,item){const P=DRV_PLACE[nodeId];if(!P)return item;const k=P.repl[item.t.split(":")[0]];if(k&&drvFile(k))item.drv=k;return item;}
+function drvAdd(nodeId,section){const P=DRV_PLACE[nodeId];if(!P||!P.add[section])return [];return P.add[section].filter(a=>drvFile(a[0])).map(([k,t,d,tags,teacher])=>({t,d,tags,teacher:!!teacher,drv:k}));}
+const drvView=id=>`https://drive.google.com/file/d/${id}/view`,drvDl=id=>`https://drive.google.com/uc?export=download&id=${id}`,drvPrev=id=>`https://drive.google.com/file/d/${id}/preview`;
+function drvItem(r){const [id,kind]=drvFile(r.drv),vid=kind==="mp4";
+  const vis=r.teacher?`<span class="tg t">Teacher Only</span>`:`<span class="tg s">Visible to Students</span>`;
+  const icon={pdf:"PDF",docx:"Word",pptx:"PowerPoint",mp4:"Video"}[kind]||"File";
+  return `<div class="mhres drv"><div class="mhrt">${vid?`<a href="#" data-vid="${id}" data-vt="${esc(r.t)}">${esc(r.t)}</a>`:`<a href="${drvView(id)}" target="_blank" rel="noopener">${esc(r.t)}</a>`}<p>${esc(r.d)}</p><div class="tags">${r.tags.filter(x=>x!==icon).map(x=>`<span class="tg">${esc(x)}</span>`).join("")}<span class="tg drvt">${icon} · Google Drive</span>${isT()?vis:""}</div></div>
+    <div class="drvbtns">${vid?`<a class="mhpres" href="#" data-vid="${id}" data-vt="${esc(r.t)}">▶ Watch</a>`:`<a class="mhpres" href="${drvView(id)}" target="_blank" rel="noopener">Open ↗</a><a class="mhpres drvdl" href="${drvDl(id)}" target="_blank" rel="noopener" title="Download">⬇</a>`}</div></div>`;}
+function drvWire(el){el.querySelectorAll("[data-vid]").forEach(a=>a.onclick=e=>{e.preventDefault();drvPlay(a.dataset.vid,a.dataset.vt);});}
+function drvPlay(id,title){let d=$("drvdlg");if(!d){d=document.createElement("dialog");d.id="drvdlg";d.className="drvdlg";document.body.appendChild(d);d.addEventListener("close",()=>{d.innerHTML="";});d.addEventListener("click",e=>{if(e.target===d)d.close();});}
+  d.innerHTML=`<div class="drvh"><b>${esc(title)}</b><a href="${drvView(id)}" target="_blank" rel="noopener">Open in Drive ↗</a><button type="button" aria-label="Close">✕</button></div><div class="drvv"><iframe src="${drvPrev(id)}" allow="autoplay; fullscreen" allowfullscreen title="${esc(title)}"></iframe></div>`;
+  d.querySelector("button").onclick=()=>d.close();d.showModal();}
+async function drvTeacherLoad(st){
+  if(st.td){TDRV=st.td;return;}
+  if(TDRV_ENC&&st._key){try{const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:ub(TDRV_ENC[0])},st._key,ub(TDRV_ENC[1]));TDRV=JSON.parse(td.decode(pt));}catch(_){TDRV=null;}}
+}
+{const s0=showTeacher;showTeacher=function(st){const r=s0.apply(this,arguments);drvTeacherLoad(st).then(()=>{if($("coursesview")?.style.display==="block"&&CRS.cur==="bio")openBio(BIOX.node);});return r;};}
+{const lo=logout;logout=function(){TDRV=null;return lo.apply(this,arguments);};}
 
 /* ===== Interactive lessons (original Al-Anjal content, McGraw Hill lesson as the anchor) ===== */
 /* Each lesson: id = McGraw Hill lesson folder id; content written for this portal. */
