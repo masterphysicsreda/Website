@@ -566,6 +566,40 @@ html[data-theme=light] .lpkpi>div,html[data-theme=light] .lprow{background:rgba(
 .mhddl{display:none;background:#f7f9fd}.mhdd.open .mhddl{display:flex;flex-direction:column}.mhddl .mhli{padding-left:30px}
 .mhdd .mhddh:hover{background:#f2f6fc}.mhdd .mhddh:focus-visible{outline:2px solid #1652b8;outline-offset:-2px}
 .mhlist.mhdd{max-height:none}
+#gbview{display:none;width:100%;max-width:1400px}
+.gbsel{display:flex;gap:8px;align-items:center;margin:0;font-size:13px;color:var(--muted)}.gbsel select{background:rgba(0,0,0,.25);color:var(--ink);border:1px solid rgba(143,227,184,.3);border-radius:10px;padding:8px 10px;font:600 14px Inter}
+html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,.2)}
+.gbsheet{background:#fff;color:#10232f;border-radius:20px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.18);--ln:#cad5dd;--mu:#53687a}
+.gbsheet .sbtn{color:#13285c;background:#eef3fb;border:1.5px solid #c9d6ea;margin:0}.gbsheet .sbtn:hover{background:#dfe9f8}.gbsheet .sbtn.pri{background:#1d8656;color:#fff;border-color:#1d8656}
+.gbbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}.gbsp{flex:1}.gbchk{display:flex;gap:6px;align-items:center;margin:0;font-size:13px;color:#53687a}
+.gbstat{font-size:12.5px;color:#1d8656;min-width:90px}.gbstat.bad{color:#c03c2c}.gbsub{font-size:13px;color:#53687a;margin:4px 0 10px;line-height:1.5}
+.gbwrap{overflow:auto;max-height:70vh;border:1px solid #dfe5ee;border-radius:12px}
+.gbtbl{border-collapse:separate;border-spacing:0;width:100%;font:14px Inter,sans-serif}
+.gbtbl th,.gbtbl td{border-bottom:1px solid #e8edf2;border-right:1px solid #eef2f6;padding:4px 6px;text-align:center;background:#fff}
+.gbtbl thead th{position:sticky;top:0;z-index:3;background:#f4f7fa;vertical-align:top;min-width:92px}
+.gbtbl .gbno{position:sticky;left:0;z-index:2;width:34px;min-width:34px;color:#8a99a8;font-size:12px}
+.gbtbl .gbname{position:sticky;left:34px;z-index:2;text-align:right;min-width:230px;max-width:280px;font:15px Tajawal,Inter,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:2px 0 0 #dfe5ee}
+.gbtbl thead .gbno,.gbtbl thead .gbname{z-index:4;background:#f4f7fa;text-align:left;font:600 13px Inter}
+.gbtbl .gbname small{color:#8a99a8;font:11px Inter;margin-right:6px}
+.gbh{display:grid;gap:2px;justify-items:center}.gbhl{border:0;background:none;font:700 13px Inter;color:#13285c;cursor:pointer;padding:2px 4px;border-radius:6px;white-space:normal;line-height:1.2}.gbhl:hover{background:#e3ecfa}.gbhl i{font-style:normal;color:#8a99a8}
+.gbh small{font-size:11px;color:#8a99a8}.gbh .gbobj{color:#1d8656}.gbh .gbdate{color:#2b6fb8}
+.gbtbl th.calc{background:#e8f5ee!important}.gbtbl td.calc{background:#f3faf6;font-weight:700;color:#14563a}.gbtbl td.calc.mid{color:#a8650a;background:#fdf6e9}.gbtbl td.calc.low{color:#c03c2c;background:#fcefed}
+.gbtbl th.t-total,.gbtbl td.t-total{background:#e3ecfa!important;color:#13285c;font-size:15px}
+.gbin{width:62px;padding:6px 4px;border:1px solid transparent;border-radius:6px;text-align:center;font:600 15px Inter;color:#10232f;background:transparent}
+.gbin:hover{border-color:#cad5dd}.gbin:focus{outline:none;border-color:#2b6fb8;background:#eef5ff}.gbin.bad{border-color:#c03c2c;background:#fbe5e2;animation:gbshake .3s}
+@keyframes gbshake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.gbfoot td{position:sticky;bottom:0;background:#f4f7fa!important;font-weight:700;color:#13285c;z-index:2}.gbfoot td:nth-child(2){position:sticky;left:34px;z-index:3;text-align:right}
+.gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
+.gbmenu[hidden]{display:none!important}.gbmenu{position:fixed;z-index:80;background:#fff;border:1px solid #cad5dd;border-radius:10px;box-shadow:0 10px 30px rgba(16,35,47,.18);display:grid;min-width:240px;text-align:left;padding:4px}
+.gbmenu button{border:0;background:none;padding:9px 12px;text-align:left;font:14px Inter;color:#10232f;border-radius:6px;cursor:pointer}.gbmenu button:hover{background:#eef3fb}.gbmenu .danger{color:#c03c2c}
+.gbpanel{margin-top:18px;border-top:1px solid #e3e9ef;padding-top:14px}.gbanah{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}.gbanah h3{margin:0;font:700 20px Georgia,serif}.gbanah .ar{font:500 15px Tajawal;color:#53687a}
+.gbtabs{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.gbtabs button{border:1px solid #cad5dd;background:#fff;border-radius:999px;padding:7px 14px;font:600 13px Inter;color:#13285c;cursor:pointer}.gbtabs button.on{background:#13285c;color:#fff;border-color:#13285c}
+.gbkpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}.gbkpi>div{background:#f4f7fa;border-radius:12px;padding:12px 14px;display:grid;gap:2px}.gbkpi b{font:700 24px Georgia,serif;color:#10232f}.gbkpi b small{font-size:14px;color:#53687a}.gbkpi span{font-size:12px;color:#53687a}.gbkpi .warn b{color:#c03c2c}
+.gbcharts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}.gbcharts>div{border:1px solid #e3e9ef;border-radius:12px;padding:6px;overflow:auto}.gbcharts .wide{grid-column:1/-1}.gbcharts svg{width:100%;height:auto;display:block}
+.gbtw{overflow:auto;border:1px solid #e3e9ef;border-radius:12px}.gbst{border-collapse:collapse;width:100%;font:13px Inter}.gbst th{background:#f4f7fa;padding:8px;text-align:left;font-weight:600;color:#13285c;white-space:nowrap;position:sticky;top:0}.gbst td{padding:7px 8px;border-top:1px solid #eef2f6;white-space:nowrap}.gbst td[dir=auto]{font:14px Tajawal,Inter}.gbst tr.calc td{background:#f3faf6;font-weight:600}.gbst .g{color:#1d8656;font-weight:700}.gbst .a{color:#a8650a;font-weight:700}.gbst .r{color:#c03c2c;font-weight:700}
+.gbdlg{border:0;border-radius:16px;padding:0;max-width:560px;width:calc(100% - 32px);box-shadow:0 20px 60px rgba(0,0,0,.35)}.gbdlg form{padding:20px;display:grid;gap:12px;color:#10232f;background:#fff}.gbdlg h3{margin:0;font:700 19px Inter}
+.gbdlg label{display:grid;gap:6px;margin:0;font:600 13px Inter;color:#13285c}.gbdlg label small{font-weight:400;color:#8a99a8}.gbdlg input,.gbdlg textarea{font:15px Inter,Tajawal;padding:9px;border:1px solid #cad5dd;border-radius:8px;color:#10232f;background:#fff;resize:vertical}
+.gbdlgb{display:flex;justify-content:flex-end;gap:8px}.gbdlg::backdrop{background:rgba(6,35,26,.55)}
 #hssync{position:fixed;right:14px;bottom:14px;z-index:70;padding:7px 12px;border-radius:999px;font:600 12.5px Inter,sans-serif;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
 #hssync.ok{opacity:1;transform:none;background:rgba(29,134,86,.92);color:#fff}#hssync.bad{opacity:1;transform:none;background:#b8720c;color:#fff}
 .hslive .hsltop{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:12px}.hslive .hsltop label{display:flex;gap:8px;align-items:center;margin:0;font-size:13px}
@@ -742,6 +776,14 @@ body.nbopen{overflow:hidden}
     <div class="tiles" id="tiles"></div>
   </section>
 
+  <section id="gbview">
+    <div class="card tbar fade">
+      <div><h2>Weekly Assessment <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· التقييم الأسبوعي</span></h2><div class="cls">Quizzes, chapter tests and term marks · out of 50</div></div>
+      <div class="arow"><label class="gbsel">Grade <select id="gbgrade"></select></label><label class="gbsel">Semester <select id="gbsem"></select></label><button class="out" id="gbback" style="margin-top:0">← Dashboard</button></div>
+    </div>
+    <div class="gbsheet" id="gbsheet"></div>
+  </section>
+
   <section id="progview">
     <div class="card tbar fade">
       <div><h2 id="progress"></h2><div class="crumb" id="progcrumb"></div></div>
@@ -887,18 +929,18 @@ const sid=$("sid");
 sid.addEventListener("input",()=>{sid.value=sid.value.replace(/\D/g,"").slice(0,10);$("err").textContent="";});
 
 
-const META={"My Progress":{"c":"#f7a8d0","svg":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21V11\"/><path d=\"M12 13c0-3 2-5 5-5 0 3-2 5-5 5z\"/><path d=\"M12 16c0-2.5-1.8-4.3-4.3-4.3 0 2.5 1.8 4.3 4.3 4.3z\"/><path d=\"M6 21h12\"/><path d=\"M17 3l2 2-2 2\"/><path d=\"M19 5h-4\"/></svg>","ar":"تقدّمي"},"My Programs": {"c": "#46c48a", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 11 12 4l9 7\"/><path d=\"M5 10v10h14V10\"/><path d=\"M12 20v-5c0-2 1.5-3.5 3.5-3.5-.3 2-1.6 3.4-3.5 3.5M12 17c0-1.6-1.2-2.8-2.8-2.8.2 1.6 1.2 2.6 2.8 2.8\"/></svg>", "ar": "برامجي"}, "Dashboard": {"c": "#46c4c4", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><rect x=\"13.5\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><rect x=\"3\" y=\"13.5\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><circle cx=\"17.25\" cy=\"17.25\" r=\"3.75\"/><circle cx=\"17.25\" cy=\"17.25\" r=\"1.2\"/></svg>", "ar": "لوحة التحكم"}, "Course": {"c": "#8fe3b8", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 5c3-1 6-1 10 1.5C16 4 19 4 22 5v14c-3-1-6-1-10 1.5C8 18 5 18 2 19z\"/><path d=\"M12 6.5v14\"/><path d=\"M6 9.5c1.2-.3 2.4-.2 3.5.3M14.5 9.8c1.1-.5 2.3-.6 3.5-.3\"/></svg>", "ar": "المقرر"}, "Gradebook": {"c": "#ffcf6b", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8M8 12h8M8 16h4\"/><path d=\"m14.5 16.5 1.3 1.3 2.7-2.8\"/></svg>", "ar": "سجل الدرجات"}, "Calendar": {"c": "#7fb2ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M8 3v4M16 3v4\"/><path d=\"M12 13.5c1.5 0 2.5 1 2.5 2.5S13.5 18.5 12 18.5 9.5 17.5 9.5 16\"/></svg>", "ar": "التقويم"}, "Assignments": {"c": "#ff9c8a", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 3h6l1 2h3v16H5V5h3z\"/><path d=\"M9 3v3h6V3\"/><path d=\"m8.5 13 2 2 4.5-4.5\"/></svg>", "ar": "الواجبات"}, "Roster": {"c": "#c6a6ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"8\" r=\"3.2\"/><path d=\"M3 20c.6-3.4 3-5.3 6-5.3s5.4 1.9 6 5.3\"/><circle cx=\"17\" cy=\"9\" r=\"2.4\"/><path d=\"M16.5 14.2c2.4.2 4 1.8 4.5 4.3\"/></svg>", "ar": "قائمة الطلاب"}, "Reports": {"c": "#5fd3a0", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v18h18\"/><path d=\"M7 15l3.5-4 3 3L20 7\"/><circle cx=\"20\" cy=\"7\" r=\"1.3\"/></svg>", "ar": "التقارير"}, "Assessments": {"c": "#ffb86b", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3\"/><path d=\"M7.5 15h9\"/><circle cx=\"10.5\" cy=\"17.7\" r=\".6\"/><circle cx=\"13.5\" cy=\"17\" r=\".6\"/></svg>", "ar": "الاختبارات"}, "My Tools": {"c": "#9ee0ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"3\"/><path d=\"M14 14l6 6\"/><path d=\"M8 3h6M11 3v5\"/><path d=\"M4 21h9\"/><path d=\"M6 21v-3a5 5 0 0 1 2-4\"/></svg>", "ar": "أدواتي"}};
+const META={"Weekly Assessment":{"c":"#7fc8ff","svg":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8M8 12h3M8 16h3\"/><path d=\"M14 13.5l1.5 1.5 3-3.5\"/></svg>","ar":"التقييم الأسبوعي"},"My Progress":{"c":"#f7a8d0","svg":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 21V11\"/><path d=\"M12 13c0-3 2-5 5-5 0 3-2 5-5 5z\"/><path d=\"M12 16c0-2.5-1.8-4.3-4.3-4.3 0 2.5 1.8 4.3 4.3 4.3z\"/><path d=\"M6 21h12\"/><path d=\"M17 3l2 2-2 2\"/><path d=\"M19 5h-4\"/></svg>","ar":"تقدّمي"},"My Programs": {"c": "#46c48a", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 11 12 4l9 7\"/><path d=\"M5 10v10h14V10\"/><path d=\"M12 20v-5c0-2 1.5-3.5 3.5-3.5-.3 2-1.6 3.4-3.5 3.5M12 17c0-1.6-1.2-2.8-2.8-2.8.2 1.6 1.2 2.6 2.8 2.8\"/></svg>", "ar": "برامجي"}, "Dashboard": {"c": "#46c4c4", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><rect x=\"13.5\" y=\"3\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><rect x=\"3\" y=\"13.5\" width=\"7.5\" height=\"7.5\" rx=\"2\"/><circle cx=\"17.25\" cy=\"17.25\" r=\"3.75\"/><circle cx=\"17.25\" cy=\"17.25\" r=\"1.2\"/></svg>", "ar": "لوحة التحكم"}, "Course": {"c": "#8fe3b8", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M2 5c3-1 6-1 10 1.5C16 4 19 4 22 5v14c-3-1-6-1-10 1.5C8 18 5 18 2 19z\"/><path d=\"M12 6.5v14\"/><path d=\"M6 9.5c1.2-.3 2.4-.2 3.5.3M14.5 9.8c1.1-.5 2.3-.6 3.5-.3\"/></svg>", "ar": "المقرر"}, "Gradebook": {"c": "#ffcf6b", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><path d=\"M8 8h8M8 12h8M8 16h4\"/><path d=\"m14.5 16.5 1.3 1.3 2.7-2.8\"/></svg>", "ar": "سجل الدرجات"}, "Calendar": {"c": "#7fb2ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 10h18M8 3v4M16 3v4\"/><path d=\"M12 13.5c1.5 0 2.5 1 2.5 2.5S13.5 18.5 12 18.5 9.5 17.5 9.5 16\"/></svg>", "ar": "التقويم"}, "Assignments": {"c": "#ff9c8a", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 3h6l1 2h3v16H5V5h3z\"/><path d=\"M9 3v3h6V3\"/><path d=\"m8.5 13 2 2 4.5-4.5\"/></svg>", "ar": "الواجبات"}, "Roster": {"c": "#c6a6ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"9\" cy=\"8\" r=\"3.2\"/><path d=\"M3 20c.6-3.4 3-5.3 6-5.3s5.4 1.9 6 5.3\"/><circle cx=\"17\" cy=\"9\" r=\"2.4\"/><path d=\"M16.5 14.2c2.4.2 4 1.8 4.5 4.3\"/></svg>", "ar": "قائمة الطلاب"}, "Reports": {"c": "#5fd3a0", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v18h18\"/><path d=\"M7 15l3.5-4 3 3L20 7\"/><circle cx=\"20\" cy=\"7\" r=\"1.3\"/></svg>", "ar": "التقارير"}, "Assessments": {"c": "#ffb86b", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3\"/><path d=\"M7.5 15h9\"/><circle cx=\"10.5\" cy=\"17.7\" r=\".6\"/><circle cx=\"13.5\" cy=\"17\" r=\".6\"/></svg>", "ar": "الاختبارات"}, "My Tools": {"c": "#9ee0ff", "svg": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"3\"/><path d=\"M14 14l6 6\"/><path d=\"M8 3h6M11 3v5\"/><path d=\"M4 21h9\"/><path d=\"M6 21v-3a5 5 0 0 1 2-4\"/></svg>", "ar": "أدواتي"}};
 function renderTiles(box,links){
   box.innerHTML="";
   if(box.id==="tiles"||box.id==="stiles")NAVLINKS=links;
   links.filter(x=>x[0][0]!=="_").forEach(([lb,url],i)=>{const m=META[lb]||{c:"#8fe3b8",svg:"",ar:""};
     const a=document.createElement(url?"a":"div");a.className="tile"+(url?"":" off");
-    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
+    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
     else if(url){a.href=url;a.target="_blank";a.rel="noopener";}
     a.style.setProperty("--c",m.c);a.style.animationDelay=(i*0.05)+"s";
     a.innerHTML=`<span class="ti">${m.svg}</span><span class="tl"></span><span class="ta"></span><span class="go"></span>`;
     a.querySelector(".tl").textContent=lb;a.querySelector(".ta").textContent=m.ar;
-    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
+    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
 }
 function showTeacher(st){
   $("login").style.display="none";$("home").style.display="none";$("teach").style.display="block";
@@ -2676,9 +2718,364 @@ function hsPinUI(){const box=$("idm");if(!box||$("hspinbtn"))return;const b=docu
 {const s0=show;show=function(st,id){const r=s0.apply(this,arguments);if(!st.t)hsPinUI();return r;};}
 }
 
+/* ===== Weekly Assessment: manual gradebook, statistics, Excel and PDF reports (teacher only) ===== */
+const GB={grade:null,sem:"Semester 1",data:null,saveT:null,tab:"overview",compact:false,status:""};
+const GB_SEMS=["Semester 1","Semester 2","Semester 3"];
+const GB_PASS=0.5,GB_RISK=0.6;
+const GB_BANDS=[[0.9,"A","Excellent","ممتاز"],[0.8,"B","Very good","جيد جداً"],[0.7,"C","Good","جيد"],[0.6,"D","Satisfactory","مقبول"],[0.5,"E","Pass","ناجح"],[0,"F","Below pass","دون النجاح"]];
+const gbBand=p=>GB_BANDS.find(b=>p>=b[0]);
+function gbDefault(){return {v:1,nq:2,nt:2,labels:{qavg:"Quiz Average",tavg:"Chapter Test Average",total:"Total"},
+  cols:[{id:"q1",type:"quiz",label:"Quiz 1",max:5},{id:"q2",type:"quiz",label:"Quiz 2",max:5},{id:"t1",type:"test",label:"Chapter Test 1",max:10},{id:"t2",type:"test",label:"Chapter Test 2",max:10},
+    {id:"hw",type:"hw",label:"Homework",max:5},{id:"proj",type:"proj",label:"Project",max:5},{id:"part",type:"part",label:"Participation",max:5},{id:"term",type:"term",label:"Term Exam",max:20}],marks:{}};}
+const gbBook=()=>GB.grade+"|"+GB.sem;
+const gbIsT=()=>!!(CAL.user?.t||TEACH);
+function gbRoster(g){
+  if(window.HOSTED&&window.HS?.roster)return HS.roster.filter(s=>s.g===g).map(s=>({k:s.id,n:s.n,i:s.id.slice(-4)})).sort((a,b)=>a.n.localeCompare(b.n,"ar"));
+  return (TEACH?.r?.[g]||[]).map(s=>({k:s.n+"|"+s.i,n:s.n,i:s.i})).sort((a,b)=>a.n.localeCompare(b.n,"ar"));
+}
+function gbGrades(){const set=new Set();if(window.HOSTED&&window.HS?.roster)HS.roster.forEach(s=>set.add(s.g));else Object.keys(TEACH?.r||{}).forEach(g=>set.add(g));
+  return [...set].sort((a,b)=>({"Grade 9B":9,"Grade 10":10,"Grade 11":11,"Grade 12":12}[a]||99)-({"Grade 9B":9,"Grade 10":10,"Grade 11":11,"Grade 12":12}[b]||99));}
+
+/* ---------- storage ---------- */
+async function gbLoad(){
+  GB.data=null;let d=null;
+  if(window.HOSTED&&window.HS?.token){try{const r=await hrpc("portal_gb_get",{p_token:HS.token,p_book:gbBook()});d=r?.data||null;}catch(_){gbStatus("Could not load from the server. Check the internet.",true);}}
+  else{try{d=JSON.parse(localStorage.getItem("gb_"+gbBook())||"null")}catch(_){}}
+  GB.data=d&&d.cols?d:gbDefault();
+}
+function gbQueueSave(){gbStatus("Saving…");clearTimeout(GB.saveT);GB.saveT=setTimeout(gbSaveNow,900);}
+async function gbSaveNow(){clearTimeout(GB.saveT);if(!GB.data)return;
+  if(window.HOSTED&&window.HS?.token){try{const r=await hrpc("portal_gb_save",{p_token:HS.token,p_book:gbBook(),p_data:GB.data});gbStatus(r?.ok?"✓ Saved":"Could not save: "+(r?.error||""),!r?.ok);}catch(_){gbStatus("Not saved yet · retrying",true);GB.saveT=setTimeout(gbSaveNow,6000);}}
+  else{try{localStorage.setItem("gb_"+gbBook(),JSON.stringify(GB.data));gbStatus("✓ Saved on this device");}catch(_){gbStatus("Could not save on this device",true);}}
+}
+function gbStatus(t,bad){GB.status=t;const e=$("gbstat");if(e){e.textContent=t;e.className="gbstat"+(bad?" bad":"");}}
+
+/* ---------- maths ---------- */
+const gbNum=v=>v===""||v==null||isNaN(v)?null:+v;
+const gbR=(x,d=2)=>x==null||!isFinite(x)?null:Math.round(x*10**d)/10**d;
+const gbFmt=x=>x==null?"–":String(gbR(x));
+function gbMarks(k){return GB.data.marks[k]||(GB.data.marks[k]={});}
+function gbVal(k,c){return gbNum(GB.data.marks[k]?.[c]);}
+function gbAvgOf(k,type){const v=GB.data.cols.filter(c=>c.type===type).map(c=>gbVal(k,c.id)).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
+function gbTotal(k){const parts=[gbAvgOf(k,"quiz"),gbAvgOf(k,"test"),...["hw","proj","part","term"].map(t=>{const c=GB.data.cols.find(x=>x.type===t);return c?gbVal(k,c.id):null;})];
+  return parts.some(x=>x!=null)?parts.reduce((a,b)=>a+(b||0),0):null;}
+/* every displayed column, in order, with getters */
+function gbColumns(){const D=GB.data,C=D.cols,out=[];
+  C.filter(c=>c.type==="quiz").forEach(c=>out.push({...c,get:k=>gbVal(k,c.id)}));
+  out.push({id:"qavg",type:"qavg",label:D.labels.qavg,max:5,calc:1,get:k=>gbAvgOf(k,"quiz")});
+  C.filter(c=>c.type==="test").forEach(c=>out.push({...c,get:k=>gbVal(k,c.id)}));
+  out.push({id:"tavg",type:"tavg",label:D.labels.tavg,max:10,calc:1,get:k=>gbAvgOf(k,"test")});
+  ["hw","proj","part","term"].forEach(t=>C.filter(c=>c.type===t).forEach(c=>out.push({...c,get:k=>gbVal(k,c.id)})));
+  out.push({id:"total",type:"total",label:D.labels.total,max:50,calc:1,get:k=>gbTotal(k)});
+  return out;}
+const S={
+  mean:a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null,
+  sd:a=>{if(a.length<2)return null;const m=S.mean(a);return Math.sqrt(a.reduce((t,x)=>t+(x-m)**2,0)/(a.length-1));},
+  q:(a,p)=>{if(!a.length)return null;const s=[...a].sort((x,y)=>x-y),i=(s.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);return s[lo]+(s[hi]-s[lo])*(i-lo);},
+  skew:a=>{const n=a.length,m=S.mean(a),s=S.sd(a);if(n<3||!s)return null;return n/((n-1)*(n-2))*a.reduce((t,x)=>t+((x-m)/s)**3,0);},
+  r:(x,y)=>{const n=x.length;if(n<3)return null;const mx=S.mean(x),my=S.mean(y);let a=0,b=0,c=0;for(let i=0;i<n;i++){a+=(x[i]-mx)*(y[i]-my);b+=(x[i]-mx)**2;c+=(y[i]-my)**2;}return b&&c?a/Math.sqrt(b*c):null;},
+};
+function gbStats(){
+  const R=gbRoster(GB.grade),cols=gbColumns(),items=cols.filter(c=>!c.calc&&c.type!=="total");
+  const tot=R.map(s=>({s,t:gbTotal(s.k)})).filter(x=>x.t!=null);
+  const tots=tot.map(x=>x.t),srt=[...tot].sort((a,b)=>a.t-b.t),g=Math.max(1,Math.round(srt.length*0.27));
+  const lowK=new Set(srt.slice(0,g).map(x=>x.s.k)),highK=new Set(srt.slice(-g).map(x=>x.s.k));
+  const col=cols.map(c=>{const v=R.map(s=>c.get(s.k)).filter(x=>x!=null),pct=v.map(x=>x/c.max);
+    const hi=R.filter(s=>highK.has(s.k)).map(s=>c.get(s.k)).filter(x=>x!=null),lo=R.filter(s=>lowK.has(s.k)).map(s=>c.get(s.k)).filter(x=>x!=null);
+    const pairs=R.map(s=>[c.get(s.k),gbTotal(s.k)]).filter(([a,b])=>a!=null&&b!=null);
+    const rit=c.calc||c.type==="total"?null:S.r(pairs.map(p=>p[0]),pairs.map(p=>p[1]-p[0]));
+    return {c,n:v.length,missing:R.length-v.length,mean:S.mean(v),p:S.mean(pct),sd:S.sd(v),med:S.q(v,0.5),q1:S.q(v,0.25),q3:S.q(v,0.75),min:v.length?Math.min(...v):null,max:v.length?Math.max(...v):null,
+      skew:S.skew(v),pass:pct.length?pct.filter(x=>x>=GB_PASS).length/pct.length:null,mastery:pct.length?pct.filter(x=>x>=0.8).length/pct.length:null,
+      D:hi.length&&lo.length?(S.mean(hi)-S.mean(lo))/c.max:null,rit,vals:v};});
+  // Cronbach's alpha over the individual assessments (as % of max), students with all items
+  const aItems=items.filter(c=>R.filter(s=>c.get(s.k)!=null).length>=Math.max(3,R.length*0.6)),full=R.filter(s=>aItems.every(c=>c.get(s.k)!=null));let alpha=null;
+  if(aItems.length>=2&&full.length>=3){const k=aItems.length,iv=aItems.map(c=>S.sd(full.map(s=>c.get(s.k)/c.max))**2),tv=S.sd(full.map(s=>aItems.reduce((t,c)=>t+c.get(s.k)/c.max,0)))**2;alpha=tv?k/(k-1)*(1-iv.reduce((a,b)=>a+b,0)/tv):null;}
+  const sdT=S.sd(tots),sem=alpha!=null&&sdT!=null?sdT*Math.sqrt(Math.max(0,1-alpha)):null;
+  const mT=S.mean(tots);
+  const studs=R.map(s=>{const t=gbTotal(s.k),pct=t!=null?t/50:null,z=t!=null&&sdT?(t-mT)/sdT:null,pr=t!=null?tots.filter(x=>x<t).length/Math.max(1,tots.length)*100+50/Math.max(1,tots.length):null;
+    const qs=GB.data.cols.filter(c=>c.type==="quiz"||c.type==="test").map((c,i)=>[i,gbVal(s.k,c.id),c.max]).filter(x=>x[1]!=null);
+    let slope=null;if(qs.length>=3){const xs=qs.map(x=>x[0]),ys=qs.map(x=>x[1]/x[2]*100),mx=S.mean(xs),my=S.mean(ys);const den=xs.reduce((a,x)=>a+(x-mx)**2,0);slope=den?xs.reduce((a,x,i)=>a+(x-mx)*(ys[i]-my),0)/den:null;}
+    const miss=items.filter(c=>c.get(s.k)==null).length;
+    return {s,t,pct,z,pr,slope,miss,band:pct!=null?gbBand(pct):null};});
+  const ranked=studs.filter(x=>x.t!=null).sort((a,b)=>b.t-a.t);ranked.forEach((x,i)=>x.rank=i+1);
+  const corr=items.map(a=>items.map(b=>{const pr=R.map(s=>[a.get(s.k),b.get(s.k)]).filter(([x,y])=>x!=null&&y!=null);return S.r(pr.map(p=>p[0]),pr.map(p=>p[1]));}));
+  return {R,cols,items,col,alpha,sem,tots,studs,ranked,corr,mT,sdT,medT:S.q(tots,0.5)};
+}
+
+/* ---------- charts (SVG, used on screen and in PDFs) ---------- */
+const GBC={blue:"#2b6fb8",green:"#1d8656",amber:"#c7860f",red:"#c03c2c",ink:"#10232f",mu:"#5b6b7a",grid:"#e3e9ef",band:["#1d8656","#3fa36b","#2b6fb8","#c7860f","#d9822b","#c03c2c"]};
+function gbHist(vals,max,{w=560,h=240,bins=10,title=""}={}){const L=40,B=34,T=title?28:12,pw=w-L-12,ph=h-T-B,cnt=Array(bins).fill(0);vals.forEach(v=>{cnt[Math.min(bins-1,Math.floor(v/max*bins))]++;});const st=Math.max(1,Math.ceil(Math.max(1,...cnt)/4)),m=st*4,bw=pw/bins;
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="Inter,Arial,sans-serif"><rect width="${w}" height="${h}" fill="#fff"/>${title?`<text x="${L}" y="18" font-size="13" font-weight="600" fill="${GBC.ink}">${esc(title)}</text>`:""}`;
+  for(let i=0;i<=4;i++){const y=T+ph-ph*i/4;s+=`<line x1="${L}" x2="${w-12}" y1="${y}" y2="${y}" stroke="${GBC.grid}"/><text x="${L-6}" y="${y+4}" font-size="10" text-anchor="end" fill="${GBC.mu}">${st*i}</text>`;}
+  cnt.forEach((c,i)=>{const x=L+i*bw+2,bh=c/m*ph,lo=i/bins;s+=`<rect x="${x}" y="${T+ph-bh}" width="${bw-4}" height="${bh}" rx="3" fill="${lo>=0.8?GBC.green:lo>=0.6?GBC.blue:lo>=0.5?GBC.amber:GBC.red}"><title>${Math.round(lo*100)}–${Math.round((i+1)/bins*100)}%: ${c} students</title></rect>${c?`<text x="${x+(bw-4)/2}" y="${T+ph-bh-4}" font-size="10" text-anchor="middle" fill="${GBC.ink}">${c}</text>`:""}`;
+    s+=`<text x="${L+i*bw}" y="${T+ph+14}" font-size="10" text-anchor="middle" fill="${GBC.mu}">${Math.round(lo*100)}</text>`;});
+  s+=`<text x="${w-12}" y="${T+ph+14}" font-size="10" text-anchor="end" fill="${GBC.mu}">100%</text><text x="${L+pw/2}" y="${h-4}" font-size="11" text-anchor="middle" fill="${GBC.mu}">score as % of maximum · number of students</text>`;
+  return s+"</svg>";}
+function gbBox(rows,{w=560,title=""}={}){const L=170,R=20,T=title?30:12,rh=30,h=T+rows.length*rh+30,pw=w-L-R,X=p=>L+p*pw;
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="Inter,Arial,sans-serif"><rect width="${w}" height="${h}" fill="#fff"/>${title?`<text x="10" y="18" font-size="13" font-weight="600" fill="${GBC.ink}">${esc(title)}</text>`:""}`;
+  for(let i=0;i<=10;i+=2){const x=X(i/10);s+=`<line x1="${x}" x2="${x}" y1="${T}" y2="${h-24}" stroke="${GBC.grid}"/><text x="${x}" y="${h-10}" font-size="10" text-anchor="middle" fill="${GBC.mu}">${i*10}%</text>`;}
+  rows.forEach((r,i)=>{const y=T+i*rh+rh/2,v=r.vals.map(x=>x/r.max);s+=`<text x="${L-8}" y="${y+4}" font-size="11" text-anchor="end" fill="${GBC.ink}">${esc(r.label.length>24?r.label.slice(0,23)+"…":r.label)}</text>`;
+    if(!v.length)return;const q1=S.q(v,.25),q3=S.q(v,.75),md=S.q(v,.5),iq=q3-q1,lo=Math.max(Math.min(...v),q1-1.5*iq),hi=Math.min(Math.max(...v),q3+1.5*iq),c=r.calc?GBC.green:GBC.blue;
+    s+=`<line x1="${X(lo)}" x2="${X(hi)}" y1="${y}" y2="${y}" stroke="${c}" stroke-width="2"/><rect x="${X(q1)}" y="${y-9}" width="${Math.max(2,X(q3)-X(q1))}" height="18" rx="3" fill="${c}" fill-opacity=".22" stroke="${c}" stroke-width="2"><title>${esc(r.label)}: median ${Math.round(md*100)}%, middle half ${Math.round(q1*100)}–${Math.round(q3*100)}%</title></rect><line x1="${X(md)}" x2="${X(md)}" y1="${y-9}" y2="${y+9}" stroke="${c}" stroke-width="3"/>`;
+    v.filter(x=>x<lo||x>hi).forEach(o=>s+=`<circle cx="${X(o)}" cy="${y}" r="4" fill="#fff" stroke="${GBC.red}" stroke-width="2"/>`);
+    s+=`<circle cx="${X(S.mean(v))}" cy="${y}" r="3.5" fill="${GBC.ink}"><title>mean ${Math.round(S.mean(v)*100)}%</title></circle>`;});
+  return s+"</svg>";}
+function gbBars(items,{w=560,h=240,title="",max=100,suffix="%",colors}={}){if(suffix==="")max=Math.max(1,Math.ceil(max/4))*4;const L=40,B=46,T=title?28:12,pw=w-L-12,ph=h-T-B,bw=pw/Math.max(1,items.length);
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="Inter,Arial,sans-serif"><rect width="${w}" height="${h}" fill="#fff"/>${title?`<text x="${L}" y="18" font-size="13" font-weight="600" fill="${GBC.ink}">${esc(title)}</text>`:""}`;
+  for(let i=0;i<=4;i++){const y=T+ph-ph*i/4;s+=`<line x1="${L}" x2="${w-12}" y1="${y}" y2="${y}" stroke="${GBC.grid}"/><text x="${L-6}" y="${y+4}" font-size="10" text-anchor="end" fill="${GBC.mu}">${Math.round(max*i/4)}${suffix==="%"?"":""}</text>`;}
+  items.forEach(([lab,v],i)=>{const x=L+i*bw+bw*0.15,bh=(v||0)/max*ph,c=colors?colors[i]:(v>=80?GBC.green:v>=60?GBC.blue:v>=50?GBC.amber:GBC.red);
+    s+=`<rect x="${x}" y="${T+ph-bh}" width="${bw*0.7}" height="${bh}" rx="3" fill="${c}"><title>${esc(lab)}: ${v==null?"–":gbR(v,1)+suffix}</title></rect><text x="${x+bw*0.35}" y="${T+ph-bh-4}" font-size="10" text-anchor="middle" fill="${GBC.ink}">${v==null?"":gbR(v,1)+(suffix==="%"?"%":"")}</text>`;
+    const l=lab.length>12?lab.slice(0,11)+"…":lab;s+=`<text x="${x+bw*0.35}" y="${T+ph+14}" font-size="10" text-anchor="middle" fill="${GBC.mu}">${esc(l)}</text>`;});
+  return s+"</svg>";}
+function gbLine(pts,{w=560,h=240,title=""}={}){const L=40,B=46,T=title?28:12,pw=w-L-20,ph=h-T-B,n=pts.length,X=i=>L+(n<2?pw/2:i*pw/(n-1)),Y=v=>T+ph-v/100*ph;
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="Inter,Arial,sans-serif"><rect width="${w}" height="${h}" fill="#fff"/>${title?`<text x="${L}" y="18" font-size="13" font-weight="600" fill="${GBC.ink}">${esc(title)}</text>`:""}`;
+  for(let i=0;i<=4;i++){const y=Y(i*25);s+=`<line x1="${L}" x2="${w-20}" y1="${y}" y2="${y}" stroke="${GBC.grid}"/><text x="${L-6}" y="${y+4}" font-size="10" text-anchor="end" fill="${GBC.mu}">${i*25}%</text>`;}
+  s+=`<line x1="${L}" x2="${w-20}" y1="${Y(60)}" y2="${Y(60)}" stroke="${GBC.amber}" stroke-dasharray="5 4"/><text x="${w-22}" y="${Y(60)-4}" font-size="10" text-anchor="end" fill="${GBC.amber}">60% support line</text>`;
+  const ok=pts.filter(p=>p[1]!=null);if(ok.length)s+=`<path d="${pts.map((p,i)=>p[1]==null?"":`${i&&pts[i-1][1]!=null?"L":"M"}${X(i)} ${Y(p[1])}`).join(" ")}" fill="none" stroke="${GBC.blue}" stroke-width="2"/>`;
+  pts.forEach((p,i)=>{if(p[1]!=null)s+=`<circle cx="${X(i)}" cy="${Y(p[1])}" r="5" fill="${p[2]==="test"?GBC.green:GBC.blue}" stroke="#fff" stroke-width="2"><title>${esc(p[0])}: ${gbR(p[1],1)}%</title></circle><text x="${X(i)}" y="${Y(p[1])-9}" font-size="10" text-anchor="middle" fill="${GBC.ink}">${Math.round(p[1])}</text>`;
+    const l=p[0].length>12?p[0].slice(0,11)+"…":p[0];s+=`<text x="${X(i)}" y="${T+ph+14}" font-size="10" text-anchor="middle" fill="${GBC.mu}">${esc(l)}</text>`;});
+  s+=`<circle cx="${L+6}" cy="${h-10}" r="5" fill="${GBC.blue}"/><text x="${L+14}" y="${h-6}" font-size="10" fill="${GBC.mu}">quiz</text><circle cx="${L+60}" cy="${h-10}" r="5" fill="${GBC.green}"/><text x="${L+68}" y="${h-6}" font-size="10" fill="${GBC.mu}">chapter test</text>`;
+  return s+"</svg>";}
+function gbHeat(labels,M,{w=560}={}){const n=labels.length,L=150,T=110,cs=Math.min(48,(w-L-10)/Math.max(1,n)),h=T+n*cs+10;
+  const col=r=>r==null?"#f1f4f7":r>=0?`rgba(29,111,184,${0.12+0.8*r})`:`rgba(192,60,44,${0.12+0.8*-r})`;
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" font-family="Inter,Arial,sans-serif"><rect width="${w}" height="${h}" fill="#fff"/>`;
+  labels.forEach((l,i)=>{const t=l.length>18?l.slice(0,17)+"…":l;s+=`<text x="${L-6}" y="${T+i*cs+cs/2+4}" font-size="10.5" text-anchor="end" fill="${GBC.ink}">${esc(t)}</text><text transform="translate(${L+i*cs+cs/2+4} ${T-6}) rotate(-50)" font-size="10.5" fill="${GBC.ink}">${esc(t)}</text>`;});
+  M.forEach((row,i)=>row.forEach((r,j)=>{s+=`<rect x="${L+j*cs+1}" y="${T+i*cs+1}" width="${cs-2}" height="${cs-2}" rx="3" fill="${col(r)}"><title>${esc(labels[i])} × ${esc(labels[j])}: r = ${r==null?"–":r.toFixed(2)}</title></rect><text x="${L+j*cs+cs/2}" y="${T+i*cs+cs/2+4}" font-size="10" text-anchor="middle" fill="${r!=null&&Math.abs(r)>0.55?"#fff":GBC.ink}">${r==null?"":r.toFixed(2)}</text>`;}));
+  return s+"</svg>";}
+
+/* ---------- view ---------- */
+async function openGradebook(){
+  if(!gbIsT())return;
+  hideAllViews();$("gbview").style.display="block";scrollTo(0,0);
+  const gs=gbGrades();if(!GB.grade||!gs.includes(GB.grade))GB.grade=gs.includes("Grade 11")?"Grade 11":gs[0];
+  $("gbgrade").innerHTML=gs.map(g=>`<option ${g===GB.grade?"selected":""}>${esc(g)}</option>`).join("");
+  $("gbsem").innerHTML=GB_SEMS.map(s=>`<option ${s===GB.sem?"selected":""}>${s}</option>`).join("");
+  $("gbsheet").innerHTML='<p class="gbsub">Loading…</p>';
+  await gbLoad();gbRender();
+}
+function gbRender(){
+  document.querySelectorAll("body > .gbmenu").forEach(x=>x.remove());
+  const D=GB.data,R=gbRoster(GB.grade),cols=gbColumns();
+  const head=cols.map(c=>{const ed=!c.calc,canDel=(c.type==="quiz"&&D.cols.filter(x=>x.type==="quiz").length>1)||(c.type==="test"&&D.cols.filter(x=>x.type==="test").length>1);
+    const meta=(c.type==="quiz"||c.type==="test")?`${c.date?`<small class="gbdate">${esc(c.date)}</small>`:""}${c.obj||c.topics?`<small class="gbobj" title="${esc((c.obj||"")+"\n"+(c.topics||""))}">● objectives set</small>`:""}`:"";
+    return `<th class="${c.calc?"calc":""} t-${c.type}" data-col="${c.id}"><div class="gbh"><button class="gbhl" data-menu="${c.id}" title="Column options">${esc(c.label)} <i>⋯</i></button><small>out of ${c.max}${c.calc&&c.type!=="total"?" · average":""}</small>${meta}</div>
+      <div class="gbmenu" id="gbm-${c.id}" hidden><button data-act="rename" data-c="${c.id}">Rename column</button>${c.type==="quiz"||c.type==="test"?`<button data-act="info" data-c="${c.id}">Objectives, topics & date</button><button data-act="report" data-c="${c.id}">Download assessment report (PDF)</button>`:""}${ed?`<button data-act="clear" data-c="${c.id}">Clear this column's marks</button>`:""}${canDel?`<button data-act="del" data-c="${c.id}" class="danger">Delete column</button>`:""}</div></th>`;}).join("");
+  const body=R.map((s,ri)=>`<tr data-k="${esc(s.k)}"><td class="gbno">${ri+1}</td><td class="gbname" dir="auto">${esc(s.n)}<small>…${esc(s.i)}</small></td>${cols.map(c=>{const v=c.get(s.k);
+    if(c.calc){const p=v!=null?v/c.max:null;return `<td class="calc t-${c.type}${p!=null&&p<GB_PASS?" low":p!=null&&p<GB_RISK?" mid":""}" data-calc="${c.id}">${gbFmt(v)}</td>`;}
+    return `<td class="t-${c.type}"><input class="gbin" inputmode="decimal" autocomplete="off" data-c="${c.id}" data-max="${c.max}" value="${v==null?"":v}" aria-label="${esc(s.n)} · ${esc(c.label)}"></td>`;}).join("")}</tr>`).join("");
+  const foot=`<tr class="gbfoot"><td></td><td>Class mean</td>${cols.map(c=>{const v=R.map(s=>c.get(s.k)).filter(x=>x!=null);return `<td data-mean="${c.id}">${v.length?gbFmt(S.mean(v)):"–"}</td>`;}).join("")}</tr>`;
+  $("gbsheet").innerHTML=`<div class="gbbar"><button class="sbtn" id="gbaddq">+ Quiz</button><button class="sbtn" id="gbaddt">+ Chapter test</button><span class="gbsp"></span><label class="gbchk"><input type="checkbox" id="gbcompact" ${GB.compact?"checked":""}> Fit to window</label><button class="sbtn" id="gbxlsx">⬇ Excel</button><button class="sbtn pri" id="gbsemrep">⬇ Semester report (PDF)</button><span class="gbstat" id="gbstat">${esc(GB.status)}</span></div>
+    <p class="gbsub">Type marks directly; a mark above the column's maximum is not accepted. You can paste a column from Excel. Averages and the total update by themselves. Total = ${esc(D.labels.qavg)} (5) + ${esc(D.labels.tavg)} (10) + Homework (5) + Project (5) + Participation (5) + Term Exam (20) = 50.</p>
+    ${R.length?`<div class="gbwrap${GB.compact?" compact":""}" id="gbwrap"><table class="gbtbl"><thead><tr><th class="gbno">#</th><th class="gbname">Student · ${esc(GB.grade)}</th>${head}</tr></thead><tbody>${body}</tbody><tfoot>${foot}</tfoot></table></div>`:`<p class="gbsub">No students in ${esc(GB.grade)}.</p>`}
+    <div class="gbana" id="gbana"></div>`;
+  gbWire();gbRenderAnalysis();
+}
+function gbRefreshRow(tr){const k=tr.dataset.k;gbColumns().filter(c=>c.calc).forEach(c=>{const td=tr.querySelector(`[data-calc="${c.id}"]`);if(!td)return;const v=c.get(k),p=v!=null?v/c.max:null;td.textContent=gbFmt(v);td.className=`calc t-${c.type}${p!=null&&p<GB_PASS?" low":p!=null&&p<GB_RISK?" mid":""}`;});
+  const R=gbRoster(GB.grade);gbColumns().forEach(c=>{const td=document.querySelector(`[data-mean="${c.id}"]`);if(!td)return;const v=R.map(s=>c.get(s.k)).filter(x=>x!=null);td.textContent=v.length?gbFmt(S.mean(v)):"–";});
+  clearTimeout(GB.anaT);GB.anaT=setTimeout(gbRenderAnalysis,700);}
+function gbSet(inp,raw){const max=+inp.dataset.max,k=inp.closest("tr").dataset.k,c=inp.dataset.c,M=gbMarks(k),prev=M[c]??"";
+  const t=String(raw).trim().replace(",",".").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d));
+  if(t===""){delete M[c];inp.value="";inp.classList.remove("bad");gbRefreshRow(inp.closest("tr"));gbQueueSave();return true;}
+  const v=Number(t);
+  if(!/^\d+(\.\d+)?$/.test(t)||!isFinite(v)||v<0||v>max){inp.classList.add("bad");lxToast(v>max?`Not accepted: the maximum for this column is ${max}`:"Type a number (for example 4 or 4.5)",true);inp.value=prev;setTimeout(()=>inp.classList.remove("bad"),900);return false;}
+  M[c]=Math.round(v*100)/100;inp.value=M[c];gbRefreshRow(inp.closest("tr"));gbQueueSave();return true;}
+function gbWire(){
+  const D=GB.data,wrap=$("gbwrap");
+  $("gbaddq").onclick=()=>{const n=++D.nq,id="q"+Date.now().toString(36);const last=D.cols.map(c=>c.type).lastIndexOf("quiz");D.cols.splice(last+1,0,{id,type:"quiz",label:"Quiz "+(D.cols.filter(c=>c.type==="quiz").length+1),max:5});gbQueueSave();gbRender();};
+  $("gbaddt").onclick=()=>{const id="t"+Date.now().toString(36);const last=D.cols.map(c=>c.type).lastIndexOf("test");D.cols.splice(last+1,0,{id,type:"test",label:"Chapter Test "+(D.cols.filter(c=>c.type==="test").length+1),max:10});gbQueueSave();gbRender();};
+  $("gbcompact").onchange=e=>{GB.compact=e.target.checked;$("gbwrap")?.classList.toggle("compact",GB.compact);};
+  $("gbxlsx").onclick=gbExcel;$("gbsemrep").onclick=()=>gbPdf("semester");
+  if(!wrap)return;
+  wrap.querySelectorAll(".gbin").forEach(inp=>{
+    inp.onchange=()=>gbSet(inp,inp.value);
+    inp.onkeydown=e=>{const td=inp.closest("td"),tr=td.closest("tr"),i=[...tr.children].indexOf(td);
+      const go=row=>{const t=row?.children[i]?.querySelector(".gbin");if(t){t.focus();t.select();}};
+      if(e.key==="Enter"||e.key==="ArrowDown"){e.preventDefault();if(gbSet(inp,inp.value)!==false)go(tr.nextElementSibling);}
+      else if(e.key==="ArrowUp"){e.preventDefault();if(gbSet(inp,inp.value)!==false)go(tr.previousElementSibling);}};
+    inp.onpaste=e=>{const txt=(e.clipboardData||window.clipboardData).getData("text");if(!/[\n\t]/.test(txt.trim()))return;e.preventDefault();
+      const rows=txt.replace(/\r/g,"").split("\n").filter((x,i,a)=>x!==""||i<a.length-1);let tr=inp.closest("tr");const ci=[...tr.children].indexOf(inp.closest("td"));let bad=0;
+      rows.forEach(line=>{if(!tr)return;line.split("\t").forEach((cell,j)=>{const t=tr.children[ci+j]?.querySelector(".gbin");if(t&&gbSet(t,cell)===false)bad++;});tr=tr.nextElementSibling;});
+      if(bad)lxToast(`${bad} pasted value${bad>1?"s were":" was"} above the maximum or not a number and ${bad>1?"were":"was"} skipped`,true);};
+    inp.onfocus=()=>inp.select();});
+  wrap.querySelectorAll("[data-menu]").forEach(b=>b.onclick=e=>{e.stopPropagation();const m=$("gbm-"+b.dataset.menu),open=m.hidden;document.querySelectorAll(".gbmenu").forEach(x=>x.hidden=true);m.hidden=!open;if(open){if(m.parentElement!==document.body)document.body.appendChild(m);const r=b.getBoundingClientRect();m.style.top=Math.min(innerHeight-m.offsetHeight-8,r.bottom+4)+"px";m.style.left=Math.max(8,Math.min(innerWidth-m.offsetWidth-8,r.left))+"px";}});
+  wrap.querySelectorAll(".gbmenu button").forEach(b=>b.onclick=()=>{b.parentElement.hidden=true;gbColAction(b.dataset.act,b.dataset.c);});
+  if(!GB._doc){GB._doc=1;const hide=()=>document.querySelectorAll(".gbmenu").forEach(x=>x.hidden=true);document.addEventListener("click",hide);addEventListener("scroll",hide,true);}
+}
+function gbColAction(act,id){const D=GB.data,c=D.cols.find(x=>x.id===id),calc=["qavg","tavg","total"].includes(id);
+  if(act==="rename"){const cur=calc?D.labels[id]:c.label,n=prompt("New column name:",cur);if(n&&n.trim()){if(calc)D.labels[id]=n.trim().slice(0,40);else c.label=n.trim().slice(0,40);gbQueueSave();gbRender();}}
+  else if(act==="del"){if(confirm(`Delete "${c.label}" and all its marks? This cannot be undone.`)){D.cols=D.cols.filter(x=>x.id!==id);Object.values(D.marks).forEach(m=>delete m[id]);gbQueueSave();gbRender();}}
+  else if(act==="clear"){if(confirm(`Clear every mark in "${c.label}"?`)){Object.values(D.marks).forEach(m=>delete m[id]);gbQueueSave();gbRender();}}
+  else if(act==="info")gbInfoDlg(c);
+  else if(act==="report")gbPdf("assessment",id);}
+function gbInfoDlg(c){let d=$("gbdlg");if(!d){d=document.createElement("dialog");d.id="gbdlg";d.className="gbdlg";document.body.appendChild(d);}
+  d.innerHTML=`<form method="dialog"><h3>${esc(c.label)} · objectives & topics</h3><label>Date<input type="date" id="gbdd" value="${esc(c.date||"")}"></label>
+    <label>Lesson objectives tested <small>(one per line)</small><textarea id="gbdo" rows="5" dir="auto" placeholder="e.g. Describe the levels of ecological organisation">${esc(c.obj||"")}</textarea></label>
+    <label>Lessons / topics <small>(one per line)</small><textarea id="gbdt" rows="4" dir="auto" placeholder="e.g. Module 2 Lesson 1: Organisms and Their Relationships">${esc(c.topics||"")}</textarea></label>
+    <div class="gbdlgb"><button value="cancel" class="sbtn">Cancel</button><button value="ok" class="sbtn pri" id="gbdok">Save</button></div></form>`;
+  d.showModal();$("gbdok").onclick=e=>{e.preventDefault();c.date=$("gbdd").value;c.obj=$("gbdo").value.trim().slice(0,3000);c.topics=$("gbdt").value.trim().slice(0,2000);d.close();gbQueueSave();gbRender();};}
+
+/* ---------- analysis panel ---------- */
+function gbRenderAnalysis(){const host=$("gbana");if(!host||!GB.data)return;const st=gbStats();
+  if(!st.tots.length){host.innerHTML=`<div class="gbpanel"><h3>Data analysis</h3><p class="gbsub">The analysis appears here as soon as marks are entered.</p></div>`;return;}
+  const tabs=[["overview","Overview"],["items","Assessment analysis"],["corr","Correlations"],["students","Students"],["trend","Trend"]];
+  const pct=x=>x==null?"–":Math.round(x*100)+"%",f=x=>x==null?"–":gbR(x),T=st.tots.length,pass=st.tots.filter(t=>t/50>=GB_PASS).length,risk=st.tots.filter(t=>t/50<GB_RISK).length;
+  let body="";
+  if(GB.tab==="overview"){const bandCounts=GB_BANDS.map(b=>[b[1]+" "+b[2],st.studs.filter(x=>x.band===b).length]);
+    body=`<div class="gbkpi"><div><b>${f(st.mT)}<small>/50</small></b><span>class mean (${pct(st.mT/50)})</span></div><div><b>${f(st.medT)}</b><span>median</span></div><div><b>${f(st.sdT)}</b><span>standard deviation</span></div>
+      <div><b>${f(Math.min(...st.tots))}–${f(Math.max(...st.tots))}</b><span>lowest – highest</span></div><div><b>${Math.round(pass/T*100)}%</b><span>pass rate (≥ 50%) · ${pass}/${T}</span></div><div class="${risk?"warn":""}"><b>${risk}</b><span>students below 60%</span></div>
+      <div><b>${st.alpha==null?"–":st.alpha.toFixed(2)}</b><span>reliability (Cronbach's α)</span></div><div><b>${f(st.sem)}</b><span>standard error of measurement</span></div></div>
+      <div class="gbcharts"><div>${gbHist(st.tots,50,{title:"Distribution of totals"})}</div><div>${gbBars(bandCounts,{title:"Grade bands (number of students)",max:Math.max(4,...bandCounts.map(x=>x[1])),suffix:"",colors:GBC.band})}</div>
+      <div class="wide">${gbBox(st.col.filter(x=>x.n).map(x=>({label:x.c.label,max:x.c.max,vals:x.vals,calc:x.c.calc})),{w:900,title:"Spread of each assessment (box = middle half, line = median, dot = mean, ○ = outlier)"})}</div></div>
+      <p class="gbsub">${gbInsight(st)}</p>`;}
+  else if(GB.tab==="items"){body=`<div class="gbtw"><table class="gbst"><thead><tr><th>Assessment</th><th>n</th><th>Mean</th><th>Difficulty p</th><th>SD</th><th>Median</th><th>Q1–Q3</th><th>Min–Max</th><th>Skew</th><th>Pass ≥50%</th><th>Mastery ≥80%</th><th>Discrimination D</th><th>Item–rest r</th><th>Missing</th></tr></thead><tbody>${st.col.map(x=>`<tr class="${x.c.calc?"calc":""}"><td>${esc(x.c.label)} <small>/${x.c.max}</small></td><td>${x.n}</td><td>${f(x.mean)}</td><td class="${x.p==null?"":x.p<0.5?"r":x.p<0.6?"a":x.p>=0.8?"g":""}">${x.p==null?"–":x.p.toFixed(2)}</td><td>${f(x.sd)}</td><td>${f(x.med)}</td><td>${f(x.q1)}–${f(x.q3)}</td><td>${f(x.min)}–${f(x.max)}</td><td>${x.skew==null?"–":x.skew.toFixed(2)}</td><td>${pct(x.pass)}</td><td>${pct(x.mastery)}</td><td class="${x.D==null?"":x.D<0.2?"r":x.D<0.3?"a":"g"}">${x.D==null?"–":x.D.toFixed(2)}</td><td>${x.rit==null?"–":x.rit.toFixed(2)}</td><td>${x.missing}</td></tr>`).join("")}</tbody></table></div>
+    <p class="gbsub"><b>How to read:</b> difficulty p = mean ÷ maximum (below 0.50 hard, above 0.80 easy). Discrimination D = how much better the top 27% did than the bottom 27% (0.30+ good, below 0.20 the assessment does not separate strong and weak students well). Item–rest r = correlation of the assessment with the rest of the total. Skew below 0 means most students scored high.</p>`;}
+  else if(GB.tab==="corr"){body=`<div class="gbcharts"><div class="wide">${gbHeat(st.items.map(c=>c.label),st.corr,{w:Math.min(900,170+st.items.length*52)})}</div></div><p class="gbsub">Pearson correlation between assessments (blue = students who do well on one tend to do well on the other; red = the opposite). Values near 0 mean the two assessments measure different things.</p>`;}
+  else if(GB.tab==="students"){const rows=[...st.studs].sort((a,b)=>(b.t??-1)-(a.t??-1));
+    body=`<div class="gbtw"><table class="gbst"><thead><tr><th>Rank</th><th>Student</th><th>Total /50</th><th>%</th><th>Band</th><th>z-score</th><th>Percentile</th><th>Trend (quizzes & tests)</th><th>Missing marks</th><th>Flag</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${x.rank||"–"}</td><td dir="auto">${esc(x.s.n)}</td><td>${f(x.t)}</td><td>${pct(x.pct)}</td><td>${x.band?x.band[1]+" · "+x.band[2]:"–"}</td><td class="${x.z==null?"":x.z<-1?"r":x.z>1?"g":""}">${x.z==null?"–":x.z.toFixed(2)}</td><td>${x.pr==null?"–":Math.round(x.pr)}</td><td class="${x.slope==null?"":x.slope<-3?"r":x.slope>3?"g":""}">${x.slope==null?"–":(x.slope>0?"▲ +":x.slope<0?"▼ ":"")+x.slope.toFixed(1)+" pts/assessment"}</td><td>${x.miss||""}</td><td>${x.pct==null?"No marks":x.pct<GB_PASS?"⚠ Below pass":x.pct<GB_RISK?"⚠ At risk":x.slope!=null&&x.slope<-5?"↓ Declining":x.pct>=0.9?"★ Excellent":""}</td></tr>`).join("")}</tbody></table></div>`;}
+  else{const seq=GB.data.cols.filter(c=>c.type==="quiz"||c.type==="test").map(c=>{const v=st.R.map(s=>gbVal(s.k,c.id)).filter(x=>x!=null);return [c.label,v.length?S.mean(v)/c.max*100:null,c.type];});
+    body=`<div class="gbcharts"><div class="wide">${gbLine(seq,{w:900,title:"Class mean on each quiz and chapter test (% of maximum)"})}</div></div>`;}
+  host.innerHTML=`<div class="gbpanel"><div class="gbanah"><h3>Data analysis <span class="ar">تحليل البيانات</span></h3><span class="gbsub">${T} of ${st.R.length} students with marks · ${esc(GB.grade)} · ${esc(GB.sem)}</span></div><div class="gbtabs">${tabs.map(([k,n])=>`<button class="${GB.tab===k?"on":""}" data-gbt="${k}">${n}</button>`).join("")}</div>${body}</div>`;
+  host.querySelectorAll("[data-gbt]").forEach(b=>b.onclick=()=>{GB.tab=b.dataset.gbt;gbRenderAnalysis();});
+}
+function gbInsight(st){const it=st.col.filter(x=>!x.c.calc&&x.c.type!=="total"&&x.n);if(!it.length)return "";
+  const hard=[...it].sort((a,b)=>a.p-b.p)[0],easy=[...it].sort((a,b)=>b.p-a.p)[0],weakD=it.filter(x=>x.D!=null&&x.D<0.2);
+  const risk=st.studs.filter(x=>x.pct!=null&&x.pct<GB_RISK).map(x=>x.s.n);
+  return `<b>Summary:</b> the hardest assessment so far is <b>${esc(hard.c.label)}</b> (mean ${Math.round(hard.p*100)}%) and the easiest is <b>${esc(easy.c.label)}</b> (${Math.round(easy.p*100)}%). ${weakD.length?`${weakD.map(x=>esc(x.c.label)).join(", ")} ${weakD.length>1?"do":"does"} not separate stronger and weaker students well; review the questions. `:""}${risk.length?`${risk.length} student${risk.length>1?"s are":" is"} below 60% and may need support.`:"No student is below 60%."}${st.alpha!=null?` Reliability α = ${st.alpha.toFixed(2)} (${st.alpha>=0.8?"good":st.alpha>=0.7?"acceptable":"low; the assessments measure different things or there are few of them"}).`:""}`;}
+
+/* ---------- Excel (.xlsx built in the browser) ---------- */
+const GB_CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0;}return t;})();
+const gbCrc=b=>{let c=0xFFFFFFFF;for(let i=0;i<b.length;i++)c=GB_CRC[(c^b[i])&255]^(c>>>8);return (c^0xFFFFFFFF)>>>0;};
+function gbZip(files){const enc=new TextEncoder(),out=[],cen=[];let off=0;const u16=v=>[v&255,(v>>8)&255],u32=v=>[v&255,(v>>8)&255,(v>>16)&255,(v>>>24)&255];
+  files.forEach(([name,str])=>{const nb=enc.encode(name),db=enc.encode(str),crc=gbCrc(db);
+    const lh=new Uint8Array([0x50,0x4b,3,4,...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(crc),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0)]);
+    out.push(lh,nb,db);cen.push(new Uint8Array([0x50,0x4b,1,2,...u16(20),...u16(20),...u16(0x0800),...u16(0),...u16(0),...u16(0x21),...u32(crc),...u32(db.length),...u32(db.length),...u16(nb.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(0),...u32(off)]),nb);off+=lh.length+nb.length+db.length;});
+  const cl=cen.reduce((a,b)=>a+b.length,0),end=new Uint8Array([0x50,0x4b,5,6,0,0,0,0,...u16(files.length),...u16(files.length),...u32(cl),...u32(off),0,0]);
+  return new Blob([...out,...cen,end],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});}
+const gbXe=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,"");
+const gbColL=i=>{let s="";i++;while(i>0){const m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26);}return s;};
+function gbSheet(rows,widths,{freeze}={}){/* rows: arrays of cells: string | number | null | {f,v,s} ; style 1 = header, 2 = bold, 3 = 2dp number */
+  const xr=rows.map((r,ri)=>`<row r="${ri+1}">${r.map((c,ci)=>{if(c==null||c==="")return "";const ref=gbColL(ci)+(ri+1);
+    if(typeof c==="object"){const s=c.s?` s="${c.s}"`:"";if(c.f)return `<c r="${ref}"${s}><f>${gbXe(c.f)}</f>${c.v!=null&&c.v!==""?`<v>${c.v}</v>`:""}</c>`;
+      return typeof c.v==="number"?`<c r="${ref}"${s}><v>${c.v}</v></c>`:`<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${gbXe(c.v)}</t></is></c>`;}
+    return typeof c==="number"?`<c r="${ref}"><v>${c}</v></c>`:`<c r="${ref}" t="inlineStr"><is><t xml:space="preserve">${gbXe(c)}</t></is></c>`;}).join("")}</row>`).join("");
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">${freeze?`<sheetViews><sheetView workbookViewId="0"><pane xSplit="${freeze[0]}" ySplit="${freeze[1]}" topLeftCell="${gbColL(freeze[0])}${freeze[1]+1}" activePane="bottomRight" state="frozen"/></sheetView></sheetViews>`:""}<cols>${widths.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join("")}</cols><sheetData>${xr}</sheetData></worksheet>`;}
+async function gbExcel(){const st=gbStats(),D=GB.data,cols=gbColumns(),R=st.R;
+  const H=["#","Student","ID (last 4)",...cols.map(c=>`${c.label} (/${c.max})`),"Total %","Band"];
+  const idx={};cols.forEach((c,i)=>idx[c.id]=gbColL(3+i));
+  const qL=D.cols.filter(c=>c.type==="quiz").map(c=>idx[c.id]),tL=D.cols.filter(c=>c.type==="test").map(c=>idx[c.id]);
+  const rows=[H.map(h=>({v:h,s:1}))];
+  R.forEach((s,ri)=>{const r=ri+2;rows.push([ri+1,s.n,s.i,...cols.map(c=>{const v=c.get(s.k);
+    if(c.id==="qavg")return {f:`IFERROR(AVERAGE(${qL.map(l=>l+r).join(",")}),"")`,v:v==null?"":gbR(v,4),s:3};
+    if(c.id==="tavg")return {f:`IFERROR(AVERAGE(${tL.map(l=>l+r).join(",")}),"")`,v:v==null?"":gbR(v,4),s:3};
+    if(c.id==="total"){const parts=["qavg","tavg",...D.cols.filter(x=>["hw","proj","part","term"].includes(x.type)).map(x=>x.id)].map(id=>`N(${idx[id]}${r})`);return {f:parts.join("+"),v:v==null?"":gbR(v,4),s:4};}
+    return v==null?null:v;}),{f:`IFERROR(${idx.total}${r}/50,"")`,v:(()=>{const t=gbTotal(s.k);return t==null?"":gbR(t/50,4);})(),s:5},(()=>{const t=gbTotal(s.k);return t==null?"":gbBand(t/50)[1]+" · "+gbBand(t/50)[2];})()]);});
+  const last=R.length+1;rows.push([]);rows.push(["","Class mean",""," ".repeat(0),...[]].slice(0,3).concat(cols.map(c=>({f:`IFERROR(AVERAGE(${idx[c.id]}2:${idx[c.id]}${last}),"")`,s:4}))).map((x,i)=>i===1?{v:"Class mean",s:2}:x));
+  rows.push(["",{v:"Standard deviation",s:2},"",...cols.map(c=>({f:`IFERROR(STDEV(${idx[c.id]}2:${idx[c.id]}${last}),"")`,s:3}))]);
+  const s1=gbSheet(rows,[5,34,10,...cols.map(()=>13),9,18],{freeze:[3,1]});
+  const pct=x=>x==null?"":gbR(x*100,1);
+  const s2=gbSheet([["Assessment","Max","n","Mean","Difficulty p","SD","Median","Q1","Q3","Min","Max mark","Skewness","Pass ≥50% (%)","Mastery ≥80% (%)","Discrimination D","Item–rest r","Missing"].map(v=>({v,s:1})),
+    ...st.col.map(x=>[x.c.label,x.c.max,x.n,gbR(x.mean),x.p==null?"":gbR(x.p,3),gbR(x.sd),gbR(x.med),gbR(x.q1),gbR(x.q3),x.min??"",x.max??"",x.skew==null?"":gbR(x.skew,3),pct(x.pass),pct(x.mastery),x.D==null?"":gbR(x.D,3),x.rit==null?"":gbR(x.rit,3),x.missing].map(v=>v==null?"":v)),
+    [],[{v:"Cronbach's alpha",s:2},st.alpha==null?"":gbR(st.alpha,3)],[{v:"Standard error of measurement",s:2},st.sem==null?"":gbR(st.sem,3)],[{v:"Class mean total",s:2},gbR(st.mT)],[{v:"Students with marks",s:2},st.tots.length]],[30,6,6,8,11,8,8,8,8,8,9,10,13,15,15,12,8]);
+  const s3=gbSheet([["Rank","Student","Total /50","%","Band","z-score","Percentile","Trend (pts per assessment)","Missing marks"].map(v=>({v,s:1})),...[...st.studs].sort((a,b)=>(b.t??-1)-(a.t??-1)).map(x=>[x.rank||"",x.s.n,x.t==null?"":gbR(x.t),pct(x.pct),x.band?x.band[1]+" · "+x.band[2]:"",x.z==null?"":gbR(x.z,3),x.pr==null?"":Math.round(x.pr),x.slope==null?"":gbR(x.slope,2),x.miss])],[7,34,10,8,18,9,10,22,12]);
+  const s4=gbSheet([["Assessment","Type","Max","Date","Objectives tested","Lessons / topics","Class mean %"].map(v=>({v,s:1})),...D.cols.map(c=>{const v=R.map(s=>gbVal(s.k,c.id)).filter(x=>x!=null);return [c.label,{quiz:"Quiz",test:"Chapter test",hw:"Homework",proj:"Project",part:"Participation",term:"Term exam"}[c.type],c.max,c.date||"",c.obj||"",c.topics||"",v.length?gbR(S.mean(v)/c.max*100,1):""];})],[22,14,6,12,60,50,12]);
+  const sheets=[["Marks",s1],["Statistics",s2],["Students",s3],["Assessments",s4]];
+  const styles=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="0.0%"/></numFmts><fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF1D8656"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="6"><xf/><xf fontId="1" fillId="2" applyFont="1" applyFill="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf><xf fontId="2" applyFont="1"/><xf numFmtId="2" applyNumberFormat="1"/><xf numFmtId="2" fontId="2" applyNumberFormat="1" applyFont="1"/><xf numFmtId="164" applyNumberFormat="1"/></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>`;
+  const files=[["[Content_Types].xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join("")}</Types>`],
+    ["_rels/.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ["xl/workbook.xml",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><calcPr fullCalcOnLoad="1"/><sheets>${sheets.map(([n],i)=>`<sheet name="${n}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join("")}</sheets></workbook>`.replace("<calcPr fullCalcOnLoad=\"1\"/><sheets>","<sheets>").replace("</sheets></workbook>","</sheets><calcPr fullCalcOnLoad=\"1\"/></workbook>")],
+    ["xl/_rels/workbook.xml.rels",`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sheets.map((_,i)=>`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join("")}<Relationship Id="rId${sheets.length+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`],
+    ["xl/styles.xml",styles],...sheets.map(([_,x],i)=>[`xl/worksheets/sheet${i+1}.xml`,x])];
+  const blob=gbZip(files),fn=`Weekly-Assessment_${GB.grade.replace(/\s+/g,"")}_${GB.sem.replace(/\s+/g,"")}.xlsx`;
+  const dl=await capUse("downloads");if(!dl){gbStatus("Downloads aren't available in this view.",true);return;}
+  try{await dl.save({filename:fn,data:blob});gbStatus("Excel saved: "+fn);}catch(_){gbStatus("Download cancelled.");}}
+
+/* ---------- PDF reports (canvas pages → existing PDF writer) ---------- */
+function gbSvgImg(svg,w,h){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",`<svg width="${w}" height="${h}" `));});}
+function gbDoc(title,sub){const W=1240,H=1754,M=80,pages=[];let cv,x,y;
+  const page=()=>{cv=document.createElement("canvas");cv.width=W;cv.height=H;x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);pages.push(cv);
+    x.fillStyle="#1d8656";x.fillRect(0,0,W,14);x.fillStyle="#53687a";x.font="18px Inter, Arial";x.textAlign="left";x.fillText("Biology Student Portal · Al-Anjal · "+title,M,48);x.textAlign="right";x.fillText(`Page ${pages.length}`,W-M,48);x.textAlign="left";y=86;};
+  page();
+  const isAr=s=>/[؀-ۿ]/.test(s);
+  const api={W,M,pages,get y(){return y},
+    ensure(h){if(y+h>H-70)page();},
+    h1(t){api.ensure(80);x.fillStyle="#10232f";x.font="700 44px Georgia, serif";x.fillText(t,M,y+40);y+=60;if(sub){x.fillStyle="#53687a";x.font="22px Inter, Arial";x.fillText(sub,M,y+18);y+=40;}},
+    h2(t){api.ensure(70);y+=14;x.fillStyle="#1d8656";x.font="700 28px Inter, Arial";x.fillText(t,M,y+26);y+=40;},
+    p(t,font="21px Inter, Arial",color="#10232f",lh=30){x.font=font;x.fillStyle=color;const words=String(t).split(/\s+/);let ln="";const maxW=W-2*M;
+      for(const w of words){const tt=ln?ln+" "+w:w;if(x.measureText(tt).width>maxW){api.ensure(lh);x.direction=isAr(ln)?"rtl":"ltr";x.textAlign=isAr(ln)?"right":"left";x.fillText(ln,isAr(ln)?W-M:M,y+lh-8);y+=lh;ln=w;}else ln=tt;}
+      if(ln){api.ensure(lh);x.direction=isAr(ln)?"rtl":"ltr";x.textAlign=isAr(ln)?"right":"left";x.fillText(ln,isAr(ln)?W-M:M,y+lh-8);y+=lh;}x.direction="ltr";x.textAlign="left";},
+    list(lines){lines.filter(Boolean).forEach(l=>api.p("•  "+l));},
+    kpis(items){const n=items.length,cw=(W-2*M-(n-1)*16)/n;api.ensure(110);items.forEach(([v,l],i)=>{const cx=M+i*(cw+16);x.fillStyle="#f2f6f8";x.fillRect(cx,y,cw,96);x.fillStyle="#10232f";x.font="700 34px Inter, Arial";x.fillText(v,cx+16,y+46);x.fillStyle="#53687a";x.font="17px Inter, Arial";x.fillText(l,cx+16,y+78);});y+=114;},
+    table(head,rows,widths,{colors}={}){const tw=W-2*M,ws=widths.map(w=>w/widths.reduce((a,b)=>a+b,0)*tw),rh=36;
+      const drawHead=()=>{api.ensure(rh*2);x.fillStyle="#1d8656";x.fillRect(M,y,tw,rh+4);x.fillStyle="#fff";x.font="600 17px Inter, Arial";let cx=M;head.forEach((h,i)=>{x.fillText(String(h).slice(0,30),cx+8,y+25);cx+=ws[i];});y+=rh+4;};
+      drawHead();rows.forEach((r,ri)=>{if(y+rh>H-70){page();drawHead();}if(ri%2){x.fillStyle="#f6f9fb";x.fillRect(M,y,tw,rh);}let cx=M;
+        r.forEach((c,i)=>{const s=c==null?"":String(c),ar=isAr(s);x.font="18px Inter, Arial";x.fillStyle=colors?.(ri,i,c)||"#10232f";let t=s;while(x.measureText(t).width>ws[i]-14&&t.length>2)t=t.slice(0,-2);if(t!==s)t+="…";
+          x.direction=ar?"rtl":"ltr";x.textAlign=ar?"right":"left";x.fillText(t,ar?cx+ws[i]-8:cx+8,y+25);x.direction="ltr";x.textAlign="left";cx+=ws[i];});
+        x.strokeStyle="#e3e9ef";x.lineWidth=1;x.beginPath();x.moveTo(M,y+rh);x.lineTo(M+tw,y+rh);x.stroke();y+=rh;});y+=14;},
+    async chart(svg,vbw,vbh){const w=W-2*M,h=Math.round(w*vbh/vbw);api.ensure(h+10);const im=await gbSvgImg(svg,vbw*2,vbh*2);if(im)x.drawImage(im,M,y,w,h);y+=h+16;},
+    gap(n=10){y+=n;}};
+  return api;}
+const gbVB=svg=>{const m=svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);return m?[+m[1],+m[2]]:[560,240];};
+async function gbChart(doc,svg){const [w,h]=gbVB(svg);await doc.chart(svg,w,h);}
+async function gbPdf(kind,colId){
+  const st=gbStats(),D=GB.data;gbStatus("Preparing the PDF…");
+  try{
+  const f=x=>x==null?"–":String(gbR(x)),pc=x=>x==null?"–":Math.round(x*100)+"%",teacher=CAL.user?.n||TEACH?.n||"";
+  let doc,fname;
+  if(kind==="assessment"){const c=D.cols.find(x=>x.id===colId),cs=st.col.find(x=>x.c.id===colId);
+    doc=gbDoc(c.label,`${GB.grade} · ${GB.sem} · out of ${c.max}${c.date?" · "+c.date:""} · ${teacher}`);doc.h1(`${c.label} · assessment report`);
+    doc.h2("Objectives and topics tested");
+    if(c.obj||c.topics){if(c.obj){doc.p("Objectives:","600 21px Inter, Arial");doc.list(c.obj.split("\n"));}if(c.topics){doc.gap(6);doc.p("Lessons / topics:","600 21px Inter, Arial");doc.list(c.topics.split("\n"));}}
+    else doc.p("No objectives or topics were added for this assessment. Add them from the column menu (⋯ → Objectives, topics & date).","italic 20px Georgia, serif","#53687a");
+    doc.h2("Results at a glance");
+    doc.kpis([[`${f(cs.mean)} / ${c.max}`,"class mean"],[cs.p==null?"–":cs.p.toFixed(2),"difficulty p"],[f(cs.sd),"standard deviation"],[pc(cs.pass),"pass rate (≥ 50%)"],[pc(cs.mastery),"mastery (≥ 80%)"]]);
+    doc.kpis([[f(cs.med),"median"],[`${f(cs.min)}–${f(cs.max)}`,"lowest – highest"],[cs.D==null?"–":cs.D.toFixed(2),"discrimination D"],[cs.rit==null?"–":cs.rit.toFixed(2),"item–rest r"],[String(cs.missing),"missing marks"]]);
+    if(cs.vals.length)await gbChart(doc,gbHist(cs.vals,c.max,{title:"Distribution of marks",w:900,h:300}));
+    doc.h2("Interpretation");
+    doc.p(`${cs.p==null?"No marks yet.":cs.p<0.5?"This assessment was hard for the class: the mean is below half of the maximum. Reteach the objectives above before moving on, and check whether the questions matched what was taught.":cs.p<0.6?"Results are low: many students have not yet secured these objectives. Plan a short review and a follow-up check.":cs.p<0.8?"The class has reached a satisfactory level; focus support on the students listed under 'Needs support'.":"The class has mastered these objectives well. Consider extension tasks for the top group."} ${cs.D!=null?cs.D<0.2?"The assessment does not separate strong and weak students well (D < 0.20); review the questions.":cs.D>=0.3?"The assessment separates stronger and weaker students well (D ≥ 0.30).":"":""}`);
+    const grp=(lo,hi)=>st.R.map(s=>[s,gbVal(s.k,colId)]).filter(([s,v])=>v!=null&&v/c.max>=lo&&v/c.max<hi).map(([s,v])=>`${s.n} (${v})`);
+    doc.h2("Student groups");
+    [["Mastered (≥ 80%)",grp(0.8,9)],["Developing (60–79%)",grp(0.6,0.8)],["Needs support (< 60%)",grp(0,0.6)],["No mark recorded",st.R.filter(s=>gbVal(s.k,colId)==null).map(s=>s.n)]].forEach(([h,l])=>{doc.p(`${h} · ${l.length}`,"600 21px Inter, Arial");doc.p(l.join(" · ")||"—","19px Inter, Arial","#10232f",28);doc.gap(6);});
+    doc.h2("All marks");
+    doc.table(["#","Student","Mark",`%`,"Band"],st.R.map((s,i)=>{const v=gbVal(s.k,colId),p=v==null?null:v/c.max;return [i+1,s.n,v==null?"–":v,p==null?"–":Math.round(p*100)+"%",p==null?"–":gbBand(p)[1]+" · "+gbBand(p)[2]];}),[1,7,2,2,4],{colors:(ri,ci,v)=>ci===3&&v!=="–"?(parseInt(v)<60?"#c03c2c":parseInt(v)>=80?"#1d8656":null):null});
+    fname=`${c.label.replace(/[^\w؀-ۿ-]+/g,"_")}_${GB.grade.replace(/\s+/g,"")}_report.pdf`;}
+  else{doc=gbDoc("Semester report",`${GB.grade} · ${GB.sem} · ${teacher} · ${new Date().toLocaleDateString()}`);doc.h1(`${GB.sem} assessment report`);
+    if(!st.tots.length){doc.p("No marks have been entered yet.");}
+    else{const T=st.tots.length;
+      doc.kpis([[`${f(st.mT)} / 50`,"class mean total"],[f(st.medT),"median"],[f(st.sdT),"standard deviation"],[`${Math.round(st.tots.filter(t=>t/50>=GB_PASS).length/T*100)}%`,"pass rate (≥ 50%)"],[String(st.tots.filter(t=>t/50<GB_RISK).length),"students below 60%"]]);
+      doc.kpis([[st.alpha==null?"–":st.alpha.toFixed(2),"reliability (Cronbach's α)"],[f(st.sem),"std. error of measurement"],[`${T} / ${st.R.length}`,"students with marks"],[String(D.cols.filter(c=>c.type==="quiz").length),"quizzes"],[String(D.cols.filter(c=>c.type==="test").length),"chapter tests"]]);
+      doc.p(gbInsight(st).replace(/<[^>]+>/g,""));
+      await gbChart(doc,gbHist(st.tots,50,{title:"Distribution of totals (/50)",w:900,h:300}));
+      const bc=GB_BANDS.map(b=>[b[1]+" "+b[2],st.studs.filter(x=>x.band===b).length]);await gbChart(doc,gbBars(bc,{title:"Grade bands (number of students)",w:900,h:300,max:Math.max(4,...bc.map(x=>x[1])),suffix:"",colors:GBC.band}));
+      doc.h2("Assessment statistics");
+      doc.table(["Assessment","n","Mean","p","SD","Pass","Mastery","D","r"],st.col.map(x=>[`${x.c.label} /${x.c.max}`,x.n,f(x.mean),x.p==null?"–":x.p.toFixed(2),f(x.sd),pc(x.pass),pc(x.mastery),x.D==null?"–":x.D.toFixed(2),x.rit==null?"–":x.rit.toFixed(2)]),[5,1,1.4,1.2,1.2,1.4,1.6,1.2,1.2]);
+      const seq=D.cols.filter(c=>c.type==="quiz"||c.type==="test").map(c=>{const v=st.R.map(s=>gbVal(s.k,c.id)).filter(x=>x!=null);return [c.label,v.length?S.mean(v)/c.max*100:null,c.type];});
+      await gbChart(doc,gbLine(seq,{w:900,h:300,title:"Class mean on each quiz and chapter test (%)"}));
+      await gbChart(doc,gbBox(st.col.filter(x=>x.n).map(x=>({label:x.c.label,max:x.c.max,vals:x.vals,calc:x.c.calc})),{w:900,title:"Spread of each assessment"}));
+      const objs=D.cols.filter(c=>(c.type==="quiz"||c.type==="test")&&(c.obj||c.topics));
+      if(objs.length){doc.h2("Objectives and topics by assessment");doc.table(["Assessment","Objectives / topics","Class mean"],objs.flatMap(c=>{const v=st.R.map(s=>gbVal(s.k,c.id)).filter(x=>x!=null),m=v.length?Math.round(S.mean(v)/c.max*100)+"%":"–";return [...(c.obj||"").split("\n"),...(c.topics||"").split("\n")].filter(Boolean).map((o,i)=>[i?"":c.label,o,i?"":m]);}),[3,9,2]);}
+      doc.h2("Students ranked by total");
+      doc.table(["Rank","Student","Total","%","Band","z","Trend","Flag"],[...st.studs].sort((a,b)=>(b.t??-1)-(a.t??-1)).map(x=>[x.rank||"–",x.s.n,f(x.t),x.pct==null?"–":Math.round(x.pct*100)+"%",x.band?x.band[1]:"–",x.z==null?"–":x.z.toFixed(2),x.slope==null?"–":(x.slope>0?"+":"")+x.slope.toFixed(1),x.pct==null?"no marks":x.pct<GB_PASS?"below pass":x.pct<GB_RISK?"at risk":x.slope!=null&&x.slope<-5?"declining":""]),[1.2,7,1.4,1.2,1.2,1.2,1.4,2],{colors:(ri,ci,v)=>ci===7&&v&&v!=="no marks"&&v!==""?"#c03c2c":null});
+      doc.h2("Full mark sheet");const cols=gbColumns();
+      doc.table(["Student",...cols.map(c=>c.label.replace("Chapter Test","Test").replace("Average","Avg"))],st.R.map(s=>[s.n,...cols.map(c=>{const v=c.get(s.k);return v==null?"–":gbR(v,1);})]),[5,...cols.map(c=>c.calc?1.4:1.1)]);}
+    fname=`Semester-report_${GB.grade.replace(/\s+/g,"")}_${GB.sem.replace(/\s+/g,"")}.pdf`;}
+  const bytes=lxPdfBytes(doc.pages),dl=await capUse("downloads");if(!dl){gbStatus("Downloads aren't available in this view.",true);return;}
+  await dl.save({filename:fname,data:new Blob([bytes],{type:"application/pdf"})});gbStatus("PDF saved: "+fname);}
+  catch(e){console.error(e);gbStatus("Could not make the PDF.",true);}
+}
+
+/* wiring */
+$("gbback").onclick=()=>goHome();
+$("gbgrade").onchange=async e=>{await gbSaveNow();GB.grade=e.target.value;$("gbsheet").innerHTML='<p class="gbsub">Loading…</p>';await gbLoad();gbRender();};
+$("gbsem").onchange=async e=>{await gbSaveNow();GB.sem=e.target.value;$("gbsheet").innerHTML='<p class="gbsub">Loading…</p>';await gbLoad();gbRender();};
+{const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const g=$("gbview");if(g)g.style.display="none";return r;};}
+["openProgress","openCourses","openCalendar","openAnalytics","openLesson"].forEach(n=>{const f=window[n];if(typeof f!=="function")return;window[n]=function(){const g=$("gbview");if(g&&g.style.display==="block"){gbSaveNow();g.style.display="none";}return f.apply(this,arguments);};});
+{const lo=logout;logout=function(){const g=$("gbview");if(g)g.style.display="none";GB.data=null;GB.grade=null;return lo.apply(this,arguments);};if(!window.HOSTED)["out","out2"].forEach(x=>{const e=$(x);if(e){e.removeEventListener("click",lo);e.addEventListener("click",()=>logout());}});}
+{const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)&&!st.l.some(x=>x[1]==="#gradebook")){const i=st.l.findIndex(x=>x[0]==="Gradebook");st.l.splice(i>=0?i+1:st.l.length,0,["Weekly Assessment","#gradebook","weekly"]);}return st0.apply(this,arguments);};}
+addEventListener("beforeunload",()=>{if(GB.saveT&&GB.data)gbSaveNow();});
+
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
-const VIEWS={analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
+const VIEWS={gbview:"#gradebook",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
 const HOME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const OUT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>';
 function hideAllViews(){if(LX.sim)LX.sim.stop();["analytics","calview","coursesview","progview","lessonview","teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});}
@@ -2690,7 +3087,7 @@ function goHome(){
 }
 function navGo(url){
   hideAllViews();
-  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);
+  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();
 }
 function buildNav(active){
   const nav=$("sidenav");if(!NAVLINKS){nav.innerHTML="";return;}
@@ -2713,7 +3110,7 @@ function navSync(){
   if(show)buildNav(active);
 }
 {const mo=new MutationObserver(()=>{clearTimeout(navSync._t);navSync._t=setTimeout(navSync,0);});
- ["analytics","calview","coursesview","progview","lessonview","teach","home","login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
+ ["gbview","analytics","calview","coursesview","progview","lessonview","teach","home","login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 
 /* ===== Visited-page history: back / home / forward (bottom-left) ===== */
 const NAVH={s:[],i:-1,replay:false,tick:false};
@@ -2728,7 +3125,7 @@ function navPush(r){
 function navReplay(r){
   NAVH.replay=true;
   try{if(r.v!=="lesson")hideAllViews();
-    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="cal")openCalendar();
+    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="cal")openCalendar();
     else if(r.v==="courses")openCourses(r.k);else if(r.v==="bio"){openCourses("bio");openBio(r.id);}
     else if(r.v==="prog")openProgress(r.k);else if(r.v==="lesson"){if(LX.id!==r.id||$("lessonview").style.display!=="block")openLesson(r.id,r.tab);else lxShow(r.tab);}}
   catch(e){goHome();}
@@ -2743,7 +3140,7 @@ function navBar(){
   const cur=NAVH.s[NAVH.i];$("nhhome").classList.toggle("on",!cur||cur.v==="home");
 }
 {const wrap=(name,mk)=>{const f=window[name];if(typeof f!=="function")return;window[name]=function(...a){const r=f.apply(this,a);try{navPush(mk(...a));}catch(_){}return r;};};
- wrap("goHome",()=>({v:"home"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
+ wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
  wrap("openCourses",k=>({v:"courses",k:k||null}));wrap("openBio",id=>({v:"bio",id:id||null}));wrap("openProgress",k=>({v:"prog",k:k||null}));
  wrap("openLesson",(id,tab)=>({v:"lesson",id,tab:tab||"launch"}));wrap("lxShow",t=>({v:"lesson",id:LX.id,tab:t}));
  const lo=window.logout;if(typeof lo==="function")window.logout=function(...a){NAVH.s=[];NAVH.i=-1;const r=lo.apply(this,a);navBar();return r;};}
