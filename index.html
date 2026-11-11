@@ -623,6 +623,7 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 @keyframes gbshake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .gbfoot td{position:sticky;bottom:0;background:#f4f7fa!important;font-weight:700;color:#13285c;z-index:2}.gbfoot td:nth-child(2){position:sticky;left:34px;z-index:3;text-align:right}
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
+.gbhub[hidden]{display:none!important}.gbhub{position:fixed;z-index:90;background:#fff;border:1px solid #cad5dd;border-radius:12px;box-shadow:0 14px 40px rgba(16,35,47,.28);display:grid;gap:4px;padding:6px}.gbhub>*{display:grid;gap:3px;text-align:left;padding:10px 12px;border-radius:9px;border:0;background:none;cursor:pointer;color:#10232f;text-decoration:none;font:inherit}.gbhub>*:hover,.gbhub>*:focus-visible{background:#eef4f8;outline:none}.gbhub b{font:600 14px Inter}.gbhub .ar{font:500 13px Tajawal;color:#53687a;margin-left:6px}.gbhub small{font:12px Inter;color:#53687a}
 .gbmenu[hidden]{display:none!important}.gbmenu{position:fixed;z-index:80;background:#fff;border:1px solid #cad5dd;border-radius:10px;box-shadow:0 10px 30px rgba(16,35,47,.18);display:grid;min-width:240px;text-align:left;padding:4px}
 .gbmenu button{border:0;background:none;padding:9px 12px;text-align:left;font:14px Inter;color:#10232f;border-radius:6px;cursor:pointer}.gbmenu button:hover{background:#eef3fb}.gbmenu .danger{color:#c03c2c}
 .gbpanel{margin-top:18px;border-top:1px solid #e3e9ef;padding-top:14px}.gbanah{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}.gbanah h3{margin:0;font:700 20px Georgia,serif}.gbanah .ar{font:500 15px Tajawal;color:#53687a}
@@ -978,12 +979,12 @@ function renderTiles(box,links){
   if(box.id==="tiles"||box.id==="stiles")NAVLINKS=links;
   links.filter(x=>x[0][0]!=="_").forEach(([lb,url],i)=>{const m=META[lb]||{c:"#8fe3b8",svg:"",ar:""};
     const a=document.createElement(url?"a":"div");a.className="tile"+(url?"":" off");
-    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
+    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")gbHub(a);else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
     else if(url){a.href=url;a.target="_blank";a.rel="noopener";}
     a.style.setProperty("--c",m.c);a.style.animationDelay=(i*0.05)+"s";
     a.innerHTML=`<span class="ti">${m.svg}</span><span class="tl"></span><span class="ta"></span><span class="go"></span>`;
     a.querySelector(".tl").textContent=lb;a.querySelector(".ta").textContent=m.ar;
-    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
+    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#gbhub"?"Weekly Assessment · McGraw Hill →":url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
 }
 function showTeacher(st){
   $("login").style.display="none";$("home").style.display="none";$("teach").style.display="block";
@@ -3581,7 +3582,15 @@ $("gbsem").onchange=async e=>{await gbSaveNow();GB.sem=e.target.value;$("gbsheet
 {const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const g=$("gbview");if(g)g.style.display="none";return r;};}
 ["openProgress","openCourses","openCalendar","openAnalytics","openLesson"].forEach(n=>{const f=window[n];if(typeof f!=="function")return;window[n]=function(){const g=$("gbview");if(g&&g.style.display==="block"){gbSaveNow();g.style.display="none";}return f.apply(this,arguments);};});
 {const lo=logout;logout=function(){const g=$("gbview");if(g)g.style.display="none";GB.data=null;GB.grade=null;return lo.apply(this,arguments);};if(!window.HOSTED)["out","out2"].forEach(x=>{const e=$(x);if(e){e.removeEventListener("click",lo);e.addEventListener("click",()=>logout());}});}
-{const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)&&!st.l.some(x=>x[1]==="#gradebook")){const i=st.l.findIndex(x=>x[0]==="Gradebook");st.l.splice(i>=0?i+1:st.l.length,0,["Weekly Assessment","#gradebook","weekly"]);}return st0.apply(this,arguments);};}
+/* Weekly Assessment lives inside the Gradebook tile: the tile opens a chooser (Weekly Assessment · McGraw Hill Gradebook) */
+let GB_MH=null;
+{const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)){st.l=st.l.filter(x=>x[1]!=="#gradebook");const g=st.l.find(x=>x[0]==="Gradebook");if(g){if(g[1]!=="#gbhub"){GB_MH=g[1]||null;g[1]="#gbhub";}}else st.l.push(["Gradebook","#gbhub"]);}return st0.apply(this,arguments);};}
+function gbHub(tile){let m=$("gbhub");if(!m){m=document.createElement("div");m.id="gbhub";m.className="gbhub";m.setAttribute("role","menu");document.body.appendChild(m);
+    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#gbhub"],[data-nav="#gbhub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{m.hidden=true;},{passive:true});}
+  m.innerHTML=`<button type="button" data-g="wa" role="menuitem"><b>Weekly Assessment <span class="ar">التقييم الأسبوعي</span></b><small>Quizzes, chapter tests &amp; term marks · statistics · Excel/PDF reports</small></button>${GB_MH?`<a href="${esc(GB_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Gradebook ↗ <span class="ar">سجل درجات ماكجروهيل</span></b><small>Online assignment scores on my.mheducation.com</small></a>`:""}`;
+  m.querySelector('[data-g=wa]').onclick=()=>{m.hidden=true;openGradebook();};m.querySelectorAll("a").forEach(a=>a.onclick=()=>{m.hidden=true;});
+  m.hidden=false;const r=(tile||document.querySelector('a[href="#gbhub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
+  m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";const h=m.offsetHeight;if(tile&&tile.closest("#sidenav")&&innerWidth>760){m.style.left=(r.right+8)+"px";m.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top))+"px";}else m.style.top=(r.bottom+8+h<innerHeight?r.bottom+8:Math.max(8,r.top-h-8))+"px";m.querySelector("button").focus();}
 addEventListener("beforeunload",()=>{if(GB.saveT&&GB.data)gbSaveNow();});
 
 /* ===== My Profile (الملف الشخصي): email, mobile and photo are editable; name and national ID are not ===== */
@@ -3649,7 +3658,7 @@ pfAvatar();
 
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
-const VIEWS={pfview:"#profile",gbview:"#gradebook",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
+const VIEWS={pfview:"#profile",gbview:"#gbhub",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
 const HOME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const OUT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>';
 function hideAllViews(){if(LX.sim)LX.sim.stop();["analytics","calview","coursesview","progview","lessonview","teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});}
@@ -3661,7 +3670,7 @@ function goHome(){
 }
 function navGo(url){
   hideAllViews();
-  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();
+  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")openGradebook();
 }
 function buildNav(active){
   const nav=$("sidenav");if(!NAVLINKS){nav.innerHTML="";return;}
@@ -3673,7 +3682,7 @@ function buildNav(active){
     else h+=item(null,lb,m.svg,m.c,false,url);});
 
   nav.innerHTML=h;
-  nav.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const k=b.dataset.nav;if(k==="home")goHome();else if(k==="out")logout();else navGo(k);});
+  nav.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const k=b.dataset.nav;if(k==="home")goHome();else if(k==="out")logout();else if(k==="#gbhub")gbHub(b);else navGo(k);});
   const on=nav.querySelector(".on");if(on&&innerWidth<=760)on.scrollIntoView({inline:"center",block:"nearest"});
 }
 function navSync(){
