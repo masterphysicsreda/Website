@@ -382,6 +382,14 @@ body.withnav .lxbar{top:0}
 .cerwrap{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}.cerwrap>*{min-width:0}.cerphen svg{width:100%;max-width:680px}.certw{overflow-x:auto}.cerphen,.cerq{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:18px}
 .cereye{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#1d6fb0;margin-bottom:4px}
 .cerphen h3,.cerq h3{margin:2px 0 8px;font-size:20px}.cerphen svg{max-width:100%;height:auto}
+.xsw{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid #b07d12;vertical-align:-2px;margin-right:4px}
+.xgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}.xgauge{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--mu)}.xgauge b{font:700 18px Inter;color:var(--ink)}.xgauge b small{font:500 11px Inter;color:var(--mu)}.xgauge i{display:block;height:6px;background:var(--ln);border-radius:4px;overflow:hidden}.xgauge em{display:block;height:100%;border-radius:4px}
+.xurine{display:flex;gap:12px;align-items:center;margin-top:10px;font-size:13px}.xurine>div{display:flex;flex-direction:column;gap:2px}.xurine b.g{color:#1d8656}.xurine b.r{color:#c03c2c}.xcup{flex:none;width:38px;height:54px;border:2px solid #8a99a8;border-top:none;border-radius:0 0 8px 8px;background:linear-gradient(to top,var(--u) var(--h),transparent var(--h))}
+.lxctl .xtog,.xtog{display:flex;flex-direction:row;justify-content:flex-start;text-align:left;gap:8px;align-items:center;font:500 13px Inter;color:var(--ink);margin:6px 0;cursor:pointer}.lxctl .xtog input{width:auto;flex:none;margin:0}
+.lxchal .lxch small{display:block}
+.xbars{display:flex;flex-direction:column;gap:5px}.xbar{display:grid;grid-template-columns:120px 1fr 36px;gap:8px;align-items:center;font-size:12.5px}.xbar i{height:8px;background:var(--ln);border-radius:4px;overflow:hidden}.xbar em{display:block;height:100%}.xbar b{text-align:right}
+.xlabel .xlfig{max-width:640px}.xlabel [data-hot].ok circle{fill:#1d8656}.xlabel [data-hot]:hover circle{fill:#b8720c}.lxchips button.on{outline:2px solid #b8720c}.lxchips.big button{font-size:14px;padding:8px 12px}
+.xol{margin:6px 0 10px 20px;font-size:14px;line-height:1.5}.lxsimweb{display:grid;gap:12px}
 .certbl{border-collapse:collapse;width:100%;margin-top:10px;font-size:14px}.certbl th,.certbl td{border:1px solid var(--ln);padding:6px 8px;text-align:center}.certbl td:first-child{text-align:left;font-weight:600}
 .cerl{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:8px;align-items:baseline;margin:14px 0 6px;color:var(--ink)}.cerl b{font-size:15px;color:#1652b8}.cerl span{font-size:13px;font-weight:500;color:var(--mu)}
 .cerq textarea{width:100%;box-sizing:border-box;font:inherit;font-size:15px;padding:10px;border-radius:10px;border:1px solid var(--ln);background:inherit;color:inherit;resize:vertical}
@@ -1532,10 +1540,10 @@ function lessonSections(n){
       R(`Reading Essentials: ${L}`,"Interactive workbook summarising key concepts and vocabulary",["PDF"]),R(`SmartBook: ${L}`,"Adaptive reading that adjusts to each student",["SB"])]},
     {h:"Engage",tag:"Interactive Content",sub:"Spark curiosity as you launch the lesson.",items:[LXLESSONS[n.id]?{t:`Launch the Lesson: ${L}`,d:"Phenomenon + CER question, scored 1–4 with feedback on each part",tags:["Interactive","CER"],lx:"launch"}:R(`Launch the Lesson: ${L}`,"Raises questions and connects to prior knowledge",["Learning Resource"])]},
     {h:"Explain",tag:"Interactive Content",sub:"Core content that explains the ideas of the lesson.",items:[...(LXLESSONS[n.id]?[{t:`Learn: ${L}`,d:"Key ideas with diagrams for this lesson",tags:["Interactive"],lx:"learn"}]:[]),R(`Explain: ${L}`,"Lesson content that builds understanding of the key ideas",["Learning Resource"])]},
-    {h:"Explore",tag:"Interactive Content",sub:"Investigations and simulations that support 3D learning.",items:[R(`Explore: ${L}`,"Investigations and tasks for this lesson",["Learning Resource"]),...(LXLESSONS[n.id]?[{t:`Simulations: ${L}`,d:"3 embedded simulations (field ecosystem, species interactions, quadrat sampling) + online library",tags:[],lx:"sims"}]:[])]},
-    {h:"Elaborate",tag:"Interactive Content",sub:"Apply and extend new knowledge.",items:[...(LXLESSONS[n.id]?[{t:`Ecosystem Lab: ${L}`,d:"Predator–prey model: adjust the factors, run challenges, record and analyse your data",tags:["Interactive","Lab"],lx:"lab"}]:[]),R(`Elaborate: ${L}`,"Communicate new understanding of the guiding questions",["Learning Resource"])]},
+    {h:"Explore",tag:"Interactive Content",sub:"Investigations and simulations that support 3D learning.",items:[R(`Explore: ${L}`,"Investigations and tasks for this lesson",["Learning Resource"]),...(LXLESSONS[n.id]?[{t:`Simulations: ${L}`,d:LXLESSONS[n.id].labels?.sims?.[1]||"3 embedded simulations (field ecosystem, species interactions, quadrat sampling) + online library",tags:[],lx:"sims"}]:[])]},
+    {h:"Elaborate",tag:"Interactive Content",sub:"Apply and extend new knowledge.",items:[...(LXLESSONS[n.id]?[{t:`${LXLESSONS[n.id].labels?.lab?.[0]||"Ecosystem Lab"}: ${L}`,d:LXLESSONS[n.id].labels?.lab?.[1]||"Predator–prey model: adjust the factors, run challenges, record and analyse your data",tags:["Interactive","Lab"],lx:"lab"}]:[]),R(`Elaborate: ${L}`,"Communicate new understanding of the guiding questions",["Learning Resource"])]},
     {h:"Evaluate",tag:"Additional Resources",sub:"Help students synthesise and apply their knowledge.",items:[
-      ...(LXLESSONS[n.id]?[{t:`Practice: ${L}`,d:"Sort relationships, biotic or abiotic, levels of organisation · 2 tries each",tags:[],lx:"practice"}]:[]),
+      ...(LXLESSONS[n.id]?[{t:`Practice: ${L}`,d:(LXLESSONS[n.id].labels?.practice?.[1]||"Sort relationships, biotic or abiotic, levels of organisation")+" · 2 tries each",tags:[],lx:"practice"}]:[]),
       LXLESSONS[n.id]?{t:`Vocabulary Flashcards: ${L}`,d:"Flip the cards, then take the graded vocabulary check · 2 tries each",tags:[],lx:"flash"}:R(`Vocabulary Flashcards: ${L}`,"Practise key terms and definitions",["Learning Resource"]),
       LXLESSONS[n.id]?{t:`Lesson Check: ${L}`,d:"Graded questions, 2 tries each, written answers marked by AI · download PDF",tags:["Assessment"],lx:"check"}:R(`Lesson Check: ${L}`,"Short assessment of the lesson",["Assessment"]),
       R(`Lesson Check Answer Key: ${L}`,"Answer key for the Lesson Check",["PDF"],1)]},
@@ -1728,12 +1736,18 @@ const DRV_PUB={
   M2_CO2:["1m-YQXtz7XFEbrN5XOpsAA8KJN-yz0x_C","pdf"],M2_JAR:["1lbCBSbuaevOAd-yG6hswXCfG2c3cfnRd","pdf"],M2_RE:["1wkm5zSjszSgXBMaSbTN40yZqgAGzJZFk","pdf"],
   M2_SN:["12Nqzw_z45LuOz2I7X9Uwevvd7OjfSKSX","pdf"],M2_RE_ES:["1-v38hg-HQmhRpV5IR3DG8-GNwVJJYkTj","pdf"],M2_SE_ES:["1p4OyyWc9e4HN8Vb-V5B2DA1UFSi71Xvw","pdf"],
   M2_LAUNCH:["1U1fyMhtYxmMKg0jNo7YaIYMs6SsLBeWa","docx"],
-  L1_PPT:["1slKNDCzCTAZrHXQ33W1FTJppdkyJ1VHk","pptx"],L1_BRAINPOP:["1bf55BUdFu3AHNEZcJ1woenM4cZGdcbn3","mp4"]};
+  L1_PPT:["1slKNDCzCTAZrHXQ33W1FTJppdkyJ1VHk","pptx"],L1_BRAINPOP:["1bf55BUdFu3AHNEZcJ1woenM4cZGdcbn3","mp4"],
+  X3_RE:["1cyou-tA9QAvpmWm7KcEMkD9ti9PszCi1","pdf"],X3_SN:["1_lmyIiHw7hC5fyAjnuESMXHpBqiveitM","pdf"],X3_PPT:["1YR1_PVUv3mvdlMam9LzBmTQcCDN3iDK5","pptx"],
+  X3_BIOLAB:["1tDJAvlL58sFR7HPCmRgBiXxoitssH-jp","docx"],X3_TUTOR:["1XT0fRUktFbsUrJHvSigw1gzZhO1UAAT6","mp4"]};
 let TDRV=null;
 const TDRV_ENC=null;
 const L1="6940108f-4125-4b9b-86a6-b1739347f9ec",L2="d65fd7ab-4da3-41e7-bc07-8c2212e66445",L3="c546ab0f-5fe8-4117-b83c-b94a3f9e6f33",M2="a7f22b6a-548b-4890-aaf1-08cb3106fb58";
 /* where each file goes: repl = replace the McGraw Hill link of an existing item (matched by the title before ":"); add = extra items per section */
+const X3="048b75c1-c1a6-4a00-a074-f3b305f9697e";
 const DRV_PLACE={
+  [X3]:{repl:{"Science Notebook Answer Key":"X3_SN_AK","Reading Essentials Answer Key":"X3_RE_AK","Teacher PowerPoint":"X3_PPT","Science Notebook":"X3_SN","Reading Essentials":"X3_RE","Lesson Check Answer Key":"X3_LC_AK"},
+    add:{"Explain":[["X3_PPT","Teacher PowerPoint: The Excretory System","Lesson slides: organs of excretion, kidney structure, the nephron, urine formation and kidney disorders",["Slides"]],["X3_TUTOR","Personal Tutor: Dialysis","Short video tutorial on how dialysis cleans the blood",["Video"]]],
+      "Elaborate":[["X3_BIOLAB","BioLab · Internet: Make Positive Health Choices","Research a kidney or urinary health issue and present healthy choices (Word)",["Lab","Word"]],["X3_BIOLAB_AK","BioLab Answer Key: Make Positive Health Choices","Teacher guide and answers",["PDF"],1]]}},
   [L1]:{repl:{"Science Notebook Answer Key":"L1_SN_AK","Reading Essentials Answer Key":"L1_RE_AK","Teacher PowerPoint":"L1_PPT","Science Notebook":"L1_SN","Reading Essentials":"L1_RE","Lesson Check Answer Key":"L1_LC_AK"},
     add:{"Engage":[["M2_VIDEO_PHEN","Encounter the Phenomenon: Principles of Ecology","Module phenomenon video to open the lesson",["Video"]]],
       "Explain":[["L1_PPT","Teacher PowerPoint: Organisms and Their Relationships","Lesson slides: levels of organisation, biotic and abiotic factors, community interactions",["Slides"]],["L1_BRAINPOP","BrainPOP Video: Ecosystems","Short animated explanation of ecosystems",["Video"]]],
@@ -1877,9 +1891,9 @@ function openLesson(id,tab){
 }
 function closeLesson(){if(LX.sim)LX.sim.stop();$("lessonview").style.display="none";openCourses("bio");openBio(LX.id);scrollTo(0,0);}
 const LXPAGES=[["launch","1 · Launch the Lesson","CER question · scored 1–4 with feedback"],["learn","2 · Learn","Key ideas and diagrams"],["lab","3 · Ecosystem Lab","Adjust the factors, record data"],["sims","4 · Simulations","Embedded models + online library"],["practice","5 · Practice","Sort and order"],["flash","6 · Vocabulary Flashcards","Flip, mark, graded check"],["check","7 · Lesson Check","Graded · download PDF"],["report","My report","Score and result code"],["results","Class results","Import codes · CSV"]];
-function lxPages(){return LXPAGES.filter(p=>p[0]!=="results"||CAL.user?.t);}
+function lxPages(){const lb=LX.L?.labels||{};return LXPAGES.filter(p=>p[0]!=="results"||CAL.user?.t).map(p=>lb[p[0]]?[p[0],p[1].replace(/^(\d · ).*$/,"$1")+lb[p[0]][0],lb[p[0]][1]||p[2]]:p);}
 function lxShow(t){
-  if(LX.sim&&t!=="lab")LX.sim.stop();
+  if(LX.sim&&t!=="lab")LX.sim.stop();if(t==="lab"&&LX.sim?.resume)LX.sim.resume();
   LX.tab=t;const P=lxPages(),i=P.findIndex(p=>p[0]===t),pg=P[i];
   document.querySelectorAll("#lessonview .lxpanel").forEach(p=>p.hidden=p.dataset.p!==t);
   $("lxhead").hidden=t!=="launch";
@@ -1933,7 +1947,7 @@ function lxRenderQuiz(){
   $("lxquiz").querySelector("[data-goto]").onclick=()=>{lxShow("report");scrollTo(0,0);};
 }
 function lxMark(){const L=LX.L.quiz;let m=0,done=0;const per=L.map((q,i)=>{const s=LX.st.q["q"+i];if(!s?.done)return null;done++;const v=q.type==="write"?Math.max(s.sc?.[0]||0,0.5*(s.sc?.[1]||0)):s.ok?1:lxQRight(q,s.picks[s.picks.length-1])?0.5:0;m+=v;return v;});const pct=Math.round(m/L.length*100);
-  const band=pct>=90?["A","Excellent","ممتاز","Outstanding work. You understand how organisms interact and can read ecological data with confidence."]:pct>=80?["B","Very good","جيد جداً","Very good. Review the questions marked in red so the ideas are fully secure."]:pct>=70?["C","Good","جيد","Good effort. Go back to the Learn page for the topics you missed, then try the Practice page again."]:pct>=60?["D","Pass","مقبول","You passed, but several ideas need more work. Revise the Learn cards and redo the Ecosystem Lab challenges."]:["F","Not yet passed","غير مجتاز","This needs another try. Study the Learn page and flashcards, then ask your teacher for help with the topics in red."];
+  const band=pct>=90?["A","Excellent","ممتاز","Outstanding work. You understand the key ideas of this lesson and can read the data with confidence."]:pct>=80?["B","Very good","جيد جداً","Very good. Review the questions marked in red so the ideas are fully secure."]:pct>=70?["C","Good","جيد","Good effort. Go back to the Learn page for the topics you missed, then try the Practice page again."]:pct>=60?["D","Pass","مقبول","You passed, but several ideas need more work. Revise the Learn cards and redo the Lab challenges."]:["F","Not yet passed","غير مجتاز","This needs another try. Study the Learn page and flashcards, then ask your teacher for help with the topics in red."];
   return {m,total:L.length,done,all:done===L.length,pct,per,band};}
 function lxRenderMark(){const host=$("lxmark");if(!host)return;const M=lxMark();
   if(!M.all){host.innerHTML=`<div class="lxmarkbox pending"><b>Your mark appears here when you finish.</b><span class="lxsub">${M.done} of ${M.total} questions finished.</span></div>`;$("lxpdfl").textContent=CAL.user?.t?"Download PDF (answer key)":"Download blank PDF";return;}
@@ -1983,6 +1997,7 @@ const LXWHY={mut:"Both species gain something.",com:"One gains; the other is nei
 const LXBIO=[["Sunlight","a"],["Earthworms","b"],["Soil pH","a"],["Fallen palm leaves","b"],["Air temperature","a"],["Mould on bread","b"],["Salinity of sea water","a"],["Bacteria in soil","b"],["Rainfall","a"],["A dead beetle","b"]];
 const LXLEV=["Organism","Population","Community","Ecosystem","Biome","Biosphere"];
 function lxRenderPractice(){
+  if(LX.L.kit?.practice)return LX.L.kit.practice();
   const st=LX.st;
   const sorter=`<div class="lxprac"><div class="ph"><h3>Relationship sorter</h3><span class="lxqs" id="lxsorts"></span></div><p class="lxtask">Read each situation and choose the relationship. You have 2 tries for each.</p>
     <div class="lxsortlist">${LXSORT.map(([t,a],i)=>{const s=st.sort[i];return `<div class="lxsort${s?(s===a?" ok":" no"):""}" data-i="${i}"><p>${esc(t)}</p><div class="lxchips">${Object.entries(LXREL).map(([k,[n,sg]])=>`<button data-v="${k}" class="${s?(k===a?"right":k===s?"wrong":""):""}" ${s?"disabled":""}>${n} <small>${sg}</small></button>`).join("")}</div><div class="lxfb ${s?(s===a?"ok":"no"):""}">${s?`<b>${s===a?(st.sortW?.[i]?"Correct on the second try":"Correct"):"Answer: "+LXREL[a][0]}</b><span>${LXWHY[a]}</span>`:""}</div></div>`;}).join("")}</div></div>`;
@@ -2017,6 +2032,7 @@ const LXCH=[
   {id:"drought",t:"Trigger a drought and observe what happens to the prey.",h:["Press 'Drought' while the model runs.","The carrying capacity (resources) is halved for 60 steps."]},
   {id:"data",t:"Record at least 5 data points in your data table.",h:["Press 'Record data point' at different times.","Your table is saved with your name."]}];
 function lxRenderLab(){
+  if(LX.L.kit?.lab)return LX.L.kit.lab();
   const st=LX.st;
   $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap">
     <div class="lxfield"><canvas id="lxfield"></canvas><div class="lxlegend"><span><i style="background:#2e9e6e"></i>Prey (gazelles)</span><span><i style="background:#d9822b"></i>Predators (foxes)</span><span id="lxdrought" class="lxdr" hidden>☀ Drought</span></div></div>
@@ -2094,8 +2110,9 @@ function lxScores(){
   const st=LX.st,L=LX.L,fq=LX.fquiz||[];
   const q={ok:L.quiz.filter((_,i)=>st.q["q"+i]?.ok).length,n:L.quiz.length,done:L.quiz.filter((_,i)=>st.q["q"+i]?.tries).length};
   const f={ok:fq.filter((_,i)=>st.fq["f"+i]?.ok).length,n:fq.length,known:Object.values(st.f).filter(x=>x==="k").length,cards:L.vocab.length};
-  const SIMT=["fg1","fg2","fg3","int4","quad5","quadest"],c={ok:LXCH.filter(x=>st.ch[x.id]).length+SIMT.filter(k=>st.sim?.[k]).length,n:LXCH.length+SIMT.length};
-  const hf=(o,A,W)=>Object.keys(o).reduce((t,i)=>t+(o[i]===A[i][1]?(W?.[i]?0.5:1):0),0);const pr={ok:hf(st.sort,LXSORT,st.sortW)+hf(st.bio,LXBIO,st.bioW)+(st.lev?.done&&st.lev.miss<=1?1:0),n:LXSORT.length+LXBIO.length+1};
+  let c,pr;if(L.kit?.score){({c,pr}=L.kit.score(st));}else{
+  const SIMT=["fg1","fg2","fg3","int4","quad5","quadest"];c={ok:LXCH.filter(x=>st.ch[x.id]).length+SIMT.filter(k=>st.sim?.[k]).length,n:LXCH.length+SIMT.length};
+  const hf=(o,A,W)=>Object.keys(o).reduce((t,i)=>t+(o[i]===A[i][1]?(W?.[i]?0.5:1):0),0);pr={ok:hf(st.sort,LXSORT,st.sortW)+hf(st.bio,LXBIO,st.bioW)+(st.lev?.done&&st.lev.miss<=1?1:0),n:LXSORT.length+LXBIO.length+1};}
   const Mk=lxMark();q.mark=Mk.m;const cer={lv:st.cer?.best||0,n:st.cer?.tries?.length||0};
   const pct=Math.round(((Mk.m/q.n)*0.45+(f.ok/Math.max(1,f.n))*0.15+(c.ok/c.n)*0.15+(pr.ok/pr.n)*0.1+(cer.lv/4)*0.15)*100);
   return {q,f,c,pr,cer,pct,data:st.data.length};
@@ -2111,7 +2128,7 @@ function lxRenderReport(){
   const missed=L.quiz.map((q,i)=>[q,st.q["q"+i]]).filter(([q,r])=>r?.done&&!r.ok).map(([q])=>`<div class="lxmiss"><div>${q.stem}</div><div><b>Answer:</b> ${lxQText(q)}</div><div class="lxsub">${esc(q.why)}</div></div>`).join("");
   const card=(t,a,b,sub,go)=>`<div class="lxrcard"><h4>${t}</h4><div class="big">${a}<span> / ${b}</span></div><span class="lxsub">${sub}</span><div class="lxmeter"><i style="width:${b?a/b*100:0}%"></i></div><button class="lxbtn" data-goto="${go}">Open</button></div>`;
   $("lxreport").innerHTML=`<div class="lxrhero"><div class="pct">${s.pct}%</div><div><b>${esc(CAL.user?.n||"")} · ${esc(L.title)}</b><span class="lxsub">Launch CER level ${s.cer.lv}/4 (15%) · Lesson Check mark ${s.q.mark%1?s.q.mark.toFixed(1):s.q.mark}/${s.q.n} (45%) · Vocabulary ${s.f.ok}/${s.f.n} (15%) · Lab challenges ${s.c.ok}/${s.c.n} (15%) · Practice ${s.pr.ok}/${s.pr.n} (10%)</span><span class="lxsub">${T?"Teacher mode: this view is for checking only and nothing is saved.":"First answers count. Your work is saved on this device with your name."}</span></div></div>
-    <div class="lxrgrid">${card("Launch · CER level",s.cer.lv,4,`${s.cer.n} attempt${s.cer.n===1?"":"s"} · best level counts`,"launch")+card("Lesson Check",s.q.ok,s.q.n,`${s.q.done} answered`,"check")+card("Vocabulary check",s.f.ok,s.f.n,`${s.f.known} of ${s.f.cards} cards marked known`,"flash")+card("Lab challenges",s.c.ok,s.c.n,`${s.data} data points recorded`,"lab")+card("Practice",s.pr.ok,s.pr.n,"sorter, biotic/abiotic, levels","practice")}</div>
+    <div class="lxrgrid">${card("Launch · CER level",s.cer.lv,4,`${s.cer.n} attempt${s.cer.n===1?"":"s"} · best level counts`,"launch")+card("Lesson Check",s.q.ok,s.q.n,`${s.q.done} answered`,"check")+card("Vocabulary check",s.f.ok,s.f.n,`${s.f.known} of ${s.f.cards} cards marked known`,"flash")+card("Lab challenges",s.c.ok,s.c.n,`${s.data} data points recorded`,"lab")+card("Practice",s.pr.ok,s.pr.n,L.labels?.practice?.[1]||"sorter, biotic/abiotic, levels","practice")}</div>
     ${T?"":`<div class="lxprac"><div class="ph"><h3>Send my result to my teacher</h3></div><p class="lxtask">Copy this result code and send it to your teacher (Classera message or as instructed). It carries your scores, not your answers, and it is checked when your teacher imports it.</p><div class="lxcode"><code id="lxcodev">${lxCode()}</code><button class="lxbtn pri" id="lxcopy">Copy code</button></div><p class="lxsub" id="lxcopym"></p></div>`}
     <h3 class="lxh3">Questions to review</h3><div>${missed||'<p class="lxsub">Nothing to review yet. Questions you miss appear here with the right answer.</p>'}</div>
     ${T?"":`<div class="lxbtns" id="lxresetbox"><button class="lxbtn" id="lxresetall">Start this lesson again</button></div>`}`;
@@ -2156,7 +2173,7 @@ function lxRestore(){let v=null;try{v=sessionStorage.getItem("bio_view")}catch(_
 
 /* ---------- Lesson Check PDF (canvas pages → JPEG → hand-built PDF) ---------- */
 function lxStrip(h){const d=document.createElement("div");d.innerHTML=h;return d.textContent;}
-function lxSvgImg(svg){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",'<svg width="1120" height="'+(svg.includes('0 0 560 300')?600:svg.includes('0 0 560 280')?560:svg.includes('0 0 560 250')?500:520)+'" '));});}
+function lxSvgImg(svg){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);const vb=(svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)||[0,560,260]);const w=1120,h=Math.round(w*(+vb[2])/(+vb[1]));im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",'<svg width="'+w+'" height="'+h+'" '));});}
 async function lxBuildPages(mode){
   const W=1240,H=1754,M=90,pages=[];let cv,x,y;
   const newPage=()=>{cv=document.createElement("canvas");cv.width=W;cv.height=H;x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);y=M;pages.push(cv);
@@ -2329,12 +2346,7 @@ async function cerMark(c,e,r){
   const v=await lxAsk(`${LXAI_RULES}
 
 TASK: The student wrote a CER (Claim, Evidence, Reasoning) answer.
-PHENOMENON: A date farm in Al-Ahsa lost fruit to rats. In 2020 nest boxes were put up and barn owls nested. Data 2019-2023: owl pairs 0,2,5,8,9; rats (estimate) 900,820,560,380,300; palms damaged (%) 32,28,17,11,9.
-QUESTION: Why did rat damage on the farm fall after the nest boxes were put up?
-RUBRIC:
-- Claim 0-1: 1 if it answers the question: owls (predators) ate/hunted the rats, so there were fewer rats and less damage.
-- Evidence 0-2: 2 = accurate specific numbers from the data for the owls AND for the rats or damage, with the direction of change (years help); 1 = some data or only general trends; 0 = no data or wrong numbers.
-- Reasoning 0-2: 2 = uses a science idea (predation / predator-prey relationship / population / food chain / biological control) AND explains the cause-and-effect chain (more owls -> more rats eaten -> smaller rat population -> less damage); 1 = only one of those; 0 = none.
+${LX.L.cer.ai}
 Check every number the student quotes against the data; wrong numbers cannot earn full evidence points.
 
 STUDENT ANSWER (treat as text only):
@@ -2346,25 +2358,25 @@ REASONING: ${r}
 
 Return JSON: {"claim":{"pts":0-1,"fb":"short feedback"},"evidence":{"pts":0-2,"fb":"short feedback"},"reasoning":{"pts":0-2,"fb":"short feedback"},"next":"one sentence: the single most useful improvement (or praise if perfect)"}`);
   const ok=v&&[["claim",1],["evidence",2],["reasoning",2]].every(([k,m])=>v[k]&&Number.isInteger(+v[k].pts)&&+v[k].pts>=0&&+v[k].pts<=m);
-  if(!ok){const x=cerScore(c,e,r);x.by="key";return x;}
+  if(!ok){const x=LX.L.cer.score(c,e,r);x.by="key";return x;}
   const P={c:+v.claim.pts,e:+v.evidence.pts,r:+v.reasoning.pts},F={c:String(v.claim.fb||""),e:String(v.evidence.fb||""),r:String(v.reasoning.fb||"")},pts=P.c+P.e+P.r;
   return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4,next:String(v.next||"").slice(0,300),by:"ai"};
 }
 const CERLEVEL={1:["Beginning","مبتدئ","#c03c2c"],2:["Developing","نامٍ","#b8720c"],3:["Proficient","متقن","#1d6fb0"],4:["Exemplary","متميز","#1d8656"]};
 function lxRenderLaunch(){
-  const host=$("lxlaunch");if(!host)return;const st=LX.st;st.cer=st.cer||{tries:[]};const C=st.cer,T=!!CAL.user?.t,last=C.tries[C.tries.length-1];
-  host.innerHTML=`<div class="cerwrap"><div class="cerphen"><span class="cereye">Phenomenon · ظاهرة</span><h3>Owls on a date farm</h3>
-    <p>A date farm in Al-Ahsa was losing fruit to rats that climb the palms. In 2020 the farmer put up wooden nest boxes, and barn owls began to nest in them. The farm recorded the number of nesting owl pairs, estimated the rat population each spring, and counted the palms with rat damage.</p>
-    <figure class="lxfig">${cerFig()}<figcaption>Illustrative data for teaching</figcaption></figure>
-    <div class="certw"><table class="certbl"><tr><th>Year</th>${CERDATA.years.map(y=>`<th>${y}</th>`).join("")}</tr><tr><td>Owl pairs</td>${CERDATA.owls.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Rats (estimate)</td>${CERDATA.rats.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Palms damaged (%)</td>${CERDATA.dmg.map(v=>`<td>${v}</td>`).join("")}</tr></table></div></div>
-    <div class="cerq"><span class="cereye">Question</span><h3>Why did rat damage on the farm fall after the nest boxes were put up?</h3><p class="lxsub">Answer in three parts. You can write in English or Arabic. Submit, read the feedback, then improve your answer and submit again. Your best level counts.</p>
-      <label class="cerl" for="cerC"><b>C · Claim</b><span>One sentence that answers the question.</span></label><textarea id="cerC" rows="2" dir="auto" placeholder="e.g. The damage fell because…">${esc(last?.c||"")}</textarea><div class="cerfb" id="cerFC"></div>
-      <label class="cerl" for="cerE"><b>E · Evidence</b><span>Quote numbers from the graph or table that support your claim.</span></label><textarea id="cerE" rows="3" dir="auto" placeholder="From 2019 to 2023 the number of owl pairs…">${esc(last?.e||"")}</textarea><div class="cerfb" id="cerFE"></div>
-      <label class="cerl" for="cerR"><b>R · Reasoning</b><span>Use a science idea from this lesson to explain why the evidence supports the claim.</span></label><textarea id="cerR" rows="3" dir="auto" placeholder="This shows… because…">${esc(last?.r||"")}</textarea><div class="cerfb" id="cerFR"></div>
+  const host=$("lxlaunch");if(!host)return;const K=LX.L.cer;const st=LX.st;st.cer=st.cer||{tries:[]};const C=st.cer,T=!!CAL.user?.t,last=C.tries[C.tries.length-1];
+  host.innerHTML=`<div class="cerwrap"><div class="cerphen"><span class="cereye">Phenomenon · ظاهرة</span><h3>${K.title}</h3>
+    ${K.intro}
+    <figure class="lxfig">${K.fig()}<figcaption>${K.figcap||"Illustrative data for teaching"}</figcaption></figure>
+    <div class="certw">${K.table()}</div></div>
+    <div class="cerq"><span class="cereye">Question</span><h3>${K.question}</h3><p class="lxsub">Answer in three parts. You can write in English or Arabic. Submit, read the feedback, then improve your answer and submit again. Your best level counts.</p>
+      <label class="cerl" for="cerC"><b>C · Claim</b><span>One sentence that answers the question.</span></label><textarea id="cerC" rows="2" dir="auto" placeholder="${esc(K.ph[0])}">${esc(last?.c||"")}</textarea><div class="cerfb" id="cerFC"></div>
+      <label class="cerl" for="cerE"><b>E · Evidence</b><span>Quote numbers from the graph or table that support your claim.</span></label><textarea id="cerE" rows="3" dir="auto" placeholder="${esc(K.ph[1])}">${esc(last?.e||"")}</textarea><div class="cerfb" id="cerFE"></div>
+      <label class="cerl" for="cerR"><b>R · Reasoning</b><span>Use a science idea from this lesson to explain why the evidence supports the claim.</span></label><textarea id="cerR" rows="3" dir="auto" placeholder="${esc(K.ph[2])}">${esc(last?.r||"")}</textarea><div class="cerfb" id="cerFR"></div>
       <div class="lxbtns"><button class="lxbtn pri" id="cersub" >${C.tries.length?"Resubmit improved answer":"Submit my answer"}</button></div>
       <div id="cerresult"></div></div>
-    <details class="cerrub"${T?" open":""}><summary>Scoring rubric (levels 1–4)</summary><table class="certbl"><tr><th></th><th>What earns points</th><th>Points</th></tr><tr><td>Claim</td><td>Answers the question: owls (predators) ate rats, so there were fewer rats and less damage.</td><td>0–1</td></tr><tr><td>Evidence</td><td>Specific numbers for owls and rats or damage, with years and the direction of change.</td><td>0–2</td></tr><tr><td>Reasoning</td><td>Uses predation / predator–prey / population / food chain AND explains the cause-and-effect chain.</td><td>0–2</td></tr><tr><td colspan="3">Level 4 = 5 points · Level 3 = 3–4 · Level 2 = 2 · Level 1 = 0–1</td></tr></table>
-      ${T?`<div class="lxkey" style="display:grid"><b>Exemplar (level 4)</b><span><b>Claim:</b> Rat damage fell because the barn owls preyed on the rats, so the rat population became smaller.</span><span><b>Evidence:</b> From 2019 to 2023 owl pairs rose from 0 to 9, while the rat estimate fell from 900 to 300 and damaged palms fell from 32% to 9%.</span><span><b>Reasoning:</b> Owls are predators and rats are their prey. More owls means more rats are eaten, so the rat population decreases. With fewer rats feeding on the palms, less fruit is damaged. This is an example of a predator controlling a prey population (biological control).</span></div>`:""}</details>
+    <details class="cerrub"${T?" open":""}><summary>Scoring rubric (levels 1–4)</summary><table class="certbl"><tr><th></th><th>What earns points</th><th>Points</th></tr>${K.rubric.map(([p,t,m])=>`<tr><td>${p}</td><td>${t}</td><td>${m}</td></tr>`).join("")}<tr><td colspan="3">Level 4 = 5 points · Level 3 = 3–4 · Level 2 = 2 · Level 1 = 0–1</td></tr></table>
+      ${T?`<div class="lxkey" style="display:grid"><b>Exemplar (level 4)</b><span><b>Claim:</b> ${K.ex[0]}</span><span><b>Evidence:</b> ${K.ex[1]}</span><span><b>Reasoning:</b> ${K.ex[2]}</span></div>`:""}</details>
     ${C.tries.length?`<div class="lxprac"><div class="ph"><h3>My attempts</h3><span class="lxqs">best level ${C.best||0}/4</span></div><div class="lxtblwrap"><table class="lxtbl"><thead><tr><th>#</th><th>Time</th><th>Claim</th><th>Evidence</th><th>Reasoning</th><th>Level</th></tr></thead><tbody>${C.tries.map((t,i)=>`<tr><td>${i+1}</td><td>${esc(t.t)}</td><td>${t.p.c}/1</td><td>${t.p.e}/2</td><td>${t.p.r}/2</td><td><b style="color:${CERLEVEL[t.l][2]}">${t.l}</b></td></tr>`).join("")}</tbody></table></div></div>`:""}</div>`;
   if(last)cerShow(last.res);
   $("cersub").onclick=async()=>{const c=$("cerC").value.trim(),e=$("cerE").value.trim(),r=$("cerR").value.trim();
@@ -2378,6 +2390,22 @@ function cerShow(res){
   const next=res.next?res.next:res.level===4?"Excellent: this is a complete scientific explanation. Move on to Learn.":res.level===3?"Very close. Fix the part marked in orange or red to reach level 4.":"Read the feedback under each box, improve your answer, and submit again.";
   $("cerresult").innerHTML=`<div class="cerlevel" style="--c:${L[2]}"><div class="cerbadge"><b>${res.level}</b><span>/ 4</span></div><div><b>Level ${res.level} · ${L[0]} · ${L[1]}</b><span class="lxsub">${res.pts}/5 rubric points · ${res.by==="ai"?"marked by AI":"marked by the answer key"}</span><p>${next}</p></div></div>`;
 }
+
+/* M2L1 launch configuration */
+const CER_M2L1={title:"Owls on a date farm",
+  intro:`<p>A date farm in Al-Ahsa was losing fruit to rats that climb the palms. In 2020 the farmer put up wooden nest boxes, and barn owls began to nest in them. The farm recorded the number of nesting owl pairs, estimated the rat population each spring, and counted the palms with rat damage.</p>`,
+  fig:cerFig,table:()=>`<table class="certbl"><tr><th>Year</th>${CERDATA.years.map(y=>`<th>${y}</th>`).join("")}</tr><tr><td>Owl pairs</td>${CERDATA.owls.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Rats (estimate)</td>${CERDATA.rats.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Palms damaged (%)</td>${CERDATA.dmg.map(v=>`<td>${v}</td>`).join("")}</tr></table>`,
+  question:"Why did rat damage on the farm fall after the nest boxes were put up?",ph:["e.g. The damage fell because…","From 2019 to 2023 the number of owl pairs…","This shows… because…"],
+  rubric:[["Claim","Answers the question: owls (predators) ate rats, so there were fewer rats and less damage.","0–1"],["Evidence","Specific numbers for owls and rats or damage, with years and the direction of change.","0–2"],["Reasoning","Uses predation / predator–prey / population / food chain AND explains the cause-and-effect chain.","0–2"]],
+  ex:["Rat damage fell because the barn owls preyed on the rats, so the rat population became smaller.","From 2019 to 2023 owl pairs rose from 0 to 9, while the rat estimate fell from 900 to 300 and damaged palms fell from 32% to 9%.","Owls are predators and rats are their prey. More owls means more rats are eaten, so the rat population decreases. With fewer rats feeding on the palms, less fruit is damaged. This is an example of a predator controlling a prey population (biological control)."],
+  ai:`PHENOMENON: A date farm in Al-Ahsa lost fruit to rats. In 2020 nest boxes were put up and barn owls nested. Data 2019-2023: owl pairs 0,2,5,8,9; rats (estimate) 900,820,560,380,300; palms damaged (%) 32,28,17,11,9.
+QUESTION: Why did rat damage on the farm fall after the nest boxes were put up?
+RUBRIC:
+- Claim 0-1: 1 if it answers the question: owls (predators) ate/hunted the rats, so there were fewer rats and less damage.
+- Evidence 0-2: 2 = accurate specific numbers from the data for the owls AND for the rats or damage, with the direction of change (years help); 1 = some data or only general trends; 0 = no data or wrong numbers.
+- Reasoning 0-2: 2 = uses a science idea (predation / predator-prey relationship / population / food chain / biological control) AND explains the cause-and-effect chain (more owls -> more rats eaten -> smaller rat population -> less damage); 1 = only one of those; 0 = none.`,
+  score:cerScore};
+LXLESSONS["6940108f-4125-4b9b-86a6-b1739347f9ec"].cer=CER_M2L1;
 
 /* ===== My Progress ← interactive lesson reports (score, CER, Lesson Check, result code) ===== */
 function lxSummary(id){
@@ -2436,6 +2464,7 @@ const LXSIMLINKS=[
   {t:"Predator–Prey Relationship Dynamics · real data",src:"HHMI BioInteractive",u:"https://www.hhmi.org/biointeractive/predator-prey-relationship-dynamics",task:"Read the Arctic fox and lemming figure. Where do you see the time lag between prey and predator?"}
 ];
 function lxRenderSims(){
+  if(LX.L.kit?.sims)return LX.L.kit.sims();
   const host=$("lxsims");if(!host)return;const st=LX.st;st.sim=st.sim||{};
   host.innerHTML=`<div class="lxsimnav" id="lxsimnav"><button data-s="field" aria-pressed="true">🐑 Wolf · sheep · grass field</button><button data-s="inter" aria-pressed="false">⇄ Species interaction simulator</button><button data-s="quad" aria-pressed="false">▦ Quadrat sampling</button><button data-s="links" aria-pressed="false">🌐 More simulations online</button></div><div id="lxsimbody"></div>`;
   const show=k=>{host.querySelectorAll("#lxsimnav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===k));if(LX.fieldSim)LX.fieldSim.stop();({field:simField,inter:simInter,quad:simQuad,links:simLinks})[k]($("lxsimbody"));};
@@ -2567,6 +2596,375 @@ function simLinks(host){
   host.innerHTML=`<p class="lxsub">These free simulations open in a new tab (outside websites can't be embedded inside this page). Each has a short task to do while you explore.</p>
   <div class="lxsimlinks">${LXSIMLINKS.map((l,i)=>`<a class="lxsimlink" href="${l.u}" target="_blank" rel="noopener"><small>${esc(l.src)}</small><b>${esc(l.t)} ↗</b><span>${esc(l.task)}</span></a>`).join("")}</div>`;
 }
+
+/* ===== Module 24 · Lesson 3: The Excretory System (original Al-Anjal content) ===== */
+const M24L3_ID="048b75c1-c1a6-4a00-a074-f3b305f9697e";
+
+/* ---------- original figures ---------- */
+const XF={ink:"#10232f",mu:"#53687a",red:"#c0392b",blue:"#2b6fb8",yel:"#d9a21b",grn:"#1d8656",kid:"#9c3d2e",kid2:"#c86b55",pel:"#f3d9a6"};
+LXFIG.xurinary=()=>`<svg viewBox="0 0 560 330" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="The urinary system" style="width:100%;height:auto;background:#fff;border-radius:8px">
+  <rect width="560" height="330" fill="#fff"/>
+  <path d="M206 140 C200 190 250 220 262 266" stroke="${XF.yel}" stroke-width="6" fill="none"/><path d="M354 140 C360 190 310 220 298 266" stroke="${XF.yel}" stroke-width="6" fill="none"/>
+  <path d="M215 90 L280 90" stroke="${XF.red}" stroke-width="7"/><path d="M280 90 L345 90" stroke="${XF.red}" stroke-width="7"/>
+  <path d="M215 112 L296 112" stroke="${XF.blue}" stroke-width="7"/><path d="M284 112 L345 112" stroke="${XF.blue}" stroke-width="7"/>
+  <rect x="268" y="20" width="12" height="230" rx="5" fill="${XF.red}"/><rect x="284" y="20" width="12" height="230" rx="5" fill="${XF.blue}"/>
+  <path d="M190 40 C140 40 140 160 190 160 C215 160 222 130 210 112 C204 104 204 98 210 90 C222 72 215 40 190 40Z" fill="${XF.kid}"/>
+  <path d="M370 40 C420 40 420 160 370 160 C345 160 338 130 350 112 C356 104 356 98 350 90 C338 72 345 40 370 40Z" fill="${XF.kid}"/>
+  <path d="M248 262 C230 262 226 300 252 304 L308 304 C334 300 330 262 312 262 Z" fill="${XF.pel}" stroke="${XF.yel}" stroke-width="3"/><rect x="274" y="302" width="12" height="24" fill="${XF.yel}"/>
+  <text x="262" y="14" font-size="11" text-anchor="end" fill="${XF.red}">aorta</text><text x="302" y="14" font-size="11" fill="${XF.blue}">vena cava</text>
+  <g font-size="12.5" fill="${XF.ink}">
+    <line x1="150" y1="80" x2="96" y2="64" stroke="${XF.mu}"/><text x="92" y="68" text-anchor="end">kidney</text>
+    <line x1="330" y1="90" x2="430" y2="58" stroke="${XF.mu}"/><text x="434" y="62">renal artery</text>
+    <line x1="330" y1="112" x2="430" y2="136" stroke="${XF.mu}"/><text x="434" y="140">renal vein</text>
+    <line x1="214" y1="190" x2="120" y2="210" stroke="${XF.mu}"/><text x="116" y="214" text-anchor="end">ureter</text>
+    <line x1="330" y1="282" x2="420" y2="280" stroke="${XF.mu}"/><text x="424" y="284">urinary bladder</text>
+    <line x1="286" y1="318" x2="360" y2="318" stroke="${XF.mu}"/><text x="364" y="322">urethra</text></g></svg>`;
+LXFIG.xkidney=()=>`<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Section through a kidney" style="width:100%;height:auto;background:#fff;border-radius:8px">
+  <rect width="700" height="300" fill="#fff"/><g transform="translate(90 0)">
+  <path d="M190 40 C110 40 90 150 110 210 C130 270 230 280 260 240 C275 220 270 190 285 175 C300 160 300 135 285 120 C270 105 280 70 260 55 C245 44 220 40 190 40Z" fill="${XF.kid2}" stroke="${XF.kid}" stroke-width="4"/>
+  <path d="M190 62 C130 62 115 150 130 200 C145 245 220 255 242 228 L250 170 L250 128 L245 80 C235 66 215 62 190 62Z" fill="#a8483a"/>
+  ${[[150,110,-20],[140,160,0],[155,208,25],[205,92,-50],[210,230,50]].map(([x,y,r])=>`<path d="M${x} ${y-16} L${x+40} ${y} L${x} ${y+16}Z" transform="rotate(${r} ${x+20} ${y})" fill="#7e2f24"/>`).join("")}
+  <path d="M232 110 C262 120 270 150 262 178 C255 200 240 205 232 196 C246 170 246 140 232 110Z" fill="${XF.pel}" stroke="${XF.yel}" stroke-width="2"/>
+  <path d="M262 175 C300 200 310 240 318 292" stroke="${XF.yel}" stroke-width="9" fill="none"/>
+  <path d="M286 140 L340 132" stroke="${XF.red}" stroke-width="8"/><path d="M286 156 L340 160" stroke="${XF.blue}" stroke-width="8"/>
+  </g><g font-size="12.5" transform="translate(90 0)" fill="${XF.ink}">
+    <line x1="112" y1="80" x2="60" y2="60" stroke="${XF.mu}"/><text x="56" y="56" text-anchor="end">renal cortex</text>
+    <line x1="150" y1="160" x2="60" y2="170" stroke="${XF.mu}"/><text x="56" y="168" text-anchor="end">renal medulla</text><text x="56" y="184" text-anchor="end" font-size="11" fill="${XF.mu}">(pyramids)</text>
+    <line x1="250" y1="160" x2="390" y2="230" stroke="${XF.mu}"/><text x="394" y="234">renal pelvis</text>
+    <line x1="340" y1="132" x2="390" y2="110" stroke="${XF.mu}"/><text x="394" y="108">renal artery (blood in)</text>
+    <line x1="340" y1="160" x2="390" y2="168" stroke="${XF.mu}"/><text x="394" y="172">renal vein (cleaned blood out)</text>
+    <line x1="312" y1="262" x2="390" y2="272" stroke="${XF.mu}"/><text x="394" y="276">ureter (urine out)</text></g>
+  <text x="484" y="34" font-size="11.5" fill="${XF.mu}">About 1 million nephrons</text><text x="484" y="50" font-size="11.5" fill="${XF.mu}">run through the cortex</text><text x="484" y="66" font-size="11.5" fill="${XF.mu}">and medulla of each kidney.</text></svg>`;
+LXFIG.xnephron=(lab)=>{const L=lab||{};const t=(k,txt,x,y,a)=>L.hide?`<g data-hot="${k}"><circle cx="${x}" cy="${y}" r="13" fill="#13285c"/><text x="${x}" y="${y+4.5}" font-size="12" font-weight="700" text-anchor="middle" fill="#fff">${L.hide.indexOf(k)+1}</text></g>`:`<text x="${x}" y="${y}" font-size="12.5" text-anchor="${a||"start"}" fill="${XF.ink}">${txt}</text>`;
+  return `<svg viewBox="0 0 560 330" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Structure of a nephron" style="width:100%;height:auto;background:#fff;border-radius:8px">
+  <rect width="560" height="330" fill="#fff"/>
+  <path d="M30 70 L84 70" stroke="${XF.red}" stroke-width="8"/><path d="M84 92 L30 120" stroke="#c96a5e" stroke-width="6"/>
+  <circle cx="100" cy="80" r="34" fill="#fde7d6" stroke="${XF.yel}" stroke-width="5"/>
+  <path d="M86 70 C80 56 104 52 106 66 C112 56 128 66 118 76 C130 84 116 98 106 90 C104 104 84 100 90 88 C76 90 76 74 86 70Z" fill="none" stroke="${XF.red}" stroke-width="5"/>
+  <path d="M132 78 C170 60 200 100 180 120 C160 140 210 160 236 130 C262 100 250 70 280 72" stroke="${XF.yel}" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M280 72 L300 72 L300 280 C300 300 330 300 330 280 L330 110" stroke="${XF.yel}" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M330 110 C330 80 380 70 360 110 C350 130 400 130 410 100 L430 70" stroke="${XF.yel}" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M440 40 L440 300" stroke="#e6bf62" stroke-width="16" stroke-linecap="round"/><path d="M430 70 L440 70" stroke="${XF.yel}" stroke-width="12"/>
+  <path d="M150 105 C190 150 230 175 262 140 C270 125 285 125 285 140 L285 290 C285 312 345 312 345 290 L345 130 C360 150 395 150 420 125" stroke="${XF.red}" stroke-width="3" fill="none" stroke-dasharray="6 5" opacity=".75"/>
+  <path d="M440 300 L440 322" stroke="#e6bf62" stroke-width="10"/>
+  ${t("glom","glomerulus",70,152,"middle")}${t("bow","Bowman's capsule",100,30,"middle")}${t("prox","proximal tubule",196,46)}${t("loop","loop of Henle",358,250)}${t("dist","distal tubule",372,178)}${t("coll","collecting duct",460,190)}
+  ${L.hide?"":`<text x="22" y="58" font-size="11" fill="${XF.red}">blood in</text><text x="456" y="318" font-size="11" fill="${XF.mu}">to renal pelvis</text><text x="110" y="214" font-size="11" fill="${XF.red}">capillaries around the tubule</text>
+  <g font-size="11.5"><rect x="20" y="236" width="12" height="12" fill="${XF.yel}"/><text x="38" y="246" fill="${XF.ink}">filtrate / urine path</text><line x1="20" y1="266" x2="34" y2="266" stroke="${XF.red}" stroke-width="3" stroke-dasharray="6 5"/><text x="38" y="270" fill="${XF.ink}">blood (reabsorption into here)</text></g>`}</svg>`;};
+LXFIG.xprocess=()=>`<svg viewBox="0 0 560 250" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Filtration, reabsorption and secretion" style="width:100%;height:auto;background:#fff;border-radius:8px">
+  <rect width="560" height="250" fill="#fff"/><defs><marker id="xa" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="${XF.ink}"/></marker></defs>
+  <rect x="40" y="40" width="480" height="40" rx="20" fill="#fbe3df"/><text x="60" y="65" font-size="13" fill="${XF.red}" font-weight="600">BLOOD in capillaries</text>
+  <rect x="40" y="160" width="480" height="40" rx="20" fill="#fdf1d2"/><text x="60" y="185" font-size="13" fill="#9a6b07" font-weight="600">FILTRATE in the nephron → urine</text>
+  <line x1="90" y1="82" x2="90" y2="156" stroke="${XF.ink}" stroke-width="3" marker-end="url(#xa)"/><text x="100" y="116" font-size="13" font-weight="700" fill="${XF.ink}">1 Filtration</text><text x="100" y="134" font-size="11" fill="${XF.mu}">glomerulus → capsule</text>
+  <line x1="250" y1="158" x2="250" y2="84" stroke="${XF.grn}" stroke-width="3" marker-end="url(#xa)"/><text x="260" y="116" font-size="13" font-weight="700" fill="${XF.grn}">2 Reabsorption</text><text x="260" y="134" font-size="11" fill="${XF.mu}">water, glucose, salts back</text>
+  <line x1="420" y1="82" x2="420" y2="156" stroke="${XF.blue}" stroke-width="3" marker-end="url(#xa)"/><text x="430" y="116" font-size="13" font-weight="700" fill="${XF.blue}">3 Secretion</text><text x="430" y="134" font-size="11" fill="${XF.mu}">H⁺, K⁺, drugs added</text>
+  <text x="280" y="230" font-size="12" text-anchor="middle" fill="${XF.ink}">≈ 180 L of filtrate a day → only ≈ 1.5 L of urine</text></svg>`;
+LXFIG.xdialysis=()=>`<svg viewBox="0 0 560 270" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="How dialysis works" style="width:100%;height:auto;background:#fff;border-radius:8px">
+  <rect width="560" height="270" fill="#fff"/><defs><marker id="xb" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="${XF.ink}"/></marker></defs>
+  <rect x="60" y="60" width="440" height="60" fill="#fbe3df"/><rect x="60" y="126" width="440" height="60" fill="#e3effb"/><line x1="60" y1="123" x2="500" y2="123" stroke="${XF.ink}" stroke-width="3" stroke-dasharray="10 6"/>
+  <text x="70" y="52" font-size="12.5" fill="${XF.red}" font-weight="600">blood from the patient →</text><text x="490" y="204" font-size="12.5" fill="${XF.blue}" font-weight="600" text-anchor="end">← dialysis fluid (no urea)</text>
+  ${[100,170,240,310,380,450].map((x,i)=>`<circle cx="${x}" cy="${80+i%2*18}" r="5" fill="#7b4fbf"/><line x1="${x}" y1="${100+i%2*6}" x2="${x+8}" y2="146" stroke="#7b4fbf" stroke-width="1.6" marker-end="url(#xb)"/>`).join("")}
+  ${[135,275,415].map(x=>`<circle cx="${x}" cy="90" r="11" fill="${XF.red}"/>`).join("")}
+  <g font-size="11.5" fill="${XF.ink}"><line x1="64" y1="222" x2="96" y2="222" stroke="${XF.ink}" stroke-width="3" stroke-dasharray="10 6"/><text x="104" y="226">selectively permeable membrane</text><circle cx="80" cy="244" r="5" fill="#7b4fbf"/><text x="104" y="248">urea and extra salts diffuse across into the fluid</text><circle cx="80" cy="262" r="7" fill="${XF.red}"/><text x="104" y="266">blood cells and proteins are too big: they stay in the blood</text></g>
+  </svg>`;
+LXFIG.xpath=()=>{const S=["Nephron","Collecting duct","Renal pelvis","Ureter","Urinary bladder","Urethra"];return `<svg viewBox="0 0 560 120" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Path of urine" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="560" height="120" fill="#fff"/><defs><marker id="xc" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8Z" fill="${XF.yel}"/></marker></defs>
+  ${S.map((s,i)=>{const x=12+i*92;return `<rect x="${x}" y="38" width="80" height="44" rx="10" fill="#fdf1d2" stroke="${XF.yel}" stroke-width="2"/><text x="${x+40}" y="${s.length>10?56:64}" font-size="11.5" text-anchor="middle" fill="${XF.ink}">${s.length>10?s.split(" ").map((w,j)=>`<tspan x="${x+40}" dy="${j?14:0}">${w}</tspan>`).join(""):s}</text>${i<S.length-1?`<line x1="${x+80}" y1="60" x2="${x+92}" y2="60" stroke="${XF.yel}" stroke-width="3" marker-end="url(#xc)"/>`:""}`;}).join("")}
+  <text x="280" y="108" font-size="11" text-anchor="middle" fill="${XF.mu}">urine leaves the body only through the urethra</text></svg>`;};
+LXFIG.xqurine=()=>{const D=[["Day 1 · 25 °C",1.7],["Day 2 · 44 °C",0.5],["Day 3 · 44 °C",1.4],["Day 4 · 30 °C",2.6]];const W=560,H=250,L=48,B=40,T=16,pw=W-L-20,ph=H-T-B,bw=pw/D.length;
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Urine output on four days" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${W}" height="${H}" fill="#fff"/>
+  ${[0,1,2,3].map(v=>`<line x1="${L}" x2="${W-20}" y1="${T+ph-v/3*ph}" y2="${T+ph-v/3*ph}" stroke="#e1e7ec"/><text x="${L-6}" y="${T+ph-v/3*ph+4}" font-size="11" text-anchor="end" fill="${XF.mu}">${v}</text>`).join("")}
+  ${D.map(([l,v],i)=>`<rect x="${L+i*bw+bw*.22}" y="${T+ph-v/3*ph}" width="${bw*.56}" height="${v/3*ph}" rx="4" fill="${["#f2d76b","#c98a1e","#e7c04a","#f7e9a6"][i]}" stroke="#b07d12"/><text x="${L+i*bw+bw/2}" y="${T+ph-v/3*ph-6}" font-size="11.5" text-anchor="middle" fill="${XF.ink}">${v} L</text><text x="${L+i*bw+bw/2}" y="${H-18}" font-size="11.5" text-anchor="middle" fill="${XF.ink}">${l}</text>`).join("")}
+  <text transform="translate(14 ${T+ph/2}) rotate(-90)" font-size="11.5" text-anchor="middle" fill="${XF.mu}">urine per day (L)</text><text x="${L+pw/2}" y="${H-3}" font-size="10.5" text-anchor="middle" fill="${XF.mu}">bar colour = urine colour · same student, similar meals</text></svg>`;};
+LXFIG.xqnephron=()=>LXFIG.xnephron({hide:["glom","bow","prox","loop","dist","coll"]});
+
+/* ---------- launch: CER phenomenon ---------- */
+const XCER={days:["Day A","Day B","Day C"],cond:["25 °C · indoors","45 °C · football 2 h","45 °C · football 2 h"],drink:[2.5,1.2,4.0],sweat:[0.4,2.6,2.7],urine:[1.7,0.45,1.3],col:[2,7,3],conc:[350,1050,480]};
+const XCOL=n=>["#fbf6d9","#f8f0b8","#f5e68f","#f1d867","#ecc645","#e2ad2a","#d69320","#c27718","#a86014"][Math.max(0,Math.min(8,n))];
+function xCerFig(){const W=600,H=320,L=50,R=16,T=24,B=78,pw=W-L-R,ph=H-T-B,n=3,gw=pw/n,bw=gw/4.6,Y=v=>T+ph-v/4.5*ph,S=[["Water drunk","drink","#2b6fb8"],["Sweat lost","sweat","#8a99a8"],["Urine made","urine","#c7860f"]];
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="Inter,Arial,sans-serif"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  [0,1,2,3,4].forEach(v=>{s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e6ebf0"/><text x="${L-6}" y="${Y(v)+4}" font-size="11" text-anchor="end" fill="#53687a">${v}</text>`;});
+  XCER.days.forEach((d,i)=>{S.forEach(([nm,k,c],j)=>{const v=XCER[k][i],x=L+i*gw+gw*.12+j*(bw+3);s+=`<rect x="${x}" y="${Y(v)}" width="${bw}" height="${T+ph-Y(v)}" rx="3" fill="${c}"/><text x="${x+bw/2}" y="${Y(v)-4}" font-size="10.5" text-anchor="middle" fill="#10232f">${v}</text>`;});
+    s+=`<text x="${L+i*gw+gw*.45}" y="${T+ph+16}" font-size="12" font-weight="600" text-anchor="middle" fill="#10232f">${d}</text><text x="${L+i*gw+gw*.45}" y="${T+ph+31}" font-size="10.5" text-anchor="middle" fill="#53687a">${XCER.cond[i]}</text>
+      <rect x="${L+i*gw+gw*.45-30}" y="${T+ph+38}" width="60" height="12" rx="6" fill="${XCOL(XCER.col[i])}" stroke="#b07d12"/>`;});
+  s+=`<text transform="translate(14 ${T+ph/2}) rotate(-90)" font-size="11.5" text-anchor="middle" fill="#53687a">litres per day</text>`;
+  S.forEach(([nm,,c],j)=>{s+=`<rect x="${L+10+j*130}" y="4" width="12" height="12" rx="2" fill="${c}"/><text x="${L+27+j*130}" y="14" font-size="11.5" fill="#10232f">${nm}</text>`;});
+  return s+`<text x="${W-R}" y="${H-4}" font-size="10.5" text-anchor="end" fill="#53687a">coloured strip under each day = urine colour</text></svg>`;}
+const XK={kid:/kidney|nephron|reabsorb|re-absorb|conserv|sav(e|ing) water|keep(s)? water|hold(s)? (on to )?water|less water (in|into) (the )?urine|الكلى|الكلية|النفرون|إعادة الامتصاص|امتصاص|يحتفظ|توفير الماء/i,
+  urine:/urine|بول|البول/i,lack:/dehydrat|lost|less water|little water|not enough water|sweat|جفاف|عرق|نقص|قليل/i,
+  concept:/reabsor|nephron|tubule|collecting duct|ADH|antidiuretic|homeosta|negative feedback|water balance|osmo|hypothalam|إعادة الامتصاص|امتصاص|النفرون|الأنابيب|القناة الجامعة|هرمون|الاتزان|التغذية الراجعة/i,
+  cause:CERK.cause};
+const XNUMS=[2.5,1.2,4.0,4,0.4,2.6,2.7,1.7,0.45,1.3,2,7,3,350,1050,480,25,45,1700,450,1300];
+function xCerScore(c,e,r){
+  const P={c:0,e:0,r:0},F={c:"",e:"",r:""},nums=(e.match(/\d+(?:\.\d+)?/g)||[]).map(Number).filter(n=>XNUMS.includes(n)),uniq=[...new Set(nums)];
+  if(c.trim().length<8)F.c="Write a claim: one sentence that answers the question.";
+  else if(XK.kid.test(c)&&(XK.urine.test(c)||XK.lack.test(c))){P.c=1;F.c="Clear claim: you linked the small, dark urine to the kidneys saving water.";}
+  else F.c="Your claim should say what the kidneys did: they kept (reabsorbed) more water because the body was short of water.";
+  const hasUrine=/urine|بول/i.test(e)||nums.some(n=>[1.7,0.45,1.3,1700,450,1300,2,7,350,1050].includes(n)),hasWater=/drank|drink|water|sweat|شرب|ماء|عرق/i.test(e);
+  if(e.trim().length<8)F.e="Add evidence: quote numbers from the graph or the table.";
+  else if(uniq.length>=3&&hasUrine&&hasWater){P.e=2;F.e="Strong evidence: numbers for water in and out and for the urine on different days.";}
+  else if(uniq.length>=1){P.e=1;F.e=`You used some data. Make it stronger: compare ${hasWater?"":"water drunk and sweat lost, "}${hasUrine?"":"urine volume, colour or concentration "}on Day A and Day B.`.replace(/, on/," on");}
+  else F.e="Evidence must come from the data. Quote numbers, e.g. urine 1.7 L on Day A but 0.45 L on Day B.";
+  const cc=XK.concept.test(r),ca=XK.cause.test(r);
+  if(r.trim().length<8)F.r="Explain the science: why does the evidence support your claim?";
+  else if(cc&&ca){P.r=2;F.r="Strong reasoning: you used a science idea (reabsorption / homeostasis) and explained the cause and effect.";}
+  else if(cc||ca){P.r=1;F.r=cc?"Good science idea. Now connect it step by step: water lost in sweat → body short of water → nephrons reabsorb more water → less, more concentrated urine.":"You explained a cause. Name the science idea too: reabsorption in the nephron, homeostasis or ADH.";}
+  else F.r="Reasoning should use a science idea from this lesson (reabsorption, nephron, homeostasis, ADH) and explain why the data support the claim.";
+  const pts=P.c+P.e+P.r;return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4};}
+const CER_M24L3={title:"Faisal's football days in Al-Ahsa",
+  intro:`<p>Faisal, a Grade 11 student, measured how much water he drank, estimated the sweat he lost, and collected all his urine for 24 hours on three days with similar meals. He also matched the urine colour to a chart (1 = very pale, 8 = dark amber) and his teacher measured its concentration.</p>`,
+  fig:xCerFig,figcap:"Illustrative data for teaching",
+  table:()=>`<table class="certbl"><tr><th></th>${XCER.days.map(d=>`<th>${d}</th>`).join("")}</tr><tr><td>Conditions</td>${XCER.cond.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Water drunk (L)</td>${XCER.drink.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Sweat lost (L)</td>${XCER.sweat.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Urine made (L)</td>${XCER.urine.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Urine colour (1–8)</td>${XCER.col.map(v=>`<td><span class="xsw" style="background:${XCOL(v)}"></span>${v}</td>`).join("")}</tr><tr><td>Concentration (mOsm/L)</td>${XCER.conc.map(v=>`<td>${v}</td>`).join("")}</tr></table>`,
+  question:"Why was Faisal's urine so small in volume and so dark on Day B?",ph:["e.g. On Day B Faisal's kidneys…","On Day A he made 1.7 L of urine, but on Day B…","This happened because in the nephrons…"],
+  rubric:[["Claim","Answers the question: the body was short of water, so the kidneys reabsorbed (kept) more water, leaving less, more concentrated urine.","0–1"],["Evidence","Specific numbers for water in/out (drunk, sweat) AND for the urine (volume, colour or concentration), comparing days.","0–2"],["Reasoning","Uses reabsorption in the nephron / homeostasis / water balance (ADH) AND explains the cause-and-effect chain.","0–2"]],
+  ex:["On Day B Faisal's kidneys reabsorbed more water because his body had lost a lot of water in sweat, so he made a small amount of concentrated urine.","On Day B he drank only 1.2 L but lost 2.6 L in sweat, and his urine fell to 0.45 L (Day A 1.7 L), its colour went from 2 to 7 and its concentration rose from 350 to 1050 mOsm/L. On Day C he drank 4.0 L and his urine went back up to 1.3 L with colour 3.","The excretory system keeps the water balance of the body stable (homeostasis). When the body is short of water, more ADH is released and the collecting ducts and tubules of the nephrons reabsorb more water into the blood. Less water is left in the filtrate, so the urine is smaller in volume and more concentrated (darker). Drinking more water on Day C let the kidneys reabsorb less, so more, paler urine was made."],
+  ai:`PHENOMENON: Faisal (Grade 11, Al-Ahsa) recorded 3 days with similar meals. Day A 25 °C indoors: drank 2.5 L, sweat 0.4 L, urine 1.7 L, colour 2/8, concentration 350 mOsm/L. Day B 45 °C football 2 h: drank 1.2 L, sweat 2.6 L, urine 0.45 L, colour 7/8, 1050 mOsm/L. Day C 45 °C football 2 h: drank 4.0 L, sweat 2.7 L, urine 1.3 L, colour 3/8, 480 mOsm/L.
+QUESTION: Why was Faisal's urine so small in volume and so dark on Day B?
+RUBRIC:
+- Claim 0-1: 1 if it answers the question: the body was short of water (lost in sweat, drank little), so the kidneys/nephrons reabsorbed (conserved) more water, giving less and more concentrated urine.
+- Evidence 0-2: 2 = accurate specific numbers for water intake and/or sweat AND for urine volume, colour or concentration, comparing Day B with Day A or C; 1 = some data or only general trends; 0 = no data or wrong numbers.
+- Reasoning 0-2: 2 = uses a science idea (reabsorption of water in nephron tubules/collecting duct, homeostasis/water balance, ADH/negative feedback) AND explains the chain (water lost → body short of water → more water reabsorbed → less water left in filtrate → small, concentrated urine); 1 = only one of those; 0 = none.`,
+  score:xCerScore};
+
+/* ---------- Kidney Lab: nephron model ---------- */
+const XCH=[{id:"conc",t:"Make the urine very concentrated (more than 900 mOsm/L).",h:"Think about Faisal's Day B: heat, exercise, little water."},
+  {id:"dilute",t:"Make more than 3 L of dilute urine per day (below 250 mOsm/L).",h:"What happens when you drink much more than you lose?"},
+  {id:"gluc",t:"Find the blood glucose level where glucose first appears in the urine (set it between 10 and 12 mmol/L).",h:"Raise blood glucose slowly and watch the glucose test."},
+  {id:"fail",t:"Show kidney failure (kidney function below 15%), then use dialysis to bring blood urea below 10 mmol/L.",h:"Lower kidney function, watch urea rise, then press Dialysis."},
+  {id:"neph",t:"Show nephritis: make protein appear in the urine.",h:"Damage the glomeruli with the nephritis switch."},
+  {id:"data",t:"Record at least 5 data points in your data table.",h:"Press Record after each change."}];
+function xModel(P){
+  const kf=P.kf/100*(P.neph?0.65:1),exh=P.ex,sweat=0.3+Math.max(0,P.temp-25)*0.02*(1+exh)+exh*0.4,free=P.water+0.7+0.3-sweat-0.5;
+  const gfr=125*kf*Math.max(0,Math.min(1.15,(P.bp-50)/45)),filt=gfr*1.44;let load=400+P.salt*34;
+  const gluc=Math.max(0,P.glu-10);load+=gluc*60;
+  const maxC=P.adhoff?160:1200*Math.min(1,0.35+0.65*kf),minC=60;
+  let V=Math.max(load/maxC,Math.min(free,load/minC));if(P.adhoff)V=Math.max(V,Math.min(free+3,filt*0.12));
+  V=Math.min(V,filt*0.15);if(filt<=0)V=0;
+  const conc=V>0?load/V:0,reab=filt>0?100*(1-V/filt):0,deficit=load/maxC-free;
+  const water=filt<1?"fluid builds up (kidneys cannot remove water)":deficit>0.2?"dehydrated · drink water":free-V>1.5?"too much water":"balanced";
+  const adh=P.adhoff?"blocked":conc>700?"high":conc<250?"low":"normal";
+  return {gfr,filt,V,conc,reab,sweat,free,adh,water,glucose:gluc>0?(gluc<2?"trace":gluc<6?"++":"+++"):"none",protein:P.neph,ureaT:Math.min(60,5/Math.max(0.06,kf))};}
+function xLab(){
+  const st=LX.st;st.x=st.x||{};const X=st.x;X.urea=X.urea??5;
+  const D=[["water","Water drunk (L/day)",0.5,6,0.1,2],["temp","Air temperature (°C)",18,48,1,30],["ex","Exercise (hours/day)",0,4,0.5,0],["salt","Salt eaten (g/day)",2,16,1,6],["bp","Blood pressure (mean, mmHg)",55,140,1,95],["glu","Blood glucose (mmol/L)",4,20,0.5,5.5],["kf","Kidney function (% of nephrons working)",5,100,1,100]];
+  $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap">
+    <div class="lxfield" style="background:#fff7f2"><canvas id="xcv" style="height:300px"></canvas><div class="lxlegend"><span><i style="background:#2b6fb8"></i>Water</span><span><i style="background:#d9a21b"></i>Glucose</span><span><i style="background:#7b4fbf"></i>Urea</span><span><i style="background:#1d8656"></i>Salt</span><span><i style="background:#c0392b"></i>Blood cells · protein</span></div></div>
+    <div class="lxcard2 xgauges" id="xg"></div>
+    <div class="lxchal" id="xchal"></div></div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn pri" id="xrun">❚❚ Pause</button><button class="lxbtn" id="xrec">● Record data point</button><button class="lxbtn" id="xdial">⟲ Dialysis session</button></div>
+      ${simSliders(D)}
+      <label class="xtog"><input type="checkbox" id="xadh"> ADH blocked (the brain sends no water-saving signal)</label>
+      <label class="xtog"><input type="checkbox" id="xneph"> Nephritis (inflamed, leaky glomeruli)</label>
+      <div class="lxverdict" id="xv"></div></div></div>
+    <div class="lxprac"><div class="ph"><h3>My data table</h3><span class="lxqs" id="xdn"></span></div><p class="lxtask">Change one factor at a time, then press <b>Record</b>. Your table is saved with your name and used in the analysis questions.</p>
+      <div class="lxbtns"><button class="lxbtn" id="xclr">Clear table</button></div><div class="lxtblwrap"><table class="lxtbl" id="xtbl"></table></div></div>
+    <div class="lxprac"><div class="ph"><h3>Analyse your data</h3><span class="lxqs" id="lxan"></span></div><div id="lxanq"></div></div>`;
+  const P={};const read=()=>{Object.assign(P,simRead(D));P.adhoff=$("xadh").checked;P.neph=$("xneph").checked;};
+  let M=null,dial=0,run=true,raf=0,parts=[],last=performance.now();
+  const S=LX.sim={stop(){run=false;cancelAnimationFrame(raf);const b=$("xrun");if(b)b.textContent="▶ Run";},resize(){}};
+  const gauge=(lab,val,unit,pct,col)=>`<div class="xgauge"><span>${lab}</span><b>${val}<small> ${unit}</small></b><i><em style="width:${Math.max(0,Math.min(100,pct))}%;background:${col}"></em></i></div>`;
+  const ucol=c=>XCOL(Math.round(Math.max(0,Math.min(8,(c-50)/140))));
+  const done=id=>{if(st.ch[id])return;st.ch[id]=true;lxSave();lxSfx.win();lxToast("Challenge complete!");renderCh();lxBar();};
+  const renderCh=()=>{$("xchal").innerHTML=`<h4>Challenges · ${XCH.filter(c=>st.ch[c.id]).length} / ${XCH.length}</h4>`+XCH.map(c=>`<div class="lxch${st.ch[c.id]?" done":""}"><span class="tick"></span><div><b>${c.t}</b><small>${c.h}</small></div></div>`).join("");};
+  const update=()=>{read();M=xModel(P);
+    $("xg").innerHTML=`<h4>Kidney output (per day)</h4><div class="xgrid">${gauge("Filtration rate",Math.round(M.gfr),"mL/min",M.gfr/1.4,"#2b6fb8")}${gauge("Filtrate made",M.filt.toFixed(0),"L",M.filt/2,"#2b6fb8")}${gauge("Urine made",M.V.toFixed(2),"L",M.V/5*100,"#c7860f")}${gauge("Water reabsorbed",M.reab.toFixed(1),"%",M.reab,"#1d8656")}${gauge("Urine concentration",Math.round(M.conc),"mOsm/L",M.conc/12,"#a86014")}${gauge("Blood urea",X.urea.toFixed(1),"mmol/L",X.urea/40*100,X.urea>20?"#c03c2c":X.urea>8?"#c7860f":"#1d8656")}</div>
+      <div class="xurine"><span class="xcup" style="--u:${ucol(M.conc)};--h:${Math.min(100,M.V/4*100)}%"></span><div><b>Urine test strip</b><span>Glucose: <b class="${M.glucose==="none"?"g":"r"}">${M.glucose}</b> · Protein: <b class="${M.protein?"r":"g"}">${M.protein?"present":"none"}</b> · Colour ${Math.round(Math.max(1,Math.min(8,(M.conc-50)/140)))}/8</span><span>ADH signal: <b>${M.adh}</b> · Body water: <b class="${M.water==="balanced"?"g":"r"}">${M.water}</b> · Sweat ${M.sweat.toFixed(1)} L</span></div></div>`;
+    const v=$("xv");v.className="lxverdict"+(X.urea>20||M.water!=="balanced"?" warn":"");
+    v.innerHTML=X.urea>20?"⚠ Urea is building up in the blood. The kidneys are failing: start a <b>dialysis session</b>.":M.glucose!=="none"?"Glucose is above the kidney threshold (about 10 mmol/L): the tubules cannot reabsorb all of it, so it appears in the urine.":M.protein?"Nephritis: inflamed glomeruli let proteins leak into the filtrate.":M.conc>900?"The nephrons are reabsorbing almost all the water: a small volume of concentrated urine.":M.V>3?"Plenty of water: less is reabsorbed, so a large volume of dilute urine is made.":"Change one factor at a time and watch the urine.";
+    if(M.conc>900&&!P.adhoff)done("conc");if(M.V>3&&M.conc<250)done("dilute");if(P.glu>10&&P.glu<=12&&M.glucose!=="none")done("gluc");if(M.protein)done("neph");if(st.data.length>=5)done("data");};
+  const path=[[60,70],[110,70],[150,95],[200,115],[240,90],[280,80],[300,90],[300,230],[315,250],[330,230],[330,110],[370,95],[410,120],[440,90],[470,90],[470,280]];
+  const segLen=path.slice(1).map((p,i)=>Math.hypot(p[0]-path[i][0],p[1]-path[i][1])),tot=segLen.reduce((a,b)=>a+b,0);
+  const at=d=>{let k=0;while(k<segLen.length-1&&d>segLen[k]){d-=segLen[k];k++;}const a=path[k],b=path[k+1],f=Math.min(1,d/segLen[k]);return [a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f];};
+  const spawn=()=>{if(!M)return;const rate=M.gfr/125;if(Math.random()>rate*0.9)return;const r=Math.random();const k=r<.55?"w":r<.7?"s":r<.82?"g":r<.95?"u":"p";
+    if(k==="p"&&!M.protein)return;parts.push({k,d:0,out:null,v:1.2+Math.random()*0.6});};
+  const leave=(p)=>{const at_=p.d/tot;if(p.k==="w")return Math.random()<(M.reab/100)*0.012*(at_>0.55?2.2:1);if(p.k==="g")return M.glucose==="none"?at_<0.25&&Math.random()<0.08:at_<0.25&&Math.random()<0.03;if(p.k==="s")return Math.random()<0.006;if(p.k==="u")return Math.random()<0.0018;return false;};
+  const col={w:"#2b6fb8",s:"#1d8656",g:"#d9a21b",u:"#7b4fbf",p:"#c0392b"};
+  const draw=()=>{const F=simFit($("xcv"));if(!F)return;const{x,w,h}=F,sx=w/520,sy=h/300;x.save();x.scale(sx,sy);
+    x.lineCap="round";x.lineJoin="round";x.strokeStyle="#f3d98d";x.lineWidth=16;x.beginPath();path.forEach((p,i)=>i?x.lineTo(...p):x.moveTo(...p));x.stroke();
+    x.strokeStyle="rgba(192,57,43,.35)";x.lineWidth=4;x.setLineDash([7,6]);x.beginPath();path.slice(2,15).forEach((p,i)=>i?x.lineTo(p[0]+(i%2?-14:14),p[1]+16):x.moveTo(p[0],p[1]+16));x.stroke();x.setLineDash([]);
+    x.fillStyle="#fde7d6";x.strokeStyle="#d9a21b";x.lineWidth=4;x.beginPath();x.arc(70,70,30,0,7);x.fill();x.stroke();x.strokeStyle="#c0392b";x.lineWidth=5;x.beginPath();x.arc(70,70,14,0,7);x.stroke();
+    x.fillStyle="#c0392b";for(let i=0;i<5;i++){x.beginPath();x.arc(20+i*9+((performance.now()/40+i*20)%40),30,4.5,0,7);x.fill();}
+    x.font="11px Inter, Arial";x.fillStyle="#53687a";x.fillText("glomerulus",40,118);x.fillText("tubule",205,145);x.fillText("loop of Henle",330,268);x.textAlign="right";x.fillText("collecting duct",460,200);x.textAlign="left";x.fillText("→ urine",476,292);x.fillStyle="#c0392b";x.fillText("blood cells stay in the blood",8,16);
+    parts.forEach(p=>{const [px,py]=p.out?p.out:at(p.d);x.fillStyle=col[p.k];x.globalAlpha=p.out?Math.max(0,p.life/30):1;x.beginPath();x.arc(px,py,p.k==="p"?4.5:3.2,0,7);x.fill();x.globalAlpha=1;});
+    x.restore();};
+  const step=dt=>{if(!M)return;for(let i=0;i<3;i++)spawn();
+    parts.forEach(p=>{if(p.out){p.out[1]+=0.9;p.life--;return;}p.d+=p.v*(1+M.V/3);if(leave(p)){const [a,b]=at(p.d);p.out=[a,b];p.life=30;}});
+    parts=parts.filter(p=>p.out?p.life>0:p.d<tot);if(parts.length>500)parts.splice(0,parts.length-500);
+    const target=dial>0?Math.max(5,M.ureaT*0.15):M.ureaT;X.urea+=(target-X.urea)*(dial>0?0.02:0.004);if(dial>0){dial--;if(!dial)lxToast("Dialysis session finished");}
+    if(X.urea>20)X.failSeen=true;if(P.kf<15&&X.urea<10&&X.failSeen&&X.dialUsed)done("fail");};
+  let gt=0;const loop=t=>{if(!run)return;const dt=t-last;last=t;step(dt);draw();gt+=dt;if(gt>400){gt=0;update();}raf=requestAnimationFrame(loop);};
+  S.resume=()=>{if(run||!$("xcv"))return;run=true;$("xrun").textContent="❚❚ Pause";last=performance.now();raf=requestAnimationFrame(loop);};
+  $("xrun").onclick=()=>{if(run)S.stop();else S.resume();};
+  $("xdial").onclick=()=>{dial=600;X.dialUsed=!!X.failSeen||X.dialUsed;lxToast("Dialysis: blood passes through the machine and urea diffuses out");};
+  D.forEach(([k])=>$("sm-"+k).oninput=()=>update());$("xadh").onchange=update;$("xneph").onchange=update;
+  const tbl=()=>{$("xtbl").innerHTML=`<thead><tr><th>#</th><th>Water L</th><th>Temp °C</th><th>Exercise h</th><th>Salt g</th><th>BP</th><th>Glucose</th><th>Kidney %</th><th>Urine L</th><th>mOsm/L</th><th>Reabsorbed %</th><th>Glucose test</th><th>Urea</th></tr></thead><tbody>${st.data.map((d,i)=>`<tr><td>${i+1}</td><td>${d.water}</td><td>${d.temp}</td><td>${d.ex}</td><td>${d.salt}</td><td>${d.bp}</td><td>${d.glu}</td><td>${d.kf}${d.neph?" (nephritis)":""}${d.adhoff?" · ADH off":""}</td><td><b>${d.V}</b></td><td>${d.conc}</td><td>${d.reab}</td><td>${d.gl}</td><td>${d.urea}</td></tr>`).join("")}</tbody>`;$("xdn").textContent=`${st.data.length} point${st.data.length===1?"":"s"}`;};
+  $("xrec").onclick=()=>{if(st.data.length>=30){lxToast("Table is full (30 points).",true);return;}update();st.data.push({water:P.water,temp:P.temp,ex:P.ex,salt:P.salt,bp:P.bp,glu:P.glu,kf:P.kf,neph:P.neph,adhoff:P.adhoff,V:+M.V.toFixed(2),conc:Math.round(M.conc),reab:+M.reab.toFixed(1),gl:M.glucose,urea:+X.urea.toFixed(1)});lxSave();tbl();update();xAnalysis();lxBar();};
+  $("xclr").onclick=()=>{st.data=[];lxSave();tbl();xAnalysis();};
+  renderCh();tbl();update();xAnalysis();raf=requestAnimationFrame(loop);
+}
+function xAnalysis(){const st=LX.st,d=st.data,host=$("lxanq");if(!host)return;
+  if(d.length<3){host.innerHTML=`<p class="lxsub">Record at least 3 data points to unlock the analysis questions. They are checked against <b>your own</b> table.</p>`;$("lxan").textContent="locked";return;}
+  const last=d[d.length-1],maxV=d.reduce((a,b)=>b.V>a.V?b:a),maxC=d.reduce((a,b)=>b.conc>a.conc?b:a);
+  const Q=[{type:"num",stem:`In your <b>last</b> data point, what percentage of the filtrate was reabsorbed?`,a:last.reab,unit:"%",tol:0.002,why:`Your last row shows ${last.reab}% reabsorbed: most of the filtrate goes back to the blood.`,hint:"Read the Reabsorbed % column in the last row."},
+    {type:"num",stem:`What is the <b>largest urine volume</b> in your table?`,a:maxV.V,unit:"L/day",tol:0.002,why:`Your largest urine volume is ${maxV.V} L (water drunk ${maxV.water} L, ${maxV.temp} °C).`,hint:"Look down the Urine L column."},
+    {type:"mcq",stem:`Your most concentrated urine (${maxC.conc} mOsm/L) was made when…`,opts:["the body had little water to spare, so the nephrons reabsorbed more water","the kidneys filtered less glucose","the bladder was full","blood pressure was at its highest"],a:0,why:"Concentrated urine means most of the water was reabsorbed because the body needed to keep it.",hint:"Concentration = the same wastes in less water."},
+    {type:"mcq",stem:"In the model, why does glucose appear in the urine above about 10 mmol/L?",opts:["The tubules can only reabsorb glucose up to a limit, so the extra stays in the filtrate","Glucose is secreted into the tubule","The glomerulus stops filtering glucose","ADH pushes glucose into the urine"],a:0,why:"All filtered glucose is normally reabsorbed; above the threshold the carriers are full, so some stays in the urine.",hint:"Think about reabsorption having a maximum."}];
+  const sig=d.map(x=>x.V+":"+x.conc+":"+x.reab).join("|");if(st.anSig!==sig){st.an={};st.anSig=sig;lxSave();}
+  host.innerHTML=Q.map((q,i)=>lxQHTML(q,"a"+i,i+1)).join("");Q.forEach((q,i)=>lxWireQ(q,"a"+i,st.an||(st.an={}),()=>{$("lxan").textContent=`${Q.filter((_,j)=>st.an?.["a"+j]?.ok).length} / ${Q.length} correct`;}));
+  $("lxan").textContent=`${Q.filter((_,i)=>st.an?.["a"+i]?.ok).length} / ${Q.length} correct`;}
+
+/* ---------- Practice ---------- */
+const XORG={lungs:"Lungs",skin:"Skin",kid:"Kidneys",liver:"Liver"};
+const XORGQ=[["Carbon dioxide made by respiring cells","lungs"],["Water vapour in the air you breathe out","lungs"],["Sweat containing water and salts","skin"],["Urea dissolved in water as urine","kid"],["Extra hydrogen ions to keep blood pH stable","kid"],["Changes toxic ammonia into less toxic urea","liver"],["A small amount of urea lost on a hot day without urine","skin"],["Removes excess salt from the blood","kid"]];
+const XWHYO={lungs:"The lungs excrete carbon dioxide and water vapour.",skin:"Sweat glands in the skin excrete water, salts and a little urea.",kid:"The kidneys filter the blood and make urine: urea, extra water, salts and H⁺.",liver:"The liver does not make urine; it converts ammonia from amino acids into urea, which the kidneys excrete."};
+const XPROC={f:"Filtration",r:"Reabsorption",s:"Secretion"};
+const XPROCQ=[["Water, glucose, salts and urea are pushed out of the glomerulus into Bowman's capsule.","f"],["Glucose and amino acids move from the tubule back into the capillaries.","r"],["Hydrogen ions are moved from the blood into the tubule to keep blood pH stable.","s"],["Blood cells and large proteins stay in the blood because they are too big.","f"],["Most of the water returns to the blood along the tubule and collecting duct.","r"],["Some medicines are moved from the capillaries into the filtrate.","s"],["High blood pressure in the glomerulus forces fluid out of the capillaries.","f"],["Sodium ions are pumped out of the filtrate back into the blood.","r"]];
+const XPATH=["Glomerulus","Bowman's capsule","Proximal tubule","Loop of Henle","Distal tubule","Collecting duct","Renal pelvis","Ureter","Urinary bladder","Urethra"];
+const XHOT=[["glom","Glomerulus"],["bow","Bowman's capsule"],["prox","Proximal tubule"],["loop","Loop of Henle"],["dist","Distal tubule"],["coll","Collecting duct"]];
+function xPractice(){const st=LX.st;st.x=st.x||{};const X=st.x;X.org=X.org||{};X.orgW=X.orgW||{};X.pr=X.pr||{};X.prW=X.prW||{};X.path=X.path||{seq:[],miss:0,done:false};X.hot=X.hot||{};X.hotW=X.hotW||{};
+  const two=(store,W,ans,i,v,names,why,rowSel)=>{if(store[i])return;if(v!==ans&&!W[i]){W[i]=v;lxSfx.wrong();lxSave();xPractice();lxToast(`Not ${names[v]}. One more try.`,true);return;}store[i]=v;v===ans?lxSfx.right():lxSfx.wrong();lxSave();xPractice();lxBar();};
+  const card=(title,qs,task,list)=>`<div class="lxprac"><div class="ph"><h3>${title}</h3><span class="lxqs">${qs}</span></div><p class="lxtask">${task}</p>${list}</div>`;
+  const sc=(o,A,W)=>`${Object.keys(o).filter(i=>o[i]===A[i][1]).length} correct · ${Object.keys(o).length} / ${A.length}`;
+  const org=card("Which organ excretes it?",sc(X.org,XORGQ,X.orgW),"Choose the organ for each item. You have 2 tries for each.",`<div class="lxsortlist">${XORGQ.map(([t,a],i)=>{const s=X.org[i],w=X.orgW[i];return `<div class="lxsort${s?(s===a?" ok":" no"):""}" data-g="org" data-i="${i}"><p>${esc(t)}</p><div class="lxchips">${Object.entries(XORG).map(([k,n])=>`<button data-v="${k}" class="${s?(k===a?"right":k===s?"wrong":""):w===k?"wrong":""}" ${s||w===k?"disabled":""}>${n}</button>`).join("")}</div><div class="lxfb ${s?(s===a?"ok":"no"):w?"no":""}">${s?`<b>${s===a?(w?"Correct on the second try":"Correct"):"Answer: "+XORG[a]}</b><span>${XWHYO[a]}</span>`:w?`<b>Not ${XORG[w]}. One more try.</b><span>${XWHYO[w]}</span>`:""}</div></div>`;}).join("")}</div>`);
+  const proc=card("Filtration, reabsorption or secretion?",sc(X.pr,XPROCQ,X.prW),"Read each statement about the nephron and choose the process. 2 tries each.",`<div class="lxsortlist">${XPROCQ.map(([t,a],i)=>{const s=X.pr[i],w=X.prW[i];return `<div class="lxsort${s?(s===a?" ok":" no"):""}" data-g="pr" data-i="${i}"><p>${esc(t)}</p><div class="lxchips">${Object.entries(XPROC).map(([k,n])=>`<button data-v="${k}" class="${s?(k===a?"right":k===s?"wrong":""):w===k?"wrong":""}" ${s||w===k?"disabled":""}>${n}</button>`).join("")}</div><div class="lxfb ${s?(s===a?"ok":"no"):w?"no":""}">${s?`<b>${s===a?(w?"Correct on the second try":"Correct"):"Answer: "+XPROC[a]}</b>`:w?`<b>Not ${XPROC[w]}. One more try.</b><span>Filtration = blood → capsule; reabsorption = filtrate → blood; secretion = blood → filtrate.</span>`:""}</div></div>`;}).join("")}</div>`);
+  const pv=X.path,sh=lxShuffle(XPATH,"xpath"+(CAL.uid||""));
+  const path=card("Trace the path of the filtrate and urine",pv.done?`done · ${pv.miss} mistake${pv.miss===1?"":"s"}`:`${pv.seq.length} / ${XPATH.length}`,"Tap the structures in the order the fluid passes through them, from the glomerulus to the outside of the body.",`<div class="lxchips big" id="xpathc">${sh.map(x=>`<button data-v="${esc(x)}" class="${pv.seq.includes(x)?"right":""}" ${pv.seq.includes(x)||pv.done?"disabled":""}>${esc(x)}</button>`).join("")}</div><div class="lxseq">${pv.seq.map((x,i)=>`<span>${i+1}. ${esc(x)}</span>`).join(" → ")}</div><div class="lxfb" id="xpathm"></div>${pv.done?"":`<div class="lxbtns"><button class="lxbtn" id="xpathr">Start again</button></div>`}`);
+  const hotDone=XHOT.filter(([k],i)=>X.hot[k]).length;
+  const label=card("Label the nephron",`${hotDone} / ${XHOT.length}`,"Choose a name, then tap its number on the diagram. 2 tries for each label.",`<div class="xlabel"><div class="xlfig" id="xlfig">${LXFIG.xnephron({hide:XHOT.map(h=>h[0])})}</div><div class="lxchips" id="xlchips">${XHOT.map(([k,n])=>`<button data-k="${k}" class="${X.hot[k]?"right":""}" ${X.hot[k]?"disabled":""}>${n}</button>`).join("")}</div><div class="lxfb" id="xlm"></div></div>`);
+  $("lxprac").innerHTML=org+proc+path+label;
+  $("lxprac").querySelectorAll(".lxsort").forEach(row=>row.querySelectorAll("button").forEach(b=>b.onclick=()=>{const i=+row.dataset.i,g=row.dataset.g;g==="org"?two(X.org,X.orgW,XORGQ[i][1],i,b.dataset.v,XORG):two(X.pr,X.prW,XPROCQ[i][1],i,b.dataset.v,XPROC);}));
+  $("xpathc").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(pv.done)return;const want=XPATH[pv.seq.length];if(b.dataset.v===want){pv.seq.push(want);lxSfx.right();if(pv.seq.length===XPATH.length){pv.done=true;lxSfx.win();lxToast("Path complete!");}lxSave();xPractice();lxBar();}
+    else{pv.miss++;lxSfx.wrong();lxSave();const m=$("xpathm");m.className="lxfb no";m.innerHTML=`<b>Not ${esc(b.dataset.v)} yet.</b><span>After ${pv.seq.length?esc(pv.seq[pv.seq.length-1]):"the blood"}, where does the fluid go next?</span>`;}});
+  const pr=$("xpathr");if(pr)pr.onclick=()=>{X.path={seq:[],miss:0,done:false};lxSave();xPractice();};
+  let pick=null;$("xlchips").querySelectorAll("button").forEach(b=>b.onclick=()=>{pick=b.dataset.k;$("xlchips").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));$("xlm").className="lxfb";$("xlm").innerHTML=`<span>Now tap the number for <b>${esc(b.textContent)}</b>.</span>`;});
+  $("xlfig").querySelectorAll("[data-hot]").forEach(g=>{const k=g.dataset.hot;if(X.hot[k])g.classList.add("ok");g.style.cursor="pointer";g.onclick=()=>{if(!pick)return;const m=$("xlm"),nm=XHOT.find(h=>h[0]===pick)[1];
+    if(pick===k){X.hot[k]=X.hotW[k]?"w":"1";lxSfx.right();lxSave();xPractice();lxBar();}
+    else{X.hotW[pick]=(X.hotW[pick]||0)+1;lxSfx.wrong();lxSave();if(X.hotW[pick]>=2){X.hot[pick]="x";lxSave();xPractice();lxToast(`${nm} was number ${XHOT.findIndex(h=>h[0]===pick)+1}.`,true);return;}m.className="lxfb no";m.innerHTML=`<b>That is not the ${esc(nm)}.</b><span>One more try.</span>`;}};});
+}
+function xScore(st){const X=st.x||{};const hf=(o,A,W)=>Object.keys(o||{}).reduce((t,i)=>t+(o[i]===A[i][1]?(W?.[i]?0.5:1):0),0);
+  const hot=XHOT.reduce((t,[k])=>t+(X.hot?.[k]==="1"?1:X.hot?.[k]==="w"?0.5:0),0);
+  const pr={ok:hf(X.org,XORGQ,X.orgW)+hf(X.pr,XPROCQ,X.prW)+(X.path?.done&&X.path.miss<=2?1:0)+hot,n:XORGQ.length+XPROCQ.length+1+XHOT.length};
+  const SIMT=["gf1","gf2","gf3","dy1","dy2","dy3"],c={ok:XCH.filter(x=>st.ch[x.id]).length+SIMT.filter(k=>st.sim?.[k]).length,n:XCH.length+SIMT.length};
+  return {c,pr};}
+
+/* ---------- Simulations: glomerulus filter + dialysis machine + online PhET ---------- */
+function xSims(){const host=$("lxsims");if(!host)return;const st=LX.st;st.sim=st.sim||{};
+  host.innerHTML=`<div class="lxsimnav" id="lxsimnav"><button data-s="filt" aria-pressed="true">⚗ Glomerulus filter</button><button data-s="dial" aria-pressed="false">🩸 Dialysis machine</button><button data-s="web" aria-pressed="false">🌐 Online simulations</button></div><div id="lxsimbody"></div>`;
+  const show=k=>{host.querySelectorAll("#lxsimnav button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===k));if(LX.fieldSim)LX.fieldSim.stop();({filt:xFilter,dial:xDialysis,web:xWeb})[k]($("lxsimbody"));};
+  host.querySelectorAll("#lxsimnav button").forEach(b=>b.onclick=()=>show(b.dataset.s));show("filt");}
+const xTasks=(list)=>`<div class="lxchal"><h4>Tasks</h4>${list.map(([id,t])=>`<div class="lxch${LX.st.sim?.[id]?" done":""}" data-id="${id}"><span class="tick"></span><div><b>${t}</b></div></div>`).join("")}</div>`;
+const xTick=()=>document.querySelectorAll("#lxsimbody .lxch").forEach(c=>c.classList.toggle("done",!!LX.st.sim?.[c.dataset.id]));
+function xFilter(host){
+  const T=[["water","Water",2,"#2b6fb8"],["salt","Salt ions",3,"#1d8656"],["glu","Glucose",4,"#d9a21b"],["urea","Urea",3.5,"#7b4fbf"],["amino","Amino acids",4.5,"#e07b39"],["prot","Proteins",9,"#c0392b"],["rbc","Red blood cells",14,"#8e1b12"]];
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff7f2"><canvas id="xfcv" style="height:300px"></canvas></div>
+    <div class="lxcard2"><h4>What reached Bowman's capsule (filtrate)</h4><div id="xfbars" class="xbars"></div></div>
+    ${xTasks([["gf1","Lower the blood pressure until filtration almost stops (40 mmHg or less)."],["gf2","Turn on nephritis and find what leaks into the filtrate."],["gf3","Answer: which two parts of blood never cross a healthy filter?"]])}</div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn pri" id="xfgo">❚❚ Pause</button><button class="lxbtn" id="xfreset">Empty the capsule</button></div>${simSliders([["fp","Blood pressure in glomerulus (mmHg)",30,90,1,55]])}
+      <label class="xtog"><input type="checkbox" id="xfneph"> Nephritis: inflamed glomerulus (bigger gaps)</label>
+      <div class="lxprac" style="margin-top:6px"><p class="lxtask"><b>Question:</b> Which two never cross a healthy filter?</p><div class="lxchips" id="xfq">${T.map(t=>`<button data-k="${t[0]}">${t[1]}</button>`).join("")}</div><div class="lxfb" id="xfqm"></div></div>
+      <div class="lxverdict" id="xfv">Particles are pushed by blood pressure towards the filter. Only those smaller than the gaps get through.</div></div></div>`;
+  let parts=[],cnt={},run=true,raf=0,low=0;const P={};const read=()=>{Object.assign(P,simRead([["fp"]]));P.neph=$("xfneph").checked;};read();
+  const gap=()=>P.neph?10.5:5.5;
+  const S=LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);const b=$("xfgo");if(b)b.textContent="▶ Run";}};
+  const bars=()=>{const tot=Object.values(cnt).reduce((a,b)=>a+b,0)||1;$("xfbars").innerHTML=T.map(([k,n,,c])=>`<div class="xbar"><span>${n}</span><i><em style="width:${(cnt[k]||0)/tot*100}%;background:${c}"></em></i><b>${cnt[k]||0}</b></div>`).join("");};
+  const loop=()=>{if(!run)return;const F=simFit($("xfcv"));if(!F)return;const{x,w,h}=F,my=h*0.55,push=Math.max(0,(P.fp-30)/60);
+    if(Math.random()<0.9){const t=T[Math.random()<.5?0:Math.floor(Math.random()*T.length)];parts.push({t,x:-10,y:20+Math.random()*(my-40),vx:1.2+Math.random(),vy:0,state:0});}
+    x.fillStyle="#fde3dc";x.fillRect(0,0,w,my);x.fillStyle="#fdf6dc";x.fillRect(0,my+8,w,h-my-8);
+    x.strokeStyle="#7a5a3a";x.lineWidth=4;for(let i=0;i<w;i+=22){x.beginPath();x.moveTo(i,my+4);x.lineTo(i+22-gap()*1.4,my+4);x.stroke();}
+    x.font="12px Inter, Arial";x.fillStyle="#c0392b";x.fillText("blood in the glomerulus capillary →",10,16);x.fillStyle="#9a6b07";x.fillText("Bowman's capsule (filtrate)",10,h-10);
+    parts.forEach(p=>{if(p.state===0){p.x+=p.vx;p.vy+=0.02*push*(0.5+Math.random());p.y+=p.vy*0.6;if(p.y>my-p.t[2]/2){if(p.t[2]<gap()&&Math.random()<0.9){p.state=1;p.vy=1+push;cnt[p.t[0]]=(cnt[p.t[0]]||0)+1;}else{p.y=my-p.t[2]/2;p.vy=-p.vy*0.3;}}}
+      else{p.y+=p.vy;p.x+=0.3;}
+      x.fillStyle=p.t[3];x.beginPath();x.arc(p.x,p.y,p.t[2]/2+1,0,7);x.fill();});
+    parts=parts.filter(p=>p.x<w+20&&p.y<h+20);if(parts.length>350)parts.splice(0,parts.length-350);
+    if(P.fp<=40){low++;if(low>120)simDone("gf1","Very low pressure: almost no filtration. This is why very low blood pressure harms the kidneys.");}else low=0;
+    if(P.neph&&(cnt.prot||0)>=3)simDone("gf2","Nephritis lets proteins (and even blood cells) into the filtrate.");
+    if(Math.random()<0.1){bars();xTick();}
+    raf=requestAnimationFrame(loop);};
+  $("xfgo").onclick=()=>{if(run)S.stop();else{run=true;$("xfgo").textContent="❚❚ Pause";raf=requestAnimationFrame(loop);}};
+  $("xfreset").onclick=()=>{cnt={};bars();};$("sm-fp").oninput=read;$("xfneph").onchange=()=>{read();cnt={};};
+  const pick=new Set();$("xfq").querySelectorAll("button").forEach(b=>b.onclick=()=>{b.classList.toggle("on");pick.has(b.dataset.k)?pick.delete(b.dataset.k):pick.add(b.dataset.k);
+    if(pick.size===2){const ok=pick.has("prot")&&pick.has("rbc"),m=$("xfqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Proteins and red blood cells are too large for the gaps in a healthy glomerulus.</span>":"<b>Not quite.</b><span>Look at the bars: which particles never reach the capsule with nephritis switched off?</span>";if(ok){simDone("gf3");xTick();}else{pick.clear();$("xfq").querySelectorAll("button").forEach(x=>x.classList.remove("on"));}}});
+  bars();raf=requestAnimationFrame(loop);}
+function xDialysis(host){
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff"><canvas id="xdcv" style="height:250px"></canvas></div>
+    <div class="lxcard2"><h4>Blood urea during the session</h4><canvas id="xdg" style="height:180px;width:100%;display:block"></canvas></div>
+    ${xTasks([["dy1","Bring the blood urea below 8 mmol/L."],["dy2","Set the dialysis fluid urea equal to the blood urea. What happens?"],["dy3","Compare flow directions: which removes urea faster?"]])}</div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn pri" id="xdgo">▶ Start session</button><button class="lxbtn" id="xdreset">New patient</button></div>
+      ${simSliders([["du","Urea in fresh dialysis fluid (mmol/L)",0,40,1,0],["dflow","Dialysis fluid flow (relative)",1,10,1,5],["darea","Membrane area (m²)",0.5,2.5,0.1,1.5]])}
+      <label class="xtog"><input type="checkbox" id="xdco"> Same direction flow (co-current) instead of opposite (counter-current)</label>
+      <div class="lxro"><div><span>Time</span><b id="xdt">0 min</b></div><div><span>Blood urea</span><b id="xdu">35</b></div><div><span>Urea removed</span><b id="xdr">0</b></div></div>
+      <div class="lxprac"><p class="lxtask"><b>Question:</b> Which flow removed urea faster?</p><div class="lxchips" id="xdq"><button data-v="counter">Opposite directions</button><button data-v="co">Same direction</button></div><div class="lxfb" id="xdqm"></div></div>
+      <div class="lxverdict" id="xdv">Urea diffuses from where it is more concentrated (blood) to where it is less concentrated (dialysis fluid). Blood cells and proteins are too big to cross.</div></div></div>`;
+  let U=35,t=0,hist=[35],run=false,raf=0,eq=0,dots=[];const P={};const read=()=>{Object.assign(P,simRead([["du"],["dflow"],["darea"]]));P.co=$("xdco").checked;};read();
+  for(let i=0;i<70;i++)dots.push({x:Math.random(),y:Math.random(),side:0});
+  const S=LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);const b=$("xdgo");if(b)b.textContent="▶ Start session";}};
+  const draw=()=>{const F=simFit($("xdcv"));if(!F)return;const{x,w,h}=F,mid=h/2;x.fillStyle="#fbe3df";x.fillRect(0,20,w,mid-24);x.fillStyle="#e3effb";x.fillRect(0,mid+4,w,mid-24);
+    x.strokeStyle="#10232f";x.lineWidth=2;x.setLineDash([10,6]);x.beginPath();x.moveTo(0,mid);x.lineTo(w,mid);x.stroke();x.setLineDash([]);
+    x.font="12px Inter, Arial";x.fillStyle="#c0392b";x.fillText("blood →",8,16);x.fillStyle="#2b6fb8";x.fillText(P.co?"dialysis fluid →":"← dialysis fluid",8,h-6);x.fillStyle="#53687a";x.fillText("membrane",w-70,mid-6);
+    const share=Math.min(1,U/45);dots.forEach((d,i)=>{d.x=(d.x+(d.side?(P.co?1:-1)*0.004*P.dflow/5:0.004))%1;if(d.x<0)d.x+=1;const y=d.side?mid+10+d.y*(mid-34):24+d.y*(mid-34);x.fillStyle="#7b4fbf";x.beginPath();x.arc(d.x*w,y,3.5,0,7);x.fill();});
+    for(let i=0;i<6;i++){x.fillStyle="#c0392b";x.beginPath();x.arc(((t*3+i*90)%w),30+((i*37)%(mid-50)),8,0,7);x.fill();}
+    const want=Math.round(70*share);let blood=dots.filter(d=>!d.side).length;dots.forEach(d=>{if(blood>want&&!d.side&&Math.random()<0.05){d.side=1;blood--;}else if(blood<want&&d.side&&Math.random()<0.05){d.side=0;blood++;}});};
+  const graph=()=>simGraph($("xdg"),[{v:hist,c:"#7b4fbf"},{v:hist.map(()=>8),c:"#1d8656",dash:[5,4],w:1.5}],{xl:"minutes"});
+  const step=()=>{const k=0.006*P.darea*(0.6+P.dflow/10)*(P.co?0.55:1);const grad=U-P.du;U=Math.max(P.du,U-k*grad);t++;if(t%5===0)hist.push(+U.toFixed(2));
+    $("xdt").textContent=t+" min";$("xdu").textContent=U.toFixed(1)+" mmol/L";$("xdr").textContent=(35-U).toFixed(1)+" mmol/L";
+    if(U<8)simDone("dy1","Urea is back in a safe range. A real session takes about 4 hours, 3 times a week.");
+    if(P.du>0&&Math.abs(P.du-U)<1.5){eq++;if(eq>30)simDone("dy2","No concentration difference → no diffusion. That is why the fluid must be fresh.");}else eq=0;
+    if(t>=240){S.stop();lxToast("4-hour session finished");}};
+  let fr=0;const loop=()=>{if(!run)return;if(++fr%3===0){step();if(t%3===0){graph();xTick();}}draw();raf=requestAnimationFrame(loop);};
+  $("xdgo").onclick=()=>{if(run)S.stop();else{run=true;$("xdgo").textContent="❚❚ Pause";raf=requestAnimationFrame(loop);}};
+  $("xdreset").onclick=()=>{S.stop();U=35;t=0;hist=[35];draw();graph();};
+  ["du","dflow","darea"].forEach(k=>$("sm-"+k).oninput=read);$("xdco").onchange=read;
+  $("xdq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="counter",m=$("xdqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Opposite flow keeps a concentration difference along the whole membrane, so urea keeps diffusing out (like the counter-current flow in kidneys and gills).</span>":"<b>Test it.</b><span>Run one session each way from a new patient and compare the time to reach 8 mmol/L.</span>";if(ok)simDone("dy3");xTick();});
+  draw();graph();}
+function xWeb(host){LX.fieldSim=null;
+  host.innerHTML=`<div class="lxsimweb">${["xmembrane","xdiffusion"].map(k=>{const s=DSIM[k];return `<div class="lxprac"><div class="ph"><h3>${esc(s.t)}</h3></div><p class="lxtask">${esc(s.d)}</p><ol class="xol">${s.tasks.map(t=>`<li>${t}</li>`).join("")}</ol><div class="lxbtns"><button class="lxbtn pri" data-sim="${k}">▶ Run simulation</button><a class="lxbtn" href="${s.src}" target="_blank" rel="noopener">Open in a new tab ↗</a></div><p class="lxsub">${esc(s.credit)}</p></div>`;}).join("")}</div>`;
+  host.querySelectorAll("[data-sim]").forEach(b=>b.onclick=()=>dsimPlay(b.dataset.sim));}
+
+/* ---------- lesson object ---------- */
+LXLESSONS[M24L3_ID]={key:"M24L3",title:"The Excretory System",eyebrow:"Module 24 · Circulatory, Respiratory, and Excretory Systems · Lesson 3",
+  lede:"Your kidneys clean all of your blood many times a day. Explore how the excretory system removes wastes and keeps water, salts and pH in balance, run a working nephron model, test a dialysis machine, then check your understanding.",
+  goals:["How does the excretory system help maintain homeostasis?","How does a nephron filter blood, reabsorb what the body needs and secrete wastes to make urine?","How do kidney disorders affect the body, and how do dialysis and transplants help?"],
+  labels:{lab:["Kidney Lab","Nephron model: change water, heat, salt, blood pressure, glucose and kidney health; record urine data"],sims:["Simulations","2 embedded models (glomerulus filter, dialysis machine) + PhET membrane and diffusion sims"],practice:["Practice","Excretory organs, filtration vs reabsorption, urine path, label the nephron"]},
+  learn:[
+    {h:"Excretion and homeostasis",k:"gr wide",html:"<p><b>Excretion</b> removes the waste products of metabolism from the body. The excretory system helps keep the internal environment stable (<b>homeostasis</b>) in three main ways:</p><ul><li>it removes nitrogen-containing wastes such as <b>urea</b>;</li><li>it keeps the right balance of <b>water and salts</b> in the blood;</li><li>it keeps blood <b>pH</b> stable by removing extra hydrogen ions (H⁺).</li></ul>"},
+    {h:"Organs that excrete",k:"wide",html:"<table><tr><th>Organ</th><th>What it removes</th></tr><tr><td>Lungs</td><td>carbon dioxide and water vapour</td></tr><tr><td>Skin</td><td>sweat: water, salts and a little urea</td></tr><tr><td>Liver</td><td>does not excrete urine, but changes toxic ammonia (from amino acids) into urea</td></tr><tr><td>Kidneys</td><td>urine: urea, extra water, salts and H⁺</td></tr></table>"},
+    {h:"The urinary system",k:"wide fig",fig:"xurinary",html:"<p>The <b>kidneys</b> are a pair of bean-shaped organs at the back of the abdomen. Blood arrives through the <b>renal artery</b> and leaves cleaned through the <b>renal vein</b>. Urine flows down two <b>ureters</b> to the <b>urinary bladder</b>, which stores it, and leaves the body through the <b>urethra</b>.</p>"},
+    {h:"Inside a kidney",k:"wide fig",fig:"xkidney",html:"<p>A kidney has an outer <b>renal cortex</b>, an inner <b>renal medulla</b> made of cone-shaped pyramids, and a collecting space, the <b>renal pelvis</b>, which joins the ureter.</p>"},
+    {h:"The nephron: the kidney's filter",k:"wide fig",fig:"xnephron",html:"<p>Each kidney contains about one million <b>nephrons</b>, the functional units of the kidney. A nephron has a ball of capillaries, the <b>glomerulus</b>, inside a cup called <b>Bowman's capsule</b>, followed by a long <b>renal tubule</b> (proximal tubule, <b>loop of Henle</b>, distal tubule) that empties into a <b>collecting duct</b>. Capillaries wrap around the tubule.</p>"},
+    {h:"Three processes make urine",k:"wide fig",fig:"xprocess",html:"<ol><li><b>Filtration</b>: blood pressure pushes water, salts, glucose, amino acids and urea out of the glomerulus into Bowman's capsule. Blood cells and large proteins are too big and stay in the blood.</li><li><b>Reabsorption</b>: as the filtrate flows along the tubule, the body takes back what it needs. Glucose, amino acids, most salts and about 99% of the water return to the capillaries.</li><li><b>Secretion</b>: some substances, such as H⁺, potassium ions and some medicines, are moved from the blood into the tubule.</li></ol>"},
+    {h:"By the numbers",k:"note wide",html:"<p>The kidneys make about <b>180 L</b> of filtrate a day but only about <b>1.5 L</b> of urine. So more than <b>99%</b> of the filtrate is reabsorbed. In a week an average person makes about 1.5 × 7 = <b>10.5 L</b> of urine.</p>"},
+    {h:"The path of urine",k:"wide fig",fig:"xpath",html:"<p>Urine forms in the nephrons and collecting ducts, drains into the renal pelvis, then flows down the ureter to the bladder and out through the urethra.</p>"},
+    {h:"Keeping water in balance",k:"note",html:"<p>When you lose water (heat, exercise, little drinking), the brain senses that the blood is too concentrated and releases the hormone <b>ADH</b>. ADH makes the collecting ducts reabsorb more water, so you make a <b>small amount of dark, concentrated urine</b>. When you drink a lot, less ADH is released and you make a <b>large amount of pale urine</b>. This is negative feedback.</p>"},
+    {h:"Kidneys and blood pH",html:"<p>Cells make acids as they work. The kidneys keep blood pH near 7.4 by <b>secreting H⁺</b> into the urine and reabsorbing bicarbonate ions, which act as a buffer.</p>"},
+    {h:"Kidney disorders",k:"wide",html:"<table><tr><th>Disorder</th><th>What happens</th><th>Possible causes</th><th>Treatment</th></tr><tr><td>Kidney infection</td><td>fever, back pain, painful urination</td><td>bacteria spreading up the urinary tract</td><td>antibiotics</td></tr><tr><td>Nephritis</td><td>inflammation of the glomeruli; protein or blood in urine, swelling</td><td>infection, immune problems, some genetic conditions</td><td>medicines, control of blood pressure and diet</td></tr><tr><td>Kidney stones</td><td>minerals crystallise in the kidney; severe pain</td><td>not drinking enough water (common in hot climates), diet, genetics</td><td>plenty of water, medicine, sound waves to break the stones, surgery</td></tr></table>"},
+    {h:"Dialysis and transplants",k:"wide fig",fig:"xdialysis",html:"<p>When the kidneys fail, wastes and water build up in the blood, which can be fatal. In <b>hemodialysis</b> blood flows through a machine past a selectively permeable membrane; urea and extra salts diffuse into the dialysis fluid and the cleaned blood returns to the body (about 4 hours, 3 times a week). A <b>kidney transplant</b> replaces the failed kidney with a healthy donor kidney; the patient takes medicine to stop the immune system rejecting it.</p>"}],
+  vocab:[["Excretion","Removal of the waste products of metabolism from the body."],["Kidney","A bean-shaped organ that filters the blood, removes wastes and makes urine."],["Nephron","The functional filtering unit of the kidney."],["Urea","A nitrogen-containing waste made in the liver from ammonia and removed in urine."],["Glomerulus","A ball of capillaries in the nephron where blood is filtered."],["Bowman's capsule","The cup-shaped start of the nephron that collects the filtrate."],["Renal tubule","The long tube of the nephron where substances are reabsorbed and secreted."],["Loop of Henle","The U-shaped part of the tubule that helps the body save water."],["Collecting duct","The tube that collects urine from many nephrons; water can be reabsorbed here."],["Filtration","Pressure pushes small substances out of the blood into the nephron."],["Reabsorption","Useful substances and water move from the filtrate back into the blood."],["Secretion","Substances move from the blood into the filtrate in the tubule."],["Ureter","A tube that carries urine from a kidney to the bladder."],["Urinary bladder","A muscular sac that stores urine."],["Urethra","The tube that carries urine out of the body."],["Dialysis","A treatment that removes wastes from the blood by diffusion across a membrane when the kidneys fail."],["Nephritis","Inflammation of the glomeruli of the kidney."]],
+  quiz:[
+    {type:"mcq",stem:"What are the functional units of the kidney called?",opts:["Nephrons","Alveoli","Neurons","Villi"],a:0,why:"Each kidney has about a million nephrons, the units that filter blood and make urine.",hint:"They filter the blood."},
+    {type:"mcq",stem:"How do the kidneys help keep blood pH stable?",opts:["By secreting hydrogen ions into the urine","By adding glucose to the blood","By filtering out red blood cells","By storing urine in the bladder"],a:0,why:"The kidneys secrete H⁺ into the filtrate and reabsorb bicarbonate, keeping blood pH near 7.4.",hint:"Acids release H⁺."},
+    {type:"mcq",stem:"Urea is…",opts:["a nitrogen-containing waste made in the liver from ammonia","a sugar reabsorbed by the tubule","a hormone that saves water","a type of blood cell"],a:0,why:"Breaking down amino acids gives ammonia; the liver changes it to urea, which the kidneys excrete.",hint:"It contains nitrogen."},
+    {type:"mcq",stem:"Inflammation of the glomeruli is called…",opts:["nephritis","kidney stones","dialysis","urea"],a:0,why:"Nephritis = inflamed glomeruli; protein or blood may leak into the urine.",hint:"-itis means inflammation."},
+    {type:"mcq",stem:"Where does <b>filtration</b> take place in a nephron?",opts:["From the glomerulus into Bowman's capsule","From the collecting duct into the ureter","From the loop of Henle into the bladder","From the renal vein into the tubule"],a:0,why:"Blood pressure pushes fluid out of the glomerulus capillaries into Bowman's capsule.",hint:"It is where the nephron begins."},
+    {type:"mcq",stem:"Which is normally <b>not</b> found in the filtrate?",opts:["Red blood cells","Water","Glucose","Urea"],a:0,why:"Blood cells and large proteins are too big to pass through the glomerulus.",hint:"Think about size."},
+    {type:"tf",stem:"Glucose is normally found in the urine of a healthy person.",a:false,fix:"all filtered glucose is normally reabsorbed",why:"In a healthy person all the glucose is reabsorbed in the proximal tubule; glucose in urine is a sign of very high blood glucose.",hint:"Is glucose useful to the body?"},
+    {type:"mcq",stem:"Besides the kidneys, which organ excretes water, salts and a little urea?",opts:["The skin","The stomach","The heart","The pancreas"],a:0,why:"Sweat glands in the skin excrete water, salts and some urea.",hint:"Think about a hot day."},
+    {type:"mcq",stem:"Which order shows the path of urine after it leaves the nephrons?",opts:["collecting duct → renal pelvis → ureter → bladder → urethra","ureter → collecting duct → bladder → renal pelvis → urethra","renal pelvis → urethra → bladder → ureter","bladder → ureter → renal pelvis → urethra"],a:0,why:"Urine drains from collecting ducts into the renal pelvis, down the ureter to the bladder, then out through the urethra.",hint:"The urethra is last."},
+    {type:"num",stem:"The kidneys make <b>180 L</b> of filtrate a day and <b>1.5 L</b> of urine. What <b>percentage</b> of the filtrate is reabsorbed? (one decimal place)",a:99.2,unit:"%",tol:0.002,why:"Reabsorbed = (180 − 1.5) ÷ 180 × 100 = 99.2%.",hint:"Subtract the urine from the filtrate first."},
+    {type:"num",stem:"A person makes an average of <b>1.5 L</b> of urine a day. How much urine is that in one week?",a:10.5,unit:"L",tol:0,why:"1.5 L × 7 days = 10.5 L.",hint:"Multiply by 7."},
+    {type:"mcq",fig:"xqurine",stem:"The bar graph shows one student's urine on four days. On which day did the kidneys reabsorb the <b>most</b> water?",opts:["Day 2","Day 1","Day 3","Day 4"],a:0,why:"Day 2 had the smallest volume of the darkest urine: most water was reabsorbed to keep it in the body.",hint:"Less urine means more water kept."},
+    {type:"mcq",fig:"xqnephron",stem:"Which number on the diagram shows the <b>collecting duct</b>?",opts:["6","1","3","4"],a:0,why:"Number 6 is the collecting duct, which collects fluid from many nephrons and carries it to the renal pelvis.",hint:"It is the last part, carrying urine away."},
+    {type:"mcq",stem:"How does hemodialysis remove urea from the blood?",opts:["Urea diffuses across a selectively permeable membrane into the dialysis fluid","Urea is pumped into the bladder","Red blood cells carry urea away","The machine adds ADH to the blood"],a:0,why:"Urea moves from high concentration (blood) to low concentration (fresh dialysis fluid) by diffusion.",hint:"Think about concentration differences."},
+    {type:"mcq",stem:"A runner loses a lot of water in sweat. Which change helps keep the body's water balanced?",opts:["More ADH, so more water is reabsorbed and less urine is made","Less ADH, so more urine is made","The glomerulus stops filtering","The bladder reabsorbs water"],a:0,why:"ADH increases water reabsorption in the collecting ducts, giving a small amount of concentrated urine.",hint:"The body needs to save water."},
+    {type:"tf",stem:"Kidney stones form when minerals crystallise in the kidney, and drinking plenty of water lowers the risk.",a:true,why:"Dilute urine keeps minerals dissolved, which is why doctors in hot climates advise drinking enough water.",hint:"Think about concentrated urine."},
+    {type:"write",stem:"Compare <b>filtration</b> and <b>reabsorption</b> in a nephron. For each, say where it happens and name one substance that moves.",model:"Filtration happens at the glomerulus: blood pressure pushes water, glucose, salts and urea into Bowman's capsule. Reabsorption happens along the renal tubule (and collecting duct): useful substances such as glucose, salts and most of the water move from the filtrate back into the capillaries. Filtration moves substances out of the blood; reabsorption returns them to the blood.",rubric:"Full (1): filtration at glomerulus/Bowman's capsule with a correct substance AND reabsorption in tubule/collecting duct back into blood with a correct substance. Partial (0.5): only one process correct, or both named without where/what. None (0): wrong or missing.",keys:[/glomerul|bowman|كبيب|بومان/i,/tubul|collecting|loop|أنيب|الأنابيب|القناة/i,/glucose|water|salt|urea|amino|جلوكوز|ماء|أملاح|يوريا/i],why:"Filtration: glomerulus → capsule. Reabsorption: tubule → capillaries (glucose, salts, water)."},
+    {type:"write",stem:"Explain why kidney failure can lead to death if the patient does not receive dialysis or a transplant.",model:"If the kidneys fail, urea and other wastes are no longer removed and build up in the blood to toxic levels. Water and salts are not balanced, so fluid builds up, and extra hydrogen ions are not removed so blood pH falls. These changes upset homeostasis and damage organs such as the heart and brain, which can cause death. Dialysis or a transplant does the kidneys' job.",rubric:"Full (1): wastes such as urea build up / become toxic AND at least one more homeostasis effect (water/salt imbalance, fluid build-up, pH change) leading to organ damage. Partial (0.5): only waste build-up or only imbalance. None (0): wrong or missing.",keys:[/urea|waste|toxi|نفايات|سموم|يوريا|فضلات/i,/water|salt|fluid|pH|acid|balance|ماء|أملاح|سوائل|حمض|اتزان/i,/build|accumulat|rise|increase|يتراكم|تراكم|يزداد/i],why:"Without filtering, wastes accumulate and water, salt and pH balance fail."}],
+  cer:CER_M24L3,
+  kit:{lab:xLab,practice:xPractice,sims:xSims,score:xScore}};
+DSIM.xmembrane={t:"PhET · Membrane Transport",src:"https://phet.colorado.edu/sims/html/membrane-transport/latest/membrane-transport_all.html",credit:"PhET Interactive Simulations, University of Colorado Boulder (CC BY 4.0)",
+  d:"Add channels and pumps to a cell membrane and watch which particles cross, and in which direction.",
+  tasks:["Open a screen with <b>glucose</b>. Add a glucose carrier and watch glucose move. This is how the tubule cells take glucose back from the filtrate.","Add a <b>sodium–potassium pump</b>. In which direction does it move sodium? Why does the pump need energy (ATP)?","Make the concentration of a solute higher on one side. Which way does it move through an open channel?","Explain how pumps in the renal tubule help the body <b>reabsorb</b> salts and water."]};
+DSIM.xdiffusion={t:"PhET · Diffusion",src:"https://phet.colorado.edu/sims/html/diffusion/latest/diffusion_all.html",credit:"PhET Interactive Simulations, University of Colorado Boulder (CC BY 4.0)",
+  d:"Remove the divider between two gases with different concentrations and watch particles spread out.",
+  tasks:["Put many particles on the left and none on the right, then remove the divider. Describe what happens.","Make the particles <b>heavier</b> (bigger mass). Do they spread faster or slower?","Raise the <b>temperature</b>. How does it change the rate of diffusion?","Use your results to explain why a dialysis machine uses <b>fresh</b> dialysis fluid with no urea."]};
+DSIM_PLACE[M24L3_ID]={"Explore":[["xmembrane",["Simulation","PhET"]],["xdiffusion",["Simulation","PhET"]]]};
 
 /* ===== My Notes: per-lesson notebook with typing and stylus drawing ===== */
 const NB={lesson:null,title:"",notes:[],cur:null,tool:"pen",color:"#1d2433",width:3,paper:"lined",pencilOnly:false,undo:[],redo:[],saveT:0,drawing:null,penSeen:false};
