@@ -92,3 +92,15 @@ revoke all on function public.portal_submit(uuid,text,text,text,jsonb,numeric,nu
   public.portal_sub_get(uuid,bigint), public.portal_sub_review(uuid,bigint,text,numeric,numeric,jsonb) from public;
 grant execute on function public.portal_submit(uuid,text,text,text,jsonb,numeric,numeric), public.portal_my_subs(uuid), public.portal_subs(uuid),
   public.portal_sub_get(uuid,bigint), public.portal_sub_review(uuid,bigint,text,numeric,numeric,jsonb) to anon, authenticated, service_role;
+
+-- teacher list: include a short preview (data->>'pv') and whether pen marks exist (for the board cards)
+create or replace function public.portal_subs(p_token uuid)
+returns jsonb language plpgsql security definer set search_path to '' as $$
+begin
+  perform app.teacher(p_token);
+  return coalesce((select jsonb_agg(jsonb_build_object('id', s.id, 'lesson', s.lesson, 'part', s.part, 'title', s.title, 'score', s.score, 'max', s.max,
+      'version', s.version, 'at', s.submitted_at, 'status', s.status, 'feedback', s.feedback, 'mark', s.mark, 'mark_max', s.mark_max, 'rat', s.reviewed_at,
+      'pv', left(s.data->>'pv', 240), 'ink', s.ink is not null,
+      'n', u.name, 'g', u.grade, 'i', right(u.id, 4)) order by s.submitted_at desc)
+    from app.submissions s join app.users u on u.id = s.user_id), '[]'::jsonb);
+end $$;

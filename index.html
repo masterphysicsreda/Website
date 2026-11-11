@@ -623,6 +623,40 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 @keyframes gbshake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .gbfoot td{position:sticky;bottom:0;background:#f4f7fa!important;font-weight:700;color:#13285c;z-index:2}.gbfoot td:nth-child(2){position:sticky;left:34px;z-index:3;text-align:right}
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
+/* ===== Assignments board (Padlet-style) ===== */
+.padf{background:#fff;color:#10232f;border-radius:18px;padding:12px 16px;margin-bottom:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);display:grid;gap:2px}
+.pfrow{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid #eef2f5}.pfrow:last-child{border-bottom:0}
+.pfhead{display:flex;gap:10px;align-items:center;border:0;background:none;padding:4px 0 8px;cursor:pointer;text-align:left;color:#10232f;font:800 14px Inter}.pfhead small{flex:1;font:500 12.5px Inter;color:#53687a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pfhead b{color:#53687a}.padf.shut .pfrow{display:none}.padf.shut .pfhead{padding-bottom:4px}
+.pfl{font:700 12px Inter;letter-spacing:.05em;text-transform:uppercase;color:#53687a;padding-top:8px}
+.pfcs{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pfc{display:inline-flex;align-items:center;gap:6px;border:1px solid #d6dee5;background:#f6f9fb;color:#10232f;border-radius:999px;padding:6px 12px;font:600 13px Inter,Tajawal;cursor:pointer;transition:.15s}
+.pfc:hover{border-color:#9fb3c2;background:#fff}.pfc.on{background:#13285c;border-color:#13285c;color:#fff}.pfc.zero{opacity:.5}
+.pfc em{font:700 11px Inter;font-style:normal;background:rgba(19,40,92,.1);border-radius:999px;padding:1px 7px}.pfc.on em{background:rgba(255,255,255,.22)}
+.pfc[style*="--pc"]{border-left:4px solid var(--pc)}.pfc .ar{font:500 12.5px Tajawal;opacity:.75}
+.pfi{width:20px;height:20px;display:inline-grid;place-items:center;color:var(--c)}.pfi svg{width:18px;height:18px}.pfc.on .pfi{color:#fff}
+.pfmod{display:flex;flex-wrap:wrap;gap:6px;align-items:center;width:100%;padding:3px 0}.pfmod>b{font:700 12.5px Inter;color:#b8720c;min-width:120px}
+.pfnote{font-size:13px;color:#8a99a8}.pfdates{display:inline-flex;gap:6px;align-items:center}.pfdates input,.pfq{border:1px solid #cad5dd;border-radius:999px;padding:6px 12px;font:13px Inter;color:#10232f;background:#fff}.pfq{margin-left:auto;min-width:200px}
+@media(max-width:760px){.pfrow{grid-template-columns:1fr;gap:4px}.pfl{padding-top:0}.pfq{margin-left:0;width:100%}}
+.padwrap{border-radius:20px;padding:16px;min-height:420px;box-shadow:0 12px 40px rgba(0,0,0,.2);color:#10232f}
+.padhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.pht h3{margin:0;font:800 24px Inter;letter-spacing:-.01em}.pht span{font-size:13.5px;opacity:.75}.padwrap.dark{color:#fff}
+.phl{display:flex;gap:4px;background:rgba(255,255,255,.75);padding:4px;border-radius:12px;backdrop-filter:blur(6px)}
+.phl button{border:0;background:none;border-radius:9px;padding:6px 10px;font:600 13px Inter;color:#10232f;cursor:pointer;display:inline-flex;gap:6px;align-items:center}.phl button.on{background:#13285c;color:#fff}
+@media(max-width:760px){.phl button span{display:none}}
+.padcols{display:flex;gap:14px;overflow-x:auto;align-items:flex-start;padding-bottom:8px}
+.pcol{flex:0 0 280px;display:grid;gap:10px}.pcol>header{display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.88);border-radius:12px;padding:9px 12px;font:700 14.5px Inter;border-top:4px solid var(--pc);color:#10232f}
+.pcol>header small{font:500 12px Inter;color:#53687a}.pcol>header em{font-style:normal;font:700 12px Inter;background:#eef2f5;border-radius:999px;padding:1px 9px}
+.padwall{column-width:270px;column-gap:14px}.padwall .pcard{break-inside:avoid;margin-bottom:14px}
+.pcard{background:#fff;color:#10232f;border-radius:14px;padding:12px 14px;box-shadow:0 2px 6px rgba(16,35,47,.08),0 8px 22px rgba(16,35,47,.08);cursor:pointer;display:grid;gap:6px;border-top:5px solid var(--pc);transition:transform .15s,box-shadow .15s;position:relative}
+.pcard:hover,.pcard:focus-visible{transform:translateY(-2px);box-shadow:0 4px 10px rgba(16,35,47,.1),0 14px 30px rgba(16,35,47,.14);outline:none}
+.pch{display:flex;gap:9px;align-items:center}.pch b{font-size:14px;display:block;line-height:1.2}.pch small{font-size:12px;color:#8a99a8}
+.pav{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font:700 13px Tajawal,Inter;flex:none}
+.pdot{position:absolute;top:12px;right:12px;width:10px;height:10px;border-radius:50%;background:#f59e0b;box-shadow:0 0 0 3px #fff3dc}
+.pct{font:800 15.5px Inter}.pcl{font-size:12.5px;color:#53687a;margin-top:-4px}.pcp{margin:0;font-size:13.5px;color:#3a4f5f;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}
+.pcf{display:flex;flex-wrap:wrap;gap:5px}.pcfb{font-size:13px;background:#f1faf5;border-radius:9px;padding:6px 9px;color:#14683f;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pcard.submitted .pct{color:#10232f}.pcard.reviewed{opacity:.93}
+.padempty{background:rgba(255,255,255,.85);border-radius:14px;padding:30px;text-align:center;color:#53687a;font-size:15px;margin:0}
+
 /* ===== submissions ===== */
 #subview,#myworkview{display:none;width:100%;max-width:1400px}
 .subdlg,.mwcard,.sublist{--bg:#edf1f3;--sf:#fff;--s2:#f4f7f9;--ink:#10232f;--mu:#53687a;--ln:#cad5dd;--ac:#b8720c;--up:#1d8656;--dn:#c03c2c}
@@ -3724,7 +3758,7 @@ const subLesson=key=>Object.entries(LXLESSONS).find(([,L])=>L.key===key)||[null,
 /* ---------- storage: Supabase when hosted, this device otherwise ---------- */
 function subLoc(){try{return JSON.parse(localStorage.getItem("bio_subs")||"[]")}catch(_){return []}}
 function subLocSave(a){try{localStorage.setItem("bio_subs",JSON.stringify(a));return true}catch(_){return false}}
-const subLite=s=>{const o={...s};delete o.data;o.ink=!!s.ink;return o;};
+const subLite=s=>{const o={...s};o.pv=s.data?.pv||"";delete o.data;o.ink=!!s.ink;return o;};
 async function subApi(fn,a={}){
   if(subHosted())return hrpc("portal_"+fn,{p_token:HS.token,...a});
   const all=subLoc(),uid=CAL.uid,u=CAL.user||{};
@@ -3777,7 +3811,8 @@ function lxSnap(part){const L=LX.L,st=LX.st,s=lxScores(),B=[];let score=null,max
     if(part==="flash"){score=s.f.ok;max=s.f.n;done=B.filter(b=>b.t==="q"&&b.st==="open").length===0;hint=done?"":"the vocabulary check is not finished";}
     if(part==="check"){score=s.q.mark;max=s.q.n;done=s.q.done>=s.q.n;hint=done?"":`${s.q.done} of ${s.q.n} questions answered`;}
     if(!B.some(b=>b.t!=="h"&&b.t!=="kv"))return {empty:"Do some of this activity before you submit it."};}
-  return {data:{v:1,L:L.title,e:L.eyebrow,part,b:B},score,max,done,hint};}
+  const fq=B.find(b=>b.t==="ans");const pv=(fq?`${fq.l}: ${fq.x}`:part==="check"||part==="flash"||part==="practice"?`${score!=null?`${+(+score).toFixed(2)} / ${max} correct`:""}${hint?` · ${hint}`:""}`:part==="lab"?`${B.filter(b=>b.t==="li"&&b.ok).length} / ${B.filter(b=>b.t==="li").length} challenges · ${(st.data||[]).length} data points`:hint||"").slice(0,240);
+  return {data:{v:1,L:L.title,e:L.eyebrow,part,pv,b:B},score,max,done,hint};}
 
 /* ---------- render a snapshot (escaped text only) ---------- */
 const SUBST={ok:["✓ Correct","ok"],half:["✓ 2nd try","half"],no:["✗ Incorrect","no"],open:["Not finished","open"]};
@@ -3827,7 +3862,7 @@ function subDecorate(){if(subT()||!BIOX?.node)return;const L=LXLESSONS[BIOX.node
 async function asHub(tile){let m=$("ashub");if(!m){m=document.createElement("div");m.id="ashub";m.className="gbhub";m.setAttribute("role","menu");document.body.appendChild(m);
     document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#ashub"],[data-nav="#ashub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{m.hidden=true;},{passive:true});}
   const T=subT();
-  m.innerHTML=`<button type="button" data-g="sub" role="menuitem"><b>${T?"Student Submissions":"My Work & Feedback"} <span class="ar">${T?"أعمال الطلاب":"أعمالي والملاحظات"}</span> <em class="hubn" id="ashubn"></em></b><small>${T?"Review submitted activities, write feedback and mark with a pen":"Everything you submitted and your teacher's feedback"}</small></button>${AS_MH?`<a href="${esc(AS_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Assignments ↗ <span class="ar">واجبات ماكجروهيل</span></b><small>Online assignments on my.mheducation.com</small></a>`:""}`;
+  m.innerHTML=`<button type="button" data-g="sub" role="menuitem"><b>${T?"Assignments & Grades":"My Work & Feedback"} <span class="ar">${T?"الواجبات والدرجات":"أعمالي والملاحظات"}</span> <em class="hubn" id="ashubn"></em></b><small>${T?"Review submitted activities, write feedback and mark with a pen":"Everything you submitted and your teacher's feedback"}</small></button>${AS_MH?`<a href="${esc(AS_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Assignments ↗ <span class="ar">واجبات ماكجروهيل</span></b><small>Online assignments on my.mheducation.com</small></a>`:""}`;
   m.querySelector("[data-g=sub]").onclick=()=>{m.hidden=true;T?openSubs():openMyWork();};m.querySelectorAll("a").forEach(a=>a.onclick=()=>{m.hidden=true;});
   m.hidden=false;const r=(tile||document.querySelector('a[href="#ashub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
   m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";const h=m.offsetHeight;
@@ -3838,30 +3873,87 @@ async function asHub(tile){let m=$("ashub");if(!m){m=document.createElement("div
 
 /* ---------- views ---------- */
 function subViews(){if($("subview"))return;const host=$("gbview");
-  const tv=document.createElement("section");tv.id="subview";tv.innerHTML=`<div class="card tbar fade"><div><h2>Student Submissions <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· أعمال الطلاب</span></h2><div class="cls" id="subcount">Loading…</div></div>
-    <div class="arow"><label class="gbsel">Class <select id="subfg"></select></label><label class="gbsel">Lesson <select id="subfl"></select></label><label class="gbsel">Show <select id="subfs"><option value="submitted">To review</option><option value="reviewed">Reviewed</option><option value="">All</option></select></label><button class="out" id="subrefresh" style="margin-top:0">⟳</button><button class="out" id="subback" style="margin-top:0">← Dashboard</button></div></div>
-    <div class="gbsheet sublist" id="sublist"></div>`;
+  const tv=document.createElement("section");tv.id="subview";tv.innerHTML=`<div class="card tbar fade"><div><h2>Assignments & Grades <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· الواجبات والدرجات</span></h2><div class="cls" id="subcount">Loading…</div></div>
+    <div class="arow"><button class="out" id="subrefresh" style="margin-top:0" title="Refresh">⟳ Refresh</button><button class="out" id="subback" style="margin-top:0">← Dashboard</button></div></div>
+    <div class="padf" id="subfilters"></div><div class="padwrap" id="padwrap"><div class="padhead" id="padhead"></div><div id="sublist"></div></div>`;
   const sv=document.createElement("section");sv.id="myworkview";sv.innerHTML=`<div class="card tbar fade"><div><h2>My Work & Feedback <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· أعمالي والملاحظات</span></h2><div class="cls" id="mwcount">Loading…</div></div><div class="arow"><button class="out" id="mwback" style="margin-top:0">← Dashboard</button></div></div><div id="mwlist" class="mwlist"></div>`;
   host.after(tv);tv.after(sv);[tv,sv].forEach(e=>window.NAVMO?.observe(e,{attributes:true,attributeFilter:["style"]}));
-  $("subback").onclick=goHome;$("mwback").onclick=goHome;$("subrefresh").onclick=()=>openSubs(true);
-  ["subfg","subfl","subfs"].forEach(k=>$(k).onchange=subList);}
+  $("subback").onclick=goHome;$("mwback").onclick=goHome;$("subrefresh").onclick=()=>openSubs(true);}
 {const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);["subview","myworkview"].forEach(k=>{const v=$(k);if(v)v.style.display="none";});return r;};}
-async function openSubs(){if(!subT())return;subViews();hideAllViews();$("subview").style.display="block";scrollTo(0,0);$("sublist").innerHTML='<p class="gbsub">Loading…</p>';
-  try{SUB.all=await subApi("subs")||[];}catch(_){SUB.all=[];$("sublist").innerHTML='<p class="gbsub">Could not load the submissions. Check the internet.</p>';return;}
-  const gs=[...new Set(SUB.all.map(s=>s.g).filter(Boolean))].sort(),ls=[...new Set(SUB.all.map(s=>s.lesson))];
-  const keep=(id,v)=>{const o=$(id).value;return v.includes(o)?o:"";};const g0=keep("subfg",gs),l0=keep("subfl",ls);
-  $("subfg").innerHTML=`<option value="">All classes</option>`+gs.map(g=>`<option ${g===g0?"selected":""}>${esc(g)}</option>`).join("");
-  $("subfl").innerHTML=`<option value="">All lessons</option>`+ls.map(k=>`<option value="${esc(k)}" ${k===l0?"selected":""}>${esc(subLesson(k)[1]?.title||k)}</option>`).join("");
+/* ---------- teacher board: curriculum / grade / lesson / activity / date filters + Padlet-style wall ---------- */
+const SUBF=(()=>{let o={};try{o=JSON.parse(localStorage.getItem("subf")||"{}")}catch(_){}return Object.assign({course:"bio",grade:"",unit:"",lesson:"",part:"",date:"all",from:"",to:"",status:"submitted",q:"",layout:"cols",wall:0},o);})();
+const subFSave=()=>{try{localStorage.setItem("subf",JSON.stringify(SUBF))}catch(_){}};
+const PADC={launch:"#ff8a3d",lab:"#1aa3d9",sims:"#8b5cf6",practice:"#22a35a",flash:"#ec4899",check:"#f59e0b"};
+const PADI={launch:"💡",lab:"🧪",sims:"🖥️",practice:"🧩",flash:"🃏",check:"✅"};
+const PADWALL=["linear-gradient(135deg,#fde7d3 0%,#f9c9d6 50%,#d9d4fb 100%)","linear-gradient(135deg,#d7f5e8 0%,#c6e6fb 100%)","linear-gradient(160deg,#1f2a44 0%,#3b2f63 100%)","linear-gradient(135deg,#fff1c1 0%,#ffd1a8 100%)","radial-gradient(circle at 20% 20%,#e3f2ff 0,#e3f2ff 18%,transparent 19%) 0 0/46px 46px,linear-gradient(#f4f8fc,#f4f8fc)"];
+const subNode=s=>subLesson(s.lesson)[0];
+function subUnit(nid){let id=nid,last=null;while(id){const n=BIOX.byId[id];if(!n)break;if(n.k==="unit")return id;last=id;id=BIOX.parent[id];}return last;}
+const subShort=t=>String(t||"").replace(/^(Unit|Module|Lesson)\s+(\d+):\s*/,(m,a,b)=>`${a[0]}${b} · `);
+const subRel=t=>{const d=(Date.now()-new Date(t))/60000;return d<1?"just now":d<60?`${Math.round(d)} min ago`:d<1440?`${Math.round(d/60)} h ago`:d<10080?`${Math.round(d/1440)} d ago`:subTime(t);};
+function subDateOk(s){const t=new Date(s.at),now=new Date(),day=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  if(SUBF.date==="today")return t>=day;if(SUBF.date==="week")return t>=new Date(day-6*864e5);if(SUBF.date==="month")return t>=new Date(now.getFullYear(),now.getMonth(),1);
+  if(SUBF.date==="custom"){if(SUBF.from&&t<new Date(SUBF.from+"T00:00"))return false;if(SUBF.to&&t>new Date(SUBF.to+"T23:59:59"))return false;}return true;}
+function subMatch(s,skip){const nid=subNode(s);
+  if(skip!=="course"&&SUBF.course!=="bio")return false;
+  if(skip!=="grade"&&SUBF.grade&&s.g!==SUBF.grade)return false;
+  if(skip!=="unit"&&SUBF.unit&&subUnit(nid)!==SUBF.unit)return false;
+  if(skip!=="lesson"&&SUBF.lesson&&nid!==SUBF.lesson)return false;
+  if(skip!=="part"&&SUBF.part&&s.part!==SUBF.part)return false;
+  if(skip!=="date"&&!subDateOk(s))return false;
+  if(skip!=="status"&&SUBF.status&&s.status!==SUBF.status)return false;
+  if(SUBF.q&&!(`${s.n} ${s.i}`.toLowerCase().includes(SUBF.q.toLowerCase())))return false;return true;}
+async function openSubs(){if(!subT())return;subViews();hideAllViews();$("subview").style.display="block";scrollTo(0,0);$("sublist").innerHTML='<p class="padempty">Loading…</p>';
+  try{SUB.all=await subApi("subs")||[];}catch(_){SUB.all=[];$("sublist").innerHTML='<p class="padempty">Could not load the submissions. Check the internet.</p>';return;}
   subList();}
-function subList(){const fg=$("subfg").value,fl=$("subfl").value,fs=$("subfs").value,A=SUB.all||[];
-  const L=A.filter(s=>(!fg||s.g===fg)&&(!fl||s.lesson===fl)&&(!fs||s.status===fs));SUB.list=L;
+function subChip(dim,val,label,n,extra=""){const on=SUBF[dim]===val;return `<button type="button" class="pfc${on?" on":""}${n===0&&!on?" zero":""}" data-d="${dim}" data-v="${esc(val)}" ${extra}>${label}${n!=null?`<em>${n}</em>`:""}</button>`;}
+function subFilters(){const A=SUB.all||[],cnt=(dim,f)=>A.filter(s=>subMatch(s,dim)&&f(s)).length;
+  const grades=[...new Set([...Object.keys(CAL.user?.r||{}),...A.map(s=>s.g).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+  const units=MHTOC.filter(n=>n.k==="unit"||n.k==="module");
+  const course=TOP.map(k=>{const C=COURSES[k];return subChip("course",k,`<span class="pfi" style="--c:${C.c}">${ICO[C.ico]||""}</span>${C.t}<span class="ar">${C.ta}</span>`,k==="bio"?cnt("course",()=>true):0);}).join("");
+  const grade=subChip("grade","","All classes",cnt("grade",()=>true))+grades.map(g=>subChip("grade",g,`🎓 ${esc(g)}`,cnt("grade",s=>s.g===g))).join("");
+  const unit=subChip("unit","","All units",cnt("unit",()=>true))+units.map(u=>subChip("unit",u.id,esc(subShort(u.t)),cnt("unit",s=>subUnit(subNode(s))===u.id),`title="${esc(u.t)}"`)).join("");
+  let lessons="";if(SUBF.course==="bio"){const mods=SUBF.unit?(BIOX.byId[SUBF.unit]?.k==="module"?[BIOX.byId[SUBF.unit]]:(BIOX.byId[SUBF.unit]?.c||[]).filter(m=>m.k==="module")):[];
+    if(mods.length)lessons=mods.map(m=>`<div class="pfmod"><b>${esc(subShort(m.t))}</b>${(m.c||[]).filter(l=>l.k==="lesson").map(l=>{const ix=!!LXLESSONS[l.id];return subChip("lesson",l.id,`${ix?"⚡ ":""}${esc(subShort(l.t))}`,cnt("lesson",s=>subNode(s)===l.id),ix?"":`title="No interactive activities in this lesson yet"`);}).join("")}</div>`).join("");
+    else{const ids=[...new Set(A.filter(s=>subMatch(s,"lesson")).map(subNode))].filter(Boolean);lessons=ids.map(id=>subChip("lesson",id,`⚡ ${esc(subShort(BIOX.byId[id]?.t||LXLESSONS[id]?.title||id))}`,cnt("lesson",s=>subNode(s)===id))).join("")||`<span class="pfnote">Choose a unit to see all of its lessons.</span>`;}}
+  const part=subChip("part","","All work",cnt("part",()=>true))+SUBP.map(p=>subChip("part",p,`${PADI[p]} ${p==="lab"?"Labs":subPartName(null,p).replace(" · CER","")}`,cnt("part",s=>s.part===p),`style="--pc:${PADC[p]}"`)).join("");
+  const date=[["all","All dates"],["today","📅 Today"],["week","Last 7 days"],["month","This month"],["custom","Custom…"]].map(([v,l])=>subChip("date",v,l,v==="custom"?null:A.filter(s=>{const d=SUBF.date;SUBF.date=v;const r=subMatch(s,"");SUBF.date=d;return subMatch(s,"date")&&r;}).length)).join("")+(SUBF.date==="custom"?`<span class="pfdates"><input type="date" id="pffrom" value="${esc(SUBF.from)}"> → <input type="date" id="pfto" value="${esc(SUBF.to)}"></span>`:"");
+  const status=[["submitted","To review"],["reviewed","✓ Reviewed"],["","All"]].map(([v,l])=>subChip("status",v,l,cnt("status",s=>!v||s.status===v))).join("");
+  const row=(ic,t,h)=>`<div class="pfrow"><span class="pfl">${ic} ${t}</span><div class="pfcs">${h}</div></div>`;
+  const act=[COURSES[SUBF.course]?.t,SUBF.grade,SUBF.unit&&subShort(BIOX.byId[SUBF.unit]?.t),SUBF.lesson&&subShort(BIOX.byId[SUBF.lesson]?.t),SUBF.part&&subPartName(null,SUBF.part),SUBF.date!=="all"&&({today:"Today",week:"Last 7 days",month:"This month",custom:"Custom dates"})[SUBF.date],SUBF.status?({submitted:"To review",reviewed:"Reviewed"})[SUBF.status]:"All"].filter(Boolean).join(" · ");
+  if(subFilters.open==null)subFilters.open=innerWidth>760;const F=$("subfilters");F.classList.toggle("shut",!subFilters.open);
+  F.innerHTML=`<button type="button" class="pfhead" id="pfhead"><span>⚙️ Filters</span><small>${esc(act)}</small><b>${subFilters.open?"▴":"▾"}</b></button>`+row("📚","Curriculum",course)+row("🎓","Grade",grade)+row("🗂️","Unit",unit)+row("📖","Lesson",lessons||`<span class="pfnote">No lessons for this curriculum yet.</span>`)+row("📝","Assigned work",part)+row("📅","Date",date)+row("🔎","Status",status+`<input type="search" class="pfq" id="pfq" placeholder="Find a student…" value="${esc(SUBF.q)}">`);
+  $("pfhead").onclick=()=>{subFilters.open=!subFilters.open;subFilters();};
+  $("subfilters").querySelectorAll(".pfc").forEach(b=>b.onclick=()=>{const d=b.dataset.d,v=b.dataset.v;SUBF[d]=SUBF[d]===v&&d!=="status"&&d!=="date"&&d!=="course"?"":v;if(d==="unit")SUBF.lesson="";if(d==="course"){SUBF.unit="";SUBF.lesson="";}subFSave();subList();});
+  const fq=$("pfq");fq.oninput=()=>{SUBF.q=fq.value;subFSave();clearTimeout(subFilters._t);subFilters._t=setTimeout(()=>{subList();const e=$("pfq");e.focus();e.setSelectionRange(e.value.length,e.value.length);},250);};
+  ["pffrom","pfto"].forEach(k=>{const e=$(k);if(e)e.onchange=()=>{SUBF[k==="pffrom"?"from":"to"]=e.value;subFSave();subList();};});}
+const subAv=n=>{let h=0;for(const c of String(n))h=(h*31+c.charCodeAt(0))>>>0;const w=String(n).trim().split(/\s+/);return [`hsl(${h%360} 62% 46%)`,(w[0]?.[0]||"?")+(w[1]?.[0]||"")];};
+function subCard(s,i){const Ls=subLesson(s.lesson)[1],[ac,ai]=subAv(s.n);
+  return `<article class="pcard ${s.status}" data-i="${i}" tabindex="0" style="--pc:${PADC[s.part]||"#64748b"}"><div class="pch"><span class="pav" style="background:${ac}">${esc(ai)}</span><div><b>${esc(s.n)}</b><small>${esc(s.g||"")} · ${esc(subRel(s.at))}${s.version>1?` · v${s.version}`:""}</small></div>${s.status==="submitted"?`<i class="pdot" title="To review"></i>`:""}</div>
+    <div class="pct">${PADI[s.part]||""} ${esc(subPartName(Ls,s.part))}</div><div class="pcl">${esc(Ls?.title||s.lesson)}</div>
+    ${s.pv?`<p class="pcp" dir="auto">${esc(s.pv)}</p>`:""}
+    <div class="pcf">${s.max?`<span class="sch">Auto ${+(+s.score).toFixed(2)} / ${+s.max}</span>`:""}${s.status==="reviewed"?`<span class="sch ok">✓ ${s.mark!=null?`${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:"Reviewed"}</span>`:`<span class="sch wait">To review</span>`}${s.ink?`<span class="sch">✏️</span>`:""}</div>
+    ${s.feedback?`<div class="pcfb" dir="auto">💬 ${esc(s.feedback)}</div>`:""}</article>`;}
+function subList(){if(!$("subfilters"))return;subFilters();const A=SUB.all||[],L=A.filter(s=>subMatch(s,""));
   const n=A.filter(s=>s.status==="submitted").length;$("subcount").textContent=`${n} waiting for review · ${A.length-n} reviewed · ${A.length} in total`;
-  $("sublist").innerHTML=L.length?`<div class="subrow subhead"><span>Student</span><span>Work</span><span>Submitted</span><span>Auto score</span><span>Review</span><span></span></div>`+L.map((s,i)=>{const Ls=subLesson(s.lesson)[1];return `<button type="button" class="subrow ${s.status}" data-i="${i}">
+  const C=COURSES[SUBF.course],nid=SUBF.lesson,ttl=[C?.t,SUBF.grade,nid?(LXLESSONS[nid]?.title||subShort(BIOX.byId[nid]?.t)):SUBF.unit?subShort(BIOX.byId[SUBF.unit]?.t):"",SUBF.part?subPartName(LXLESSONS[nid],SUBF.part):""].filter(Boolean).join(" · ");
+  const lay=SUBF.layout,wall=PADWALL[SUBF.wall%PADWALL.length];$("padwrap").style.background=wall;$("padwrap").classList.toggle("dark",SUBF.wall%PADWALL.length===2);
+  $("padhead").innerHTML=`<div class="pht"><h3>${esc(ttl||"All work")}</h3><span>${L.length} post${L.length===1?"":"s"} · ${L.filter(s=>s.status==="submitted").length} to review</span></div>
+    <div class="phl">${[["cols","▥","By activity"],["students","👥","By student"],["wall","▦","Wall"],["list","☰","List"]].map(([k,ic,t])=>`<button type="button" class="${lay===k?"on":""}" data-l="${k}" title="${t}">${ic}<span>${t}</span></button>`).join("")}<button type="button" class="phw" id="padwall" title="Change wallpaper">🎨</button></div>`;
+  $("padhead").querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{SUBF.layout=b.dataset.l;subFSave();subList();});$("padwall").onclick=()=>{SUBF.wall=(SUBF.wall+1)%PADWALL.length;subFSave();subList();};
+  const host=$("sublist");
+  if(!L.length){SUB.list=[];host.innerHTML=`<p class="padempty">${SUBF.course!=="bio"?`No interactive lessons in ${esc(C?.t||"")} yet, so there is no submitted work here.`:A.length?"No work matches these filters. Try “All” for date or status.":"No submissions yet. When students press <b>Submit</b> on an activity, their work appears here."}</p>`;return;}
+  let groups;
+  if(lay==="cols")groups=SUBP.map(p=>[p,`${PADI[p]} ${p==="lab"?"Labs":subPartName(null,p)}`,L.filter(s=>s.part===p),PADC[p]]).filter(g=>g[2].length);
+  else if(lay==="students"){const m=new Map();L.forEach(s=>{const k=s.n+"|"+s.i;if(!m.has(k))m.set(k,[]);m.get(k).push(s);});groups=[...m.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>{const [ac]=subAv(v[0].n);return [k,`${esc(v[0].n)} <small>${esc(v[0].g||"")}</small>`,v,ac];});}
+  else groups=[["all","",L,""]];
+  SUB.list=groups.flatMap(g=>g[2]);let i=0;
+  if(lay==="list"){host.innerHTML=`<div class="gbsheet sublist"><div class="subrow subhead"><span>Student</span><span>Work</span><span>Submitted</span><span>Auto score</span><span>Review</span><span></span></div>`+SUB.list.map((s,j)=>{const Ls=subLesson(s.lesson)[1];return `<button type="button" class="subrow ${s.status}" data-i="${j}">
       <span class="sn"><b>${esc(s.n)}</b><small>${esc(s.g||"")} · …${esc(s.i||"")}</small></span><span class="sw"><b>${esc(subPartName(Ls,s.part))}</b><small>${esc(Ls?.title||s.lesson)}</small></span>
       <span class="sa">${esc(subTime(s.at))}${s.version>1?` <em>v${s.version}</em>`:""}</span><span class="sc">${s.max?`${+(+s.score).toFixed(2)} / ${+s.max}`:"–"}</span>
-      <span>${s.status==="reviewed"?`<span class="sch ok">✓ ${s.mark!=null?`${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:"Reviewed"}</span>`:`<span class="sch wait">To review</span>`}</span><span class="go">Review ›</span></button>`;}).join("")
-    :`<p class="gbsub">${A.length?"Nothing matches these filters.":"No submissions yet. When students press <b>Submit</b> on an activity, their work appears here."}</p>`;
-  $("sublist").querySelectorAll(".subrow[data-i]").forEach(b=>b.onclick=()=>subOpen(SUB.list[+b.dataset.i].id,true,+b.dataset.i));}
+      <span>${s.status==="reviewed"?`<span class="sch ok">✓ ${s.mark!=null?`${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:"Reviewed"}</span>`:`<span class="sch wait">To review</span>`}</span><span class="go">Review ›</span></button>`;}).join("")+`</div>`;}
+  else if(lay==="wall")host.innerHTML=`<div class="padwall">${SUB.list.map(s=>subCard(s,i++)).join("")}</div>`;
+  else host.innerHTML=`<div class="padcols">${groups.map(([k,t,v,c])=>`<section class="pcol" style="--pc:${c}"><header><span>${t}</span><em>${v.length}</em></header>${v.map(s=>subCard(s,i++)).join("")}</section>`).join("")}</div>`;
+  host.querySelectorAll("[data-i]").forEach(b=>{const go=()=>subOpen(SUB.list[+b.dataset.i].id,true,+b.dataset.i);b.onclick=go;b.onkeydown=e=>{if(e.key==="Enter")go();};});}
 async function openMyWork(){if(subT())return;subViews();hideAllViews();$("myworkview").style.display="block";scrollTo(0,0);$("mwlist").innerHTML='<p class="gbsub">Loading…</p>';
   const M=await subMine(true),seen=subSeen();
   const done=M.length,rev=M.filter(s=>s.status==="reviewed").length,nw=M.filter(subIsNew).length;
