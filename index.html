@@ -624,6 +624,18 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 .gbfoot td{position:sticky;bottom:0;background:#f4f7fa!important;font-weight:700;color:#13285c;z-index:2}.gbfoot td:nth-child(2){position:sticky;left:34px;z-index:3;text-align:right}
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
 /* ===== Assignments board (Padlet-style) ===== */
+.tsub{margin:14px 0;border-radius:18px;padding:14px 16px;background:linear-gradient(135deg,#fde7d3,#f9c9d6 50%,#d9d4fb);color:#10232f;box-shadow:0 10px 30px rgba(0,0,0,.18)}.tsubh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.tsubh h3{margin:0;font:800 17px Inter}.tsubh h3 span{font:600 15px Tajawal;color:#53687a}.tsubh em{font:700 12px Inter;font-style:normal;background:#b8720c;color:#fff;border-radius:999px;padding:2px 10px}.tsubh button{margin-left:auto;border:0;background:#13285c;color:#fff;border-radius:10px;padding:8px 14px;font:700 13px Inter;cursor:pointer}
+.tsubc{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.tsubc .pcard{margin:0}.tsube{font-size:14px;color:#53687a;margin:0}
+.pfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.pfdd{position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;margin:0;padding:7px 30px 7px 10px;border:1px solid #d6dee5;border-radius:14px;background:#f6f9fb;min-width:170px;max-width:320px;flex:1 1 200px;cursor:pointer;color:#10232f;transition:border-color .15s,box-shadow .15s}
+.pfdd:hover{border-color:#9fb2c1}.pfdd:focus-within{border-color:#13285c;box-shadow:0 0 0 3px rgba(19,40,92,.12)}.pfdd.set{background:#eef3ff;border-color:#13285c}
+.pfic{grid-row:1/3;font-size:20px;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#fff;box-shadow:0 1px 3px rgba(16,35,47,.12)}
+.pfcap{font:700 10.5px Inter,Tajawal;letter-spacing:.04em;text-transform:uppercase;color:#53687a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.pfdd select,.pfdd input{appearance:none;-webkit-appearance:none;border:0;background:transparent;font:700 14px Inter,Tajawal;color:#10232f;padding:0;margin:0;width:100%;min-width:0;cursor:pointer;outline:none;text-overflow:ellipsis}
+.pfdd input{cursor:text;font-weight:600}.pfar{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:#53687a;font-size:12px;pointer-events:none}
+.pfsearch{padding-right:10px}.pfrange{max-width:340px}.pfdates{display:flex;gap:6px}.pfdates input{font-size:13px}
+.pfclear{border:0;background:#fde8e5;color:#a3271a;border-radius:14px;padding:0 14px;font:700 13px Inter;cursor:pointer}
+@media(max-width:760px){.pfdd{flex:1 1 calc(50% - 10px);min-width:0;max-width:none}.pfsearch,.pfrange{flex-basis:100%}}
 .padf{background:#fff;color:#10232f;border-radius:18px;padding:12px 16px;margin-bottom:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);display:grid;gap:2px}
 .pfrow{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:start;padding:7px 0;border-bottom:1px solid #eef2f5}.pfrow:last-child{border-bottom:0}
 .pfhead{display:flex;gap:10px;align-items:center;border:0;background:none;padding:4px 0 8px;cursor:pointer;text-align:left;color:#10232f;font:800 14px Inter}.pfhead small{flex:1;font:500 12.5px Inter;color:#53687a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pfhead b{color:#53687a}.padf.shut .pfrow{display:none}.padf.shut .pfhead{padding-bottom:4px}
@@ -3909,22 +3921,28 @@ function subChip(dim,val,label,n,extra=""){const on=SUBF[dim]===val;return `<but
 function subFilters(){const A=SUB.all||[],cnt=(dim,f)=>A.filter(s=>subMatch(s,dim)&&f(s)).length;
   const grades=[...new Set([...Object.keys(CAL.user?.r||{}),...A.map(s=>s.g).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
   const units=MHTOC.filter(n=>n.k==="unit"||n.k==="module");
-  const course=TOP.map(k=>{const C=COURSES[k];return subChip("course",k,`<span class="pfi" style="--c:${C.c}">${ICO[C.ico]||""}</span>${C.t}<span class="ar">${C.ta}</span>`,k==="bio"?cnt("course",()=>true):0);}).join("");
-  const grade=subChip("grade","","All classes",cnt("grade",()=>true))+grades.map(g=>subChip("grade",g,`🎓 ${esc(g)}`,cnt("grade",s=>s.g===g))).join("");
-  const unit=subChip("unit","","All units",cnt("unit",()=>true))+units.map(u=>subChip("unit",u.id,esc(subShort(u.t)),cnt("unit",s=>subUnit(subNode(s))===u.id),`title="${esc(u.t)}"`)).join("");
-  let lessons="";if(SUBF.course==="bio"){const mods=SUBF.unit?(BIOX.byId[SUBF.unit]?.k==="module"?[BIOX.byId[SUBF.unit]]:(BIOX.byId[SUBF.unit]?.c||[]).filter(m=>m.k==="module")):[];
-    if(mods.length)lessons=mods.map(m=>`<div class="pfmod"><b>${esc(subShort(m.t))}</b>${(m.c||[]).filter(l=>l.k==="lesson").map(l=>{const ix=!!LXLESSONS[l.id];return subChip("lesson",l.id,`${ix?"⚡ ":""}${esc(subShort(l.t))}`,cnt("lesson",s=>subNode(s)===l.id),ix?"":`title="No interactive activities in this lesson yet"`);}).join("")}</div>`).join("");
-    else{const ids=[...new Set(A.filter(s=>subMatch(s,"lesson")).map(subNode))].filter(Boolean);lessons=ids.map(id=>subChip("lesson",id,`⚡ ${esc(subShort(BIOX.byId[id]?.t||LXLESSONS[id]?.title||id))}`,cnt("lesson",s=>subNode(s)===id))).join("")||`<span class="pfnote">Choose a unit to see all of its lessons.</span>`;}}
-  const part=subChip("part","","All work",cnt("part",()=>true))+SUBP.map(p=>subChip("part",p,`${PADI[p]} ${p==="lab"?"Labs":subPartName(null,p).replace(" · CER","")}`,cnt("part",s=>s.part===p),`style="--pc:${PADC[p]}"`)).join("");
-  const date=[["all","All dates"],["today","📅 Today"],["week","Last 7 days"],["month","This month"],["custom","Custom…"]].map(([v,l])=>subChip("date",v,l,v==="custom"?null:A.filter(s=>{const d=SUBF.date;SUBF.date=v;const r=subMatch(s,"");SUBF.date=d;return subMatch(s,"date")&&r;}).length)).join("")+(SUBF.date==="custom"?`<span class="pfdates"><input type="date" id="pffrom" value="${esc(SUBF.from)}"> → <input type="date" id="pfto" value="${esc(SUBF.to)}"></span>`:"");
-  const status=[["submitted","To review"],["reviewed","✓ Reviewed"],["","All"]].map(([v,l])=>subChip("status",v,l,cnt("status",s=>!v||s.status===v))).join("");
-  const row=(ic,t,h)=>`<div class="pfrow"><span class="pfl">${ic} ${t}</span><div class="pfcs">${h}</div></div>`;
-  const act=[COURSES[SUBF.course]?.t,SUBF.grade,SUBF.unit&&subShort(BIOX.byId[SUBF.unit]?.t),SUBF.lesson&&subShort(BIOX.byId[SUBF.lesson]?.t),SUBF.part&&subPartName(null,SUBF.part),SUBF.date!=="all"&&({today:"Today",week:"Last 7 days",month:"This month",custom:"Custom dates"})[SUBF.date],SUBF.status?({submitted:"To review",reviewed:"Reviewed"})[SUBF.status]:"All"].filter(Boolean).join(" · ");
-  if(subFilters.open==null)subFilters.open=innerWidth>760;const F=$("subfilters");F.classList.toggle("shut",!subFilters.open);
-  F.innerHTML=`<button type="button" class="pfhead" id="pfhead"><span>⚙️ Filters</span><small>${esc(act)}</small><b>${subFilters.open?"▴":"▾"}</b></button>`+row("📚","Curriculum",course)+row("🎓","Grade",grade)+row("🗂️","Unit",unit)+row("📖","Lesson",lessons||`<span class="pfnote">No lessons for this curriculum yet.</span>`)+row("📝","Assigned work",part)+row("📅","Date",date)+row("🔎","Status",status+`<input type="search" class="pfq" id="pfq" placeholder="Find a student…" value="${esc(SUBF.q)}">`);
-  $("pfhead").onclick=()=>{subFilters.open=!subFilters.open;subFilters();};
-  $("subfilters").querySelectorAll(".pfc").forEach(b=>b.onclick=()=>{const d=b.dataset.d,v=b.dataset.v;SUBF[d]=SUBF[d]===v&&d!=="status"&&d!=="date"&&d!=="course"?"":v;if(d==="unit")SUBF.lesson="";if(d==="course"){SUBF.unit="";SUBF.lesson="";}subFSave();subList();});
-  const fq=$("pfq");fq.oninput=()=>{SUBF.q=fq.value;subFSave();clearTimeout(subFilters._t);subFilters._t=setTimeout(()=>{subList();const e=$("pfq");e.focus();e.setSelectionRange(e.value.length,e.value.length);},250);};
+  const opt=(v,l,n,cur)=>`<option value="${esc(v)}" ${cur===v?"selected":""}>${esc(l)}${n!=null?`  (${n})`:""}</option>`;
+  const dd=(id,ic,cap,html,c)=>`<label class="pfdd${c?" set":""}" for="${id}"><span class="pfic">${ic}</span><span class="pfcap">${cap}</span><select id="${id}">${html}</select><b class="pfar">▾</b></label>`;
+  const course=TOP.map(k=>{const C=COURSES[k];return opt(k,C.t,k==="bio"?cnt("course",()=>true):0,SUBF.course);}).join("");
+  const grade=opt("","All classes",cnt("grade",()=>true),SUBF.grade)+grades.map(g=>opt(g,g,cnt("grade",s=>s.g===g),SUBF.grade)).join("");
+  const bio=SUBF.course==="bio";
+  const unit=opt("","All units",cnt("unit",()=>true),SUBF.unit)+(bio?units.map(u=>opt(u.id,subShort(u.t),cnt("unit",s=>subUnit(subNode(s))===u.id),SUBF.unit)).join(""):"");
+  const mods=!bio?[]:SUBF.unit?(BIOX.byId[SUBF.unit]?.k==="module"?[BIOX.byId[SUBF.unit]]:(BIOX.byId[SUBF.unit]?.c||[]).filter(m=>m.k==="module")):units.flatMap(u=>u.k==="module"?[u]:(u.c||[]).filter(m=>m.k==="module"));
+  const lesson=opt("","All lessons",cnt("lesson",()=>true),SUBF.lesson)+mods.map(m=>`<optgroup label="${esc(m.t)}">${(m.c||[]).filter(l=>l.k==="lesson").map(l=>opt(l.id,`${LXLESSONS[l.id]?"⚡ ":""}${subShort(l.t)}`,cnt("lesson",s=>subNode(s)===l.id),SUBF.lesson)).join("")}</optgroup>`).join("");
+  const part=opt("","All work",cnt("part",()=>true),SUBF.part)+SUBP.map(p=>opt(p,`${PADI[p]} ${p==="lab"?"Labs":subPartName(null,p)}`,cnt("part",s=>s.part===p),SUBF.part)).join("");
+  const dcount=v=>A.filter(s=>{const d=SUBF.date;SUBF.date=v;const r=subMatch(s,"");SUBF.date=d;return r;}).length;
+  const date=[["all","All dates"],["today","Today"],["week","Last 7 days"],["month","This month"],["custom","Choose dates…"]].map(([v,l])=>opt(v,l,v==="custom"?null:dcount(v),SUBF.date)).join("");
+  const status=[["submitted","To review"],["reviewed","Reviewed"],["","All"]].map(([v,l])=>opt(v,l,cnt("status",s=>!v||s.status===v),SUBF.status)).join("");
+  const F=$("subfilters");
+  F.innerHTML=`<div class="pfbar">${dd("pfcourse","📚","Curriculum · المنهج",course,0)}${dd("pfgrade","🎓","Grade · الصف",grade,SUBF.grade)}${dd("pfunit","🗂️","Unit · الوحدة",unit,SUBF.unit)}${dd("pflesson","📖","Lesson · الدرس",lesson,SUBF.lesson)}${dd("pfpart","📝","Assigned work · العمل",part,SUBF.part)}${dd("pfdate","📅","Date · التاريخ",date,SUBF.date!=="all")}${dd("pfstatus","🔖","Status · الحالة",status,0)}
+    <label class="pfdd pfsearch" for="pfq"><span class="pfic">🔎</span><span class="pfcap">Student · الطالب</span><input id="pfq" type="search" placeholder="Name or ID" value="${esc(SUBF.q)}"></label>
+    ${SUBF.date==="custom"?`<label class="pfdd pfrange"><span class="pfic">↔</span><span class="pfcap">From · To</span><span class="pfdates"><input type="date" id="pffrom" value="${esc(SUBF.from)}"><input type="date" id="pfto" value="${esc(SUBF.to)}"></span></label>`:""}
+    ${SUBF.grade||SUBF.unit||SUBF.lesson||SUBF.part||SUBF.date!=="all"||SUBF.q?`<button type="button" class="pfclear" id="pfclear">✕ Clear filters</button>`:""}</div>`;
+  const on=(id,k,after)=>{$(id).onchange=e=>{SUBF[k]=e.target.value;after&&after();subFSave();subList();};};
+  on("pfcourse","course",()=>{SUBF.unit="";SUBF.lesson="";});on("pfgrade","grade");on("pfunit","unit",()=>{SUBF.lesson="";});
+  on("pflesson","lesson",()=>{if(SUBF.lesson){const u=subUnit(SUBF.lesson);if(SUBF.unit&&SUBF.unit!==u)SUBF.unit=u;}});on("pfpart","part");on("pfdate","date");on("pfstatus","status");
+  const cl=$("pfclear");if(cl)cl.onclick=()=>{Object.assign(SUBF,{grade:"",unit:"",lesson:"",part:"",date:"all",from:"",to:"",q:""});subFSave();subList();};
+  const fq=$("pfq");fq.oninput=()=>{SUBF.q=fq.value;subFSave();clearTimeout(subFilters._t);subFilters._t=setTimeout(()=>{subList();const e=$("pfq");e.focus();e.setSelectionRange(e.value.length,e.value.length);},300);};
   ["pffrom","pfto"].forEach(k=>{const e=$(k);if(e)e.onchange=()=>{SUBF[k==="pffrom"?"from":"to"]=e.value;subFSave();subList();};});}
 const subAv=n=>{let h=0;for(const c of String(n))h=(h*31+c.charCodeAt(0))>>>0;const w=String(n).trim().split(/\s+/);return [`hsl(${h%360} 62% 46%)`,(w[0]?.[0]||"?")+(w[1]?.[0]||"")];};
 function subCard(s,i){const Ls=subLesson(s.lesson)[1],[ac,ai]=subAv(s.n);
@@ -4035,6 +4053,17 @@ async function subOpen(id,teacher,idx){let d=$("subdlg");if(!d){d=document.creat
   d.oncancel=e=>{if(dirty&&!window.confirm("You have unsaved pen marks or feedback. Close without saving?"))e.preventDefault();};}
 
 {const lo=logout;logout=function(){SUB.mine=null;SUB.all=null;SUB.list=[];const d=$("subdlg");if(d?.open)d.close();return lo.apply(this,arguments);};}
+
+/* ---------- teacher dashboard: latest student work (Padlet-style strip) ---------- */
+async function subDash(){const host=$("tremind");if(!host||!subT())return;let box=$("tsub");if(!box){box=document.createElement("div");box.id="tsub";box.className="tsub";host.after(box);}
+  box.innerHTML=`<div class="tsubh"><h3>📌 Student work <span>· أعمال الطلاب</span></h3><button type="button" id="tsubgo">Open Assignments & Grades →</button></div><p class="tsube">Loading…</p>`;$("tsubgo").onclick=openSubs;
+  try{SUB.all=await subApi("subs")||[];}catch(_){box.querySelector(".tsube").textContent="Could not load student work.";return;}
+  const W=SUB.all.filter(s=>s.status==="submitted"),L=(W.length?W:SUB.all).slice(0,4);
+  box.querySelector(".tsubh h3").insertAdjacentHTML("afterend",W.length?`<em>${W.length} to review</em>`:"");
+  const c=document.createElement("div");c.className="tsubc";c.innerHTML=L.map((s,i)=>subCard(s,i)).join("");box.querySelector(".tsube").replaceWith(L.length?c:Object.assign(document.createElement("p"),{className:"tsube",textContent:"No submitted work yet. When students press Submit on an activity, it appears here."}));
+  c.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{SUB.list=L;subOpen(L[+b.dataset.i].id,true,+b.dataset.i);});}
+{const st0=showTeacher;showTeacher=function(){const r=st0.apply(this,arguments);setTimeout(()=>subDash().catch(()=>{}),0);return r;};}
+{const gh=goHome;goHome=function(){const r=gh.apply(this,arguments);if(subT())subDash().catch(()=>{});return r;};}
 
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
