@@ -1,0 +1,5 @@
+# never commit student lists, PINs or keys
+*.csv
+*.sql.private
+.env
+pins*
