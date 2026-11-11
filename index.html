@@ -623,6 +623,55 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 @keyframes gbshake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .gbfoot td{position:sticky;bottom:0;background:#f4f7fa!important;font-weight:700;color:#13285c;z-index:2}.gbfoot td:nth-child(2){position:sticky;left:34px;z-index:3;text-align:right}
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
+/* ===== submissions ===== */
+#subview,#myworkview{display:none;width:100%;max-width:1400px}
+.subdlg,.mwcard,.sublist{--bg:#edf1f3;--sf:#fff;--s2:#f4f7f9;--ink:#10232f;--mu:#53687a;--ln:#cad5dd;--ac:#b8720c;--up:#1d8656;--dn:#c03c2c}
+#lxsubbar{margin-top:14px}#lxsubbar[hidden]{display:none}
+.subbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;justify-content:flex-start}
+.subbtn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:11px 18px;background:linear-gradient(135deg,#1d8656,#13633f);color:#fff;font:700 15px Inter;cursor:pointer;box-shadow:0 6px 16px rgba(29,134,86,.3)}.subbtn:hover{filter:brightness(1.08)}.subbtn:disabled{opacity:.6;cursor:wait}.subbtn .ar{font:600 14px Tajawal;opacity:.9}
+.subst{font-size:13.5px;color:var(--mu);display:flex;flex-wrap:wrap;gap:6px;align-items:center}.subst b{color:var(--ink)}
+.sch{display:inline-block;font:600 12px Inter;padding:3px 10px;border-radius:999px;background:#e9eef2;color:#53687a;white-space:nowrap}.sch.ok{background:#dff3e8;color:#14683f}.sch.wait{background:#fdf0d5;color:#8a5a00}.sch.no{background:#fbe1dd;color:#a3271a;white-space:normal}.sch.new{background:#b8720c;color:#fff}
+.subfbk{margin-top:10px;border:1px solid #bfe3cf;background:#f1faf5;border-left:4px solid #1d8656;border-radius:10px;padding:12px 14px;display:grid;gap:6px;justify-items:start;color:#10232f}.subfbk p{margin:0;white-space:pre-wrap;font-size:14.5px}.subfbk span{font-size:13px;color:#53687a}
+.lxpart.subd{font-weight:800;color:var(--ink)}.subtag{font:700 10.5px Inter;padding:1px 7px;border-radius:999px;background:#dff3e8;color:#14683f}.subtag.new{background:#b8720c;color:#fff}
+.mhrt a.subd{font-weight:800}.subnote{margin-top:6px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:13px;padding:6px 10px;border-radius:8px;background:#fdf6e6;border-left:3px solid #d9a21b;cursor:pointer;color:#10232f}.subnote.ok{background:#eef8f2;border-left-color:#1d8656}.subnote b{font-weight:700}.subnote span{color:#3a4f5f;white-space:pre-wrap}.subnote i{font:700 10.5px Inter;font-style:normal;background:#b8720c;color:#fff;border-radius:999px;padding:1px 7px}
+.sublist{padding:8px}.subrow{display:grid;grid-template-columns:1.3fr 1.6fr .9fr .7fr .9fr 70px;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-bottom:1px solid #e3e9ee;background:none;padding:11px 10px;font:14px Inter;color:#10232f;cursor:pointer;border-radius:8px}
+.subrow:hover{background:#f3f7fa}.subrow small{display:block;color:#53687a;font-size:12px}.subrow.subhead{cursor:default;font:700 11.5px Inter;letter-spacing:.06em;text-transform:uppercase;color:#53687a}.subrow.subhead:hover{background:none}
+.subrow.reviewed b{font-weight:500}.subrow.submitted .sn b,.subrow.submitted .sw b{font-weight:800}.subrow em{font:700 11px Inter;font-style:normal;color:#b8720c}.subrow .go{color:#1d6fb8;font-weight:700;text-align:right}
+@media(max-width:760px){.subrow{grid-template-columns:1fr 1fr;}.subrow.subhead{display:none}.subrow .go{grid-column:2}}
+.mwlist{display:grid;gap:16px}.mwcard{padding:16px 18px}.mwh{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:8px}.mwh small{width:100%;color:#b8720c;font:700 11.5px Inter;letter-spacing:.06em;text-transform:uppercase}.mwh h3{margin:0;font:700 22px Georgia,serif}.mwh span{color:#53687a;font-size:13px}
+.mwrow{display:grid;grid-template-columns:minmax(200px,1.2fr) minmax(150px,.9fr) 2fr auto;gap:10px 16px;align-items:center;padding:10px 4px;border-top:1px solid #e3e9ee}
+.mwn{display:flex;gap:10px;align-items:center}.mwn small{display:block;font:13px Tajawal;color:#8a99a8}.mwn b{font-weight:800;font-size:15px}.mwn b.nb{font-weight:400;color:#53687a}.mwi{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#e9eef2;color:#8a99a8;font-weight:700;flex:none}.mwrow.done .mwi{background:#1d8656;color:#fff}
+.mws{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}.mws small{width:100%;color:#8a99a8;font-size:12px}.mwf{font-size:14px;color:#10232f;white-space:pre-wrap;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}.mwa{display:flex;gap:6px}
+@media(max-width:760px){.mwrow{grid-template-columns:1fr auto}.mwf{grid-column:1/-1}.mws{grid-column:1/-1}}
+.subdlg{width:min(1360px,100vw);height:100dvh;max-width:100vw;max-height:100dvh;margin:0 auto;padding:0;border:0;background:#eef2f5;color:#10232f;display:none;flex-direction:column}.subdlg[open]{display:flex}.subdlg::backdrop{background:rgba(5,20,15,.6)}
+.sdh{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#fff;border-bottom:1px solid #d6dee5;flex:none}.sdh>div:first-child{display:grid;flex:1;min-width:0}.sdh b{font-size:16px}.sdh span{font-size:13px;color:#53687a}.sdnav{display:flex;gap:8px;align-items:center;font-size:13px;color:#53687a}.sdx{border:0;background:#e9eef2;border-radius:10px;width:38px;height:38px;font-size:17px;cursor:pointer}
+.sdbody{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 340px;overflow:hidden}.sdbody.s{grid-template-columns:minmax(0,1fr) 300px}
+.sdpaperwrap{overflow:auto;padding:16px;position:relative}.spaper{width:760px;transform-origin:0 0;background:#fff;border-radius:6px;box-shadow:0 4px 18px rgba(16,35,47,.12);padding:26px 30px 0;position:relative;font:14.5px/1.5 Inter,Tajawal,sans-serif;color:#10232f}
+.sdpaperwrap{min-width:0;overflow-x:hidden;box-sizing:content-box}.sdbody>.sdpaperwrap{overflow-y:auto}
+#sdink{position:absolute;left:0;top:0;z-index:2}
+.spaperh{display:flex;justify-content:space-between;gap:16px;border-bottom:2px solid #10232f;padding-bottom:10px;margin-bottom:12px}.spaperh small{color:#b8720c;font:700 11px Inter;letter-spacing:.05em;text-transform:uppercase}.spaperh h3{margin:2px 0 0;font:700 21px Georgia,serif}.spaperh h3 span{font:500 15px Inter;color:#53687a}
+.spmeta{display:grid;justify-items:end;font-size:12.5px;color:#53687a;text-align:right}.spmeta b{color:#10232f;font-size:14px}
+.spbody h4{margin:14px 0 6px;font:700 15px Inter;color:#13285c}.spbody p{margin:6px 0;white-space:pre-wrap}
+.spkv{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13.5px;color:#53687a;margin:6px 0}.spkv b{color:#10232f}
+.spli{display:flex;gap:8px;padding:3px 0;color:#53687a}.spli i{font-style:normal;width:18px;color:#8a99a8}.spli.ok{color:#10232f}.spli.ok i{color:#1d8656;font-weight:700}
+.sptw{overflow:hidden}.sptbl{border-collapse:collapse;width:100%;font-size:12px;margin:6px 0}.sptbl th,.sptbl td{border:1px solid #d6dee5;padding:3px 5px;text-align:center}.sptbl th{background:#f3f6f8}
+.spans{border:1px solid #d6dee5;border-radius:8px;padding:8px 12px;margin:8px 0}.spansh{display:flex;justify-content:space-between}.spansh b{color:#13285c}.spansh span{font-weight:700;color:#1d8656}.spans p{margin:4px 0;font-size:15px}.spans small{color:#53687a}
+.spq{border-left:3px solid #cad5dd;padding:6px 10px;margin:8px 0;background:#fafcfd}.spq.ok{border-left-color:#1d8656}.spq.half{border-left-color:#d9a21b}.spq.no{border-left-color:#c03c2c}
+.spqh{display:flex;gap:8px}.spn{font:700 12px ui-monospace,monospace;color:#b8720c;flex:none;padding-top:2px}.spqa{display:flex;justify-content:space-between;gap:10px;margin-top:4px;font-weight:600;white-space:pre-wrap}.spqa em{font:700 12px Inter;font-style:normal;white-space:nowrap;color:#53687a}.spq.ok .spqa em{color:#1d8656}.spq.half .spqa em{color:#9a6b07}.spq.no .spqa em{color:#c03c2c}.spqk,.spqf{font-size:12.5px;color:#53687a;margin-top:3px}
+.spnotes{margin-top:18px;height:170px;border-top:1px dashed #cad5dd;color:#b7c3cc;font:12px Inter;padding-top:6px;background:repeating-linear-gradient(#fff 0 31px,#eef2f5 31px 32px)}
+.sdside{background:#fff;border-left:1px solid #d6dee5;overflow:auto;padding:14px;display:grid;gap:14px;align-content:start}
+.sdtl{font:700 12px Inter;letter-spacing:.06em;text-transform:uppercase;color:#53687a;margin-bottom:6px}
+.sdtools{display:grid;gap:8px}.sdtools small{color:#8a99a8;font-size:12px}.sdrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.sdc{width:32px;height:32px;border-radius:50%;border:3px solid #fff;background:var(--c);box-shadow:0 0 0 1px #cad5dd;cursor:pointer}.sdc.on{box-shadow:0 0 0 3px var(--c)}
+.sdtool,.sdw{border:1px solid #cad5dd;background:#fff;border-radius:9px;padding:6px 10px;cursor:pointer;font:600 13px Inter;color:#10232f}.sdtool{font-size:16px}.sdtool.on,.sdw.on{background:#13285c;color:#fff;border-color:#13285c}
+.sddraw{display:flex;gap:6px;align-items:center;margin:0;font:600 13px Inter;color:#10232f}
+.sdfb{display:grid;gap:8px}.sdfb textarea{width:100%;box-sizing:border-box;border:1px solid #cad5dd;border-radius:10px;padding:10px;font:15px Inter,Tajawal;resize:vertical;color:#10232f;background:#fff}
+.sdchips{display:flex;flex-wrap:wrap;gap:5px}.sdchips button{border:1px solid #d6dee5;background:#f3f6f8;border-radius:999px;padding:4px 10px;font:12.5px Inter,Tajawal;cursor:pointer;color:#10232f;text-align:left}
+.sdmark{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.sdmark label{display:flex;gap:6px;align-items:center;margin:0;font:600 13px Inter;color:#10232f}.sdmark input{width:70px;padding:7px;border:1px solid #cad5dd;border-radius:8px;font:600 15px Inter;color:#10232f;background:#fff}
+.sdsave{display:flex;gap:8px;flex-wrap:wrap}.sdmsg{font-size:13px;color:#53687a}
+.sdfb.ro p{margin:0;white-space:pre-wrap;font-size:15px}.sdbig{font:700 34px Georgia,serif;color:#1d8656}.sdbig small{font-size:18px;color:#53687a}
+@media(max-width:900px){.sdbody,.sdbody.s{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto;overflow:auto}.sdside{border-left:0;border-top:1px solid #d6dee5}.sdbody>.sdpaperwrap{overflow:visible}.sdnav span{display:none}}
+.hubn{font:700 11px Inter;font-style:normal;background:#b8720c;color:#fff;border-radius:999px;padding:1px 8px;margin-left:6px}.hubn:empty{display:none}
 .gbhub[hidden]{display:none!important}.gbhub{position:fixed;z-index:90;background:#fff;border:1px solid #cad5dd;border-radius:12px;box-shadow:0 14px 40px rgba(16,35,47,.28);display:grid;gap:4px;padding:6px}.gbhub>*{display:grid;gap:3px;text-align:left;padding:10px 12px;border-radius:9px;border:0;background:none;cursor:pointer;color:#10232f;text-decoration:none;font:inherit}.gbhub>*:hover,.gbhub>*:focus-visible{background:#eef4f8;outline:none}.gbhub b{font:600 14px Inter}.gbhub .ar{font:500 13px Tajawal;color:#53687a;margin-left:6px}.gbhub small{font:12px Inter;color:#53687a}
 .gbmenu[hidden]{display:none!important}.gbmenu{position:fixed;z-index:80;background:#fff;border:1px solid #cad5dd;border-radius:10px;box-shadow:0 10px 30px rgba(16,35,47,.18);display:grid;min-width:240px;text-align:left;padding:4px}
 .gbmenu button{border:0;background:none;padding:9px 12px;text-align:left;font:14px Inter;color:#10232f;border-radius:6px;cursor:pointer}.gbmenu button:hover{background:#eef3fb}.gbmenu .danger{color:#c03c2c}
@@ -979,12 +1028,12 @@ function renderTiles(box,links){
   if(box.id==="tiles"||box.id==="stiles")NAVLINKS=links;
   links.filter(x=>x[0][0]!=="_").forEach(([lb,url],i)=>{const m=META[lb]||{c:"#8fe3b8",svg:"",ar:""};
     const a=document.createElement(url?"a":"div");a.className="tile"+(url?"":" off");
-    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")gbHub(a);else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
+    if(url&&url[0]==="#"){a.href=url;a.addEventListener("click",e=>{e.preventDefault();if(url==="#analytics")openAnalytics();else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")gbHub(a);else if(url==="#ashub")asHub(a);else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else openProgress();});}
     else if(url){a.href=url;a.target="_blank";a.rel="noopener";}
     a.style.setProperty("--c",m.c);a.style.animationDelay=(i*0.05)+"s";
     a.innerHTML=`<span class="ti">${m.svg}</span><span class="tl"></span><span class="ta"></span><span class="go"></span>`;
     a.querySelector(".tl").textContent=lb;a.querySelector(".ta").textContent=m.ar;
-    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#gbhub"?"Weekly Assessment · McGraw Hill →":url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
+    a.querySelector(".go").textContent=!url?"Link coming soon":url[0]==="#"?(url==="#analytics"?"Progress analytics →":url==="#gradebook"?"Quizzes, tests & marks →":url==="#gbhub"?"Weekly Assessment · McGraw Hill →":url==="#ashub"?(box.id==="tiles"?"Student submissions · McGraw Hill →":"My work & feedback · McGraw Hill →"):url==="#calendar"?"Quizzes, tests & tasks →":url==="#courses"?"Biology · Chemistry · Physics · SAAT →":"My charts & skills →"):"McGraw Hill ↗";box.appendChild(a);});
 }
 function showTeacher(st){
   $("login").style.display="none";$("home").style.display="none";$("teach").style.display="block";
@@ -3656,9 +3705,248 @@ $("pfback").onclick=()=>goHome();
 {const mo=new MutationObserver(()=>pfAvatar());["login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 pfAvatar();
 
+/* ===== Submit work → teacher review (Assignments) =====
+   Students submit a snapshot of each lesson activity. The teacher reviews it in Assignments with typed
+   feedback, a mark and pen / Apple Pencil annotations; the student sees the review beside the work. */
+const SUBP=["launch","lab","sims","practice","flash","check"];
+const SUBAR={launch:"إطلاق الدرس",lab:"المختبر",sims:"المحاكاة",practice:"التدريب",flash:"البطاقات",check:"اختبار الدرس"};
+function subPartName(L,p){return p==="launch"?"Launch the Lesson · CER":p==="lab"?(L?.labels?.lab?.[0]||"Ecosystem Lab"):p==="sims"?"Simulations":p==="practice"?"Practice":p==="flash"?"Vocabulary Flashcards":p==="check"?"Lesson Check":p;}
+const SUBSIM={M2L1:[["fg1","Wolf–sheep field: run 300 ticks with all three populations alive"],["fg2","Wolf–sheep field: make the wolves die out and explain why"],["fg3","Wolf–sheep field: slow grass regrowth and find what limits the sheep"],["int4","Interactions: identify all four relationships from data"],["quad5","Quadrat sampling: sample five quadrats"],["quadest","Quadrat sampling: estimate density from your samples"]],
+  M24L3:[["gf1","Glomerulus filter: lower blood pressure until filtration almost stops"],["gf2","Glomerulus filter: turn on nephritis and find what leaks"],["gf3","Glomerulus filter: which two parts of blood never cross a healthy filter?"],["dy1","Dialysis: bring blood urea below 8 mmol/L"],["dy2","Dialysis: set fluid urea equal to blood urea and explain"],["dy3","Dialysis: compare flow directions"]]};
+const SUB={mineAt:0,mine:null,all:null,cur:null,list:[],ink:null};
+let AS_MH=null;
+const subT=()=>!!CAL.user?.t;
+const subHosted=()=>!!(window.HOSTED&&window.HS?.token);
+const subTime=t=>{if(!t)return "";const d=new Date(t);return `${d.getDate()}/${d.getMonth()+1} ${pad(d.getHours())}:${pad(d.getMinutes())}`;};
+const subTxt=h=>{const d=document.createElement("div");d.innerHTML=String(h||"");return d.textContent.replace(/\s+/g," ").trim();};
+const subLesson=key=>Object.entries(LXLESSONS).find(([,L])=>L.key===key)||[null,null];
+
+/* ---------- storage: Supabase when hosted, this device otherwise ---------- */
+function subLoc(){try{return JSON.parse(localStorage.getItem("bio_subs")||"[]")}catch(_){return []}}
+function subLocSave(a){try{localStorage.setItem("bio_subs",JSON.stringify(a));return true}catch(_){return false}}
+const subLite=s=>{const o={...s};delete o.data;o.ink=!!s.ink;return o;};
+async function subApi(fn,a={}){
+  if(subHosted())return hrpc("portal_"+fn,{p_token:HS.token,...a});
+  const all=subLoc(),uid=CAL.uid,u=CAL.user||{};
+  if(fn==="submit"){let s=all.find(x=>x.uid===uid&&x.lesson===a.p_lesson&&x.part===a.p_part);
+    if(s){Object.assign(s,{title:a.p_title,data:a.p_data,score:a.p_score,max:a.p_max,version:s.version+1,at:new Date().toISOString(),status:"submitted"});}
+    else{s={id:Date.now(),uid,n:u.n||"",g:u.g||"",i:String(uid).slice(-4),lesson:a.p_lesson,part:a.p_part,title:a.p_title,data:a.p_data,score:a.p_score,max:a.p_max,version:1,at:new Date().toISOString(),status:"submitted"};all.push(s);}
+    return subLocSave(all)?{ok:true,id:s.id,version:s.version,at:s.at}:{error:"too_large"};}
+  if(fn==="my_subs")return all.filter(x=>x.uid===uid).map(s=>{const o=subLite(s);if(!s.rat){o.feedback=null;o.mark=null;}return o;});
+  if(fn==="subs")return all.map(subLite);
+  if(fn==="sub_get"){const s=all.find(x=>x.id===a.p_id);return s||{error:"not_found"};}
+  if(fn==="sub_review"){const s=all.find(x=>x.id===a.p_id);if(!s)return {error:"not_found"};Object.assign(s,{feedback:(a.p_feedback||"").trim()||null,mark:a.p_mark,mark_max:a.p_mark_max,ink:a.p_ink,status:"reviewed",rat:new Date().toISOString()});return subLocSave(all)?{ok:true}:{error:"too_large"};}
+}
+async function subMine(force){if(subT()||!CAL.user)return [];if(!force&&SUB.mine&&Date.now()-SUB.mineAt<20000)return SUB.mine;try{SUB.mine=await subApi("my_subs")||[];SUB.mineAt=Date.now();}catch(_){SUB.mine=SUB.mine||[];}return SUB.mine;}
+const subFind=(lesson,part)=>(SUB.mine||[]).find(s=>s.lesson===lesson&&s.part===part);
+function subSeen(){try{return JSON.parse(localStorage.getItem("subseen_"+CAL.uid)||"{}")}catch(_){return {}}}
+function subMarkSeen(s){if(!s?.rat)return;const m=subSeen();m[s.id]=s.rat;try{localStorage.setItem("subseen_"+CAL.uid,JSON.stringify(m))}catch(_){}}
+const subIsNew=s=>s.status==="reviewed"&&s.rat&&subSeen()[s.id]!==s.rat;
+
+/* ---------- snapshot of the student's work (plain text blocks only) ---------- */
+function subCollect(root){const B=[];
+  root.querySelectorAll("h3, .lxchal > h4, .lxch, table.lxtbl, .lxq, .lxsort, .lxbio, .lxseq").forEach(el=>{
+    if(el.closest(".lxq")&&!el.classList.contains("lxq"))return;
+    if(el.matches("h3, h4")){B.push({t:"h",x:el.textContent.trim()});return;}
+    if(el.classList.contains("lxch")){B.push({t:"li",x:(el.querySelector("b")||el).textContent.trim(),ok:el.classList.contains("done")});return;}
+    if(el.matches("table")){const head=[...el.querySelectorAll("thead th, tr:first-child th")].map(x=>x.textContent.trim());const rows=[...el.querySelectorAll("tbody tr")].slice(0,40).map(tr=>[...tr.children].map(td=>td.textContent.trim()));if(rows.length)B.push({t:"table",head,rows});return;}
+    if(el.classList.contains("lxseq")){const x=el.textContent.trim();if(x)B.push({t:"p",x:"Order chosen: "+x});return;}
+    if(el.classList.contains("lxq")){const id=el.id.replace("lxq-",""),st=LX.st,s=(id[0]==="q"?st.q:id[0]==="f"?st.fq:st.an)?.[id];
+      const stem=(el.querySelector(".stem")||el).textContent.replace(/\s+/g," ").trim(),fb=el.querySelector(".lxfb"),key=(el.querySelector(".lxkey b")?.textContent||"").replace(/^Answer:\s*/,"");
+      let a="",stt="open",note="";
+      if(s?.tx?.length){a=s.tx[s.tx.length-1];const sc=s.sc[s.sc.length-1];stt=sc===1?"ok":sc===0.5?"half":"no";note=s.fb?.[s.fb.length-1]||"";}
+      else if(s?.picks?.length){a=s.picks.map(v=>{const b=el.querySelector(`.lxopt[data-i="${v}"]`);return b?b.textContent.replace(/^\s*[a-d]\s+/i,"").trim():String(v);}).join("  →  ");
+        stt=!s.done?"open":fb?.classList.contains("ok")?(s.ok?"ok":"half"):"no";}
+      B.push({t:"q",n:el.querySelector(".qn")?.textContent||"",x:stem,a:a||"(not answered)",st:stt,k:stt==="no"?key:"",f:note,tr:s?.tries||0});return;}
+    if(el.matches(".lxsort, .lxbio")){const p=(el.querySelector("p")||el.firstElementChild||el).textContent.trim(),r=el.querySelector("button.right")?.textContent.trim()||"",w=el.querySelector("button.wrong")?.textContent.trim()||"";
+      const stt=el.classList.contains("ok")?(w?"half":"ok"):el.classList.contains("no")?"no":"open";B.push({t:"q",x:p,a:stt==="ok"||stt==="half"?r:stt==="no"?w:"(not finished)",st:stt,k:stt==="no"?r:""});}
+  });return B;}
+function lxSnap(part){const L=LX.L,st=LX.st,s=lxScores(),B=[];let score=null,max=null,done=true,hint="";
+  if(part==="launch"){const K=L.cer,C=st.cer||{tries:[]},t=C.tries[C.tries.length-1];if(!K||!t)return {empty:"Write and mark your CER answer first."};
+    B.push({t:"h",x:K.title},{t:"p",x:"Question: "+K.question},{t:"kv",rows:[["Best level",`${C.best||0} / 4`],["Tries",String(C.tries.length)],["Latest try",t.t||""]]});
+    [["Claim","c"],["Evidence","e"],["Reasoning","r"]].forEach(([n,k])=>B.push({t:"ans",l:n,x:t[k]||"",p:t.p?`${t.p[k]} / ${k==="c"?1:2}`:"",f:t.res?.F?.[k]||""}));
+    score=C.best||0;max=4;}
+  else if(part==="sims"){const T=SUBSIM[L.key]||[];T.forEach(([k,x])=>B.push({t:"li",x,ok:!!st.sim?.[k]}));const n=T.filter(([k])=>st.sim?.[k]).length;score=n;max=T.length;done=n===T.length;hint=`${n} of ${T.length} simulation tasks done`;
+    const root=document.querySelector('#lessonview .lxpanel[data-p="sims"]');if(root){const extra=subCollect(root).filter(b=>b.t==="q"||b.t==="table");if(extra.length)B.push({t:"h",x:"Answers on the current simulation"},...extra);}}
+  else{const root=document.querySelector(`#lessonview .lxpanel[data-p="${part}"]`);if(!root)return {empty:"Open this activity first."};
+    if(part==="flash"){const k=Object.values(st.f||{}).filter(x=>x==="k").length;B.push({t:"kv",rows:[["Cards marked “I know it”",`${k} / ${L.vocab.length}`]]});}
+    if(part==="check")B.push({t:"kv",rows:[["Mark",`${s.q.mark} / ${s.q.n}`],["Answered",`${s.q.done} / ${s.q.n}`]]});
+    B.push(...subCollect(root));
+    if(part==="lab"){score=s.c.ok;max=s.c.n;hint=`${(st.data||[]).length} data points recorded`;done=(st.data||[]).length>=3;}
+    if(part==="practice"){score=s.pr.ok;max=s.pr.n;done=B.filter(b=>b.t==="q"&&b.st==="open").length===0;hint=done?"":"some items are not finished";}
+    if(part==="flash"){score=s.f.ok;max=s.f.n;done=B.filter(b=>b.t==="q"&&b.st==="open").length===0;hint=done?"":"the vocabulary check is not finished";}
+    if(part==="check"){score=s.q.mark;max=s.q.n;done=s.q.done>=s.q.n;hint=done?"":`${s.q.done} of ${s.q.n} questions answered`;}
+    if(!B.some(b=>b.t!=="h"&&b.t!=="kv"))return {empty:"Do some of this activity before you submit it."};}
+  return {data:{v:1,L:L.title,e:L.eyebrow,part,b:B},score,max,done,hint};}
+
+/* ---------- render a snapshot (escaped text only) ---------- */
+const SUBST={ok:["✓ Correct","ok"],half:["✓ 2nd try","half"],no:["✗ Incorrect","no"],open:["Not finished","open"]};
+function subRender(sub){const d=sub.data||{},B=d.b||[],L=subLesson(sub.lesson)[1];
+  const head=`<div class="spaperh"><div><small>${esc(d.e||L?.eyebrow||"")}</small><h3>${esc(subPartName(L,sub.part))} <span>· ${esc(d.L||L?.title||sub.lesson)}</span></h3></div>
+    <div class="spmeta"><b>${esc(sub.n||CAL.user?.n||"")}</b><span>${esc(sub.g||"")}${sub.i?` · ID …${esc(sub.i)}`:""}</span><span>Submitted ${esc(subTime(sub.at))}${sub.version>1?` · version ${sub.version}`:""}</span>${sub.max?`<span>Auto score <b>${+(+sub.score).toFixed(2)} / ${+sub.max}</b></span>`:""}</div></div>`;
+  const body=B.map(b=>b.t==="h"?`<h4>${esc(b.x)}</h4>`:b.t==="p"?`<p dir="auto">${esc(b.x)}</p>`:
+    b.t==="kv"?`<div class="spkv">${b.rows.map(r=>`<span>${esc(r[0])} <b>${esc(r[1])}</b></span>`).join("")}</div>`:
+    b.t==="li"?`<div class="spli ${b.ok?"ok":""}"><i>${b.ok?"✓":"○"}</i>${esc(b.x)}</div>`:
+    b.t==="table"?`<div class="sptw"><table class="sptbl"><thead><tr>${b.head.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${b.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`:
+    b.t==="ans"?`<div class="spans"><div class="spansh"><b>${esc(b.l)}</b>${b.p?`<span>${esc(b.p)}</span>`:""}</div><p dir="auto">${esc(b.x)||"<i>(empty)</i>"}</p>${b.f?`<small dir="auto">Auto feedback: ${esc(b.f)}</small>`:""}</div>`:
+    b.t==="q"?`<div class="spq ${SUBST[b.st]?.[1]||""}"><div class="spqh">${b.n?`<span class="spn">${esc(b.n)}</span>`:""}<span dir="auto">${esc(b.x)}</span></div><div class="spqa"><span dir="auto">${esc(b.a)}</span><em>${SUBST[b.st]?.[0]||""}</em></div>${b.k?`<div class="spqk">Correct answer: ${esc(b.k)}</div>`:""}${b.f?`<div class="spqf" dir="auto">Auto feedback: ${esc(b.f)}</div>`:""}</div>`:"").join("");
+  return head+`<div class="spbody">${body||"<p>(no content)</p>"}</div><div class="spnotes">Teacher notes area · مساحة ملاحظات المعلم</div>`;}
+
+/* ---------- submit bar in each activity (bottom left) ---------- */
+function subBar(t){let bar=$("lxsubbar");if(!bar){bar=document.createElement("div");bar.id="lxsubbar";$("lxpager").before(bar);}
+  if(subT()||!SUBP.includes(t)||!CAL.user){bar.hidden=true;bar.innerHTML="";subTabs();return;}
+  bar.hidden=false;const L=LX.L,name=subPartName(L,t),s=subFind(L.key,t);
+  bar.innerHTML=`<div class="subbar"><button type="button" class="subbtn" id="subgo"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>${s?"Submit again":"Submit"} <span class="ar">إرسال</span></button>
+    <div class="subst" id="subst">${s?`<b>${esc(name)}</b> submitted ${esc(subTime(s.at))}${s.version>1?` (version ${s.version})`:""} · ${s.status==="reviewed"?`<span class="sch ok">Reviewed ✓${s.mark!=null?` · ${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:""}</span>`:`<span class="sch wait">Waiting for teacher review</span>`}`:`Send <b>${esc(name)}</b> to your teacher when you finish.`}</div></div>
+    ${s?.status==="reviewed"?`<div class="subfbk"><b>Teacher feedback · ملاحظات المعلم</b>${s.feedback?`<p dir="auto">${esc(s.feedback)}</p>`:""}${s.ink?`<span>✏️ Your teacher wrote on your work.</span>`:""}<button type="button" class="lxbtn" id="subview1">View marked work</button></div>`:""}`;
+  let armed=false;
+  $("subgo").onclick=async()=>{const r=lxSnap(t),m=$("subst");if(r.empty){m.innerHTML=`<span class="sch no">${esc(r.empty)}</span>`;return;}
+    if(!r.done&&!armed){armed=true;m.innerHTML=`<span class="sch wait">Not finished: ${esc(r.hint||"some parts are empty")}.</span> Tap <b>Submit</b> again to send it anyway.`;return;}
+    const b=$("subgo");b.disabled=true;m.textContent="Sending…";
+    try{const res=await subApi("submit",{p_lesson:L.key,p_part:t,p_title:`${name}: ${L.title}`,p_data:r.data,p_score:r.score,p_max:r.max});
+      if(res?.ok){lxSfx.win();lxToast("Sent to your teacher ✓");await subMine(true);subBar(t);}
+      else{m.innerHTML=`<span class="sch no">Could not send: ${esc(res?.error||"error")}</span>`;b.disabled=false;}}
+    catch(_){m.innerHTML=`<span class="sch no">Could not send. Check the internet and try again.</span>`;b.disabled=false;}};
+  const v=$("subview1");if(v)v.onclick=()=>subOpen(s.id,false);
+  subTabs();}
+function subTabs(){if(subT())return;const L=LX.L;document.querySelectorAll("#lxparts .lxpart").forEach(b=>{const s=subFind(L.key,b.dataset.t);b.classList.toggle("subd",!!s);
+  b.querySelector(".subtag")?.remove();if(s){const g=document.createElement("span");g.className="subtag"+(subIsNew(s)?" new":"");g.textContent=s.status==="reviewed"?"✓ reviewed":"sent";b.appendChild(g);}});}
+{const ls=lxShow;lxShow=function(t){const r=ls.apply(this,arguments);try{subBar(t);}catch(_){}return r;};}
+{const ol=openLesson;openLesson=function(){const r=ol.apply(this,arguments);if(!subT())subMine(true).then(()=>{if($("lessonview").style.display==="block")subBar(LX.tab);});return r;};}
+
+/* ---------- course page: bold names + feedback beside each activity ---------- */
+function subDecorate(){if(subT()||!BIOX?.node)return;const L=LXLESSONS[BIOX.node];if(!L)return;
+  document.querySelectorAll('#coursesview .mhres.lx').forEach(r=>{const a=r.querySelector(".mhrt a[data-lx]");if(!a)return;const s=subFind(L.key,a.dataset.lx);r.querySelector(".subnote")?.remove();a.classList.toggle("subd",!!s);
+    if(s){const n=document.createElement("div");n.className="subnote"+(s.status==="reviewed"?" ok":"");n.innerHTML=s.status==="reviewed"?`<b>✓ Reviewed${s.mark!=null?` · ${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:""}</b>${s.feedback?`<span dir="auto">${esc(s.feedback)}</span>`:""}${subIsNew(s)?`<i>new</i>`:""}`:`<b>Submitted ${esc(subTime(s.at))}</b><span>Waiting for teacher review</span>`;
+      r.querySelector(".mhrt").appendChild(n);n.onclick=e=>{e.preventDefault();subOpen(s.id,false);};}});}
+{const ob=openBio;openBio=function(){const r=ob.apply(this,arguments);if(!subT()&&CAL.user)subMine().then(subDecorate);return r;};}
+
+/* ---------- Assignments tile: chooser ---------- */
+{const rt=renderTiles;renderTiles=function(box,links){if(links&&(box.id==="tiles"||box.id==="stiles")){links=links.map(x=>x.slice());const i=links.findIndex(x=>x[0]==="Assignments");
+    if(i>=0){if(links[i][1]!=="#ashub"){AS_MH=links[i][1]||null;links[i][1]="#ashub";}}else links.push(["Assignments","#ashub"]);}return rt.call(this,box,links);};}
+async function asHub(tile){let m=$("ashub");if(!m){m=document.createElement("div");m.id="ashub";m.className="gbhub";m.setAttribute("role","menu");document.body.appendChild(m);
+    document.addEventListener("click",e=>{if(!m.hidden&&!m.contains(e.target)&&!e.target.closest('a[href="#ashub"],[data-nav="#ashub"]'))m.hidden=true;});document.addEventListener("keydown",e=>{if(e.key==="Escape")m.hidden=true;});addEventListener("scroll",()=>{m.hidden=true;},{passive:true});}
+  const T=subT();
+  m.innerHTML=`<button type="button" data-g="sub" role="menuitem"><b>${T?"Student Submissions":"My Work & Feedback"} <span class="ar">${T?"أعمال الطلاب":"أعمالي والملاحظات"}</span> <em class="hubn" id="ashubn"></em></b><small>${T?"Review submitted activities, write feedback and mark with a pen":"Everything you submitted and your teacher's feedback"}</small></button>${AS_MH?`<a href="${esc(AS_MH)}" target="_blank" rel="noopener" role="menuitem"><b>McGraw Hill Assignments ↗ <span class="ar">واجبات ماكجروهيل</span></b><small>Online assignments on my.mheducation.com</small></a>`:""}`;
+  m.querySelector("[data-g=sub]").onclick=()=>{m.hidden=true;T?openSubs():openMyWork();};m.querySelectorAll("a").forEach(a=>a.onclick=()=>{m.hidden=true;});
+  m.hidden=false;const r=(tile||document.querySelector('a[href="#ashub"]')||document.body).getBoundingClientRect(),w=Math.min(340,innerWidth-16);m.style.width=w+"px";
+  m.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";const h=m.offsetHeight;
+  if(tile&&tile.closest("#sidenav")&&innerWidth>760){m.style.left=(r.right+8)+"px";m.style.top=Math.max(8,Math.min(innerHeight-h-8,r.top))+"px";}else m.style.top=(r.bottom+8+h<innerHeight?r.bottom+8:Math.max(8,r.top-h-8))+"px";
+  m.querySelector("button").focus();
+  try{if(T){const a=await subApi("subs");SUB.all=a||[];const n=SUB.all.filter(s=>s.status==="submitted").length;const e=$("ashubn");if(e&&n)e.textContent=n+" to review";}
+    else{const a=await subMine(true);const n=a.filter(subIsNew).length;const e=$("ashubn");if(e&&n)e.textContent=n+" new";}}catch(_){}}
+
+/* ---------- views ---------- */
+function subViews(){if($("subview"))return;const host=$("gbview");
+  const tv=document.createElement("section");tv.id="subview";tv.innerHTML=`<div class="card tbar fade"><div><h2>Student Submissions <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· أعمال الطلاب</span></h2><div class="cls" id="subcount">Loading…</div></div>
+    <div class="arow"><label class="gbsel">Class <select id="subfg"></select></label><label class="gbsel">Lesson <select id="subfl"></select></label><label class="gbsel">Show <select id="subfs"><option value="submitted">To review</option><option value="reviewed">Reviewed</option><option value="">All</option></select></label><button class="out" id="subrefresh" style="margin-top:0">⟳</button><button class="out" id="subback" style="margin-top:0">← Dashboard</button></div></div>
+    <div class="gbsheet sublist" id="sublist"></div>`;
+  const sv=document.createElement("section");sv.id="myworkview";sv.innerHTML=`<div class="card tbar fade"><div><h2>My Work & Feedback <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· أعمالي والملاحظات</span></h2><div class="cls" id="mwcount">Loading…</div></div><div class="arow"><button class="out" id="mwback" style="margin-top:0">← Dashboard</button></div></div><div id="mwlist" class="mwlist"></div>`;
+  host.after(tv);tv.after(sv);[tv,sv].forEach(e=>window.NAVMO?.observe(e,{attributes:true,attributeFilter:["style"]}));
+  $("subback").onclick=goHome;$("mwback").onclick=goHome;$("subrefresh").onclick=()=>openSubs(true);
+  ["subfg","subfl","subfs"].forEach(k=>$(k).onchange=subList);}
+{const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);["subview","myworkview"].forEach(k=>{const v=$(k);if(v)v.style.display="none";});return r;};}
+async function openSubs(){if(!subT())return;subViews();hideAllViews();$("subview").style.display="block";scrollTo(0,0);$("sublist").innerHTML='<p class="gbsub">Loading…</p>';
+  try{SUB.all=await subApi("subs")||[];}catch(_){SUB.all=[];$("sublist").innerHTML='<p class="gbsub">Could not load the submissions. Check the internet.</p>';return;}
+  const gs=[...new Set(SUB.all.map(s=>s.g).filter(Boolean))].sort(),ls=[...new Set(SUB.all.map(s=>s.lesson))];
+  const keep=(id,v)=>{const o=$(id).value;return v.includes(o)?o:"";};const g0=keep("subfg",gs),l0=keep("subfl",ls);
+  $("subfg").innerHTML=`<option value="">All classes</option>`+gs.map(g=>`<option ${g===g0?"selected":""}>${esc(g)}</option>`).join("");
+  $("subfl").innerHTML=`<option value="">All lessons</option>`+ls.map(k=>`<option value="${esc(k)}" ${k===l0?"selected":""}>${esc(subLesson(k)[1]?.title||k)}</option>`).join("");
+  subList();}
+function subList(){const fg=$("subfg").value,fl=$("subfl").value,fs=$("subfs").value,A=SUB.all||[];
+  const L=A.filter(s=>(!fg||s.g===fg)&&(!fl||s.lesson===fl)&&(!fs||s.status===fs));SUB.list=L;
+  const n=A.filter(s=>s.status==="submitted").length;$("subcount").textContent=`${n} waiting for review · ${A.length-n} reviewed · ${A.length} in total`;
+  $("sublist").innerHTML=L.length?`<div class="subrow subhead"><span>Student</span><span>Work</span><span>Submitted</span><span>Auto score</span><span>Review</span><span></span></div>`+L.map((s,i)=>{const Ls=subLesson(s.lesson)[1];return `<button type="button" class="subrow ${s.status}" data-i="${i}">
+      <span class="sn"><b>${esc(s.n)}</b><small>${esc(s.g||"")} · …${esc(s.i||"")}</small></span><span class="sw"><b>${esc(subPartName(Ls,s.part))}</b><small>${esc(Ls?.title||s.lesson)}</small></span>
+      <span class="sa">${esc(subTime(s.at))}${s.version>1?` <em>v${s.version}</em>`:""}</span><span class="sc">${s.max?`${+(+s.score).toFixed(2)} / ${+s.max}`:"–"}</span>
+      <span>${s.status==="reviewed"?`<span class="sch ok">✓ ${s.mark!=null?`${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:"Reviewed"}</span>`:`<span class="sch wait">To review</span>`}</span><span class="go">Review ›</span></button>`;}).join("")
+    :`<p class="gbsub">${A.length?"Nothing matches these filters.":"No submissions yet. When students press <b>Submit</b> on an activity, their work appears here."}</p>`;
+  $("sublist").querySelectorAll(".subrow[data-i]").forEach(b=>b.onclick=()=>subOpen(SUB.list[+b.dataset.i].id,true,+b.dataset.i));}
+async function openMyWork(){if(subT())return;subViews();hideAllViews();$("myworkview").style.display="block";scrollTo(0,0);$("mwlist").innerHTML='<p class="gbsub">Loading…</p>';
+  const M=await subMine(true),seen=subSeen();
+  const done=M.length,rev=M.filter(s=>s.status==="reviewed").length,nw=M.filter(subIsNew).length;
+  $("mwcount").textContent=`${done} submitted · ${rev} reviewed${nw?` · ${nw} new feedback`:""} · bold = submitted`;
+  $("mwlist").innerHTML=Object.entries(LXLESSONS).map(([id,L])=>`<div class="gbsheet mwcard"><div class="mwh"><small>${esc(L.eyebrow)}</small><h3>${esc(L.title)}</h3><span>${SUBP.filter(p=>subFind(L.key,p)).length} / ${SUBP.length} submitted</span></div>
+    ${SUBP.map(p=>{const s=subFind(L.key,p);return `<div class="mwrow ${s?"done":""}"><div class="mwn"><span class="mwi">${s?(s.status==="reviewed"?"✓":"↑"):"○"}</span><div><b class="${s?"":"nb"}">${esc(subPartName(L,p))}</b><small>${SUBAR[p]}</small></div></div>
+      <div class="mws">${s?(s.status==="reviewed"?`<span class="sch ok">Reviewed${s.mark!=null?` · ${+s.mark}${s.mark_max?` / ${+s.mark_max}`:""}`:""}</span>${subIsNew(s)?`<span class="sch new">New</span>`:""}`:`<span class="sch wait">Waiting for review</span>`)+`<small>Sent ${esc(subTime(s.at))}</small>`:`<span class="sch">Not submitted</span>`}</div>
+      <div class="mwf" dir="auto">${s?.feedback?esc(s.feedback):s?.status==="reviewed"&&s.ink?"✏️ See your teacher's notes on your work.":""}</div>
+      <div class="mwa">${s?`<button type="button" class="lxbtn" data-v="${s.id}">View</button>`:""}<button type="button" class="lxbtn" data-o="${id}" data-p="${p}">Open</button></div></div>`;}).join("")}</div>`).join("");
+  $("mwlist").querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>subOpen(+b.dataset.v||b.dataset.v,false));
+  $("mwlist").querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>openLesson(b.dataset.o,b.dataset.p));}
+
+/* ---------- review dialog: paper + pen layer + feedback ---------- */
+const SUBPEN=[["#d62828","Red"],["#1d4ed8","Blue"],["#15803d","Green"],["#111827","Black"]];
+async function subOpen(id,teacher,idx){let d=$("subdlg");if(!d){d=document.createElement("dialog");d.id="subdlg";d.className="subdlg";document.body.appendChild(d);d.addEventListener("close",()=>{d.innerHTML="";SUB.cur=null;});}
+  d.innerHTML='<div class="sdh"><b>Loading…</b><button type="button" class="sdx" aria-label="Close">✕</button></div>';d.querySelector(".sdx").onclick=()=>d.close();if(!d.open)d.showModal();
+  let s;try{s=await subApi("sub_get",{p_id:id});}catch(_){s={error:"net"};}
+  if(!s||s.error){d.querySelector("b").textContent="Could not open this work.";return;}
+  SUB.cur=s;if(!teacher){subMarkSeen(s);}
+  const Ls=subLesson(s.lesson)[1],L=SUB.list||[],n=idx!=null?idx:-1;
+  const ink=s.ink&&Array.isArray(s.ink.s)?JSON.parse(JSON.stringify(s.ink.s)):[];SUB.ink=ink;
+  d.innerHTML=`<div class="sdh"><div><b>${esc(s.n||CAL.user?.n||"")}</b><span>${esc(subPartName(Ls,s.part))} · ${esc(Ls?.title||s.lesson)}</span></div>
+      ${teacher?`<div class="sdnav"><button type="button" class="lxbtn" id="sdprev" ${n>0?"":"disabled"}>‹ Previous</button><span>${n>=0?`${n+1} / ${L.length}`:""}</span><button type="button" class="lxbtn" id="sdnext" ${n>=0&&n<L.length-1?"":"disabled"}>Next ›</button></div>`:""}
+      <button type="button" class="sdx" aria-label="Close">✕</button></div>
+    <div class="sdbody ${teacher?"t":"s"}"><div class="sdpaperwrap" id="sdwrap"><div class="spaper" id="sdpaper">${subRender(s)}<canvas id="sdink"></canvas></div></div>
+    <aside class="sdside">${teacher?`<div class="sdtools" id="sdtools"><div class="sdtl">Pen · قلم</div><div class="sdrow">${SUBPEN.map(([c,nm],i)=>`<button type="button" class="sdc ${i?"":"on"}" data-c="${c}" title="${nm}" style="--c:${c}"></button>`).join("")}<button type="button" class="sdtool" data-tool="hl" title="Highlighter">🖍</button><button type="button" class="sdtool" data-tool="er" title="Eraser">⌫</button></div>
+        <div class="sdrow"><button type="button" class="sdw" data-w="2">thin</button><button type="button" class="sdw on" data-w="3.5">medium</button><button type="button" class="sdw" data-w="6">thick</button></div>
+        <div class="sdrow"><button type="button" class="lxbtn" id="sdundo">↶ Undo</button><button type="button" class="lxbtn" id="sdclear">Clear pen</button><label class="sddraw"><input type="checkbox" id="sddraw" checked> Draw</label></div>
+        <small>Write with Apple Pencil, a stylus, the mouse or a finger. With a pencil, your palm is ignored. Turn off <b>Draw</b> to scroll with a finger.</small></div>
+      <div class="sdfb"><div class="sdtl">Feedback · التغذية الراجعة</div><textarea id="sdtext" rows="6" dir="auto" placeholder="Type feedback for the student…">${esc(s.feedback||"")}</textarea>
+        <div class="sdchips">${["Excellent work! ممتاز","Good, but add more evidence from the data.","Use the key science idea in your reasoning.","Check your units and calculations.","Complete the missing parts and submit again.","See me in class."].map(x=>`<button type="button">${esc(x)}</button>`).join("")}</div>
+        <div class="sdmark"><label>Mark <input id="sdmk" type="number" min="0" step="0.5" value="${s.mark!=null?+s.mark:s.max!=null?+(+s.score).toFixed(2):""}"></label><span>/</span><input id="sdmx" type="number" min="1" step="0.5" value="${s.mark_max!=null?+s.mark_max:s.max!=null?+s.max:10}"><button type="button" class="lxbtn" id="sdauto" title="Use the automatic score">Auto ${s.max!=null?`${+(+s.score).toFixed(2)} / ${+s.max}`:""}</button></div>
+        <div class="sdsave"><button type="button" class="lxbtn pri" id="sdsave">✓ Save & send to student</button>${teacher&&n>=0&&n<L.length-1?`<button type="button" class="lxbtn" id="sdsavenext">Save & next ›</button>`:""}</div><div class="sdmsg" id="sdmsg">${s.status==="reviewed"?`Reviewed ${esc(subTime(s.rat))} · the student can see it.`:"Not reviewed yet."}</div></div>`
+    :`<div class="sdfb ro"><div class="sdtl">Teacher feedback · ملاحظات المعلم</div>${s.rat?`${s.mark!=null?`<div class="sdbig">${+s.mark}${s.mark_max?` <small>/ ${+s.mark_max}</small>`:""}</div>`:""}${s.feedback?`<p dir="auto">${esc(s.feedback)}</p>`:""}${ink.length?`<p>✏️ Your teacher wrote on your work (in colour).</p>`:""}<small>Reviewed ${esc(subTime(s.rat))}</small>`:`<p>Your teacher has not reviewed this yet. You can still improve the activity and submit again.</p>`}
+        <div class="sdsave"><button type="button" class="lxbtn" id="sdopen">Open the activity</button></div></div>`}</aside></div>`;
+  d.querySelectorAll(".sdx").forEach(b=>b.onclick=()=>d.close());
+  const paper=$("sdpaper"),wrap=$("sdwrap"),cv=$("sdink"),W=760;
+  const fit=()=>{const sc=Math.min(1,(wrap.clientWidth-34)/W);paper.style.transform=`scale(${sc})`;wrap.style.height=(paper.offsetHeight*sc)+"px";const h=paper.offsetHeight,dpr=Math.min(2,devicePixelRatio||1);
+    if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(h*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(h*dpr);cv.style.width=W+"px";cv.style.height=h+"px";}redraw();};
+  const ctx=cv.getContext("2d");
+  const stroke=(k)=>{if(k.p.length<1)return;ctx.save();ctx.globalAlpha=k.a||1;ctx.strokeStyle=k.c;ctx.lineCap="round";ctx.lineJoin="round";if(k.a<1)ctx.globalCompositeOperation="multiply";
+    if(k.p.length===1){ctx.fillStyle=k.c;ctx.beginPath();ctx.arc(k.p[0][0],k.p[0][1],k.w/2,0,7);ctx.fill();}
+    for(let i=1;i<k.p.length;i++){const a=k.p[i-1],b=k.p[i];ctx.lineWidth=k.pr?k.w*(0.45+(b[2]??0.5)*1.1):k.w;ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}ctx.restore();};
+  const redraw=()=>{const dpr=cv.width/W;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,cv.height/dpr);ink.forEach(stroke);};
+  requestAnimationFrame(fit);const ro=new ResizeObserver(fit);ro.observe(wrap);d.addEventListener("close",()=>ro.disconnect(),{once:true});
+  if(!teacher){$("sdopen").onclick=()=>{const [lid]=subLesson(s.lesson);d.close();if(lid)openLesson(lid,s.part);};if(!subT()){subMine(true).then(()=>{if($("myworkview")?.style.display==="block")openMyWork();else if($("coursesview")?.style.display==="block")subDecorate();});}return;}
+  /* teacher pen */
+  const P={c:SUBPEN[0][0],w:3.5,tool:"pen"};let cur=null,penSeen=false,dirty=false;
+  const setDraw=()=>{cv.style.touchAction=$("sddraw").checked?"none":"pan-y";cv.style.pointerEvents=$("sddraw").checked?"auto":"none";};setDraw();$("sddraw").onchange=setDraw;
+  d.querySelectorAll(".sdc").forEach(b=>b.onclick=()=>{P.c=b.dataset.c;P.tool="pen";d.querySelectorAll(".sdc,.sdtool").forEach(x=>x.classList.toggle("on",x===b));});
+  d.querySelectorAll(".sdtool").forEach(b=>b.onclick=()=>{P.tool=b.dataset.tool;d.querySelectorAll(".sdc,.sdtool").forEach(x=>x.classList.toggle("on",x===b));});
+  d.querySelectorAll(".sdw").forEach(b=>b.onclick=()=>{P.w=+b.dataset.w;d.querySelectorAll(".sdw").forEach(x=>x.classList.toggle("on",x===b));});
+  const pt=e=>{const r=cv.getBoundingClientRect(),k=W/r.width;return [Math.round((e.clientX-r.left)*k*10)/10,Math.round((e.clientY-r.top)*k*10)/10,e.pointerType==="pen"?Math.round((e.pressure||0.5)*100)/100:0.5];};
+  const erase=p=>{const before=ink.length;for(let i=ink.length-1;i>=0;i--){if(ink[i].p.some(q=>Math.hypot(q[0]-p[0],q[1]-p[1])<12))ink.splice(i,1);}if(ink.length!==before){dirty=true;redraw();}};
+  cv.onpointerdown=e=>{if(e.pointerType==="pen")penSeen=true;if(penSeen&&e.pointerType==="touch")return;e.preventDefault();cv.setPointerCapture(e.pointerId);const p=pt(e);
+    if(P.tool==="er"){cur={er:true};erase(p);return;}
+    cur=P.tool==="hl"?{c:"#facc15",w:18,a:0.35,p:[p]}:{c:P.c,w:P.w,p:[p],pr:e.pointerType==="pen"?1:0};ink.push(cur);dirty=true;redraw();};
+  cv.onpointermove=e=>{if(!cur)return;if(penSeen&&e.pointerType==="touch")return;const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e];
+    evs.forEach(ev=>{const p=pt(ev);if(cur.er){erase(p);return;}const l=cur.p[cur.p.length-1];if(Math.hypot(p[0]-l[0],p[1]-l[1])>=1.2)cur.p.push(p);});if(!cur.er)redraw();};
+  cv.onpointerup=cv.onpointercancel=()=>{cur=null;};
+  $("sdundo").onclick=()=>{ink.pop();dirty=true;redraw();};$("sdclear").onclick=()=>{if(!ink.length)return;ink.length=0;dirty=true;redraw();};
+  d.querySelectorAll(".sdchips button").forEach(b=>b.onclick=()=>{const t=$("sdtext");t.value=(t.value.trim()?t.value.trim()+"\n":"")+b.textContent;});
+  $("sdauto").onclick=()=>{if(s.max!=null){$("sdmk").value=+(+s.score).toFixed(2);$("sdmx").value=+s.max;}};
+  const save=async(next)=>{const mk=$("sdmk").value===""?null:+$("sdmk").value,mx=$("sdmx").value===""?null:+$("sdmx").value,msg=$("sdmsg");
+    if(mk!=null&&mx!=null&&(mk<0||mk>mx)){msg.innerHTML=`<span class="sch no">The mark must be between 0 and ${mx}.</span>`;return;}
+    msg.textContent="Saving…";const inkData=ink.length?{w:W,s:ink.map(k=>({...k,p:k.p.map(q=>q.map(v=>Math.round(v*10)/10))}))}:null;
+    try{const r=await subApi("sub_review",{p_id:s.id,p_feedback:$("sdtext").value,p_mark:mk,p_mark_max:mx,p_ink:inkData});
+      if(!r?.ok){msg.innerHTML=`<span class="sch no">Could not save: ${esc(r?.error||"error")}</span>`;return;}
+      dirty=false;Object.assign(s,{status:"reviewed",feedback:$("sdtext").value.trim(),mark:mk,mark_max:mx,rat:new Date().toISOString()});
+      const row=(SUB.all||[]).find(x=>x.id===s.id);if(row)Object.assign(row,{status:"reviewed",feedback:s.feedback,mark:mk,mark_max:mx,rat:s.rat});
+      msg.innerHTML=`<span class="sch ok">✓ Saved · the student can see it now</span>`;if($("subview")?.style.display==="block")subList();
+      if(next){const i=SUB.list.findIndex(x=>x.id===s.id),j=i>=0?i+1:n;if(SUB.list[j])subOpen(SUB.list[j].id,true,j);else msg.innerHTML+=" · that was the last one in this list";}}
+    catch(_){msg.innerHTML=`<span class="sch no">Could not save. Check the internet.</span>`;}};
+  $("sdsave").onclick=()=>save(false);const sn=$("sdsavenext");if(sn)sn.onclick=()=>save(true);
+  const go=j=>{if(dirty&&!window.confirm("You have unsaved pen marks or feedback. Leave without saving?"))return;subOpen(L[j].id,true,j);};
+  const pv=$("sdprev"),nx=$("sdnext");if(pv)pv.onclick=()=>go(n-1);if(nx)nx.onclick=()=>go(n+1);
+  $("sdtext").oninput=()=>{dirty=true;};
+  d.querySelectorAll(".sdx").forEach(b=>b.onclick=()=>{if(dirty&&!window.confirm("You have unsaved pen marks or feedback. Close without saving?"))return;d.close();});
+  d.oncancel=e=>{if(dirty&&!window.confirm("You have unsaved pen marks or feedback. Close without saving?"))e.preventDefault();};}
+
+{const lo=logout;logout=function(){SUB.mine=null;SUB.all=null;SUB.list=[];const d=$("subdlg");if(d?.open)d.close();return lo.apply(this,arguments);};}
+
 /* ===== Persistent side navigation (shown inside any section) ===== */
 let NAVLINKS=null;
-const VIEWS={pfview:"#profile",gbview:"#gbhub",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
+const VIEWS={pfview:"#profile",gbview:"#gbhub",subview:"#ashub",myworkview:"#ashub",analytics:"#analytics",calview:"#calendar",coursesview:"#courses",progview:"#progress",lessonview:"#courses"};
 const HOME_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const OUT_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h10"/></svg>';
 function hideAllViews(){if(LX.sim)LX.sim.stop();["analytics","calview","coursesview","progview","lessonview","teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});}
@@ -3670,7 +3958,7 @@ function goHome(){
 }
 function navGo(url){
   hideAllViews();
-  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")openGradebook();
+  if(url==="#analytics")openAnalytics();else if(url==="#calendar")openCalendar();else if(url==="#courses")openCourses(null);else if(url==="#progress")openProgress(null);else if(url==="#gradebook")openGradebook();else if(url==="#gbhub")openGradebook();else if(url==="#ashub")(CAL.user?.t?openSubs():openMyWork());
 }
 function buildNav(active){
   const nav=$("sidenav");if(!NAVLINKS){nav.innerHTML="";return;}
@@ -3682,7 +3970,7 @@ function buildNav(active){
     else h+=item(null,lb,m.svg,m.c,false,url);});
 
   nav.innerHTML=h;
-  nav.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const k=b.dataset.nav;if(k==="home")goHome();else if(k==="out")logout();else if(k==="#gbhub")gbHub(b);else navGo(k);});
+  nav.querySelectorAll("[data-nav]").forEach(b=>b.onclick=()=>{const k=b.dataset.nav;if(k==="home")goHome();else if(k==="out")logout();else if(k==="#gbhub")gbHub(b);else if(k==="#ashub")asHub(b);else navGo(k);});
   const on=nav.querySelector(".on");if(on&&innerWidth<=760)on.scrollIntoView({inline:"center",block:"nearest"});
 }
 function navSync(){
@@ -3692,7 +3980,7 @@ function navSync(){
   $("sidenav").style.display=show?"flex":"none";
   if(show)buildNav(active);
 }
-{const mo=new MutationObserver(()=>{clearTimeout(navSync._t);navSync._t=setTimeout(navSync,0);});
+{const mo=new MutationObserver(()=>{clearTimeout(navSync._t);navSync._t=setTimeout(navSync,0);});window.NAVMO=mo;
  ["pfview","gbview","analytics","calview","coursesview","progview","lessonview","teach","home","login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 
 /* ===== Visited-page history: back / home / forward (bottom-left) ===== */
@@ -3708,7 +3996,7 @@ function navPush(r){
 function navReplay(r){
   NAVH.replay=true;
   try{if(r.v!=="lesson")hideAllViews();
-    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="pf")openProfile();else if(r.v==="cal")openCalendar();
+    if(r.v==="home")goHome();else if(r.v==="analytics")openAnalytics();else if(r.v==="gb")openGradebook();else if(r.v==="subs")openSubs();else if(r.v==="mywork")openMyWork();else if(r.v==="pf")openProfile();else if(r.v==="cal")openCalendar();
     else if(r.v==="courses")openCourses(r.k);else if(r.v==="bio"){openCourses("bio");openBio(r.id);}
     else if(r.v==="prog")openProgress(r.k);else if(r.v==="lesson"){if(LX.id!==r.id||$("lessonview").style.display!=="block")openLesson(r.id,r.tab);else lxShow(r.tab);}}
   catch(e){goHome();}
@@ -3723,7 +4011,7 @@ function navBar(){
   const cur=NAVH.s[NAVH.i];$("nhhome").classList.toggle("on",!cur||cur.v==="home");
 }
 {const wrap=(name,mk)=>{const f=window[name];if(typeof f!=="function")return;window[name]=function(...a){const r=f.apply(this,a);try{navPush(mk(...a));}catch(_){}return r;};};
- wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openProfile",()=>({v:"pf"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
+ wrap("goHome",()=>({v:"home"}));wrap("openGradebook",()=>({v:"gb"}));wrap("openSubs",()=>({v:"subs"}));wrap("openMyWork",()=>({v:"mywork"}));wrap("openProfile",()=>({v:"pf"}));wrap("openAnalytics",()=>({v:"analytics"}));wrap("openCalendar",()=>({v:"cal"}));
  wrap("openCourses",k=>({v:"courses",k:k||null}));wrap("openBio",id=>({v:"bio",id:id||null}));wrap("openProgress",k=>({v:"prog",k:k||null}));
  wrap("openLesson",(id,tab)=>({v:"lesson",id,tab:tab||"launch"}));wrap("lxShow",t=>({v:"lesson",id:LX.id,tab:t}));
  const lo=window.logout;if(typeof lo==="function")window.logout=function(...a){NAVH.s=[];NAVH.i=-1;const r=lo.apply(this,a);navBar();return r;};}
