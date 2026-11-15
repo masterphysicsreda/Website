@@ -3225,6 +3225,7 @@ DSIM_PLACE[M24L3_ID]={"Explore":[["xmembrane",["Simulation","PhET"]],["xdiffusio
 const M1L1_ID="0fa1e97d-4dd6-4d6f-9b9a-a9f4164f03fc",M1L2_ID="deb30791-b377-4150-a5f8-13e713a5334e";
 const AF={ink:"#10232f",mu:"#53687a",grn:"#1d8656",blue:"#2b6fb8",org:"#d9822b",red:"#c0392b",yel:"#d9a21b",pur:"#7b4fbf",line:"#e1e7ec"};
 
+const aFit=id=>{const c=$(id);return c?simFit(c):null;};
 /* ---------- shared helpers: sort-with-2-tries cards, ordering task, task list ---------- */
 function aCard(title,qs,task,body){return `<div class="lxprac"><div class="ph"><h3>${title}</h3><span class="lxqs">${qs}</span></div><p class="lxtask">${task}</p>${body}</div>`;}
 function aSortHTML(g,Q,C,S,W,why){return `<div class="lxsortlist">${Q.map(([t,a],i)=>{const s=S[i],w=W[i];return `<div class="lxsort${s?(s===a?" ok":" no"):""}" data-g="${g}" data-i="${i}"><p>${esc(t)}</p><div class="lxchips">${Object.entries(C).map(([k,n])=>`<button data-v="${k}" class="${s?(k===a?"right":k===s?"wrong":""):w===k?"wrong":""}" ${s||w===k?"disabled":""}>${n}</button>`).join("")}</div><div class="lxfb ${s?(s===a?"ok":"no"):w?"no":""}">${s?`<b>${s===a?(w?"Correct on the second try":"Correct"):"Answer: "+C[a]}</b><span>${why(i,a)}</span>`:w?`<b>Not ${C[w]}. One more try.</b>`:""}</div></div>`;}).join("")}</div>`;}
@@ -3374,7 +3375,7 @@ function a1Lab(){
   const gauge=(lab,val,unit,pct,col)=>`<div class="xgauge"><span>${lab}</span><b>${val}<small> ${unit}</small></b><i><em style="width:${Math.max(0,Math.min(100,pct))}%;background:${col}"></em></i></div>`;
   const gas=()=>M.rate*t,cells=()=>M.cells(t);
   const gauges=()=>{$("yg").innerHTML=`<h4>Flask readings · ${Math.round(t)} min</h4><div class="xgrid">${gauge("Gas in balloon",gas().toFixed(1),"mL",gas()/60*100,"#c7860f")}${gauge("Rate of gas",(M.rate).toFixed(2),"mL/min",M.rate/1.1*100,"#a86014")}${gauge("Yeast cells",cells().toFixed(2),"million/mL",cells()/5*100,"#8a5a2b")}${gauge("Activity",Math.round(M.fT*100),"% of best",M.fT*100,"#1d8656")}</div>`;};
-  const draw=()=>{const F=simFit($("ycv"));if(!F)return;const{x,w,h}=F,sc=Math.min(w/520,h/290);x.save();x.translate((w-520*sc)/2,0);x.scale(sc,sc);
+  const draw=()=>{const F=aFit("ycv");if(!F)return;const{x,w,h}=F,sc=Math.min(w/520,h/290);x.save();x.translate((w-520*sc)/2,0);x.scale(sc,sc);
     const g=gas(),r=14+Math.min(60,Math.sqrt(g)*8.3);
     x.fillStyle="#f6c08a";x.beginPath();x.ellipse(260,62-r*0.55,r*0.9,r,0,0,7);x.fill();x.strokeStyle="#d9822b";x.lineWidth=2;x.stroke();
     x.fillStyle="#f6c08a";x.fillRect(250,62,20,22);
@@ -3447,7 +3448,7 @@ function a1Homeo(host){
       <div class="lxverdict" id="hv">The body detects a change (stimulus) and responds to bring the temperature back to normal. This is homeostasis.</div></div></div>`;
   let B=37,hist=[37],run=true,raf=0,last=performance.now(),inT=0,hotT=0,coldT=0,resp="none";const P={};const read=()=>{Object.assign(P,simRead([["out"],["ex"]]));P.sw=$("hsw").checked;P.sh=$("hsh").checked;};read();
   const S=LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);const b=$("hgo");if(b)b.textContent="▶ Run";}};
-  const draw=()=>{const F=simFit($("hcv"));if(!F)return;const{x,w,h}=F,cx=w/2;
+  const draw=()=>{const F=aFit("hcv");if(!F)return;const{x,w,h}=F,cx=w/2;
     const sky=P.out>=35?"#fde3c4":P.out<=12?"#dbe9f7":"#eef6ee";x.fillStyle=sky;x.fillRect(0,0,w,h);
     x.fillStyle=B>38.5?"#e46b5a":B<36?"#7fb0e0":"#f0c39b";x.beginPath();x.arc(cx,60,26,0,7);x.fill();x.fillRect(cx-22,88,44,90);x.fillRect(cx-22,178,16,60);x.fillRect(cx+6,178,16,60);x.fillRect(cx-44,92,18,70);x.fillRect(cx+26,92,18,70);
     if(resp==="sweating"){x.fillStyle="#2b6fb8";for(let i=0;i<8;i++){const a=(performance.now()/300+i)%1;x.beginPath();x.arc(cx-40+i*11,100+a*80,2.5,0,7);x.fill();}}
@@ -3478,7 +3479,7 @@ function a1Photo(host){
       <div class="lxverdict" id="pv">Plants cannot walk to the light, but they respond to it by growing towards it.</div></div></div>`;
   let day=0,H=2,bend=0,run=false,raf=0,last=0,sideDays=0,wasLeft=false;const P={};const read=()=>{Object.assign(P,simRead([["lamp"],["lux"]]));P.tip=$("ptip").checked;};read();
   const S=LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);const b=$("pgo");if(b)b.textContent="▶ Grow";}};
-  const draw=()=>{const F=simFit($("pcv"));if(!F)return;const{x,w,h}=F,gx=w/2,gy=h-40;
+  const draw=()=>{const F=aFit("pcv");if(!F)return;const{x,w,h}=F,gx=w/2,gy=h-40;
     const lx=gx+P.lamp/80*(w/2-40),ly=40;x.fillStyle=`rgba(255,220,90,${P.lux/300})`;x.beginPath();x.moveTo(lx,ly);x.lineTo(gx-120,gy);x.lineTo(gx+120,gy);x.fill();
     x.fillStyle="#333";x.fillRect(lx-3,0,6,ly-12);x.fillStyle="#f2c94c";x.beginPath();x.arc(lx,ly,14,0,7);x.fill();
     x.fillStyle="#8a5a2b";x.fillRect(gx-50,gy,100,30);x.fillStyle="#b07a45";x.fillRect(gx-60,gy-6,120,10);
@@ -3637,7 +3638,7 @@ function a2Lab(){
   const diff=()=>A2VARS.map(v=>v[0]).filter(k=>Z.A[k]!==Z.B[k]);
   const nm={sug:"sugar",ble:"bleach",tmp:"water temperature",cut:"stem cut"};
   const desc=G=>`${G.sug} g/L sugar · ${G.ble} drops bleach · ${G.tmp} °C · ${G.cut?"angled":"straight"} cut`;
-  const draw=()=>{const F=simFit($("zcv"));if(!F)return;const{x,w,h}=F,n=Z.n;x.font="12px Inter, Arial";
+  const draw=()=>{const F=aFit("zcv");if(!F)return;const{x,w,h}=F,n=Z.n;x.font="12px Inter, Arial";
     [["A",Z.A,"#8a99a8"],["B",Z.B,"#d9822b"]].forEach(([g,G,col],gi)=>{const x0=gi*w/2,cw=w/2;x.fillStyle=AF.ink;x.fillText(`Group ${g}${gi?"":" (control)"}`,x0+10,18);
       for(let i=0;i<n;i++){const cx=x0+cw/(n+1)*(i+1),life=res?res[g][i]:99,wilt=Math.max(0,Math.min(1,(day-life+1.5)/3));
         x.fillStyle="rgba(120,170,220,.35)";x.fillRect(cx-9,h-62,18,48);x.strokeStyle="#8aa";x.strokeRect(cx-9,h-62,18,48);
@@ -3714,7 +3715,7 @@ function a2Sample(host){
       <div class="lxverdict" id="sv">The real germination rate is 60% for both groups unless you switch on the real effect. Any difference you see is then just chance.</div></div></div>`;
   let pts=[];const P={};const read=()=>{Object.assign(P,simRead([["n"]]));P.real=$("sreal").checked;};read();LX.fieldSim={stop(){}};
   const trial=()=>{const g=p=>{let k=0;for(let i=0;i<P.n;i++)if(Math.random()<p)k++;return k/P.n*100;};return {d:+(g(P.real?0.75:0.6)-g(0.6)).toFixed(1),n:P.n,real:P.real};};
-  const draw=()=>{const F=simFit($("scv"));if(!F)return;const{x,w,h}=F,L=40,R=10,T=14,B=26,Y=v=>T+(h-T-B)*(1-(v+80)/160);x.font="11px Inter, Arial";
+  const draw=()=>{const F=aFit("scv");if(!F)return;const{x,w,h}=F,L=40,R=10,T=14,B=26,Y=v=>T+(h-T-B)*(1-(v+80)/160);x.font="11px Inter, Arial";
     for(let v=-80;v<=80;v+=20){x.strokeStyle=v===0?AF.ink:AF.line;x.beginPath();x.moveTo(L,Y(v));x.lineTo(w-R,Y(v));x.stroke();x.fillStyle=AF.mu;x.textAlign="right";x.fillText((v>0?"+":"")+v,L-4,Y(v)+4);}
     x.textAlign="center";x.fillText("trials →",w/2,h-6);const show=pts.slice(-60);show.forEach((p,i)=>{x.fillStyle=p.n<=20?"#d9822b":p.n>=150?"#2b6fb8":"#7b4fbf";x.beginPath();x.arc(L+12+i*((w-L-R-24)/59),Y(Math.max(-80,Math.min(80,p.d))),4.5,0,7);x.fill();});x.textAlign="left";};
   const stats=()=>{const cur=pts.filter(p=>p.n===P.n&&p.real===P.real),ds=cur.map(p=>p.d);$("stn").textContent=cur.length;if(!ds.length){$("smean").textContent=$("srng").textContent="–";return;}
@@ -3790,6 +3791,469 @@ LXLESSONS[M1L2_ID]={key:"M1L2",title:"The Nature of Science",eyebrow:"Module 1 �
     {type:"write",stem:"An advert says: “9 out of 10 users say our herbal cream removes acne in 3 days.” Explain two reasons why this is <b>not</b> strong scientific evidence.",model:"It is based on opinions (what users say), not measurements from a controlled experiment. There is no control group, so the acne may have cleared by itself. We don't know how many people were asked (sample size) or how they were chosen, so it may be biased; the company has a commercial reason to choose good results. It has not been peer reviewed or published.",rubric:"Full (1): gives two valid reasons (testimonials/opinions not data, no control group, unknown or small sample, bias/commercial interest, not peer reviewed, not repeated). Partial (0.5): one valid reason. None (0): no valid reason."}
   ],
   cer:CER_M1L2,kit:{lab:a2Lab,practice:a2Practice,sims:a2Sims,score:a2Score}};
+
+/* ===== Module 2 · Principles of Ecology · Lessons 2 and 3 (original Al-Anjal content; uses helpers from m1lessons.js) ===== */
+const M2L2_ID="d65fd7ab-4da3-41e7-bc07-8c2212e66445",M2L3_ID="c546ab0f-5fe8-4117-b83c-b94a3f9e6f33";
+
+/* =====================================================================
+   LESSON 2 · FLOW OF ENERGY IN AN ECOSYSTEM
+   ===================================================================== */
+const B2ORG={grass:["Desert grass","🌾",1],palm:["Date palm","🌴",1],loc:["Locust","🦗",2],beet:["Darkling beetle","🪲",2],jerb:["Jerboa","🐭",2],spar:["House sparrow","🐦",3],liz:["Spiny-tailed lizard","🦎",3],snake:["Sand snake","🐍",4],fox:["Rüppell's fox","🦊",4],falc:["Saker falcon","🦅",5],dec:["Fungi & bacteria","🍄",0]};
+const B2EAT={loc:["grass","palm"],beet:["grass"],jerb:["grass","palm"],spar:["grass","loc","beet"],liz:["loc","beet"],snake:["jerb","liz","spar"],fox:["jerb","liz","beet","palm"],falc:["spar","snake","jerb"]};
+LXFIG.b2chain=()=>{const C=[["Sunlight","☀","energy source"],["Desert grass","🌾","producer"],["Locust","🦗","herbivore"],["Lizard","🦎","carnivore"],["Sand snake","🐍","carnivore"],["Saker falcon","🦅","top carnivore"]];
+  let s=`<svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="A desert food chain" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="700" height="170" fill="#fff"/><defs><marker id="b2ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="${AF.org}"/></marker></defs>`;
+  C.forEach(([n,ic,r],i)=>{const x=14+i*115;s+=`<rect x="${x}" y="34" width="96" height="92" rx="12" fill="${i?"#f4f8f2":"#fff7da"}" stroke="${i?AF.grn:AF.yel}" stroke-width="2"/><text x="${x+48}" y="74" font-size="30" text-anchor="middle">${ic}</text><text x="${x+48}" y="100" font-size="12" font-weight="700" text-anchor="middle">${n}</text><text x="${x+48}" y="116" font-size="10.5" text-anchor="middle" fill="${AF.mu}">${r}</text>${i?`<text x="${x+48}" y="146" font-size="10.5" text-anchor="middle" fill="${AF.mu}">level ${i}</text>`:""}`;if(i<C.length-1)s+=`<path d="M${x+97} 80 L${x+113} 80" stroke="${AF.org}" stroke-width="3" marker-end="url(#b2ar)"/>`;});
+  return s+`<text x="350" y="20" font-size="12" text-anchor="middle" fill="${AF.mu}">Arrows point in the direction energy flows: from the food to the organism that eats it</text></svg>`;};
+const B2POS={grass:[90,300],palm:[250,300],loc:[60,215],beet:[170,215],jerb:[290,215],spar:[110,135],liz:[230,135],snake:[200,60],fox:[360,120],falc:[330,40],dec:[480,300]};
+function b2WebSVG(gone,status,hl){gone=gone||{};status=status||{};let s=`<svg viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Desert food web" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="560" height="340" fill="#fff"/><defs><marker id="b2w" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#c7860f"/></marker></defs>`;
+  Object.entries(B2EAT).forEach(([c,foods])=>foods.forEach(f=>{const [x1,y1]=B2POS[f],[x2,y2]=B2POS[c],d=Math.hypot(x2-x1,y2-y1),k=(d-26)/d;s+=`<line x1="${x1}" y1="${y1}" x2="${x1+(x2-x1)*k}" y2="${y1+(y2-y1)*k}" stroke="#c7860f" stroke-width="1.6" opacity="${gone[c]||gone[f]?0.15:0.75}" marker-end="url(#b2w)"/>`;}));
+  s+=`<path d="M300 300 Q400 330 455 305" fill="none" stroke="${AF.mu}" stroke-dasharray="4 4"/><text x="480" y="262" font-size="10" text-anchor="middle" fill="${AF.mu}">break down all dead matter</text>`;
+  Object.entries(B2ORG).forEach(([k,[n,ic]])=>{const [x,y]=B2POS[k],st=status[k];const col=gone[k]?"#eee":st==="down"?"#fde3dc":st==="up"?"#dff3e7":st==="out"?"#ddd":"#fff";
+    s+=`<g data-k="${k}" style="cursor:pointer"><circle cx="${x}" cy="${y}" r="24" fill="${col}" stroke="${hl===k?AF.blue:gone[k]?"#bbb":AF.ink}" stroke-opacity="${hl===k?1:.35}" stroke-width="${hl===k?3:1.5}"/><text x="${x}" y="${y+8}" font-size="22" text-anchor="middle" opacity="${gone[k]?.3:1}">${ic}</text><text x="${x}" y="${y+38}" font-size="10" text-anchor="middle" fill="${AF.ink}">${n}</text>${gone[k]?`<text x="${x}" y="${y+7}" font-size="26" text-anchor="middle" fill="${AF.red}">✕</text>`:st==="down"?`<text x="${x+20}" y="${y-14}" font-size="15" fill="${AF.red}">▼</text>`:st==="up"?`<text x="${x+20}" y="${y-14}" font-size="15" fill="${AF.grn}">▲</text>`:""}</g>`;});
+  return s+`</svg>`;}
+LXFIG.b2web=()=>b2WebSVG();
+function b2PyrSVG(vals,unit,title,labels){const W=560,H=260,n=vals.length,mx=Math.max(...vals);let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="${esc(title)}" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${W}" height="${H}" fill="#fff"/><text x="280" y="18" font-size="13" font-weight="700" text-anchor="middle">${esc(title)}</text>`;
+  const cols=["#7cc47f","#f2c94c","#f2994a","#e46b5a","#9b51e0","#2b6fb8"];const bh=(H-40)/n;
+  vals.forEach((v,i)=>{const w=Math.max(14,Math.sqrt(v/mx)*420),y=H-8-(i+1)*bh;s+=`<rect x="${200-w/2+80}" y="${y}" width="${w}" height="${bh-4}" rx="4" fill="${cols[i%6]}"/><text x="${280}" y="${y+bh/2+2}" font-size="11.5" font-weight="700" text-anchor="middle">${v.toLocaleString("en")} ${unit}</text><text x="8" y="${y+bh/2+2}" font-size="11" fill="${AF.mu}">${labels[i]}</text>`;});
+  return s+`</svg>`;}
+LXFIG.b2pyr=()=>b2PyrSVG([10000,1000,100,10],"kJ","Energy pyramid: about 10% passes to the next level",["Producers","Primary consumers","Secondary consumers","Tertiary consumers"]);
+LXFIG.b2pyr3=()=>`<svg viewBox="0 0 660 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Pyramids of energy, biomass and numbers" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="660" height="230" fill="#fff"/>
+  ${[["Energy","kJ/m²/year",[20000,2000,200,20]],["Biomass","g/m²",[800,37,11,1.5]],["Numbers","organisms per hectare",[1500000,200000,90000,1]]].map(([t,u,v],j)=>{const x0=110+j*220;return `<text x="${x0}" y="20" font-size="13" font-weight="700" text-anchor="middle">${t}</text><text x="${x0}" y="36" font-size="10.5" text-anchor="middle" fill="${AF.mu}">${u}</text>`+v.map((val,i)=>{const w=[190,130,80,40][i],y=190-i*38;return `<rect x="${x0-w/2}" y="${y}" width="${w}" height="34" rx="4" fill="${["#7cc47f","#f2c94c","#f2994a","#e46b5a"][i]}"/><text x="${x0}" y="${y+21}" font-size="11" font-weight="600" text-anchor="middle">${val.toLocaleString("en")}</text>`;}).join("");}).join("")}
+  <text x="330" y="226" font-size="10.5" text-anchor="middle" fill="${AF.mu}">bottom = producers · top = third-level consumers · illustrative values</text></svg>`;
+LXFIG.b2loss=()=>`<svg viewBox="0 0 700 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Where the energy in food goes" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="700" height="230" fill="#fff"/>
+  <text x="80" y="118" font-size="40" text-anchor="middle">🦗</text><text x="80" y="150" font-size="12" text-anchor="middle">a locust eats</text><text x="80" y="166" font-size="12" font-weight="700" text-anchor="middle">100 kJ of grass</text>
+  <path d="M130 110 L250 110" stroke="${AF.org}" stroke-width="16"/>
+  <path d="M250 110 C300 110 300 40 380 40" fill="none" stroke="#8a99a8" stroke-width="10"/><text x="390" y="44" font-size="12">≈ 30 kJ not digested: lost in faeces</text>
+  <path d="M250 110 C310 110 320 110 380 110" fill="none" stroke="${AF.red}" stroke-width="18"/><text x="390" y="114" font-size="12">≈ 60 kJ used in respiration, released as heat</text>
+  <path d="M250 110 C300 110 300 180 380 180" fill="none" stroke="${AF.grn}" stroke-width="5"/><text x="390" y="184" font-size="12">≈ 10 kJ stored in new cells (growth)</text><text x="390" y="200" font-size="11" fill="${AF.mu}">only this can pass to the lizard that eats it</text></svg>`;
+LXFIG.b2qpyr=()=>b2PyrSVG([24000,2400,240,24],"kJ","Energy at each trophic level in a grassland",["Producers","Level 2","Level 3","Level 4"]);
+LXFIG.b2qbars=()=>aBarSVG({cats:["Plants","Herbivores","Carnivores","Top carnivores"],series:[["Biomass","#2e9e6e",[2400,230,21,2]]],ymax:2500,yl:"Dry biomass (kg per hectare)",aria:"Biomass at each trophic level"});
+
+/* ---------- launch: CER ---------- */
+const B2D={lv:["Plants (producers)","Locusts, beetles, jerboas (herbivores)","Lizards, sparrows (carnivores)","Snakes, falcons (top carnivores)"],bio:[2400,230,21,2],en:[18000,1800,180,18]};
+function b2CerFig(){return aBarSVG({cats:["Plants","Herbivores","Carnivores","Top carnivores"],series:[["Energy stored (MJ per hectare per year)","#c7860f",B2D.en.map(v=>v/100)],["Dry biomass (×10 kg per hectare)","#2e9e6e",B2D.bio.map(v=>+(v/10).toFixed(1))]],ymax:250,yl:"value (see legend)",W:600,H:300,aria:"Energy and biomass at four trophic levels in a desert"});}
+const B2K={energy:/energy|10 ?%|ten percent|طاقة|١٠|10 بالمئة/i,lost:/lost|heat|respir|used|waste|not passed|only (a )?(small|little)|تفقد|حرارة|تنفس|يستهلك|فقد/i,
+  concept:/trophic|10 ?%|ten percent|energy pyramid|pyramid|respir|heat|food chain|food web|المستوى الغذائي|مستويات|هرم|السلسلة الغذائية|الشبكة/i,cause:CERK.cause};
+const B2NUMS=[2400,230,21,2,18000,1800,180,18,10,90,1,0.1,100];
+function b2CerScore(c,e,r){
+  const P={c:0,e:0,r:0},F={c:"",e:"",r:""},nums=(e.match(/\d[\d,]*(?:\.\d+)?/g)||[]).map(x=>+x.replace(/,/g,"")).filter(n=>B2NUMS.includes(n)),uniq=[...new Set(nums)];
+  if(c.trim().length<8)F.c="Write a claim: one sentence that answers the question.";
+  else if(B2K.energy.test(c)&&(B2K.lost.test(c)||/less|fewer|small|أقل|قليل/i.test(c))){P.c=1;F.c="Clear claim: only a small part of the energy passes up each trophic level, so there is too little to support many falcons.";}
+  else F.c="Your claim should explain the falcons using energy: how much energy reaches the top of the food chain?";
+  const hasE=uniq.some(n=>[18000,1800,180,18].includes(n)),hasB=uniq.some(n=>[2400,230,21,2].includes(n));
+  if(e.trim().length<8)F.e="Add evidence: quote numbers from the graph or the table.";
+  else if(uniq.length>=3&&(hasE||hasB)){P.e=2;F.e="Strong evidence: you compared numbers for several trophic levels.";}
+  else if(uniq.length>=1){P.e=1;F.e="You used some data. Compare at least three levels, e.g. energy 18 000 → 1 800 → 180 → 18 MJ.";}
+  else F.e="Evidence must come from the data, e.g. plants store 18 000 MJ but top carnivores only 18 MJ.";
+  const cc=B2K.concept.test(r),ca=B2K.cause.test(r);
+  if(r.trim().length<8)F.r="Explain the science: why does the evidence support your claim?";
+  else if(cc&&ca){P.r=2;F.r="Strong reasoning: you used trophic levels / the 10% rule and explained where the energy goes.";}
+  else if(cc||ca){P.r=1;F.r=cc?"Good science idea. Now explain the chain: at each level about 90% of the energy is used in respiration and lost as heat, so only about 10% passes on.":"You gave a reason. Name the science idea too: trophic levels, energy pyramid, the 10% rule.";}
+  else F.r="Reasoning should use trophic levels and the energy pyramid (about 10% passes to the next level) to explain the data.";
+  const pts=P.c+P.e+P.r;return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4};}
+const CER_M2L2={title:"Why are there so few falcons in the desert?",
+  intro:`<p>Ecologists surveyed one hectare of desert near Al-Ahsa for a whole year. They dried and weighed samples of every group of organisms (<b>biomass</b>) and estimated the energy stored in each trophic level. They counted thousands of plants, hundreds of locusts and jerboas, dozens of lizards, but only one pair of saker falcons visiting the area.</p>`,
+  fig:b2CerFig,figcap:"Illustrative data for teaching",
+  table:()=>`<table class="certbl"><tr><th>Trophic level</th><th>Organisms</th><th>Dry biomass (kg/ha)</th><th>Energy stored (MJ/ha/year)</th></tr>${B2D.lv.map((l,i)=>`<tr><td>${i+1}</td><td>${l}</td><td>${B2D.bio[i].toLocaleString("en")}</td><td>${B2D.en[i].toLocaleString("en")}</td></tr>`).join("")}</table>`,
+  question:"Why can the desert support only a very small mass of falcons and snakes compared with the mass of plants?",ph:["e.g. There are few falcons because…","Plants store … MJ, but herbivores store only…","At each trophic level, energy is…"],
+  rubric:[["Claim","Only a small part of the energy (about 10%) passes from each trophic level to the next, so very little reaches the top carnivores.","0–1"],["Evidence","Numbers for at least three trophic levels (energy and/or biomass), showing the drop at each step.","0–2"],["Reasoning","Uses trophic levels / energy pyramid / the 10% rule AND explains that most energy is used for life processes and lost as heat.","0–2"]],
+  ex:["Only about 10% of the energy at one trophic level passes to the next, so there is too little energy at the top of the food chain to support many falcons and snakes.","The plants store 18 000 MJ per hectare per year, herbivores 1 800 MJ, carnivores 180 MJ and top carnivores only 18 MJ, each about one tenth of the level below. Biomass falls the same way: 2 400 kg → 230 kg → 21 kg → 2 kg.","Energy flows one way through a food chain. At each trophic level organisms use about 90% of the energy they take in for respiration, movement and keeping warm, and it is released as heat; some food is not eaten or digested. Only about 10% is stored in their bodies and can be passed on. After three steps only 0.1% of the plants' energy is left, which can support only a very small biomass of top carnivores, as an energy pyramid shows."],
+  ai:`PHENOMENON: One hectare of desert near Al-Ahsa, surveyed for a year. Trophic level 1 plants: dry biomass 2400 kg/ha, energy 18000 MJ/ha/yr. Level 2 herbivores (locusts, beetles, jerboas): 230 kg, 1800 MJ. Level 3 carnivores (lizards, sparrows): 21 kg, 180 MJ. Level 4 top carnivores (snakes, falcons): 2 kg, 18 MJ. Only one pair of falcons visits.
+QUESTION: Why can the desert support only a very small mass of falcons and snakes compared with plants?
+RUBRIC:
+- Claim 0-1: 1 if it says only a small part of the energy (≈10%) passes to the next trophic level / energy is lost at each level, so little reaches the top.
+- Evidence 0-2: 2 = accurate numbers for at least three levels (energy and/or biomass) showing the decrease; 1 = some correct data; 0 = none or wrong.
+- Reasoning 0-2: 2 = uses trophic levels / energy pyramid / 10% rule AND explains energy is used in respiration/life processes and lost as heat (or not eaten/digested); 1 = only one; 0 = none.`,
+  score:b2CerScore};
+
+/* ---------- Energy Pyramid Lab ---------- */
+const B2CH=[{id:"p1",t:"With 10% transfer and at least 4 levels, show that the third-level consumers get less than 1% of the producers' energy.",h:"Set efficiency 10% and 4 levels."},
+  {id:"p2",t:"Add trophic levels until the top level gets less than 1 kJ.",h:"Each extra level divides the energy again."},
+  {id:"p3",t:"Drought: with the drought on, show the top level gets less than half the energy it got without drought.",h:"Record a run without drought, then the same settings with drought."},
+  {id:"p4",t:"Support 5 trophic levels with at least 10 kJ reaching the top.",h:"Raise the sunlight captured and the transfer efficiency."},
+  {id:"p5",t:"Set a 20% efficiency and show level 3 gets 4% of the producers' energy.",h:"20% of 20% = 4%."},
+  {id:"data",t:"Record at least 5 runs in your data table.",h:"Press Record after each change."}];
+function b2Model(P){const E1=P.e1*(P.dry?0.4:1),f=P.eff/100,lv=[];for(let i=0;i<P.lv;i++)lv.push(E1*Math.pow(f,i));return {lv,top:lv[lv.length-1],pct:lv.map(v=>v/E1*100),E1};}
+function b2Lab(){const st=LX.st;st.b=st.b||{};
+  const D=[["e1","Energy captured by producers (kJ/m²/year)",1000,20000,500,10000],["eff","Transfer efficiency (%)",5,20,1,10],["lv","Number of trophic levels",2,6,1,4]];
+  $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap">
+    <div class="lxfield" style="background:#fff"><canvas id="bcv" style="height:300px"></canvas><div class="lxlegend"><span><i style="background:#7cc47f"></i>Energy stored at each level</span><span><i style="background:#e46b5a"></i>Energy lost as heat</span></div></div>
+    <div class="lxcard2" id="btab"></div><div class="lxchal" id="bchal"></div></div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn" id="brec">● Record data point</button></div>${simSliders(D)}
+      <label class="xtog"><input type="checkbox" id="bdry"> Drought: plants capture only 40% as much energy</label>
+      <div class="lxverdict" id="bv"></div></div></div>
+    <div class="lxprac"><div class="ph"><h3>My data table</h3><span class="lxqs" id="bdn"></span></div><p class="lxtask">Change one factor at a time and press <b>Record</b>.</p><div class="lxbtns"><button class="lxbtn" id="bclr">Clear table</button></div><div class="lxtblwrap"><table class="lxtbl" id="btbl"></table></div></div>
+    <div class="lxprac"><div class="ph"><h3>Analyse your data</h3><span class="lxqs" id="lxan"></span></div><div id="lxanq"></div></div>`;
+  const P={},chal=$("bchal");let M,run=true,raf=0,dots=[];const read=()=>{Object.assign(P,simRead(D));P.dry=$("bdry").checked;M=b2Model(P);};read();
+  const S=LX.sim={stop(){run=false;cancelAnimationFrame(raf);},resize(){},resume(){if(run)return;run=true;raf=requestAnimationFrame(loop);}};
+  const names=["Producers","Primary consumers","Secondary consumers","Tertiary consumers","Fourth-level consumers","Fifth-level consumers"],cols=["#7cc47f","#f2c94c","#f2994a","#e46b5a","#9b51e0","#2b6fb8"];
+  const fmt=v=>v>=100?Math.round(v).toLocaleString("en"):v>=1?v.toFixed(1):v.toFixed(3);
+  const upd=()=>{read();$("btab").innerHTML=`<h4>Energy at each level</h4><table class="lxtbl"><tr><th>Level</th><th>kJ/m²/year</th><th>% of producers</th><th>Lost as heat</th></tr>${M.lv.map((v,i)=>`<tr><td>${i+1} · ${names[i]}</td><td><b>${fmt(v)}</b></td><td>${M.pct[i]<0.01?M.pct[i].toExponential(1):+M.pct[i].toFixed(3)}%</td><td>${fmt(v*(1-P.eff/100))}</td></tr>`).join("")}</table>`;
+    const v=$("bv");v.className="lxverdict"+(M.top<1?" warn":"");v.innerHTML=M.top<1?`Only ${fmt(M.top)} kJ reaches level ${P.lv}: not enough to support a population. This is why food chains rarely have more than 4–5 levels.`:`At ${P.eff}% efficiency, each level keeps ${P.eff}% of the energy of the level below; ${100-P.eff}% is used for life processes and released as heat.`;
+    if(P.eff===10&&P.lv>=4&&M.pct[3]<1.0001)aDone("p1",B2CH,chal);if(M.top<1)aDone("p2",B2CH,chal);if(P.lv>=5&&M.top>=10)aDone("p4",B2CH,chal);if(P.eff===20&&P.lv>=3&&Math.abs(M.pct[2]-4)<0.01)aDone("p5",B2CH,chal);};
+  const loop=()=>{if(!$("bcv")){run=false;return;}if(!run)return;const F=aFit("bcv");if(!F){raf=requestAnimationFrame(loop);return;}const{x,w,h}=F,n=P.lv,bh=(h-30)/n,mx=M.lv[0];
+    x.font="11px Inter, Arial";M.lv.forEach((v,i)=>{const bw=Math.max(6,Math.sqrt(v/mx)*(w*0.62)),y=h-10-(i+1)*bh;x.fillStyle=cols[i];x.beginPath();x.roundRect(w*0.42-bw/2,y+3,bw,bh-6,5);x.fill();x.fillStyle=AF.ink;x.textAlign="center";x.fillText(`${fmt(v)} kJ`,w*0.42,y+bh/2+4);x.textAlign="left";x.fillStyle=AF.mu;x.fillText(names[i],6,y+bh/2+4);
+      if(i<n-1&&Math.random()<0.25)dots.push({x:w*0.42+bw/2,y:y+bh/2,vx:1+Math.random(),vy:-0.3-Math.random()*0.5,l:60});});
+    dots.forEach(d=>{d.x+=d.vx;d.y+=d.vy;d.l--;x.fillStyle=`rgba(228,107,90,${d.l/60})`;x.beginPath();x.arc(d.x,d.y,3,0,7);x.fill();});dots=dots.filter(d=>d.l>0);
+    x.fillStyle="#e46b5a";x.textAlign="right";x.fillText("heat →",w-6,16);x.textAlign="left";raf=requestAnimationFrame(loop);};
+  D.forEach(([k])=>$("sm-"+k).oninput=upd);$("bdry").onchange=upd;
+  const tbl=()=>{$("btbl").innerHTML=`<thead><tr><th>#</th><th>Producer energy</th><th>Efficiency %</th><th>Levels</th><th>Drought</th><th>Energy at top (kJ)</th><th>Top as % of producers</th></tr></thead><tbody>${st.data.map((d,i)=>`<tr><td>${i+1}</td><td>${d.e1}</td><td>${d.eff}</td><td>${d.lv}</td><td>${d.dry?"yes":"no"}</td><td><b>${d.top}</b></td><td>${d.pct}</td></tr>`).join("")}</tbody>`;$("bdn").textContent=`${st.data.length} point${st.data.length===1?"":"s"}`;};
+  $("brec").onclick=()=>{read();if(st.data.length>=30){lxToast("Table is full (30 points).",true);return;}const top=+M.top.toPrecision(3),pct=+M.pct[P.lv-1].toPrecision(3);
+    if(P.dry){const ref=st.data.find(d=>!d.dry&&d.e1===P.e1&&d.eff===P.eff&&d.lv===P.lv);if(ref&&top<ref.top/2)aDone("p3",B2CH,chal);}
+    st.data.push({e1:P.e1,eff:P.eff,lv:P.lv,dry:P.dry,top,pct});lxSave();tbl();if(st.data.length>=5)aDone("data",B2CH,chal);b2Analysis();lxBar();lxToast("Data point recorded");};
+  $("bclr").onclick=()=>{st.data=[];lxSave();tbl();b2Analysis();};
+  aChal(chal,B2CH);tbl();upd();b2Analysis();raf=requestAnimationFrame(loop);}
+function b2Analysis(){const st=LX.st,d=st.data,host=$("lxanq");if(!host)return;
+  if(d.length<3){host.innerHTML=`<p class="lxsub">Record at least 3 data points to unlock the analysis questions. They are checked against <b>your own</b> table.</p>`;$("lxan").textContent="locked";return;}
+  const last=d[d.length-1];
+  const Q=[{type:"num",stem:"In your <b>last</b> data point, how much energy reached the top level?",a:last.top,unit:"kJ",tol:0.005,why:`Your last row shows ${last.top} kJ.`,hint:"Read the 'Energy at top' column in the last row."},
+    {type:"num",stem:`Using your last row: producers captured ${last.e1} kJ at ${last.eff}% efficiency. How much energy reached <b>level 2</b>?`,a:+(last.e1*(last.dry?0.4:1)*last.eff/100).toFixed(1),unit:"kJ",tol:0.005,why:`${last.e1}${last.dry?" × 0.4 (drought)":""} × ${last.eff}% = ${+(last.e1*(last.dry?0.4:1)*last.eff/100).toFixed(1)} kJ.`,hint:"Multiply the producer energy by the efficiency (and by 0.4 if there was a drought)."},
+    {type:"mcq",stem:"Why does adding more trophic levels make the top level's energy smaller?",opts:["At every step most of the energy is used and lost as heat, so only a fraction passes on","Top predators eat less food","Producers make less energy when there are more levels","Energy is recycled back to the producers"],a:0,why:"Energy flows one way and about 90% is lost at each step, so each extra level divides the energy again.",hint:"What happens to energy at each step?"},
+    {type:"mcq",stem:"A drought reduces the energy captured by plants. What happens to every level above them?",opts:["Each level gets less energy, by the same fraction","Only the herbivores are affected","The top carnivores get more energy","Nothing changes above the producers"],a:0,why:"Every level depends on the energy captured by the producers, so a 60% fall at the bottom means a 60% fall at every level.",hint:"Where does all the energy in the food chain come from?"}];
+  const sig=d.map(x=>x.top+":"+x.lv).join("|");if(st.anSig!==sig){st.an={};st.anSig=sig;lxSave();}
+  host.innerHTML=Q.map((q,i)=>lxQHTML(q,"a"+i,i+1)).join("");const upd=()=>{$("lxan").textContent=`${Q.filter((_,j)=>st.an?.["a"+j]?.ok).length} / ${Q.length} correct`;};Q.forEach((q,i)=>lxWireQ(q,"a"+i,st.an||(st.an={}),upd));upd();}
+
+/* ---------- Practice ---------- */
+const B2ROLE={p:"Producer",h:"Herbivore",c:"Carnivore",o:"Omnivore",d:"Detritivore / decomposer"};
+const B2ROLEQ=[["Date palm","p"],["Camel grazing on desert shrubs","h"],["Saker falcon hunting a pigeon","c"],["Human who eats rice, dates and fish","o"],["Earthworm feeding on dead leaves","d"],["Algae in an oasis spring","p"],["Locust eating crops","h"],["Mould growing on old bread","d"],["Rüppell's fox eating jerboas and fallen dates","o"],["Dung beetle breaking down camel dung","d"]];
+const B2ROLEW={p:"Autotrophs capture energy from sunlight (or chemicals) to make their own food.",h:"Herbivores are heterotrophs that eat only plants.",c:"Carnivores are heterotrophs that eat other animals.",o:"Omnivores eat both plants and animals.",d:"Detritivores and decomposers break down dead matter and return nutrients to the soil, air and water."};
+const B2PYR={e:"Pyramid of energy",b:"Pyramid of biomass",n:"Pyramid of numbers"};
+const B2PYRQ=[["Shows how many kJ are available at each trophic level.","e"],["Shows the total mass of living matter (g/m²) at each level.","b"],["Shows how many individual organisms are at each level.","n"],["Can never be upside down, because energy always decreases up the chain.","e"],["One large date palm supports hundreds of insects, so this pyramid can be upside down.","n"],["Ecologists dry and weigh samples of organisms to build it.","b"]];
+const B2PYRW={e:"An energy pyramid shows the energy available at each trophic level; about 10% passes upward.",b:"A biomass pyramid shows the total mass of living matter at each level.",n:"A pyramid of numbers shows how many organisms are at each level; its shape can vary."};
+const B2ORD=["Sunlight","Desert grass","Locust","Spiny-tailed lizard","Sand snake","Saker falcon"];
+const B2AH={a:"Autotroph",h:"Heterotroph"};
+const B2AHQ=[["Makes its own food using light energy","a"],["Gets energy by eating other organisms","h"],["Cyanobacteria in a salt marsh","a"],["A mushroom (fungus)","h"],["Wheat in a farm in Al-Kharj","a"],["A tapeworm living in a sheep","h"]];
+function b2Practice(){const st=LX.st;st.b=st.b||{};const B=st.b;["ro","roW","py","pyW","ah","ahW"].forEach(k=>B[k]=B[k]||{});B.ord=B.ord||{seq:[],miss:0,done:false};
+  const host=$("lxprac"),re=()=>b2Practice();
+  host.innerHTML=aCard("What role does each organism play?",aSc(B.ro,B2ROLEQ),"Choose the best feeding role. You have 2 tries for each.",aSortHTML("ro",B2ROLEQ,B2ROLE,B.ro,B.roW,(i,a)=>B2ROLEW[a]))
+    +aCard("Autotroph or heterotroph?",aSc(B.ah,B2AHQ),"2 tries each.",aSortHTML("ah",B2AHQ,B2AH,B.ah,B.ahW,(i,a)=>a==="a"?"Autotrophs (producers) capture energy to make their own food.":"Heterotrophs (consumers) must eat other organisms."))
+    +aSeqHTML("bord",B2ORD,B.ord,"bord","Tap the parts of this desert food chain in the order energy flows.","Build the food chain")
+    +aCard("Which ecological pyramid?",aSc(B.py,B2PYRQ),"Match each description to the pyramid. 2 tries each.",aSortHTML("py",B2PYRQ,B2PYR,B.py,B.pyW,(i,a)=>B2PYRW[a]));
+  aWireSort(host,{ro:[B.ro,B.roW,B2ROLEQ,B2ROLE],ah:[B.ah,B.ahW,B2AHQ,B2AH],py:[B.py,B.pyW,B2PYRQ,B2PYR]},re);
+  aWireSeq("bord",B2ORD,B.ord,()=>{B.ord={seq:[],miss:0,done:false};lxSave();re();},re,pv=>pv.seq.length?`Which organism eats the ${esc(pv.seq[pv.seq.length-1].toLowerCase())}?`:"All the energy in this food chain comes from one source.");}
+const B2SIMT=["fw1","fw2","fw3","en1","en2","en3"];
+function b2Score(st){const B=st.b||{};
+  const pr={ok:aHf(B.ro,B2ROLEQ,B.roW)+aHf(B.ah,B2AHQ,B.ahW)+aHf(B.py,B2PYRQ,B.pyW)+(B.ord?.done&&B.ord.miss<=1?1:0),n:B2ROLEQ.length+B2AHQ.length+B2PYRQ.length+1};
+  return {c:{ok:B2CH.filter(x=>st.ch[x.id]).length+B2SIMT.filter(k=>st.sim?.[k]).length,n:B2CH.length+B2SIMT.length},pr};}
+
+/* ---------- Simulations: food web knockout + where the energy goes + online ---------- */
+function b2Sims(){aSimNav([["fw","🕸 Food web knockout",b2Web],["en","🔥 Where does the energy go?",b2Energy],["web","🌐 Online simulations",h=>aWeb(h,["wolfsheep","rabbits"])]]);}
+function b2Cascade(gone){const st={};const alive=k=>!gone[k]&&st[k]!=="out";
+  for(let pass=0;pass<4;pass++)Object.entries(B2EAT).forEach(([c,foods])=>{if(gone[c])return;const left=foods.filter(alive);if(!left.length)st[c]="out";else if(left.length<foods.length&&st[c]!=="out")st[c]="down";});
+  Object.entries(B2EAT).forEach(([c,foods])=>foods.forEach(f=>{if((gone[c]||st[c]==="out")&&!gone[f]&&st[f]!=="out"&&st[f]!=="down")st[f]="up";}));return st;}
+function b2Web(host){const S=LX.st;S.b=S.b||{};let gone={},sel=null;LX.fieldSim={stop(){}};
+  const draw=()=>{const st=b2Cascade(gone);
+    host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff;padding:6px" id="fwfig">${b2WebSVG(gone,st,sel)}</div>
+      ${aTasks([["fw1","Remove a producer and find two consumers that decline."],["fw2","Remove the top predator and find a population that increases."],["fw3","Answer the omnivore question."]])}</div>
+      <div class="lxctl"><p class="lxtask">Tap an organism to see what it eats, then press <b>Remove</b> to take it out of the ecosystem (for example, by disease or hunting).</p>
+        <div class="lxcard2"><h4>${sel?esc(B2ORG[sel][0]):"Select an organism"}</h4><p class="lxsub">${sel?(B2EAT[sel]?`Eats: ${B2EAT[sel].map(f=>B2ORG[f][0]).join(", ")}`:sel==="dec"?"Breaks down dead plants, animals and wastes, returning nutrients to the soil.":"Producer: makes food from sunlight."):"Arrows point from the food to the eater."}${sel&&st[sel]?` · <b>${{down:"population falls",up:"population rises",out:"dies out (no food left)"}[st[sel]]}</b>`:""}</p>
+        <div class="lxbtns"><button class="lxbtn pri" id="fwrm" ${!sel||gone[sel]?"disabled":""}>✕ Remove</button><button class="lxbtn" id="fwrs">⟲ Restore all</button></div></div>
+        <div class="lxprac"><p class="lxtask"><b>Question:</b> Which organism in this food web is an <b>omnivore</b>?</p><div class="lxchips" id="fwq">${["fox","snake","loc","falc"].map(k=>`<button data-v="${k}">${B2ORG[k][0]}</button>`).join("")}</div><div class="lxfb" id="fwqm"></div></div>
+        <div class="lxverdict">${Object.keys(gone).length?`Removed: ${Object.keys(gone).map(k=>B2ORG[k][0]).join(", ")}. ▼ = falls, ▲ = rises, ✕ = gone. A change to one species ripples through the whole web.`:"In a food web most organisms have several food sources, so removing one species affects many others."}</div></div></div>`;
+    host.querySelectorAll("#fwfig [data-k]").forEach(g=>g.onclick=()=>{sel=g.dataset.k;draw();});
+    $("fwrm").onclick=()=>{gone[sel]=1;const s2=b2Cascade(gone);if(B2ORG[sel][2]===1&&Object.values(s2).filter(v=>v==="down"||v==="out").length>=2)simDone("fw1","Removing a producer reduced the consumers that depend on it.");
+      if(sel==="falc"&&Object.values(s2).includes("up"))simDone("fw2","Without the top predator its prey increase.");draw();};
+    $("fwrs").onclick=()=>{gone={};sel=null;draw();};
+    $("fwq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="fox",m=$("fwqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Rüppell's fox eats animals (jerboas, lizards, beetles) and plants (dates).</span>":"<b>Not quite.</b><span>Tap each organism and check what it eats: an omnivore eats plants and animals.</span>";if(ok){simDone("fw3");aTick();}});
+    aTick();};
+  draw();}
+function b2Energy(host){
+  const A={loc:["Locust (insect, cold-blooded)",30,58],liz:["Spiny-tailed lizard (reptile, cold-blooded)",20,70],jerb:["Jerboa (mammal, warm-blooded)",15,82],spar:["House sparrow (bird, warm-blooded)",12,86]};
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff"><canvas id="ecv" style="height:260px"></canvas></div>
+    ${aTasks([["en1","Find the animal that stores the largest share of its food energy as growth."],["en2","Make a warm-blooded animal store less than 3% as growth (cold night)."],["en3","Answer: why do warm-blooded animals pass on less energy?"]])}</div>
+    <div class="lxctl"><div class="lxchips" id="esel">${Object.entries(A).map(([k,[n]],i)=>`<button data-k="${k}" class="${i?"":"on"}">${n}</button>`).join("")}</div>
+      ${simSliders([["ein","Energy eaten (kJ)",50,500,10,100],["etemp","Air temperature (°C)",5,45,1,30]])}
+      <div class="lxro"><div><span>Not digested</span><b id="eu">–</b></div><div><span>Respiration (heat)</span><b id="er">–</b></div><div><span>Growth (passed on)</span><b id="eg">–</b></div></div>
+      <div class="lxprac"><p class="lxtask"><b>Question:</b> Why does a jerboa pass on a smaller share of its food energy than a locust?</p><div class="lxchips" id="eq"><button data-v="a">It uses much more energy as heat to keep its body warm</button><button data-v="b">It eats less food</button><button data-v="c">It digests nothing</button></div><div class="lxfb" id="eqm"></div></div>
+      <div class="lxverdict" id="ev">Only the energy stored as growth can be eaten by the next trophic level.</div></div></div>`;
+  let k="loc",dots=[],run=true,raf=0;const P={};const read=()=>Object.assign(P,simRead([["ein"],["etemp"]]));read();
+  LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);}};
+  const split=()=>{const [,u,r0]=A[k];const warm=k==="jerb"||k==="spar";let r=r0+(warm?Math.max(0,25-P.etemp)*0.5:-(Math.max(0,25-P.etemp)*1.2));r=Math.max(40,Math.min(97,r));const u2=Math.min(u,100-r-1);return {u:u2,r,g:100-u2-r};};
+  const upd=()=>{read();const s=split();$("eu").textContent=(P.ein*s.u/100).toFixed(1)+" kJ";$("er").textContent=(P.ein*s.r/100).toFixed(1)+" kJ";$("eg").textContent=(P.ein*s.g/100).toFixed(1)+" kJ ("+s.g.toFixed(1)+"%)";
+    if(k==="loc"&&s.g>=10)simDone("en1","Cold-blooded insects store the biggest share as growth.");if((k==="jerb"||k==="spar")&&s.g<3)simDone("en2","On a cold night a warm-blooded animal burns most of its food to stay warm.");aTick();
+    $("ev").innerHTML=`${A[k][0]}: ${s.g.toFixed(1)}% of the energy it eats becomes new body mass. ${k==="jerb"||k==="spar"?"Warm-blooded animals release a lot of heat to keep their body temperature constant.":"Cold-blooded animals do not use food to keep warm, so more is left for growth."}`;};
+  const loop=()=>{if(!$("ecv")){run=false;return;}if(!run)return;const F=aFit("ecv");if(F){const{x,w,h}=F,s=split();x.font="12px Inter, Arial";
+      x.fillStyle="#fff7da";x.fillRect(0,0,w*0.22,h);x.fillStyle=AF.ink;x.fillText("food eaten",10,20);
+      if(Math.random()<0.6){const r=Math.random()*100;dots.push({x:w*0.2,y:h/2+(Math.random()-0.5)*30,t:r<s.u?"u":r<s.u+s.r?"r":"g",p:0});}
+      const tgt={u:[w*0.9,h*0.15],r:[w*0.9,h*0.5],g:[w*0.9,h*0.85]},col={u:"#8a99a8",r:"#e46b5a",g:"#2e9e6e"},lab={u:"not digested (faeces)",r:"respiration → heat",g:"growth (food for the next level)"};
+      Object.entries(tgt).forEach(([t,[tx,ty]])=>{x.fillStyle=col[t];x.globalAlpha=.15;x.fillRect(tx-70,ty-24,140,48);x.globalAlpha=1;x.textAlign="center";x.fillText(lab[t],tx,ty+38>h?ty-30:ty+38);});x.textAlign="left";
+      dots.forEach(d=>{d.p+=0.012;const[tx,ty]=tgt[d.t];const px=w*0.2+(tx-w*0.2)*d.p,py=d.y+(ty-d.y)*d.p;x.fillStyle=col[d.t];x.beginPath();x.arc(px,py,3.2,0,7);x.fill();});dots=dots.filter(d=>d.p<1);
+      x.font="34px serif";x.fillText({loc:"🦗",liz:"🦎",jerb:"🐭",spar:"🐦"}[k],w*0.06,h/2+12);}
+    raf=requestAnimationFrame(loop);};
+  host.querySelectorAll("#esel button").forEach(b=>b.onclick=()=>{k=b.dataset.k;host.querySelectorAll("#esel button").forEach(x=>x.classList.toggle("on",x===b));upd();});
+  ["ein","etemp"].forEach(q=>$("sm-"+q).oninput=upd);
+  $("eq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="a",m=$("eqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Mammals and birds respire much of their food to release heat and keep a constant body temperature, so less is stored as growth.</span>":"<b>Compare them.</b><span>Select the locust and then the jerboa with the same food. Which box gets bigger?</span>";if(ok)simDone("en3");aTick();});
+  upd();raf=requestAnimationFrame(loop);}
+DSIM_PLACE[M2L2_ID]={"Explore":[["wolfsheep",["Simulation","NetLogo"]],["rabbits",["Simulation","NetLogo"]]]};
+
+LXLESSONS[M2L2_ID]={key:"M2L2",title:"Flow of Energy in an Ecosystem",eyebrow:"Module 2 · Principles of Ecology · Lesson 2",
+  lede:"Every living thing needs energy, and almost all of it starts as sunlight. Follow energy through desert food chains and food webs, build energy pyramids in the lab, knock species out of a food web, then check your understanding.",
+  goals:["How do autotrophs and heterotrophs obtain energy?","How do food chains, food webs and ecological pyramids model the flow of energy?","Why does only about 10% of the energy pass from one trophic level to the next?"],
+  labels:{launch:["Launch the Lesson","Why are there so few falcons in the desert? · CER scored 1–4"],lab:["Energy Pyramid Lab","Change sunlight, transfer efficiency, trophic levels and drought; record the energy at each level"],sims:["Simulations","2 embedded models (food web knockout, where food energy goes) + NetLogo predator–prey models"],practice:["Practice","Feeding roles, autotroph or heterotroph, build a food chain, which ecological pyramid"]},
+  learn:[
+    {h:"Energy in an ecosystem",k:"gr",html:"<p>One way to study an ecosystem is to trace how <b>energy</b> flows through it. Organisms are classified by how they obtain energy. Almost all the energy in an ecosystem enters as sunlight.</p>"},
+    {h:"Autotrophs (producers)",html:"<p>An <b>autotroph</b> captures energy from sunlight or from inorganic substances to make its own food. Green plants, algae and some bacteria are the primary producers; they make energy available to every other organism.</p>"},
+    {h:"Heterotrophs (consumers)",k:"wide",html:"<table><tr><th>Heterotroph</th><th>What it eats</th><th>Examples</th></tr><tr><td>Herbivore</td><td>only plants</td><td>camel, locust, gazelle</td></tr><tr><td>Carnivore</td><td>other animals</td><td>saker falcon, sand snake</td></tr><tr><td>Omnivore</td><td>plants and animals</td><td>human, Rüppell's fox, sparrow</td></tr><tr><td>Detritivore</td><td>dead organic matter</td><td>earthworm, dung beetle</td></tr><tr><td>Decomposer</td><td>breaks down dead matter with enzymes</td><td>fungi, bacteria</td></tr></table>"},
+    {h:"Why detritivores matter",k:"note",html:"<p>Detritivores and decomposers break down dead organisms and wastes and return <b>nutrients</b> to the soil, air and water, where producers can use them again. Without them, dead matter would pile up and nutrients would be locked away.</p>"},
+    {h:"Food chains",k:"wide fig",fig:"b2chain",html:"<p>A <b>food chain</b> is a simple model of how energy flows: each organism gets energy from the one it eats. Each step is a <b>trophic level</b>. Producers are always the first trophic level. Energy flows one way only.</p>"},
+    {h:"Food webs",k:"wide fig",fig:"b2web",html:"<p>Most organisms eat more than one kind of food. A <b>food web</b> shows all the feeding relationships in an ecosystem, so it is a more realistic model than a single food chain. The same organism can be at different trophic levels in different chains.</p>"},
+    {h:"Where does the energy go?",k:"wide fig",fig:"b2loss",html:"<p>An organism uses most of the energy it takes in for life processes such as respiration, movement and keeping warm; this energy is released as <b>heat</b> and is not available to the next level. Some food is not digested at all.</p>"},
+    {h:"The energy pyramid and the 10% rule",k:"wide fig",fig:"b2pyr",html:"<p>An <b>energy pyramid</b> shows the energy available at each trophic level. Only about <b>10%</b> of the energy passes from one level to the next; about 90% is used or lost as heat. That is why food chains rarely have more than four or five levels.</p>"},
+    {h:"Pyramids of energy, biomass and numbers",k:"wide fig",fig:"b2pyr3",html:"<p><b>Biomass</b> is the total mass of living matter at a trophic level (for example g/m²). A <b>pyramid of biomass</b> shows how much biomass each level holds; a <b>pyramid of numbers</b> shows how many organisms there are. Because less energy is available higher up, the levels usually get smaller.</p>"}
+  ],
+  vocab:[["Autotroph","An organism that captures energy from sunlight or inorganic substances to make its own food; a producer."],["Heterotroph","An organism that gets energy by consuming other organisms; a consumer."],["Herbivore","A heterotroph that eats only plants."],["Carnivore","A heterotroph that eats other heterotrophs (animals)."],["Omnivore","A heterotroph that eats both plants and animals."],["Detritivore","An organism that feeds on dead organic matter and returns nutrients to the environment."],["Decomposer","A fungus or bacterium that breaks down dead organisms by releasing enzymes."],["Trophic level","Each step in a food chain or food web."],["Food chain","A simple model that shows how energy flows through an ecosystem, one organism to the next."],["Food web","A model of all the possible feeding relationships in an ecosystem."],["Energy pyramid","A model showing the energy available at each trophic level."],["Biomass","The total mass of living matter at each trophic level."],["Pyramid of numbers","A model showing the number of organisms at each trophic level."],["Primary consumer","An organism at the second trophic level that eats producers."]],
+  quiz:[
+    {type:"mcq",stem:"Which organism is an <b>autotroph</b>?",opts:["A date palm","A camel","A mushroom","A falcon"],a:0,why:"The date palm makes its own food by photosynthesis.",hint:"Which one makes its own food?"},
+    {type:"mcq",stem:"A Rüppell's fox eats jerboas, lizards and fallen dates. It is…",opts:["an omnivore","a herbivore","a producer","a detritivore"],a:0,why:"It eats both animals and plant material.",hint:"Plants and animals."},
+    {type:"mcq",stem:"What is the role of fungi and bacteria in an ecosystem?",opts:["They break down dead matter and return nutrients to the soil","They capture energy from sunlight","They are top predators","They produce oxygen for animals"],a:0,why:"Decomposers release nutrients from dead organisms for producers to use again.",hint:"What happens to dead leaves?"},
+    {type:"mcq",stem:"In the chain grass → locust → lizard → snake, the lizard is at which trophic level?",opts:["Third","First","Second","Fourth"],a:0,why:"Grass 1st, locust 2nd, lizard 3rd, snake 4th.",hint:"Producers are level 1."},
+    {type:"mcq",stem:"In a food chain, the arrows show…",opts:["the direction energy flows, from the food to the eater","which animal is bigger","which animal hunts at night","the direction of water flow"],a:0,why:"Arrows point from the organism eaten to the organism that eats it.",hint:"Energy moves into the consumer."},
+    {type:"mcq",stem:"Why is a food web a better model than a single food chain?",opts:["Most organisms eat more than one kind of food","Food webs contain no producers","Food chains show too many organisms","Energy flows both ways in a food web"],a:0,why:"A web shows all the feeding relationships, giving a more accurate picture.",hint:"How many foods does a sparrow eat?"},
+    {type:"tf",stem:"About 90% of the energy at one trophic level passes to the next level.",a:false,fix:"only about 10% passes on; about 90% is used or lost as heat",why:"Most energy is used for life processes and released as heat.",hint:"Remember the 10% rule."},
+    {type:"num",stem:"Producers in a field store <b>50 000 kJ</b>. Using the 10% rule, how much energy reaches the <b>secondary consumers</b> (level 3)?",a:500,unit:"kJ",tol:0,why:"50 000 × 0.1 = 5 000 kJ (level 2) × 0.1 = 500 kJ (level 3).",hint:"Multiply by 0.1 twice."},
+    {type:"mcq",fig:"b2qpyr",stem:"Use the energy pyramid. What percentage of the producers' energy reaches level 4?",opts:["0.1%","10%","1%","24%"],a:0,why:"24 ÷ 24 000 × 100 = 0.1%.",hint:"Divide the top value by the bottom value."},
+    {type:"num",fig:"b2qpyr",stem:"Use the same pyramid. How much energy (kJ) is lost between level 2 and level 3?",a:2160,unit:"kJ",tol:0,why:"2 400 − 240 = 2 160 kJ, mostly released as heat.",hint:"Subtract the level 3 value from the level 2 value."},
+    {type:"mcq",fig:"b2qbars",stem:"The graph shows the dry biomass at each trophic level in a desert. Which statement does it support?",opts:["Biomass decreases at each higher trophic level","Top carnivores have the most biomass","Herbivores have more biomass than plants","Biomass is the same at every level"],a:0,why:"2 400 → 230 → 21 → 2 kg per hectare: less energy supports less biomass higher up.",hint:"Read the bars from left to right."},
+    {type:"mcq",fig:"b2web",stem:"In the desert food web, which organism would be affected <b>first</b> if a disease killed most of the locusts?",opts:["The spiny-tailed lizard, which eats locusts","The date palm","The fungi and bacteria only","The sunlight"],a:0,why:"The lizard feeds on locusts (and beetles), so it loses part of its food supply.",hint:"Follow the arrows coming out of the locust."},
+    {type:"mcq",stem:"Which pyramid can sometimes be <b>upside down</b>?",opts:["A pyramid of numbers","A pyramid of energy","None of them","All of them"],a:0,why:"One large tree can support thousands of insects, but energy always decreases upward.",hint:"Think of one tree full of insects."},
+    {type:"mcq",stem:"Why do food chains rarely have more than four or five trophic levels?",opts:["There is too little energy left to support another level","Predators are too big","Plants cannot grow tall enough","Decomposers eat the top predators"],a:0,why:"After four or five steps only about 0.01–0.1% of the producers' energy remains.",hint:"Think about the 10% rule."},
+    {type:"tf",stem:"Energy flows through an ecosystem in one direction, but nutrients are recycled.",a:true,why:"Energy enters as sunlight and leaves as heat; matter cycles through producers, consumers and decomposers.",hint:"Compare energy and matter."},
+    {type:"num",stem:"A locust eats 100 kJ of grass. 30 kJ is not digested and 60 kJ is used in respiration. How much energy is stored as growth?",a:10,unit:"kJ",tol:0,why:"100 − 30 − 60 = 10 kJ.",hint:"Subtract both losses from what was eaten."},
+    {type:"write",stem:"Explain why a hectare of desert can support many more jerboas (herbivores) than saker falcons (top carnivores). Use the term <b>trophic level</b>.",model:"Jerboas feed at the second trophic level, eating plants directly, while falcons are at the fourth or fifth trophic level. At each trophic level only about 10% of the energy is passed on; the rest is used for life processes and lost as heat. So much less energy reaches the falcons, and it can support only a few of them, while the jerboas get much more energy and can have a larger population.",rubric:"Full (1): uses trophic levels AND explains that energy decreases (about 10% passes on / most is lost as heat) so less energy supports fewer top carnivores. Partial (0.5): mentions energy decreasing OR trophic levels but without a clear link. None (0): no valid reasoning."},
+    {type:"write",stem:"Predict what would happen to the desert ecosystem if all the decomposers (fungi and bacteria) disappeared. Explain your prediction.",model:"Dead plants, animals and wastes would not be broken down and would pile up. The nutrients locked in them would not be returned to the soil, so producers would run short of nutrients and grow less. With fewer producers, less energy and food would be available for herbivores and carnivores, so their populations would fall.",rubric:"Full (1): dead matter builds up AND nutrients are not recycled AND producers (then consumers) are affected. Partial (0.5): two of these. None (0): one or none."}
+  ],
+  cer:CER_M2L2,kit:{lab:b2Lab,practice:b2Practice,sims:b2Sims,score:b2Score}};
+
+/* =====================================================================
+   LESSON 3 · CYCLING OF MATTER
+   ===================================================================== */
+const C3mk=`<defs><marker id="c3ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#53687a"/></marker><marker id="c3ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#2b6fb8"/></marker></defs>`;
+const c3svg=(w,h,aria,body)=>`<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="${aria}" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${w}" height="${h}" fill="#fff"/>${C3mk}${body}</svg>`;
+const c3box=(x,y,w,h,t,sub,fill)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${fill}" stroke="#10232f" stroke-opacity=".2"/><text x="${x+w/2}" y="${y+(sub?h/2-2:h/2+4)}" font-size="12.5" font-weight="700" text-anchor="middle">${t}</text>${sub?`<text x="${x+w/2}" y="${y+h/2+13}" font-size="10.5" text-anchor="middle" fill="#53687a">${sub}</text>`:""}`;
+const c3arr=(d,lab,lx,ly,blue)=>`<path d="${d}" fill="none" stroke="${blue?"#2b6fb8":"#53687a"}" stroke-width="2" marker-end="url(#${blue?"c3ab":"c3ar"})"/>${lab?`<text x="${lx}" y="${ly}" font-size="11" text-anchor="middle" fill="${blue?"#2b6fb8":"#10232f"}">${lab}</text>`:""}`;
+LXFIG.c3water=()=>c3svg(640,280,"The water cycle",`<rect x="0" y="210" width="640" height="70" fill="#e8dcc0"/><path d="M380 210 Q470 190 640 205 L640 280 L380 280Z" fill="#9cc7ea"/><text x="560" y="250" font-size="12" font-weight="700" fill="#10232f">Arabian Gulf</text>
+  <ellipse cx="300" cy="50" rx="80" ry="26" fill="#e9eef3" stroke="#9aa9b5"/><text x="300" y="55" font-size="12" font-weight="700" text-anchor="middle">clouds</text><circle cx="580" cy="40" r="20" fill="#f2c94c"/>
+  <text x="70" y="200" font-size="34">🌴</text><text x="120" y="200" font-size="30">🌿</text>
+  ${c3arr("M95 170 C110 120 180 80 220 60","transpiration",120,120)}${c3arr("M520 200 C470 140 420 90 380 62","evaporation",500,140)}${c3arr("M250 80 L220 180","precipitation",190,135,1)}${c3arr("M240 230 C300 236 360 232 420 222","runoff",330,248,1)}${c3arr("M200 228 L200 262","percolation",150,258,1)}
+  <text x="300" y="20" font-size="11" text-anchor="middle" fill="#53687a">condensation: water vapour cools and forms droplets</text>`);
+LXFIG.c3carbon=()=>c3svg(640,300,"The carbon and oxygen cycle",`${c3box(250,14,140,50,"Atmosphere","CO₂ and O₂","#eef3f8")}${c3box(40,130,130,50,"Producers","plants, algae","#e3f4ec")}${c3box(250,130,140,50,"Consumers","animals","#fde7cf")}${c3box(470,130,140,50,"Decomposers","dead matter","#efe6da")}${c3box(250,236,140,50,"Fossil fuels","oil, gas, coal","#e6e0ee")}
+  ${c3arr("M250 40 C150 40 110 80 105 128","photosynthesis (takes in CO₂)",120,80)}${c3arr("M170 155 L248 155","eaten",209,148)}${c3arr("M320 128 L320 66","respiration (releases CO₂)",400,100)}${c3arr("M390 160 L468 160","death, waste",430,152)}${c3arr("M540 128 C540 70 470 40 392 38","respiration by decomposers",560,80)}${c3arr("M320 234 C280 210 280 90 300 66","combustion",240,220)}${c3arr("M520 182 C520 240 450 262 392 262","millions of years",500,250)}`);
+LXFIG.c3nitro=()=>c3svg(640,300,"The nitrogen cycle",`${c3box(230,12,180,46,"N₂ gas in the air","78% of the atmosphere","#eef3f8")}${c3box(30,128,160,50,"Ammonia (NH₄⁺)","in soil","#efe6da")}${c3box(240,128,160,50,"Nitrates (NO₃⁻)","in soil","#efe6da")}${c3box(450,128,160,50,"Plants","make proteins","#e3f4ec")}${c3box(450,236,160,50,"Animals","eat plants","#fde7cf")}${c3box(30,236,180,50,"Dead matter, urine","decomposers","#e6e0ee")}
+  ${c3arr("M230 36 C120 40 100 80 105 126","nitrogen fixation (bacteria)",110,80)}${c3arr("M190 152 L238 152","nitrification",214,145)}${c3arr("M400 152 L448 152","absorbed",424,145)}${c3arr("M530 180 L530 234","eaten",550,210)}${c3arr("M448 262 L212 262","waste, death",330,255)}${c3arr("M110 234 L110 180","decomposers make ammonia",130,210)}${c3arr("M320 126 L320 60","denitrification (bacteria)",400,95)}`);
+LXFIG.c3phos=()=>c3svg(640,240,"The phosphorus cycle",`${c3box(20,20,150,50,"Rocks","phosphate minerals","#e6e0ee")}${c3box(240,20,150,50,"Phosphate in soil","and water","#efe6da")}${c3box(470,20,150,50,"Plants","DNA, ATP","#e3f4ec")}${c3box(470,160,150,50,"Animals","bones, teeth","#fde7cf")}${c3box(240,160,150,50,"Wastes, dead matter","decomposers","#e6e0ee")}${c3box(20,160,150,50,"Sediments","form new rock","#dbe9f7")}
+  ${c3arr("M170 45 L238 45","weathering",204,38)}${c3arr("M390 45 L468 45","absorbed",430,38)}${c3arr("M545 70 L545 158","eaten",565,118)}${c3arr("M468 185 L392 185","waste, death",430,178)}${c3arr("M315 158 L315 72","decomposers",360,118)}${c3arr("M240 200 L172 200","runoff",206,220,1)}${c3arr("M95 158 L95 72","geologic uplift (very slow)",95,118)}
+  <text x="320" y="235" font-size="11" text-anchor="middle" fill="#53687a">short-term cycle: soil ↔ organisms · long-term cycle: rocks ↔ sediments</text>`);
+LXFIG.c3qco2=()=>aLineSVG({xs:[1960,1970,1980,1990,2000,2010,2020],series:[["CO₂","#2b6fb8",[317,326,339,354,369,390,414]]],ymax:450,yl:"Atmospheric CO₂ (ppm)",xl:"Year",aria:"Atmospheric carbon dioxide 1960–2020"});
+LXFIG.c3qyield=()=>aBarSVG({cats:["No nitrogen","Low nitrogen","Medium","High"],series:[["Yield","#2e9e6e",[1.8,3.0,4.1,4.3]]],ymax:5,yl:"Wheat yield (tonnes/ha)",aria:"Wheat yield with added nitrogen"});
+
+/* ---------- launch: CER ---------- */
+const C3D={f:["A","B","C"],what:["wheat · no fertiliser","wheat after one year of alfalfa","wheat + nitrogen fertiliser"],no3:[8,26,30],yld:[2.1,4.3,4.6],prot:[9,12,12.5]};
+function c3CerFig(){return aBarSVG({cats:["Field A","Field B","Field C"],series:[["Soil nitrate (mg/kg)","#c7860f",C3D.no3],["Wheat yield (×10 kg per 1000 m²)","#2e9e6e",C3D.yld.map(v=>v*10)]],ymax:50,yl:"value (see legend)",W:600,H:300,aria:"Soil nitrate and wheat yield in three fields"});}
+const C3K={fix:/fix|nodule|bacteria|alfalfa|legume|nitrogen.?fixing|تثبيت|العقد|بكتيريا|البرسيم|البقول/i,nit:/nitrogen|nitrate|نيتروجين|نترات|النيتروجين/i,
+  concept:/nitrogen cycle|fixation|fix(es|ed)?|nitrif|decompos|protein|ammonia|nodule|دورة النيتروجين|تثبيت|تحلل|بروتين|أمونيا|العقد/i,cause:CERK.cause};
+const C3NUMS=[8,26,30,2.1,4.3,4.6,9,12,12.5];
+function c3CerScore(c,e,r){
+  const P={c:0,e:0,r:0},F={c:"",e:"",r:""},nums=(e.match(/\d+(?:\.\d+)?/g)||[]).map(Number).filter(n=>C3NUMS.includes(n)),uniq=[...new Set(nums)];
+  if(c.trim().length<8)F.c="Write a claim: one sentence that answers the question.";
+  else if(C3K.fix.test(c)&&C3K.nit.test(c)){P.c=1;F.c="Clear claim: bacteria in the alfalfa root nodules fixed nitrogen, adding nitrogen compounds to the soil.";}
+  else if(C3K.nit.test(c)){F.c="Good start. Say where the extra nitrogen came from: the alfalfa and the bacteria in its roots.";}
+  else F.c="Your claim should explain Field B using nitrogen: where did the extra nitrogen in the soil come from?";
+  const hasN=uniq.some(n=>[8,26,30].includes(n)),hasY=uniq.some(n=>[2.1,4.3,4.6,9,12,12.5].includes(n));
+  if(e.trim().length<8)F.e="Add evidence: quote numbers from the graph or the table.";
+  else if(uniq.length>=3&&hasN&&hasY){P.e=2;F.e="Strong evidence: soil nitrate AND wheat yield or protein, comparing the fields.";}
+  else if(uniq.length>=1){P.e=1;F.e=`You used some data. Make it stronger: ${hasN?"":"compare soil nitrate (8, 26 and 30 mg/kg), "}${hasY?"":"and wheat yield (2.1, 4.3, 4.6 t/ha)"}.`;}
+  else F.e="Evidence must come from the data, e.g. soil nitrate was 26 mg/kg in Field B but 8 mg/kg in Field A.";
+  const cc=C3K.concept.test(r),ca=C3K.cause.test(r);
+  if(r.trim().length<8)F.r="Explain the science: why does the evidence support your claim?";
+  else if(cc&&ca){P.r=2;F.r="Strong reasoning: you used the nitrogen cycle (fixation, decomposition, proteins) and explained the chain.";}
+  else if(cc||ca){P.r=1;F.r=cc?"Good science idea. Now explain the chain: bacteria fix N₂ from the air → nitrogen compounds in the soil → wheat absorbs nitrates → makes proteins → grows more.":"You gave a reason. Name the science ideas: nitrogen fixation, nitrogen cycle, proteins.";}
+  else F.r="Reasoning should use the nitrogen cycle: nitrogen fixation by bacteria, plants using nitrates to make proteins, decomposers returning nitrogen.";
+  const pts=P.c+P.e+P.r;return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4};}
+const CER_M2L3={title:"The farm that fed its own wheat",
+  intro:`<p>A farmer near Al-Ahsa grew wheat in three fields with the same soil, water and seed. Field A got no fertiliser. Field B had been planted with <b>alfalfa</b> (a legume, used as animal feed) the year before; the alfalfa roots were ploughed into the soil. Field C got nitrogen fertiliser. The alfalfa roots had many small swellings called <b>nodules</b>. An agricultural lab tested the soil and the harvest.</p>`,
+  fig:c3CerFig,figcap:"Illustrative data for teaching",
+  table:()=>`<table class="certbl"><tr><th></th>${C3D.f.map(f=>`<th>Field ${f}</th>`).join("")}</tr><tr><td>Treatment</td>${C3D.what.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Soil nitrate at sowing (mg/kg)</td>${C3D.no3.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Wheat yield (tonnes/ha)</td>${C3D.yld.map(v=>`<td>${v}</td>`).join("")}</tr><tr><td>Protein in grain (%)</td>${C3D.prot.map(v=>`<td>${v}</td>`).join("")}</tr></table>`,
+  question:"Why did the wheat in Field B grow almost as well as the fertilised wheat, without any fertiliser?",ph:["e.g. Field B had more nitrogen because…","Soil nitrate was … mg/kg in Field B but only…","In the nitrogen cycle, bacteria…"],
+  rubric:[["Claim","Nitrogen-fixing bacteria in the alfalfa root nodules added nitrogen compounds to the soil, which the wheat used.","0–1"],["Evidence","Soil nitrate numbers AND yield or protein numbers, comparing Field B with A and/or C.","0–2"],["Reasoning","Uses the nitrogen cycle (fixation of N₂, decomposition to ammonia/nitrates, plants use nitrogen to make proteins) AND explains the cause-and-effect chain.","0–2"]],
+  ex:["Bacteria living in the root nodules of the alfalfa fixed nitrogen from the air, so the soil in Field B already had extra nitrogen compounds that the wheat could use.","Soil nitrate was 26 mg/kg in Field B, close to Field C with fertiliser (30 mg/kg) and much higher than Field A (8 mg/kg). Field B's yield was 4.3 t/ha (Field C 4.6, Field A 2.1) and its grain protein was 12% compared with 9% in Field A.","Plants need nitrogen to make proteins, but they cannot use N₂ gas from the air. In the nitrogen cycle, nitrogen-fixing bacteria in legume root nodules change N₂ into ammonia. When the alfalfa roots were ploughed in, decomposers broke them down and nitrifying bacteria turned the nitrogen into nitrates. The wheat absorbed the nitrates, made more protein and grew more, almost as if it had been fertilised."],
+  ai:`PHENOMENON: Three wheat fields near Al-Ahsa, same soil/water/seed. A: no fertiliser — soil nitrate 8 mg/kg, yield 2.1 t/ha, grain protein 9%. B: wheat after one year of alfalfa (legume) whose nodule-covered roots were ploughed in — nitrate 26 mg/kg, yield 4.3 t/ha, protein 12%. C: nitrogen fertiliser — nitrate 30 mg/kg, yield 4.6 t/ha, protein 12.5%.
+QUESTION: Why did the wheat in Field B grow almost as well as the fertilised wheat without fertiliser?
+RUBRIC:
+- Claim 0-1: 1 if it says bacteria in alfalfa root nodules fixed nitrogen / the alfalfa added nitrogen compounds to the soil.
+- Evidence 0-2: 2 = accurate nitrate numbers AND yield or protein numbers comparing B with A and/or C; 1 = some correct data; 0 = none or wrong.
+- Reasoning 0-2: 2 = uses the nitrogen cycle (N2 fixation by bacteria, decomposition/ammonia/nitrification, plants need nitrogen for proteins) AND explains the chain; 1 = only one; 0 = none.`,
+  score:c3CerScore};
+
+/* ---------- Carbon Cycle Lab ---------- */
+const C3CH=[{id:"stab",t:"Keep atmospheric CO₂ steady: change of less than 5 ppm over 50 years.",h:"Balance what is added with what plants and the ocean take up."},
+  {id:"hi",t:"Push CO₂ above 500 ppm after 50 years.",h:"Burn more fossil fuels and clear more forest."},
+  {id:"ocean",t:"Show the ocean's role: with the ocean sink off, CO₂ ends at least 20 ppm higher than the same run with it on.",h:"Record a run with the ocean on, then repeat with it off."},
+  {id:"low",t:"Bring CO₂ below 400 ppm within 50 years.",h:"Stop burning fuels and let plants recover."},
+  {id:"forest",t:"Show that cutting forest cover to 30% or less (same burning) makes CO₂ end higher than with 80% or more.",h:"Record both runs with the same fossil fuel setting."},
+  {id:"data",t:"Record at least 5 runs in your data table.",h:"Press Record after each run."}];
+function c3Step(C,P){const emit=0.47*(P.fuel+P.defo),land=0.006*(C-280)*(P.cover/100),ocean=P.ocean?0.009*(C-280):0;return C+emit-land-ocean;}
+function c3Lab(){const st=LX.st;st.c=st.c||{};
+  const D=[["fuel","Fossil fuels burned (billion tonnes C/yr)",0,15,0.5,10],["defo","Forest clearing (billion tonnes C/yr)",0,3,0.25,1],["cover","Plant cover (% of today)",10,150,5,100]];
+  $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap">
+    <div class="lxfield" style="background:#f6f9fc"><canvas id="ccv" style="height:250px"></canvas></div>
+    <div class="lxcard2"><h4>Atmospheric CO₂ (ppm)</h4><canvas id="cg" style="height:170px;width:100%;display:block"></canvas></div><div class="lxchal" id="cchal"></div></div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn pri" id="crun">▶ Run 50 years</button><button class="lxbtn" id="crec" disabled>● Record this run</button><button class="lxbtn" id="cres">⟲ Back to today</button></div>${simSliders(D)}
+      <label class="xtog"><input type="checkbox" id="coc" checked> Ocean takes up CO₂ (ocean sink)</label>
+      <div class="lxro"><div><span>Year</span><b id="cyr">0</b></div><div><span>CO₂</span><b id="cppm">420 ppm</b></div><div><span>Change</span><b id="cch">0 ppm</b></div></div>
+      <div class="lxverdict" id="cv">Today the air holds about 420 ppm CO₂. Set the human and natural processes, then run the model.</div></div></div>
+    <div class="lxprac"><div class="ph"><h3>My data table</h3><span class="lxqs" id="cdn"></span></div><p class="lxtask">Change one factor at a time, run 50 years, then press <b>Record</b>.</p><div class="lxbtns"><button class="lxbtn" id="cclr">Clear table</button></div><div class="lxtblwrap"><table class="lxtbl" id="ctbl"></table></div></div>
+    <div class="lxprac"><div class="ph"><h3>Analyse your data</h3><span class="lxqs" id="lxan"></span></div><div id="lxanq"></div></div>`;
+  const P={},chal=$("cchal");let C=420,yr=0,hist=[420],run=false,raf=0,last=0,res=null,dots=[];const read=()=>Object.assign(P,simRead(D),{ocean:$("coc").checked});read();
+  const S=LX.sim={stop(){run=false;cancelAnimationFrame(raf);},resize(){}};
+  const BX={atm:[0.5,0.12,"Atmosphere"],pl:[0.18,0.55,"Plants"],soil:[0.18,0.88,"Soil & decomposers"],oc:[0.82,0.55,"Ocean"],ff:[0.82,0.88,"Fossil fuels"]};
+  const draw=()=>{const F=aFit("ccv");if(!F)return;const{x,w,h}=F;x.font="12px Inter, Arial";const pos=k=>[BX[k][0]*w,BX[k][1]*h];
+    const flows=[["ff","atm",P.fuel/15,"#6b4f9a"],["pl","atm",P.defo/3,"#a0522d"],["atm","pl",P.cover/150,"#2e9e6e"],["pl","soil",0.4,"#8a5a2b"],["soil","atm",0.4,"#8a99a8"],["atm","oc",P.ocean?0.6:0,"#2b6fb8"]];
+    flows.forEach(([a,b,s,c])=>{if(s<=0)return;const[x1,y1]=pos(a),[x2,y2]=pos(b);x.strokeStyle=c;x.globalAlpha=.25;x.lineWidth=2+s*10;x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke();x.globalAlpha=1;if(run&&Math.random()<s*0.8)dots.push({x1,y1,x2,y2,p:0,c});});
+    dots.forEach(d=>{d.p+=0.02;x.fillStyle=d.c;x.beginPath();x.arc(d.x1+(d.x2-d.x1)*d.p,d.y1+(d.y2-d.y1)*d.p,3,0,7);x.fill();});dots=dots.filter(d=>d.p<1);
+    Object.entries(BX).forEach(([k,[,,n]])=>{const[cx,cy]=pos(k);x.fillStyle=k==="atm"?`rgba(${Math.min(255,120+(C-280)*0.6)},140,170,.25)`:"#fff";x.strokeStyle="#9aa9b5";x.beginPath();x.roundRect(cx-62,cy-17,124,34,9);x.fill();x.stroke();x.fillStyle=AF.ink;x.textAlign="center";x.fillText(k==="atm"?`${n}: ${Math.round(C)} ppm`:n,cx,cy+4);});x.textAlign="left";};
+  const graph=()=>simGraph($("cg"),[{v:hist,c:C>450?AF.red:AF.blue},{v:hist.map(()=>420),c:"#bbb",dash:[4,4],w:1}],{xl:"years"});
+  const ro=()=>{$("cyr").textContent=Math.round(yr);$("cppm").textContent=Math.round(C)+" ppm";const ch=C-420;$("cch").textContent=(ch>=0?"+":"")+ch.toFixed(0)+" ppm";};
+  const finish=()=>{run=false;res={...P,end:+C.toFixed(1),ch:+(C-420).toFixed(1)};$("crec").disabled=false;$("crun").textContent="▶ Run again";
+    const v=$("cv");v.className="lxverdict"+(C>460?" warn":"");v.innerHTML=Math.abs(res.ch)<5?"Balanced: carbon added to the air equals carbon taken up by plants and the ocean.":res.ch>0?`CO₂ rose by ${res.ch} ppm. More carbon is being added (combustion, clearing forests) than photosynthesis and the ocean remove.`:`CO₂ fell by ${-res.ch} ppm: photosynthesis and the ocean took up more carbon than was released.`;
+    if(Math.abs(res.ch)<5)aDone("stab",C3CH,chal);if(res.end>500)aDone("hi",C3CH,chal);if(res.end<400)aDone("low",C3CH,chal);};
+  const loop=now=>{if(!run)return;const dt=Math.min(0.05,(now-last)/1000);last=now;const add=dt*6;let k=Math.floor(yr+add)-Math.floor(yr);yr=Math.min(50,yr+add);while(k-->0)C=c3Step(C,P);    if(Math.floor(yr)+1>hist.length)hist.push(C);draw();graph();ro();if(yr>=50){finish();return;}raf=requestAnimationFrame(loop);};
+  const reset=()=>{S.stop();C=420;yr=0;hist=[420];res=null;$("crec").disabled=true;$("crun").textContent="▶ Run 50 years";$("cv").className="lxverdict";read();draw();graph();ro();};
+  $("crun").onclick=()=>{if(run)return;if(yr>=50)reset();read();run=true;last=performance.now();raf=requestAnimationFrame(loop);};
+  $("cres").onclick=reset;D.forEach(([k])=>$("sm-"+k).oninput=()=>{if(!run)reset();});$("coc").onchange=()=>{if(!run)reset();};
+  const tbl=()=>{$("ctbl").innerHTML=`<thead><tr><th>#</th><th>Fossil fuel</th><th>Clearing</th><th>Plant cover %</th><th>Ocean sink</th><th>CO₂ after 50 years (ppm)</th><th>Change (ppm)</th></tr></thead><tbody>${st.data.map((d,i)=>`<tr><td>${i+1}</td><td>${d.fuel}</td><td>${d.defo}</td><td>${d.cover}</td><td>${d.ocean?"on":"off"}</td><td><b>${d.end}</b></td><td>${d.ch>0?"+":""}${d.ch}</td></tr>`).join("")}</tbody>`;$("cdn").textContent=`${st.data.length} run${st.data.length===1?"":"s"}`;};
+  $("crec").onclick=()=>{if(!res)return;if(st.data.length>=30){lxToast("Table is full (30 runs).",true);return;}
+    const same=d=>d.fuel===res.fuel&&d.defo===res.defo;
+    if(!res.ocean){const ref=st.data.find(d=>d.ocean&&same(d)&&d.cover===res.cover);if(ref&&res.end>=ref.end+20)aDone("ocean",C3CH,chal);}
+    const lo=res.cover<=30?st.data.find(d=>same(d)&&d.ocean===res.ocean&&d.cover>=80):null,hi=res.cover>=80?st.data.find(d=>same(d)&&d.ocean===res.ocean&&d.cover<=30):null;if((lo&&res.end>lo.end)||(hi&&hi.end>res.end))aDone("forest",C3CH,chal);
+    st.data.push({fuel:res.fuel,defo:res.defo,cover:res.cover,ocean:res.ocean,end:res.end,ch:res.ch});$("crec").disabled=true;lxSave();tbl();if(st.data.length>=5)aDone("data",C3CH,chal);c3Analysis();lxBar();lxToast("Run recorded");};
+  $("cclr").onclick=()=>{st.data=[];lxSave();tbl();c3Analysis();};
+  aChal(chal,C3CH);tbl();reset();c3Analysis();setTimeout(()=>{if($("ccv")&&!run){draw();graph();}},250);}
+function c3Analysis(){const st=LX.st,d=st.data,host=$("lxanq");if(!host)return;
+  if(d.length<3){host.innerHTML=`<p class="lxsub">Record at least 3 runs to unlock the analysis questions. They are checked against <b>your own</b> table.</p>`;$("lxan").textContent="locked";return;}
+  const last=d[d.length-1],hi=d.reduce((a,b)=>b.end>a.end?b:a);
+  const Q=[{type:"num",stem:"What was the CO₂ level after 50 years in your <b>last</b> run?",a:last.end,unit:"ppm",tol:0.002,why:`Your last row shows ${last.end} ppm.`,hint:"Read the CO₂ column in the last row."},
+    {type:"num",stem:"How much fossil fuel was burned in your run with the <b>highest</b> CO₂?",a:hi.fuel,unit:"billion t C/yr",tol:0,why:`Your highest CO₂ (${hi.end} ppm) came with ${hi.fuel} billion tonnes of carbon burned per year.`,hint:"Find the largest CO₂ value, then read its fossil-fuel setting."},
+    {type:"mcq",stem:"Which process <b>removes</b> carbon dioxide from the atmosphere?",opts:["Photosynthesis by plants and algae","Combustion of fossil fuels","Cellular respiration","Decomposition of dead matter"],a:0,why:"Producers take in CO₂ and turn it into carbohydrates.",hint:"Which process makes sugar?"},
+    {type:"mcq",stem:"Why does clearing forests raise CO₂ in two ways?",opts:["Burning or rotting trees releases carbon, and fewer plants are left to take CO₂ in","Forests release oxygen that turns into CO₂","Clearing forests warms the ocean only","It stops animals from breathing"],a:0,why:"Clearing adds carbon to the air and removes part of the land sink.",hint:"Think about what trees store and what they take in."}];
+  const sig=d.map(x=>x.end).join("|");if(st.anSig!==sig){st.an={};st.anSig=sig;lxSave();}
+  host.innerHTML=Q.map((q,i)=>lxQHTML(q,"a"+i,i+1)).join("");const upd=()=>{$("lxan").textContent=`${Q.filter((_,j)=>st.an?.["a"+j]?.ok).length} / ${Q.length} correct`;};Q.forEach((q,i)=>lxWireQ(q,"a"+i,st.an||(st.an={}),upd));upd();}
+
+/* ---------- Practice ---------- */
+const C3CYC={w:"Water cycle",c:"Carbon cycle",n:"Nitrogen cycle",p:"Phosphorus cycle"};
+const C3CYCQ=[["Water vapour cools and forms clouds over the Gulf.","w"],["Bacteria in the root nodules of alfalfa change N₂ into ammonia.","n"],["A car burns petrol and releases CO₂.","c"],["Rocks are slowly weathered and release phosphate into the soil.","p"],["Date palm leaves lose water vapour through their stomata.","w"],["Plants take in CO₂ and make sugars by photosynthesis.","c"],["Bacteria in waterlogged soil release nitrogen gas back into the air.","n"],["Animals use this element to build bones, teeth, DNA and ATP.","p"],["Rain soaks into the ground and refills an aquifer.","w"],["Decomposers break down a dead camel and release CO₂.","c"]];
+const C3CYCW={w:"Water moves by evaporation, transpiration, condensation, precipitation, runoff and percolation.",c:"Carbon moves by photosynthesis, respiration, decomposition, combustion and the slow formation of fossil fuels.",n:"Nitrogen moves by fixation, decomposition (ammonia), nitrification and denitrification.",p:"Phosphorus moves from rocks to soil to organisms and back; it has a short-term and a very slow long-term cycle."};
+const C3AR={a:"Adds CO₂ to the air",r:"Removes CO₂ from the air"};
+const C3ARQ=[["Cellular respiration in a camel","a"],["Photosynthesis in date palms","r"],["Burning natural gas in a power station","a"],["Phytoplankton growing in the Gulf","r"],["Bacteria decomposing fallen leaves","a"],["Planting mangroves along the coast","r"],["Forest fires","a"],["CO₂ dissolving in sea water","r"]];
+const C3WORD=["Evaporation","Condensation","Precipitation","Runoff","Percolation into groundwater"];
+const C3PROC={fix:"Nitrogen fixation",nit:"Nitrification",den:"Denitrification",dec:"Decomposition"};
+const C3PROCQ=[["N₂ gas from the air is changed into ammonia by bacteria or lightning.","fix"],["Ammonia in the soil is changed into nitrates by soil bacteria.","nit"],["Nitrates are changed back into N₂ gas, which returns to the air.","den"],["Dead organisms and wastes are broken down, releasing ammonia.","dec"],["Farmers grow legumes such as alfalfa or beans to add nitrogen to the soil.","fix"],["Fungi and bacteria break down a dead date palm.","dec"]];
+function c3Practice(){const st=LX.st;st.c=st.c||{};const C=st.c;["cy","cyW","ar","arW","pr","prW"].forEach(k=>C[k]=C[k]||{});C.ord=C.ord||{seq:[],miss:0,done:false};
+  const host=$("lxprac"),re=()=>c3Practice();
+  host.innerHTML=aCard("Which cycle?",aSc(C.cy,C3CYCQ),"Choose the biogeochemical cycle each example belongs to. 2 tries each.",aSortHTML("cy",C3CYCQ,C3CYC,C.cy,C.cyW,(i,a)=>C3CYCW[a]))
+    +aCard("Adds or removes carbon dioxide?",aSc(C.ar,C3ARQ),"Does each process add CO₂ to the atmosphere or take it out? 2 tries each.",aSortHTML("ar",C3ARQ,C3AR,C.ar,C.arW,(i,a)=>a==="a"?"Respiration, decomposition and combustion release carbon as CO₂.":"Photosynthesis and dissolving in the ocean take CO₂ out of the air."))
+    +aSeqHTML("cord",C3WORD,C.ord,"cord","Follow a water molecule from the sea: tap the processes in order.","Order the water cycle")
+    +aCard("Nitrogen cycle processes",aSc(C.pr,C3PROCQ),"Name the process. 2 tries each.",aSortHTML("pr",C3PROCQ,C3PROC,C.pr,C.prW,(i,a)=>({fix:"Fixation changes N₂ into a form plants can use.",nit:"Nitrifying bacteria turn ammonia into nitrates.",den:"Denitrifying bacteria return nitrogen to the air as N₂.",dec:"Decomposers break down dead matter into ammonia."})[a]));
+  aWireSort(host,{cy:[C.cy,C.cyW,C3CYCQ,C3CYC],ar:[C.ar,C.arW,C3ARQ,C3AR],pr:[C.pr,C.prW,C3PROCQ,C3PROC]},re);
+  aWireSeq("cord",C3WORD,C.ord,()=>{C.ord={seq:[],miss:0,done:false};lxSave();re();},re,pv=>pv.seq.length?`After ${esc(pv.seq[pv.seq.length-1].toLowerCase())}, what happens to the water next?`:"The Sun heats the sea water first.");}
+const C3SIMT=["nj1","nj2","nj3","wc1","wc2","wc3"];
+function c3Score(st){const C=st.c||{};
+  const pr={ok:aHf(C.cy,C3CYCQ,C.cyW)+aHf(C.ar,C3ARQ,C.arW)+aHf(C.pr,C3PROCQ,C.prW)+(C.ord?.done&&C.ord.miss<=1?1:0),n:C3CYCQ.length+C3ARQ.length+C3PROCQ.length+1};
+  return {c:{ok:C3CH.filter(x=>st.ch[x.id]).length+C3SIMT.filter(k=>st.sim?.[k]).length,n:C3CH.length+C3SIMT.length},pr};}
+
+/* ---------- Simulations: nitrogen atom journey + water cycle + online ---------- */
+function c3Sims(){aSimNav([["nj","⚛ Journey of a nitrogen atom",c3Journey],["wc","💧 Water cycle model",c3Water],["web","🌐 Online simulation",h=>aWeb(h,["c3green"])]]);}
+const C3J=[{at:"N₂ gas in the air",ic:"☁",ok:"Bacteria in alfalfa root nodules fix it into ammonia",bad:["A camel breathes it in and uses it to make protein","A date palm absorbs it through its leaves"],why:"Most organisms cannot use N₂ directly. Nitrogen-fixing bacteria (or lightning) must change it first."},
+  {at:"Ammonia (NH₄⁺) in the soil",ic:"🟤",ok:"Nitrifying bacteria change it into nitrates",bad:["It evaporates and forms clouds","It turns into phosphate"],why:"Nitrification changes ammonia into nitrites and then nitrates."},
+  {at:"Nitrate (NO₃⁻) in the soil",ic:"🧪",ok:"A wheat plant absorbs it through its roots",bad:["A locust drinks it from the soil","It becomes carbon dioxide"],why:"Plants take up nitrates from the soil water through their roots."},
+  {at:"Protein in a wheat plant",ic:"🌾",ok:"A sheep eats the wheat and builds its own proteins",bad:["The wheat releases it as N₂ during photosynthesis","It is stored in rocks"],why:"Consumers get nitrogen by eating producers or other animals."},
+  {at:"Protein in a sheep",ic:"🐑",ok:"The sheep's urine and, later, its body reach the soil",bad:["The sheep breathes it out as N₂","It is turned into sunlight"],why:"Nitrogen returns to the soil in wastes and when organisms die."},
+  {at:"Urine and dead matter in the soil",ic:"🍂",ok:"Decomposers break it down into ammonia",bad:["Plants absorb the dead matter directly","It is fixed by lightning"],why:"Decomposers (fungi and bacteria) release nitrogen as ammonia."},
+  {at:"Ammonia again → nitrates in waterlogged soil",ic:"💧",ok:"Denitrifying bacteria change nitrates back into N₂ gas",bad:["Animals absorb nitrates through their skin","Nitrates become fossil fuels"],why:"Denitrification returns nitrogen to the atmosphere, closing the cycle."}];
+function c3Journey(host){const st=LX.st;st.c=st.c||{};const C=st.c;C.nj=C.nj||{i:0,miss:0,laps:0,best:99};const J=C.nj;LX.fieldSim={stop(){}};
+  const draw=(fb)=>{const s=C3J[J.i];const opts=lxShuffle([s.ok,...s.bad],"nj"+J.i+J.laps);
+    host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#f6f9fc;padding:14px"><div class="lxseq" style="flex-wrap:wrap">${C3J.map((x,i)=>`<span style="opacity:${i<=J.i?1:.35}">${x.ic} ${esc(x.at)}</span>`).join(" → ")}</div>
+        <div style="text-align:center;margin:16px 0"><div style="font-size:54px">${s.ic}</div><b style="font-size:18px">The atom is now: ${esc(s.at)}</b><p class="lxsub">Step ${J.i+1} of ${C3J.length} · lap ${J.laps+1} · mistakes this lap: ${J.miss}</p></div></div>
+      ${aTasks([["nj1","Take a nitrogen atom all the way round the cycle (7 steps)."],["nj2","Complete a lap with no more than 1 mistake."],["nj3","Answer the question about what limits plant growth."]])}</div>
+      <div class="lxctl"><div class="lxprac"><p class="lxtask"><b>What happens next?</b></p><div class="lxchips" id="njo">${opts.map(o=>`<button data-o="${esc(o)}">${esc(o)}</button>`).join("")}</div><div class="lxfb ${fb?fb[0]:""}" id="njm">${fb?fb[1]:""}</div></div>
+        <div class="lxprac"><p class="lxtask"><b>Question:</b> The atmosphere is 78% nitrogen, yet nitrogen often limits plant growth. Why?</p><div class="lxchips" id="njq"><button data-v="a">Plants cannot use N₂ gas; it must first be fixed by bacteria</button><button data-v="b">Plants only need nitrogen at night</button><button data-v="c">Nitrogen is poisonous to plants</button></div><div class="lxfb" id="njqm"></div></div>
+        <div class="lxverdict">Nitrogen is needed to make proteins and DNA. It cycles between the air, soil, producers, consumers and decomposers.</div></div></div>`;
+    host.querySelectorAll("#njo button").forEach(b=>b.onclick=()=>{if(b.dataset.o===s.ok){lxSfx.right();J.i++;let f=["ok",`<b>Correct.</b><span>${esc(s.why)}</span>`];
+        if(J.i>=C3J.length){J.best=Math.min(J.best,J.miss);simDone("nj1","Full nitrogen cycle completed!");if(J.miss<=1)simDone("nj2","A lap with at most one mistake.");J.i=0;J.miss=0;J.laps++;f=["ok","<b>Back to the air: one full nitrogen cycle!</b><span>Go round again for a cleaner lap.</span>"];}
+        lxSave();draw(f);}else{lxSfx.wrong();J.miss++;lxSave();draw(["no",`<b>Not that.</b><span>${esc(s.why)}</span>`]);}});
+    $("njq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="a",m=$("njqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Only nitrogen-fixing bacteria (and lightning) can change N₂ into compounds plants can absorb, so usable nitrogen is often scarce.</span>":"<b>Not quite.</b><span>Look at step 1 of the journey.</span>";if(ok)simDone("nj3");aTick();});aTick();};
+  draw();}
+function c3Water(host){
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#eaf3fb"><canvas id="wcv" style="height:280px"></canvas></div>
+    ${aTasks([["wc1","Make it rain: fill the cloud until precipitation starts."],["wc2","Raise plant cover so transpiration supplies at least 30% of the water vapour."],["wc3","Answer: which process returns water from the clouds to the ground?"]])}</div>
+    <div class="lxctl"><div class="lxbtns"><button class="lxbtn pri" id="wgo">❚❚ Pause</button><button class="lxbtn" id="wres">Reset</button></div>
+      ${simSliders([["sun","Solar energy (heat)",0,100,5,50],["veg","Plant cover (%)",0,100,5,20],["cool","Air cooling high up",0,100,5,50]])}
+      <div class="lxro"><div><span>Evaporation</span><b id="wev">0</b></div><div><span>Transpiration</span><b id="wtr">0</b></div><div><span>Rain drops</span><b id="wrn">0</b></div></div>
+      <div class="lxprac"><p class="lxtask"><b>Question:</b> Which process returns water from the clouds to the ground?</p><div class="lxchips" id="wq"><button data-v="c">Condensation</button><button data-v="p">Precipitation</button><button data-v="t">Transpiration</button></div><div class="lxfb" id="wqm"></div></div>
+      <div class="lxverdict" id="wv">The Sun's energy drives the water cycle.</div></div></div>`;
+  const P={};const read=()=>Object.assign(P,simRead([["sun"],["veg"],["cool"]]));read();let run=true,raf=0,cloud=0,ev=0,tr=0,rn=0,parts=[];
+  const S=LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);const b=$("wgo");if(b)b.textContent="▶ Run";}};
+  const loop=()=>{if(!$("wcv")){run=false;return;}if(!run)return;const F=aFit("wcv");if(F){const{x,w,h}=F,gy=h*0.78,sea=w*0.55;
+      x.fillStyle="#fff3c4";x.beginPath();x.arc(w-40,36,20+P.sun/10,0,7);x.fill();x.fillStyle="#e8dcc0";x.fillRect(0,gy,sea,h-gy);x.fillStyle="#7fb5e3";x.fillRect(sea,gy+8,w-sea,h-gy);
+      const nv=Math.round(P.veg/10);for(let i=0;i<nv;i++){x.font="22px serif";x.fillText("🌴",12+i*((sea-40)/10),gy+4);}
+      if(Math.random()<P.sun/220){parts.push({x:sea+Math.random()*(w-sea-20),y:gy+6,t:"e"});ev++;}
+      if(Math.random()<P.sun/220*P.veg/70){parts.push({x:20+Math.random()*(sea-60),y:gy-20,t:"t"});tr++;}
+      const cx=w*0.42,cy=48;parts.forEach(p=>{if(p.t==="r"){p.y+=4;}else{p.x+=(cx-p.x)*0.02;p.y+=(cy-p.y)*0.02;if(Math.abs(p.y-cy)<10){p.done=1;cloud+=1+P.cool/100;}}
+        x.fillStyle=p.t==="r"?"#2b6fb8":p.t==="t"?"rgba(46,158,110,.6)":"rgba(43,111,184,.45)";x.beginPath();x.arc(p.x,p.y,p.t==="r"?2.5:2,0,7);x.fill();});
+      parts=parts.filter(p=>!p.done&&p.y<gy+10);
+      if(cloud>60&&P.cool>20){for(let i=0;i<3;i++)parts.push({x:cx-60+Math.random()*120,y:cy+20,t:"r"});cloud-=2.2;rn++;}
+      const cs=Math.min(1,cloud/60);x.fillStyle=`rgba(${230-cs*110},${235-cs*110},${242-cs*100},.95)`;[[-40,0,26],[0,-8,32],[40,0,26],[0,10,24]].forEach(([dx,dy,r])=>{x.beginPath();x.arc(cx+dx,cy+dy,r*(0.7+cs*0.4),0,7);x.fill();});
+      x.font="11px Inter, Arial";x.fillStyle=AF.mu;x.fillText("evaporation ↑",sea+10,gy-8);x.fillText("transpiration ↑",20,gy-34);x.fillText(cloud>60&&P.cool>20?"precipitation ↓":"condensation",cx-34,cy+52);
+      $("wev").textContent=ev;$("wtr").textContent=tr;$("wrn").textContent=rn;const share=tr/Math.max(1,ev+tr);
+      if(rn>=20)simDone("wc1","Water vapour condensed into clouds and fell as precipitation.");if(ev+tr>=40&&share>=0.3)simDone("wc2","Plants add a lot of water vapour by transpiration.");if(Math.random()<0.05)aTick();
+      $("wv").innerHTML=P.sun<10?"Without the Sun's energy, almost no water evaporates.":P.cool<=20?"The air is too warm high up: water vapour does not condense enough to rain.":`Transpiration supplies ${Math.round(share*100)}% of the water vapour. Clouds form when water vapour cools and condenses.`;}
+    raf=requestAnimationFrame(loop);};
+  $("wgo").onclick=()=>{if(run)S.stop();else{run=true;$("wgo").textContent="❚❚ Pause";raf=requestAnimationFrame(loop);}};$("wres").onclick=()=>{cloud=ev=tr=rn=0;parts=[];};
+  ["sun","veg","cool"].forEach(k=>$("sm-"+k).oninput=read);
+  $("wq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="p",m=$("wqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Rain, hail, sleet and snow are all precipitation.</span>":"<b>Not quite.</b><span>Condensation forms the cloud droplets; what makes them fall?</span>";if(ok)simDone("wc3");aTick();});
+  raf=requestAnimationFrame(loop);}
+DSIM.c3green={t:"PhET · Greenhouse Effect",src:"https://phet.colorado.edu/sims/html/greenhouse-effect/latest/greenhouse-effect_all.html",credit:"PhET Interactive Simulations, University of Colorado Boulder (CC BY 4.0)",
+  d:"Change the concentration of greenhouse gases such as carbon dioxide and watch how the temperature of Earth's surface responds.",
+  tasks:["Open <b>Waves</b>. Start with no greenhouse gases. What happens to infrared light leaving the surface?","Open <b>Photons</b> and raise the greenhouse gas concentration. How does the surface temperature change?","Compare the <b>pre-industrial</b> and <b>today</b> settings. Which part of the carbon cycle has added the extra CO₂?","Use the carbon cycle to explain two ways people could lower the amount of CO₂ in the air."]};
+DSIM_PLACE[M2L3_ID]={"Explore":[["c3green",["Simulation","PhET"]]]};
+
+LXLESSONS[M2L3_ID]={key:"M2L3",title:"Cycling of Matter",eyebrow:"Module 2 · Principles of Ecology · Lesson 3",
+  lede:"Energy flows through an ecosystem and is lost as heat, but matter is used again and again. Follow water, carbon, nitrogen and phosphorus through living things and the environment, run the carbon cycle for 50 years, then check your understanding.",
+  goals:["Why must nutrients cycle through the biosphere?","How do water, carbon and oxygen move through the biosphere?","How do the nitrogen and phosphorus cycles work, and how do human activities change the cycles?"],
+  labels:{launch:["Launch the Lesson","The farm that fed its own wheat · CER scored 1–4"],lab:["Carbon Cycle Lab","Run 50 years of the carbon cycle: fossil fuels, forest clearing, plant cover and the ocean sink"],sims:["Simulations","2 embedded models (journey of a nitrogen atom, water cycle) + PhET Greenhouse Effect"],practice:["Practice","Which cycle, adds or removes CO₂, order the water cycle, nitrogen cycle processes"]},
+  learn:[
+    {h:"Matter cycles",k:"gr",html:"<p>The <b>law of conservation of mass</b> states that matter is not created or destroyed. Instead, matter is cycled through the biosphere. <b>Matter</b> is anything that takes up space and has mass.</p>"},
+    {h:"Nutrients",html:"<p>A <b>nutrient</b> is a chemical substance an organism needs to carry out life processes. Every organism's body is built from water and nutrients such as carbon, nitrogen and phosphorus, which it takes from its environment.</p>"},
+    {h:"Nutrients move through food webs",html:"<p>Producers take nutrients from the air, water and soil and build them into organic compounds. When a consumer eats a producer the nutrients pass to the consumer, and so on along the food chain. When organisms die, <b>detritivores and decomposers</b> return the nutrients to the environment and the cycle starts again.</p>"},
+    {h:"Biogeochemical cycles",k:"note",html:"<p>A <b>biogeochemical cycle</b> is the exchange of matter through the biosphere by <b>bio</b>logical processes (living things), <b>geo</b>logical processes (such as weathering of rock) and <b>chemical</b> processes.</p>"},
+    {h:"The water cycle",k:"wide fig",fig:"c3water",html:"<p>The Sun's energy causes <b>evaporation</b> from seas, lakes and soil, and plants release water vapour by <b>transpiration</b>. Rising vapour cools and <b>condenses</b> into cloud droplets around dust. Large drops fall as <b>precipitation</b> (rain, hail, sleet, snow), which runs off into the sea or soaks into the ground as groundwater, as in the aquifers that feed the springs of Al-Ahsa.</p>"},
+    {h:"The carbon and oxygen cycles",k:"wide fig",fig:"c3carbon",html:"<p>In <b>photosynthesis</b> producers take in CO₂ and release oxygen, making carbohydrates that are the energy source for the whole food web. In <b>cellular respiration</b> producers and consumers use oxygen and release CO₂. Carbon also follows a much slower path: over millions of years buried organisms become <b>fossil fuels</b>, and burning (combustion) releases that carbon as CO₂.</p>"},
+    {h:"People and the carbon cycle",k:"note",html:"<p>Burning fossil fuels and clearing forests add CO₂ to the atmosphere faster than photosynthesis and the ocean can remove it. Atmospheric CO₂ has risen from about 317 ppm in 1960 to more than 410 ppm today. Planting trees and mangroves and using less fossil fuel help to rebalance the cycle.</p>"},
+    {h:"The nitrogen cycle",k:"wide fig",fig:"c3nitro",html:"<p>Organisms need nitrogen to make proteins. The air is 78% nitrogen, but most organisms cannot use N₂ gas. In <b>nitrogen fixation</b>, bacteria in soil, water or the root nodules of legumes (and lightning) change N₂ into ammonia. Other bacteria turn ammonia into nitrates (<b>nitrification</b>), which plants absorb. Consumers get nitrogen by eating. Wastes and dead organisms are decomposed back to ammonia, and <b>denitrification</b> returns N₂ to the air. Farmers add nitrogen with fertilisers.</p>"},
+    {h:"The phosphorus cycle",k:"wide fig",fig:"c3phos",html:"<p>Phosphorus is needed for bones, teeth, DNA and ATP. In the <b>short-term cycle</b> phosphorus moves from the soil to producers to consumers and back to the soil through wastes and decomposition. In the <b>long-term cycle</b> phosphate is released very slowly by the weathering and erosion of rocks. Because little phosphorus dissolves, it often limits the growth of producers.</p>"},
+    {h:"Energy flows, matter cycles",k:"gr wide",html:"<table><tr><th>Energy</th><th>Matter (nutrients)</th></tr><tr><td>enters as sunlight</td><td>already on Earth</td></tr><tr><td>flows one way through food chains</td><td>cycles again and again</td></tr><tr><td>leaves as heat</td><td>returned by decomposers</td></tr></table>"}
+  ],
+  vocab:[["Matter","Anything that takes up space and has mass."],["Nutrient","A chemical substance an organism needs to carry out life processes."],["Biogeochemical cycle","The exchange of matter through the biosphere by biological, geological and chemical processes."],["Evaporation","The change of liquid water into water vapour."],["Transpiration","The release of water vapour from the leaves of plants."],["Condensation","The change of water vapour into liquid droplets as it cools."],["Precipitation","Water falling from clouds as rain, hail, sleet or snow."],["Photosynthesis","The process in which producers use light energy to change CO₂ and water into carbohydrates, releasing oxygen."],["Cellular respiration","The process in which organisms break down food with oxygen to release energy and CO₂."],["Fossil fuel","Coal, oil or natural gas formed over millions of years from buried organisms."],["Nitrogen fixation","The capture of nitrogen gas and its conversion into a form plants can use."],["Denitrification","The process in which bacteria change nitrogen compounds back into nitrogen gas."],["Weathering","The slow breaking down of rocks, which releases nutrients such as phosphate."],["Decomposer","An organism that breaks down dead matter and returns nutrients to the environment."]],
+  quiz:[
+    {type:"mcq",stem:"The law of conservation of mass means that in the biosphere matter is…",opts:["recycled, not created or destroyed","used up and lost as heat","created by producers from sunlight","destroyed by decomposers"],a:0,why:"Matter is cycled; energy is what flows and is lost as heat.",hint:"Compare matter with energy."},
+    {type:"mcq",stem:"Which process releases water vapour from the leaves of a date palm?",opts:["Transpiration","Condensation","Precipitation","Percolation"],a:0,why:"Transpiration is water vapour leaving plants through their leaves.",hint:"It happens in plants."},
+    {type:"mcq",stem:"Clouds form when…",opts:["water vapour cools and condenses into droplets","water evaporates from the sea","rain soaks into the soil","plants take up water"],a:0,why:"Condensation turns cooling water vapour into droplets around dust particles.",hint:"Gas to liquid."},
+    {type:"mcq",stem:"Which process <b>removes</b> carbon dioxide from the atmosphere?",opts:["Photosynthesis","Cellular respiration","Burning fossil fuels","Decomposition"],a:0,why:"Producers take in CO₂ to make carbohydrates.",hint:"Which process makes sugar?"},
+    {type:"mcq",stem:"How do photosynthesis and cellular respiration differ?",opts:["Photosynthesis takes in CO₂ and releases O₂; respiration uses O₂ and releases CO₂","Both release CO₂","Only animals carry out respiration","Photosynthesis releases energy as heat"],a:0,why:"They are opposite processes in the carbon–oxygen cycle; both producers and consumers respire.",hint:"Look at what goes in and what comes out."},
+    {type:"mcq",stem:"Why can most organisms not use the nitrogen in the air directly?",opts:["N₂ gas must first be changed into ammonia or nitrates by bacteria","There is too little nitrogen in the air","Nitrogen is only found in rocks","Nitrogen is poisonous"],a:0,why:"Only nitrogen-fixing bacteria (and lightning) can convert N₂ into usable compounds.",hint:"The air is 78% nitrogen."},
+    {type:"mcq",stem:"Bacteria that change nitrates back into nitrogen gas carry out…",opts:["denitrification","nitrogen fixation","photosynthesis","weathering"],a:0,why:"Denitrification returns nitrogen to the atmosphere.",hint:"de- means reverse."},
+    {type:"mcq",stem:"How do consumers such as camels obtain nitrogen?",opts:["By eating plants or other animals that contain nitrogen","By breathing in nitrogen gas","By drinking nitrates","By absorbing it through their skin"],a:0,why:"Nitrogen enters the food web through plants and passes to consumers as they eat.",hint:"Follow the food chain."},
+    {type:"mcq",stem:"Which process slowly adds phosphorus to the soil in the long-term phosphorus cycle?",opts:["Weathering and erosion of rocks","Nitrogen fixation","Evaporation","Photosynthesis"],a:0,why:"Phosphate is released very slowly as rocks break down.",hint:"Where is most phosphorus stored?"},
+    {type:"tf",stem:"Burning fossil fuels returns carbon to the atmosphere that was stored for millions of years.",a:true,why:"Fossil fuels formed from ancient organisms; combustion releases their carbon as CO₂.",hint:"Where did the carbon in oil come from?"},
+    {type:"tf",stem:"Phosphorus moves through the atmosphere as a gas, like nitrogen and carbon.",a:false,fix:"phosphorus has no major gas phase; it moves through rocks, soil, water and organisms",why:"Phosphorus cycles through rocks, soil, water and living things, not the air.",hint:"Look at the phosphorus cycle diagram."},
+    {type:"mcq",fig:"c3qco2",stem:"The graph shows atmospheric CO₂ from 1960 to 2020. Which statement is supported?",opts:["CO₂ rose steadily, by almost 100 ppm","CO₂ stayed the same","CO₂ fell after 1990","CO₂ doubled every 10 years"],a:0,why:"317 ppm in 1960 rose to 414 ppm in 2020, an increase of 97 ppm.",hint:"Compare the first and last points."},
+    {type:"num",fig:"c3qco2",stem:"Use the graph. By how many ppm did CO₂ increase from 2000 to 2020?",a:45,unit:"ppm",tol:0,why:"414 − 369 = 45 ppm.",hint:"Read the values at 2000 and 2020."},
+    {type:"mcq",fig:"c3qyield",stem:"The graph shows wheat yield with different amounts of added nitrogen. What does it show?",opts:["Nitrogen limits growth up to a point; extra nitrogen then adds little","More nitrogen always doubles the yield","Nitrogen has no effect on wheat","Wheat grows best with no nitrogen"],a:0,why:"Yield rises from 1.8 to 4.1 t/ha, then only to 4.3 t/ha: something else becomes limiting.",hint:"Compare the jumps between the bars."},
+    {type:"mcq",stem:"Why do farmers grow alfalfa or beans before planting wheat?",opts:["Bacteria in their root nodules fix nitrogen, adding it to the soil","They remove phosphorus from the soil","They make the soil more salty","They stop the water cycle"],a:0,why:"Legumes host nitrogen-fixing bacteria, which enrich the soil with nitrogen compounds.",hint:"Think about root nodules."},
+    {type:"num",stem:"Air is about 78% nitrogen. How many litres of nitrogen are in <b>500 L</b> of air?",a:390,unit:"L",tol:0,why:"0.78 × 500 = 390 L.",hint:"Find 78% of 500."},
+    {type:"write",stem:"Describe how a carbon atom in the CO₂ of the air could become part of a camel and then return to the air. Name at least <b>two</b> processes.",model:"A date palm or desert shrub takes in the CO₂ during photosynthesis and builds the carbon into sugars and other organic compounds. A camel eats the plant, so the carbon becomes part of the camel's body. The camel releases the carbon as CO₂ when it breathes out (cellular respiration), or when it dies decomposers break down its body and release the carbon as CO₂ by respiration.",rubric:"Full (1): a correct pathway air → plant (photosynthesis) → camel (eating) → air, naming at least two processes (photosynthesis, feeding/eating, respiration, decomposition). Partial (0.5): pathway partly correct or only one process named. None (0): no valid pathway."},
+    {type:"write",stem:"Explain why decomposers are needed for <b>both</b> the carbon cycle and the nitrogen cycle.",model:"In the carbon cycle, decomposers break down dead organisms and wastes and release the carbon as CO₂ by respiration, so it can be used again in photosynthesis. In the nitrogen cycle, decomposers break down proteins in dead matter and wastes into ammonia, which bacteria turn into nitrates that plants can absorb. Without decomposers, carbon and nitrogen would stay locked in dead matter.",rubric:"Full (1): correct role in the carbon cycle (release CO₂) AND in the nitrogen cycle (release ammonia/nitrogen compounds for plants). Partial (0.5): only one cycle explained correctly. None (0): neither."}
+  ],
+  cer:CER_M2L3,kit:{lab:c3Lab,practice:c3Practice,sims:c3Sims,score:c3Score}};
 
 /* ===== My Notes: per-lesson notebook with typing and stylus drawing ===== */
 const NB={lesson:null,title:"",notes:[],cur:null,tool:"pen",color:"#1d2433",width:3,paper:"lined",pencilOnly:false,undo:[],redo:[],saveT:0,drawing:null,penSeen:false};
