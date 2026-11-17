@@ -210,3 +210,6 @@ grant execute on function public.portal_admin_users(uuid), public.portal_admin_u
 
 -- public bucket for uploaded files (paths are random; uploads only through the 'upload' edge function, which checks the session)
 insert into storage.buckets(id, name, public, file_size_limit) values ('site-files', 'site-files', true, 52428800) on conflict (id) do nothing;
+
+-- 008d: portal_staff also reports whether the AI assistant is allowed (site setting 'tai' switches it off for teachers)
+-- (applied live as migration 008d_staff_ai_flag; portal_ai_allow allows 400/day for staff, and refuses students when site.ai = false)
