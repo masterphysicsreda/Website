@@ -1,0 +1,6 @@
+-- 009: teacher scope (applied live as 009_teacher_scope and 009b_teacher_tiles).
+-- app.grade_ok(staff, grade): admin = every grade; teacher = only grades in users.classes.
+-- Restricted to the teacher's classes: portal_roster, portal_reset_pin, portal_class_results, portal_subs, portal_sub_get,
+-- portal_sub_review, portal_tests, portal_test_get/save/page_save/delete/results/override/force_submit, portal_gb_get/list/save.
+-- New teachers get the website's own tiles (app.teacher_tiles()) instead of a copy of the admin's McGraw Hill links.
+-- Full function bodies are in the Supabase project (see migration history).

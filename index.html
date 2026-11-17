@@ -1343,7 +1343,7 @@ function openAnalytics(){
   $("teach").style.display="none";$("analytics").style.display="block";scrollTo(0,0);
   if(TEACH.mr)$("mhrep").href=TEACH.mr;
   const fg=$("fg"),fs=$("fs"),fm=$("fm");
-  if(!fg.options.length){Object.keys(CURR.grades).forEach(g=>fg.add(new Option(`${g} (${(TEACH.r[g]||[]).length})`,g)));fg.value="Grade 11";}
+  if(!fg.options.length){const GG=Object.keys(CURR.grades).filter(g=>typeof admGradeAllowed!=="function"||admGradeAllowed(g));GG.forEach(g=>fg.add(new Option(`${g} (${(TEACH.r[g]||[]).length})`,g)));fg.value=GG.includes("Grade 11")?"Grade 11":GG[0]||"";}
   const fillStudents=()=>{fs.innerHTML="";fs.add(new Option("Whole grade · all students","-1"));(TEACH.r[fg.value]||[]).map((s,i)=>({s,i})).sort((a,b)=>a.s.n.localeCompare(b.s.n,"ar")).forEach(({s,i})=>fs.add(new Option(`${s.n} (…${s.i})`,i)));
     fm.innerHTML="";fm.add(new Option("All modules","all"));CURR.grades[fg.value].forEach(m=>fm.add(new Option(`${m.id} · ${m.name}`,m.id)));};
   const draw=()=>{const ro=TEACH.r[fg.value]||[],si=+fs.value,me=si>=0?ro[si]:null;
@@ -1683,8 +1683,8 @@ function curriculumPage(key){
   let extra="",mods="";
   if(key==="bio"){
     if(CRS.mhcourse)extra=`<a class="pbtn" href="${CRS.mhcourse}" target="_blank" rel="noopener" style="text-decoration:none">Open McGraw Hill course ↗</a>`;
-    const grades=Object.keys(CURR.grades);
-    const g=u.t?(CRS.grade&&grades.includes(CRS.grade)?CRS.grade:"Grade 11"):u.g;
+    const grades=Object.keys(CURR.grades).filter(x=>typeof admGradeAllowed!=="function"||admGradeAllowed(x));
+    const g=u.t?(CRS.grade&&grades.includes(CRS.grade)?CRS.grade:grades.includes("Grade 11")?"Grade 11":grades[0]||"Grade 11"):u.g;
     const tabs=u.t?`<div class="seg" style="margin:6px 0 4px">${grades.map(x=>`<button class="sbtn${x===g?" on":""}" data-grade="${x}">${x}</button>`).join("")}</div>`:"";
     const sc=u.t?(TEACH&&TEACH.r[g]?gradeAvgMap(TEACH.r[g]):null):(PROG_ST?.sc||null);
     const who=u.t?"grade average":"your result";
@@ -5908,7 +5908,7 @@ const admLessonCfg=id=>CONTENT.find(x=>x.kind==="lesson"&&x.target===id&&!x.hidd
 /* ---------- admin view ---------- */
 function admView(){let v=$("adminview");if(v)return v;v=document.createElement("section");v.id="adminview";$("gbview").after(v);window.NAVMO?.observe(v,{attributes:true,attributeFilter:["style"]});return v;}
 {const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const v=$("adminview");if(v)v.style.display="none";return r;};}
-const ADM_TABS=()=>[["overview","📊 Overview","نظرة عامة",isAdmin()],["roster","👥 Roster","الطلاب والمعلمون",isAdmin()],["grades","🎓 Grades","الصفوف",isAdmin()],["content","📁 Files & resources","الملفات والموارد",true],["tools","🧰 Tools","الأدوات",true],["lessons","🧩 Lessons","الدروس",true],["courses","📚 Courses","المقررات",isAdmin()],["settings","⚙️ Settings","الإعدادات",isAdmin()],["ai","✨ AI assistant","المساعد الذكي",isAdmin()||SITE.tai!==false]].filter(t=>t[3]);
+const ADM_TABS=()=>[["overview","📊 Overview","نظرة عامة",isAdmin()],["roster","👥 Roster","الطلاب والمعلمون",isAdmin()],["grades","🎓 Grades","الصفوف",isAdmin()],["content","📁 Files & resources","الملفات والموارد",true],["tools","🧰 Tools","الأدوات",true],["lessons","🧩 Lessons","الدروس",canEditCourse("bio")],["courses","📚 Courses","المقررات",isAdmin()],["settings","⚙️ Settings","الإعدادات",isAdmin()],["ai","✨ AI assistant","المساعد الذكي",isAdmin()||SITE.tai!==false]].filter(t=>t[3]);
 function openAdmin(){if(!window.HOSTED){lxToast("The admin panel works on the hosted website (science-alanjal.pages.dev).",true);return;}if(!canManage()){lxToast("Only the admin or teachers with course rights can open this.",true);return;}
   const v=admView();hideAllViews();["teach","home","coursesview","lessonview","analytics","calview","progview"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});v.style.display="block";scrollTo(0,0);
   if(!ADM_TABS().some(t=>t[0]===ADM.tab))ADM.tab=ADM_TABS()[0][0];
@@ -5978,7 +5978,7 @@ function admUserDlg(u,role){const isNew=!u;u=u||{id:"",n:"",g:admGrades()[0],rol
     <label>Role<select id="aur"><option value="student" ${u.role==="student"?"selected":""}>Student</option><option value="teacher" ${u.role==="teacher"?"selected":""}>Teacher</option><option value="admin" ${u.role==="admin"?"selected":""}>Admin</option></select></label>
     <div id="austu"><label>Grade<input id="aug" list="augl" value="${esc(u.role==="student"?u.g||"":admGrades()[0])}"><datalist id="augl">${admGrades().map(g=>`<option>${g}</option>`).join("")}</datalist></label></div>
     <div id="autea"><fieldset><legend>Courses this teacher can edit</legend><label class="xtog"><input type="checkbox" value="*" ${u.crs.includes("*")?"checked":""}> All courses</label>${keys.map(k=>`<label class="xtog"><input type="checkbox" value="${esc(k)}" ${u.crs.includes(k)?"checked":""}> ${esc(COURSES[k]?.t||k)}</label>`).join("")}</fieldset>
-      <fieldset><legend>Classes this teacher teaches (sees only these students; none = all)</legend>${admGrades().map(g=>`<label class="xtog"><input type="checkbox" class="aucls" value="${g}" ${u.cls.includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset></div>
+      <fieldset><legend>Classes this teacher teaches (the teacher only sees these classes and their students)</legend>${admGrades().map(g=>`<label class="xtog"><input type="checkbox" class="aucls" value="${g}" ${u.cls.includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset></div>
     <p class="admmsg" id="aumsg"></p><div class="admbtns"><button class="sbtn on" id="ausave">${isNew?"Create account":"Save changes"}</button></div></div>`);
   const sw=()=>{const r=$("aur").value;$("austu").style.display=r==="student"?"":"none";$("autea").style.display=r==="student"?"none":"";};sw();$("aur").onchange=sw;
   $("ausave").onclick=async()=>{const id=$("auid").value.trim(),n=$("aun").value.trim(),r=$("aur").value,msg=$("aumsg");
@@ -6253,6 +6253,16 @@ async function admGradesTab(){const B=$("admbody");if(!ADM.users){B.innerHTML='<
     if(!n){if(confirm(`Remove “${g}” from the list?`))save(rest);return;}
     const d=admDlg(`<h3>Remove “${esc(g)}”</h3><p>${n} student${n===1?"":"s"} are in this grade. Move them to:</p><div class="admform"><label>Grade<select id="agto">${rest.map(x=>`<option>${esc(x)}</option>`).join("")}</select></label><div class="admbtns"><button class="sbtn on" id="agmv">Move students and remove</button></div></div>`);
     $("agmv").onclick=async()=>{const to=$("agto").value;if(!to)return;try{await admApi("admin_grade_rename",{p_old:g,p_new:to});await admSaveGrades(rest);d.close();ADM.users=null;await admRefreshRoster();admGradesTab();lxToast(`${n} students moved to ${to}`);}catch(e){lxToast("Could not move: "+e.message,true);}};});}
+
+/* ===== teacher scope: a teacher only sees their own classes and courses ===== */
+const admRestricted=()=>window.HOSTED&&!!CAL.user?.t&&!isAdmin();
+function admGradeAllowed(g){return !admRestricted()||(CAL.user.cls||[]).includes(g);}
+function admCourseAllowed(k){if(!admRestricted())return true;const c=admCrs();if(c.includes("*"))return true;if(c.includes(k))return true;
+  if(k==="saat")return c.some(x=>x.startsWith("saat"));if(COURSES[k]?.parent==="saat")return c.includes("saat");return false;}
+{const ac=admApplyCourses;admApplyCourses=function(){ac.apply(this,arguments);if(!admRestricted())return;const keep=TOP.filter(admCourseAllowed);TOP.length=0;TOP.push(...keep);};}
+{const oc=openCourses;openCourses=function(key){if(key&&admRestricted()&&!admCourseAllowed(key)){lxToast("This course is not assigned to you. Ask the admin.",true);key=null;}return oc.call(this,key);};}
+{const tg=tGrades;tGrades=function(){const r=tg.apply(this,arguments);return admRestricted()?r.filter(admGradeAllowed):r;};}
+{const ob=openBio;openBio=function(){if(admRestricted()&&!admCourseAllowed("bio")){openCourses(null);return;}return ob.apply(this,arguments);};}
 
 
 
