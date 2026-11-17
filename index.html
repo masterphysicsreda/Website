@@ -643,6 +643,14 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
 /* ===== Assignments board (Padlet-style) ===== */
 .tsub{margin:14px 0;border-radius:18px;padding:14px 16px;background:linear-gradient(135deg,#fde7d3,#f9c9d6 50%,#d9d4fb);color:#10232f;box-shadow:0 10px 30px rgba(0,0,0,.18)}.tsubh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.tsubh h3{margin:0;font:800 17px Inter}.tsubh h3 span{font:600 15px Tajawal;color:#53687a}.tsubh em{font:700 12px Inter;font-style:normal;background:#b8720c;color:#fff;border-radius:999px;padding:2px 10px}.tsubh button{margin-left:auto;border:0;background:#13285c;color:#fff;border-radius:10px;padding:8px 14px;font:700 13px Inter;cursor:pointer}
+.tswact{background:rgba(255,255,255,.75);border-radius:14px;padding:12px;margin-bottom:12px;border:2px solid rgba(16,35,47,.08)}.tswact.hot{border-color:#e5534b;box-shadow:0 0 0 4px rgba(229,83,75,.12)}
+.tswah{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:8px}.tswah b{font:800 15px Inter;flex:1 1 300px}.tswlive{font:800 11px Inter;letter-spacing:.04em;text-transform:uppercase;background:#10232f;color:#fff;border-radius:999px;padding:3px 9px}.tswact.hot .tswlive{background:#e5534b;animation:tswp 1.6s infinite}@keyframes tswp{50%{opacity:.55}}
+.tswmeta{flex-basis:100%;font-size:12.5px;color:#53687a}.tswbtn{display:flex;gap:6px;flex-wrap:wrap}.tswbtn button,.tswall,.tswtt button{appearance:none;border:1px solid rgba(16,35,47,.2);background:#fff;color:#10232f;border-radius:999px;padding:5px 11px;font:700 12px Inter;cursor:pointer}
+.tswstu{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0 10px}.tswstu span{background:#fff;border-radius:999px;padding:3px 9px;font-size:12px;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(16,35,47,.1)}.tswstu span i{width:7px;height:7px;border-radius:50%;background:#b8c2cc}.tswstu span.on i{background:#1d8656;box-shadow:0 0 0 3px rgba(29,134,86,.2)}
+.tswtree{background:rgba(255,255,255,.55);border-radius:14px;padding:8px 10px}.tswtt{display:flex;align-items:center;gap:8px;font:800 14px Inter;margin:2px 0 6px}.tswtt span{font:600 12px Tajawal,sans-serif;color:#53687a;flex:1}
+.tswd>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px;font-weight:700}.tswd>summary::-webkit-details-marker{display:none}.tswd>summary::before{content:"›";display:inline-block;transition:transform .15s;font-size:18px;line-height:1;color:#53687a}.tswd[open]>summary::before{transform:rotate(90deg)}
+.tswd>summary:hover{background:rgba(255,255,255,.7)}.tswd>summary span{flex:1}.tswd.l1>summary{font-size:15px}.tswd.l2>summary{font-size:14px}.tswd.l3>summary{font-size:13.5px;font-weight:600}.tswb{padding-left:18px}.tswd.l3 .tswb{padding:6px 4px 10px 18px}
+.tswn{font-style:normal;font-size:11.5px;font-weight:700;background:#e8eef2;border-radius:999px;padding:2px 8px;color:#53687a}.tswn.todo{background:#fde3dc;color:#b23a2e}.tswall{margin-top:8px}
 .tsubc{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}.tsubc .pcard{margin:0}.tsube{font-size:14px;color:#53687a;margin:0}
 .pfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
 .pfdd{position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:8px;align-items:center;margin:0;padding:7px 30px 7px 10px;border:1px solid #d6dee5;border-radius:14px;background:#f6f9fb;min-width:170px;max-width:320px;flex:1 1 200px;cursor:pointer;color:#10232f;transition:border-color .15s,box-shadow .15s}
@@ -5287,6 +5295,52 @@ async function subDash(){const host=$("tremind");if(!host||!subT())return;let bo
   c.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{SUB.list=L;subOpen(L[+b.dataset.i].id,true,+b.dataset.i);});}
 {const st0=showTeacher;showTeacher=function(){const r=st0.apply(this,arguments);setTimeout(()=>subDash().catch(()=>{}),0);return r;};}
 {const gh=goHome;goHome=function(){const r=gh.apply(this,arguments);if(subT())subDash().catch(()=>{});return r;};}
+
+/* ---------- teacher dashboard: Student work organised by grade → module → lesson, with the live class first ---------- */
+const TSW={open:(()=>{try{return new Set(JSON.parse(localStorage.getItem("tsw_open")||"[]"))}catch(_){return new Set()}})(),live:null,t:null};
+const tswSave=()=>{try{localStorage.setItem("tsw_open",JSON.stringify([...TSW.open]))}catch(_){}};
+const tswGradeSort=(a,b)=>String(a).localeCompare(String(b),undefined,{numeric:true});
+function tswInfo(key){const [nid,L]=subLesson(key);const mid=nid?BIOX.parent[nid]:null,m=mid?BIOX.byId[mid]:null;
+  return {nid,L,mid:mid||"other",mt:m?m.t:"Other activities",lt:L?.title||(nid?subShort(BIOX.byId[nid]?.t):key),ln:nid?numOf(BIOX.byId[nid]?.t||""):"",mn:m?numOf(m.t):""};}
+async function tswLive(){if(!window.HOSTED||!window.HS?.token)return [];try{return await hrpc("portal_class_results",{p_token:HS.token,p_lesson:null})||[];}catch(_){return [];}}
+function tswPickActive(subs,live){const now=Date.now(),W=90*60000,score={},meta={};
+  const add=(g,l,t,w,kind)=>{if(!g||!l||!t)return;const k=g+"|"+l,age=now-new Date(t);(meta[k]??={g,l,last:0,stu:new Set(),subs:0,newSubs:0});const M=meta[k];M.last=Math.max(M.last,+new Date(t));
+    if(kind==="sub"){M.subs++;if(age<W)M.newSubs++;}score[k]=(score[k]||0)+(age<W?w*3:age<86400000?w:w*0.1);};
+  subs.forEach(s=>{add(s.g,s.lesson,s.at,2,"sub");const k=s.g+"|"+s.lesson;if(meta[k])meta[k].stu.add(s.n);});
+  live.forEach(r=>{add(r.g,r.l,r.upd,1,"live");const k=r.g+"|"+r.l;if(meta[k]&&now-new Date(r.upd)<W)meta[k].stu.add(r.n);});
+  const best=Object.keys(score).sort((a,b)=>score[b]-score[a]||meta[b].last-meta[a].last)[0];return best?{...meta[best],k:best,hot:now-meta[best].last<W}:null;}
+async function subDash(){const host=$("tremind");if(!host||!subT())return;let box=$("tsub");if(!box){box=document.createElement("div");box.id="tsub";box.className="tsub";host.after(box);}
+  if(!box.dataset.ready)box.innerHTML=`<div class="tsubh"><h3>📌 Student work <span>· أعمال الطلاب</span></h3><button type="button" id="tsubgo">Open Assignments & Grades →</button></div><p class="tsube">Loading…</p>`;
+  let live=[];try{[SUB.all,live]=await Promise.all([subApi("subs").then(x=>x||[]),tswLive()]);}catch(_){box.innerHTML='<p class="tsube">Could not load student work.</p>';return;}
+  box.dataset.ready=1;TSW.liveRows=live;tswDraw();
+  clearInterval(TSW.t);TSW.t=setInterval(async()=>{if(!$("teach")||$("teach").style.display!=="block"||document.hidden)return;try{const [a,l]=await Promise.all([subApi("subs"),tswLive()]);SUB.all=a||[];TSW.liveRows=l;tswDraw();}catch(_){}},30000);}
+function tswDraw(){const box=$("tsub");if(!box)return;const A=SUB.all||[],live=TSW.liveRows||[],W=A.filter(s=>s.status==="submitted");
+  const act=tswPickActive(A,live);
+  /* active class */
+  let actHtml="";if(act){const I=tswInfo(act.l),cards=A.filter(s=>s.g===act.g&&s.lesson===act.l).sort((a,b)=>new Date(b.at)-new Date(a.at)),todo=cards.filter(s=>s.status==="submitted").length;
+    const lr=live.filter(r=>r.g===act.g&&r.l===act.l).sort((a,b)=>new Date(b.upd)-new Date(a.upd));
+    actHtml=`<div class="tswact${act.hot?" hot":""}"><div class="tswah"><span class="tswlive">${act.hot?"● Live now":"Most recent class"}</span><b>${esc(act.g)} · ${esc(I.mn?"Module "+I.mn:I.mt)}${I.ln?" · Lesson "+esc(I.ln):""}: ${esc(I.lt)}</b>
+      <span class="tswmeta">${act.stu.size} student${act.stu.size===1?"":"s"} active · ${act.newSubs} new submission${act.newSubs===1?"":"s"} in the last 90 min · ${todo} to review · updated ${subRel(new Date(act.last).toISOString())}</span>
+      <span class="tswbtn">${I.nid&&LXLESSONS[I.nid]?`<button type="button" data-res="${esc(I.nid)}">Live class results</button>`:""}<button type="button" data-flt="${esc(act.g)}|${esc(I.nid||"")}">Open in Assignments</button></span></div>
+      ${lr.length?`<div class="tswstu">${lr.slice(0,24).map(r=>`<span class="${Date.now()-new Date(r.upd)<600000?"on":""}" title="last activity ${esc(subRel(r.upd))}"><i></i>${esc(String(r.n).split(/\s+/).slice(0,2).join(" "))} <b>${r.s??"–"}%</b></span>`).join("")}</div>`:""}
+      ${cards.length?`<div class="tsubc">${cards.slice(0,4).map(s=>subCard(s,"a"+A.indexOf(s))).join("")}</div>`:""}</div>`;}
+  /* grade → module → lesson tree */
+  const tree={};A.forEach(s=>{const I=tswInfo(s.lesson),g=s.g||"No grade";((tree[g]??={})[I.mid]??={t:I.mt,n:I.mn,L:{}}).L[s.lesson]??=[];tree[g][I.mid].L[s.lesson].push(s);});
+  const cnt=a=>{const t=a.filter(s=>s.status==="submitted").length;return `<em class="tswn${t?" todo":""}">${t?t+" to review · ":""}${a.length}</em>`;};
+  const det=(key,sum,inner,lvl)=>`<details class="tswd l${lvl}" data-k="${esc(key)}" ${TSW.open.has(key)?"open":""}><summary>${sum}</summary><div class="tswb">${inner}</div></details>`;
+  const grades=Object.keys(tree).sort(tswGradeSort);
+  const treeHtml=grades.map(g=>{const mods=tree[g],allG=Object.values(mods).flatMap(m=>Object.values(m.L).flat());
+    return det("g|"+g,`<span class="tswg">🎓 ${esc(g)}</span>${cnt(allG)}`,Object.entries(mods).sort((a,b)=>(+a[1].n||99)-(+b[1].n||99)).map(([mid,m])=>{const allM=Object.values(m.L).flat();
+      return det("m|"+g+"|"+mid,`<span>📘 ${esc(m.t)}</span>${cnt(allM)}`,Object.entries(m.L).sort((a,b)=>(+tswInfo(a[0]).ln||99)-(+tswInfo(b[0]).ln||99)).map(([lk,list])=>{const I=tswInfo(lk);list.sort((a,b)=>(a.status==="submitted"?0:1)-(b.status==="submitted"?0:1)||new Date(b.at)-new Date(a.at));
+        return det("l|"+g+"|"+lk,`<span>📖 ${esc(I.lt)}</span>${cnt(list)}`,`<div class="tsubc">${list.map(s=>subCard(s,"a"+A.indexOf(s))).join("")}</div><button type="button" class="tswall" data-flt="${esc(g)}|${esc(I.nid||"")}">Open this lesson in Assignments & Grades →</button>`,3);}).join(""),2);}).join(""),1);}).join("");
+  box.innerHTML=`<div class="tsubh"><h3>📌 Student work <span>· أعمال الطلاب</span></h3>${W.length?`<em>${W.length} to review</em>`:""}<button type="button" id="tsubgo">Open Assignments & Grades →</button></div>
+    ${A.length?actHtml+`<div class="tswtree"><div class="tswtt">By grade, module and lesson <span>· حسب الصف والوحدة والدرس</span><button type="button" id="tswexp">${TSW.open.size?"Collapse all":"Expand all"}</button></div>${treeHtml}</div>`:`<p class="tsube">No submitted work yet. When students press Submit on an activity, it appears here.</p>`}`;
+  $("tsubgo").onclick=openSubs;
+  box.querySelectorAll("details.tswd").forEach(d=>d.addEventListener("toggle",()=>{d.open?TSW.open.add(d.dataset.k):TSW.open.delete(d.dataset.k);tswSave();}));
+  const ex=$("tswexp");if(ex)ex.onclick=()=>{const all=[...box.querySelectorAll("details.tswd")],any=TSW.open.size>0;TSW.open.clear();if(!any)all.forEach(d=>TSW.open.add(d.dataset.k));tswSave();tswDraw();};
+  box.querySelectorAll("[data-i]").forEach(b=>b.onclick=()=>{const s=A[+String(b.dataset.i).slice(1)];if(!s)return;const peers=A.filter(x=>x.g===s.g&&x.lesson===s.lesson);SUB.list=peers;subOpen(s.id,true,peers.indexOf(s));});
+  box.querySelectorAll("[data-flt]").forEach(b=>b.onclick=()=>{const [g,nid]=b.dataset.flt.split("|");Object.assign(SUBF,{course:"bio",grade:g,unit:"",lesson:nid||"",part:"",date:"all",status:"",q:""});subFSave();openSubs();});
+  box.querySelectorAll("[data-res]").forEach(b=>b.onclick=()=>openLesson(b.dataset.res,"results"));}
 
 /* ===== Assessments (التقييمات) =====
    Teacher: assign a test to a grade (all students or chosen ones), with a title, opening / due time and a time limit.
