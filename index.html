@@ -830,7 +830,19 @@ html[data-theme=light] #navhist button{color:#10232f}html[data-theme=light] #nav
 html[data-theme=light] #themesw{background:rgba(255,255,255,.9);border-color:rgba(16,35,47,.15);box-shadow:0 6px 20px rgba(16,35,47,.12)}
 html[data-theme=light] #themesw button{color:#3d5a4e}
 html[data-theme=light] #themesw button[aria-pressed=true]{background:#1d8656;color:#fff}
-@media(max-width:760px){body.withnav #themesw{top:84px}#themesw button span{display:none}#themesw button{padding:6px 9px}}
+
+html[data-theme=light][data-pal=ocean]{--mint:#1f6fb2;--leaf:#2f86c9;--muted:#4b5f74;--amber:#9a5b0a}html[data-theme=light][data-pal=ocean] body{background:radial-gradient(1200px 700px at 15% 10%,#d6e8f7 0%,transparent 60%),radial-gradient(900px 600px at 90% 90%,#d9eef3 0%,transparent 60%),linear-gradient(160deg,#f2f8fd,#e8f1fa 50%,#eaf4f7)}html[data-theme=light][data-pal=ocean] #themesw button[aria-pressed=true]{background:#1f6fb2}html[data-theme=light][data-pal=ocean] .cell{background:radial-gradient(circle at 35% 35%,#1f6fb238,#1f6fb214 55%,#1f6fb208);border-color:#1f6fb240}html[data-theme=light][data-pal=ocean] .sbtn:hover{background:#d6e8f7}
+html[data-theme=light][data-pal=desert]{--mint:#a5611b;--leaf:#c07a2e;--muted:#6b5a45;--amber:#8a4a0a}html[data-theme=light][data-pal=desert] body{background:radial-gradient(1200px 700px at 15% 10%,#f6e6cc 0%,transparent 60%),radial-gradient(900px 600px at 90% 90%,#f3ead9 0%,transparent 60%),linear-gradient(160deg,#fdf8f0,#f8efe1 50%,#f5ede2)}html[data-theme=light][data-pal=desert] #themesw button[aria-pressed=true]{background:#a5611b}html[data-theme=light][data-pal=desert] .cell{background:radial-gradient(circle at 35% 35%,#a5611b38,#a5611b14 55%,#a5611b08);border-color:#a5611b40}html[data-theme=light][data-pal=desert] .sbtn:hover{background:#f6e6cc}
+html[data-theme=light][data-pal=lavender]{--mint:#7048b8;--leaf:#8a63cf;--muted:#5d5370;--amber:#9a5b0a}html[data-theme=light][data-pal=lavender] body{background:radial-gradient(1200px 700px at 15% 10%,#e6dcf6 0%,transparent 60%),radial-gradient(900px 600px at 90% 90%,#ece0f3 0%,transparent 60%),linear-gradient(160deg,#f8f5fd,#f1ebfa 50%,#f3eef8)}html[data-theme=light][data-pal=lavender] #themesw button[aria-pressed=true]{background:#7048b8}html[data-theme=light][data-pal=lavender] .cell{background:radial-gradient(circle at 35% 35%,#7048b838,#7048b814 55%,#7048b808);border-color:#7048b840}html[data-theme=light][data-pal=lavender] .sbtn:hover{background:#e6dcf6}
+html[data-theme=light][data-pal=rose]{--mint:#b83f72;--leaf:#cf5a8a;--muted:#6e5060;--amber:#9a5b0a}html[data-theme=light][data-pal=rose] body{background:radial-gradient(1200px 700px at 15% 10%,#f7dbe6 0%,transparent 60%),radial-gradient(900px 600px at 90% 90%,#f6e1e9 0%,transparent 60%),linear-gradient(160deg,#fdf5f8,#faecf1 50%,#f8eef2)}html[data-theme=light][data-pal=rose] #themesw button[aria-pressed=true]{background:#b83f72}html[data-theme=light][data-pal=rose] .cell{background:radial-gradient(circle at 35% 35%,#b83f7238,#b83f7214 55%,#b83f7208);border-color:#b83f7240}html[data-theme=light][data-pal=rose] .sbtn:hover{background:#f7dbe6}
+html[data-theme=light][data-pal=slate]{--mint:#24425e;--leaf:#365b7d;--muted:#3c4954;--amber:#7a4a00}html[data-theme=light][data-pal=slate] body{background:radial-gradient(1200px 700px at 15% 10%,#e3e8ee 0%,transparent 60%),radial-gradient(900px 600px at 90% 90%,#e6ebef 0%,transparent 60%),linear-gradient(160deg,#ffffff,#f4f6f8 50%,#f1f3f5)}html[data-theme=light][data-pal=slate] #themesw button[aria-pressed=true]{background:#24425e}html[data-theme=light][data-pal=slate] .cell{background:radial-gradient(circle at 35% 35%,#24425e38,#24425e14 55%,#24425e08);border-color:#24425e40}html[data-theme=light][data-pal=slate] .sbtn:hover{background:#e3e8ee}
+html[data-theme=light][data-pal=slate] .card,html[data-theme=light][data-pal=slate] .panel,html[data-theme=light][data-pal=slate] .tile{background:#fff;border-color:rgba(16,35,47,.22)}html[data-theme=light][data-pal=slate] .helix,html[data-theme=light][data-pal=slate] .cell{display:none}
+#themesw #palbtn{display:none}html[data-theme=light] #themesw #palbtn{display:flex}
+#palpop{position:fixed;top:56px;right:12px;z-index:61;background:#fff;color:#10232f;border:1px solid rgba(16,35,47,.15);border-radius:16px;box-shadow:0 14px 40px rgba(16,35,47,.2);padding:12px;width:270px;font:13px Inter,sans-serif}
+#palpop h4{margin:0 0 8px;font:700 13px Inter,sans-serif}#palpop .pals{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}#palpop .pal{appearance:none;border:2px solid transparent;border-radius:12px;background:#f6f8f9;padding:8px 4px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 11.5px Inter,sans-serif;color:#10232f}
+#palpop .pal i{width:34px;height:20px;border-radius:7px;display:block}#palpop .pal[aria-pressed=true]{border-color:#10232f}#palpop .modes{display:flex;gap:6px;margin-top:10px}#palpop .modes button{flex:1;appearance:none;border:1px solid rgba(16,35,47,.18);background:#fff;border-radius:999px;padding:6px;cursor:pointer;font:600 12px Inter,sans-serif;color:#10232f}#palpop .modes button[aria-pressed=true]{background:#10232f;color:#fff}
+#palpop small{display:block;color:#53687a;margin-top:8px}
+@media(max-width:760px){body.withnav #themesw{top:84px}#palpop{top:126px}#themesw button span{display:none}#themesw button{padding:6px 9px}}
 
 /* ===== My Notes ===== */
 #notesapp{display:none;position:fixed;inset:0;z-index:70;background:rgba(10,20,30,.45);backdrop-filter:blur(3px);padding:18px;align-items:stretch;justify-content:center}
@@ -908,7 +920,7 @@ body.nbopen{overflow:hidden}
 <svg data-own class="helix l" viewBox="0 0 120 1000" preserveAspectRatio="xMidYMid slice" id="h1"></svg>
 <svg data-own class="helix r" viewBox="0 0 120 1000" preserveAspectRatio="xMidYMid slice" id="h2"></svg>
 
-<div id="themesw" data-own role="group" aria-label="Colour theme"><button data-m="light" aria-pressed="false" title="Light mode">☀<span>Light</span></button><button data-m="dark" aria-pressed="false" title="Dark mode">☾<span>Dark</span></button><button type="button" id="pfbtn" class="pfbtn" hidden aria-label="My profile · الملف الشخصي"></button></div>
+<div id="themesw" data-own role="group" aria-label="Colour theme"><button data-m="light" aria-pressed="false" title="Light mode">☀<span>Light</span></button><button data-m="dark" aria-pressed="false" title="Dark mode">☾<span>Dark</span></button><button type="button" id="palbtn" title="Light mode colours · ألوان الوضع الفاتح" aria-haspopup="true" aria-expanded="false">🎨<span>Colours</span></button><button type="button" id="pfbtn" class="pfbtn" hidden aria-label="My profile · الملف الشخصي"></button></div>
 <nav id="sidenav" data-own aria-label="Dashboard"></nav>
 <div id="navhist" data-own hidden role="navigation" aria-label="Page history"><button type="button" id="nhback" title="Previous page (Alt+←)" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg></button><button type="button" id="nhhome" title="Dashboard" aria-label="Dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></button><button type="button" id="nhfwd" title="Next page (Alt+→)" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></button></div>
 <main class="wrap" data-own>
@@ -5763,6 +5775,7 @@ function admApplySite(){
   const ann=SITE.announcement&&String(SITE.announcement).trim();
   ["tremind","sremind"].forEach(id=>{const box=$(id);if(!box)return;let b=box.parentElement.querySelector(".admann");if(!ann){if(b)b.remove();return;}
     if(!b){b=document.createElement("div");b.className="admann";box.before(b);}b.innerHTML=`📢 <span dir="auto">${esc(ann)}</span>`;});
+  if(SITE.pal&&typeof palDefault==="function")palDefault(SITE.pal);
   if(SITE.theme&&SITE.theme!=="user"){let has=null;try{has=localStorage.getItem("bio_theme")}catch(_){}if(!has)applyTheme(SITE.theme);}
   const pb=$("hspinbtn");if(pb)pb.style.display=SITE.pinchange===false?"none":"";
 }
@@ -6049,11 +6062,12 @@ function admSettings(){const B=$("admbody"),S={title:"Biology Student Portal",an
     <label class="wide">Website title (browser tab)<input id="ast" dir="auto" value="${esc(S.title)}"></label>
     <label class="wide">Announcement banner on every dashboard (leave empty for none)<textarea id="asa" rows="2" dir="auto">${esc(S.announcement)}</textarea></label>
     <label>Default theme<select id="asth"><option value="user" ${S.theme==="user"?"selected":""}>Each user's own choice</option><option value="dark" ${S.theme==="dark"?"selected":""}>Dark</option><option value="light" ${S.theme==="light"?"selected":""}>Light</option><option value="auto" ${S.theme==="auto"?"selected":""}>Follow the device</option></select></label>
+    <label>Default light-mode colours<select id="aspal">${(typeof PALS!=="undefined"?PALS:[["mint","Mint"]]).map(([k,n])=>`<option value="${k}" ${(S.pal||"mint")===k?"selected":""}>${n}</option>`).join("")}</select></label>
     <fieldset class="wide"><legend>Features</legend><label class="xtog"><input type="checkbox" id="asai" ${S.ai!==false?"checked":""}> AI marking of students' written answers</label><label class="xtog"><input type="checkbox" id="assa" ${S.saat!==false?"checked":""}> SAAT course visible to Grade 12 students</label><label class="xtog"><input type="checkbox" id="aspc" ${S.pinchange!==false?"checked":""}> Students can change their own PIN</label></fieldset>
     <fieldset class="wide"><legend>AI tools · أدوات الذكاء الاصطناعي</legend><label class="xtog"><input type="checkbox" id="astai" ${S.tai!==false?"checked":""}> AI assistant for teachers (admins always have it)</label><label class="xtog"><input type="checkbox" id="asaim" ${S.aimark!==false?"checked":""}> ✨ AI suggest buttons for marking in Assignments and Assessments</label><label class="xtog"><input type="checkbox" id="asauto" ${S.autocheck!==false?"checked":""}> Run the self-check automatically when the admin logs in</label></fieldset>
     <p class="admmsg" id="asmsg"></p><div class="admbtns"><button class="sbtn on" id="asgo">Save settings</button></div></div></div>
     <div class="panel"><h3>Accounts and limits</h3><table class="lxtbl"><tr><td>Login</td><td>ID + 6-digit PIN · 5 wrong PINs lock an account for 10 minutes</td></tr><tr><td>Sessions</td><td>end after 14 hours</td></tr><tr><td>AI uses per day</td><td>120 per student · 400 per teacher or admin</td></tr><tr><td>AI changes</td><td>always suggested first; nothing is applied until an admin or teacher approves it</td></tr><tr><td>Uploads</td><td>up to 50 MB per file</td></tr></table></div>`;
-  $("asgo").onclick=async()=>{const site={...SITE,title:$("ast").value.trim(),announcement:$("asa").value.trim(),theme:$("asth").value,ai:$("asai").checked,saat:$("assa").checked,pinchange:$("aspc").checked,tai:$("astai").checked,aimark:$("asaim").checked,autocheck:$("asauto").checked};
+  $("asgo").onclick=async()=>{const site={...SITE,title:$("ast").value.trim(),announcement:$("asa").value.trim(),theme:$("asth").value,pal:$("aspal").value,ai:$("asai").checked,saat:$("assa").checked,pinchange:$("aspc").checked,tai:$("astai").checked,aimark:$("asaim").checked,autocheck:$("asauto").checked};
     try{await admApi("site_save",{p_site:site});SITE=site;if(CAL.user)CAL.user.site=site;admApplySite();$("asmsg").textContent="✓ Saved · students see the changes when they next log in.";}catch(e){$("asmsg").textContent="Could not save: "+e.message;}};}
 
 /* AI assistant */
@@ -6099,7 +6113,7 @@ async function admApplyAction(a){const save=it=>admApi("content_save",{p_item:it
       if(a.type==="lesson_question"){const q=a.q||{};if(!["mcq","tf","num"].includes(q.type))throw new Error("question type");cfg.qs=[...cfg.qs,{...q,stem:esc(lxStrip(q.stem||"")),why:q.why||"",hint:q.hint||"Read the question again."}];}
       const r=await save({id:row?.id,kind:"lesson",course:"bio",target:a.lesson,title:(LXBASE[a.lesson]||LXLESSONS[a.lesson]).title,data:cfg});CONTENT=await admApi("content");return r;}
     case"add_course":{const key=admSlug(a.key||a.t);return save({kind:"course",course:key,title:a.t,data:{key,t:a.t,ta:a.ta||"",color:a.color||"#7fb2ff",grades:a.grades||[],modules:(a.modules||[]).map((m,i)=>({id:key+"-m"+(i+1),name:m.name,lessons:(m.lessons||[]).map((l,k)=>({id:key+"-m"+(i+1)+"l"+(k+1),name:typeof l==="string"?l:l.name}))}))}});}
-    case"setting":{if(!isAdmin())throw new Error("admin only");const allowed=["title","announcement","ai","saat","pinchange","theme","tai","autocheck","aimark"];if(!allowed.includes(a.key))throw new Error("unknown setting");const site={...SITE,[a.key]:a.value};await admApi("site_save",{p_site:site});SITE=site;admApplySite();return;}
+    case"setting":{if(!isAdmin())throw new Error("admin only");const allowed=["title","announcement","ai","saat","pinchange","theme","pal","tai","autocheck","aimark"];if(!allowed.includes(a.key))throw new Error("unknown setting");const site={...SITE,[a.key]:a.value};await admApi("site_save",{p_site:site});SITE=site;admApplySite();return;}
     default:throw new Error("not supported");}}
 function admSafeHtml(h){const d=document.createElement("div");d.innerHTML=String(h||"");d.querySelectorAll("script,iframe,object,embed,style,link,form").forEach(e=>e.remove());d.querySelectorAll("*").forEach(e=>[...e.attributes].forEach(at=>{if(/^on/i.test(at.name)||/javascript:/i.test(at.value))e.removeAttribute(at.name);}));return d.innerHTML;}
 
@@ -6155,6 +6169,25 @@ function applyTheme(m){const d=m==="auto"?(matchMedia("(prefers-color-scheme: li
 document.querySelectorAll("#themesw button[data-m]").forEach(b=>b.onclick=()=>applyTheme(b.dataset.m));
 matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{if((document.documentElement.getAttribute("data-theme-mode")||"dark")==="auto")applyTheme("auto");});
 applyTheme(document.documentElement.getAttribute("data-theme-mode")||"dark");
+
+
+
+/* light-mode colour palettes + theme mode picker */
+const PALS=[["mint","Mint · نعناعي","#1d8656"],["ocean","Ocean · محيط","#1f6fb2"],["desert","Desert · صحراء","#a5611b"],["lavender","Lavender · خزامى","#7048b8"],["rose","Rose · وردي","#b83f72"],["slate","Clear · واضح","#24425e"]];
+function applyPal(p,save){if(!PALS.some(x=>x[0]===p))p="mint";document.documentElement.setAttribute("data-pal",p);if(save)try{localStorage.setItem("bio_pal",p)}catch(_){}
+  document.querySelectorAll("#palpop .pal").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===p));}
+{let p=null;try{p=localStorage.getItem("bio_pal")}catch(_){}applyPal(p||"mint");}
+function palDefault(p){let has=null;try{has=localStorage.getItem("bio_pal")}catch(_){}if(!has&&p)applyPal(p);}
+$("palbtn").onclick=e=>{e.stopPropagation();let pop=$("palpop");if(pop){pop.remove();$("palbtn").setAttribute("aria-expanded","false");return;}
+  pop=document.createElement("div");pop.id="palpop";pop.setAttribute("role","dialog");pop.setAttribute("aria-label","Theme");
+  const mode=document.documentElement.getAttribute("data-theme-mode")||"dark",cur=document.documentElement.getAttribute("data-pal")||"mint";
+  pop.innerHTML=`<h4>Light mode colours · ألوان الوضع الفاتح</h4><div class="pals">${PALS.map(([k,n,c])=>`<button class="pal" data-p="${k}" aria-pressed="${k===cur}"><i style="background:linear-gradient(135deg,${c},${c}55)"></i>${n.split(" · ")[0]}<span style="font:500 10.5px Tajawal,sans-serif;color:#53687a">${n.split(" · ")[1]}</span></button>`).join("")}</div>
+    <h4 style="margin-top:12px">Theme mode · وضع العرض</h4><div class="modes">${[["light","☀ Light"],["dark","☾ Dark"],["auto","◐ Auto"]].map(([m,l])=>`<button data-mm="${m}" aria-pressed="${m===mode}">${l}</button>`).join("")}</div><small>Auto follows your device's light or dark setting. Your choice is saved on this device.</small>`;
+  document.body.appendChild(pop);$("palbtn").setAttribute("aria-expanded","true");
+  pop.querySelectorAll(".pal").forEach(b=>b.onclick=()=>applyPal(b.dataset.p,true));
+  pop.querySelectorAll("[data-mm]").forEach(b=>b.onclick=()=>{applyTheme(b.dataset.mm);pop.querySelectorAll("[data-mm]").forEach(x=>x.setAttribute("aria-pressed",x===b));if(document.documentElement.getAttribute("data-theme")!=="light"){pop.remove();$("palbtn").setAttribute("aria-expanded","false");}});
+  pop.onclick=e=>e.stopPropagation();};
+document.addEventListener("click",()=>{const p=$("palpop");if(p){p.remove();$("palbtn").setAttribute("aria-expanded","false");}});
 
 $("aback").onclick=()=>{$("analytics").style.display="none";$("teach").style.display="block";scrollTo(0,0);};
 </script>
