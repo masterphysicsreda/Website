@@ -4,7 +4,7 @@
 <script>window.HOSTED={"url": "https://piziqkrlaopypolsmine.supabase.co", "key": "sb_publishable_DJU5fmWheTX_xts6tn3c9g_uAXDljEs"};</script>
 <meta charset="utf-8" data-own>
 <meta name="viewport" content="width=device-width, initial-scale=1" data-own>
-<title data-own>Biology Student Portal</title>
+<title data-own>Science Gate</title>
 <script data-own id="themeinit">(function(){var m="dark";try{m=localStorage.getItem("bio_theme")||"dark"}catch(e){}var d=m==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):m;document.documentElement.setAttribute("data-theme",d);document.documentElement.setAttribute("data-theme-mode",m);})();</script>
 <link data-own href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Tajawal:wght@500;700&display=swap" rel="stylesheet">
 <style data-own>
@@ -937,8 +937,8 @@ body.nbopen{overflow:hidden}
     <div class="icon">
       <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#eafff4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2c0 6 10 6 10 12s-10 6-10 8"/><path d="M17 2c0 6-10 6-10 12s10 6 10 8"/><path d="M8.5 5h7M9 9h6M9 15h6M8.5 19h7"/></svg>
     </div>
-    <h1>Biology <span>Student Portal</span></h1>
-    <p class="sub">Mr. Reda Elsayed · Biology Classes<span class="ar">بوابة طلاب الأحياء</span></p>
+    <h1>Science <span>Gate</span></h1>
+    <p class="sub">Mr. Reda Elsayed · Science Classes<span class="ar">بوابة العلوم</span></p>
   </div>
 
   <section class="card fade" id="login">
@@ -2551,7 +2551,7 @@ async function lxBuildPages(mode){
       if(mode==="key"||graded){x.fillStyle="#1d8656";x.font="600 23px Inter, Arial";x.fillText(`Answer: ${q.a} ${q.unit}`,M+640,y+30);}y+=60;}
     if((mode==="key"||graded)&&q.type!=="write"){wrap((graded&&s?.done&&!s.ok?"Correction: ":"Why: ")+q.why,"italic 21px Georgia, serif",W-2*M-80,28,graded&&s?.done&&!s.ok?"#c03c2c":"#53687a",70);}
     y+=18;x.strokeStyle="#eef1f5";x.lineWidth=1.5;x.beginPath();x.moveTo(M,y);x.lineTo(W-M,y);x.stroke();y+=16;}
-  if(graded){ensure(80);x.fillStyle="#53687a";x.font="21px Inter, Arial";x.fillText("Marked automatically against the answer key · Biology Student Portal",M,y+30);}
+  if(graded){ensure(80);x.fillStyle="#53687a";x.font="21px Inter, Arial";x.fillText("Marked automatically against the answer key · Science Gate",M,y+30);}
   return pages;
 }
 function lxPdfBytes(pages){
@@ -5256,7 +5256,7 @@ async function gbExcel(){const st=gbStats(),D=GB.data,cols=gbColumns(),R=st.R;
 function gbSvgImg(svg,w,h){return new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg.replace("<svg ",`<svg width="${w}" height="${h}" `));});}
 function gbDoc(title,sub){const W=1240,H=1754,M=80,pages=[];let cv,x,y;
   const page=()=>{cv=document.createElement("canvas");cv.width=W;cv.height=H;x=cv.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,W,H);pages.push(cv);
-    x.fillStyle="#1d8656";x.fillRect(0,0,W,14);x.fillStyle="#53687a";x.font="18px Inter, Arial";x.textAlign="left";x.fillText("Biology Student Portal · Al-Anjal · "+title,M,48);x.textAlign="right";x.fillText(`Page ${pages.length}`,W-M,48);x.textAlign="left";y=86;};
+    x.fillStyle="#1d8656";x.fillRect(0,0,W,14);x.fillStyle="#53687a";x.font="18px Inter, Arial";x.textAlign="left";x.fillText("Science Gate · Al-Anjal · "+title,M,48);x.textAlign="right";x.fillText(`Page ${pages.length}`,W-M,48);x.textAlign="left";y=86;};
   page();
   const isAr=s=>/[؀-ۿ]/.test(s);
   const api={W,M,pages,get y(){return y},
@@ -6538,7 +6538,7 @@ function admCourseDlg(c){const d0=c?.data||{key:"",t:"",ta:"",color:"#46c48a",gr
     try{await admApi("content_save",{p_item:{id:c?.id,kind:"course",course:key,title:t,data,hidden:!!c?.hidden}});await admReloadContent();d.close();lxToast("Course saved");admCoursesTab();}catch(e){$("acmsg").textContent="Could not save: "+e.message;}};}
 
 /* settings tab */
-function admSettings(){const B=$("admbody"),S={title:"Biology Student Portal",announcement:"",ai:true,saat:true,pinchange:true,theme:"user",...SITE};
+function admSettings(){const B=$("admbody"),S={title:"Science Gate",announcement:"",ai:true,saat:true,pinchange:true,theme:"user",...SITE};
   B.innerHTML=`<div class="panel"><h3>Website settings <span class="ar">إعدادات الموقع</span></h3><div class="admform">
     <label class="wide">Website title (browser tab)<input id="ast" dir="auto" value="${esc(S.title)}"></label>
     <label class="wide">Announcement banner on every dashboard (leave empty for none)<textarea id="asa" rows="2" dir="auto">${esc(S.announcement)}</textarea></label>
