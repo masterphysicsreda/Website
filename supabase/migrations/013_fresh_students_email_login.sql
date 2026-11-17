@@ -1,0 +1,7 @@
+-- 013 (applied 2026-11-17): fresh start for students + email login
+-- * all student accounts and their work deleted (lesson progress, notes, submissions, test attempts, competitions, gradebook); admin + teachers kept
+-- * users: first_name, last_name, pw_hash (bcrypt), status active|pending, req_grade, approved_at; unique lower(email)
+-- * English-only checks: app.en_name / app.en_email / app.en_pw (8-64 printable ASCII with a letter and a digit)
+-- * portal_register (pending until approved), portal_login_email, portal_login (ID+PIN now staff only), portal_set_login,
+--   portal_pending / portal_approve / portal_reject, portal_student_login (temporary password)
+-- * new students get an internal code (st_…), never a national ID

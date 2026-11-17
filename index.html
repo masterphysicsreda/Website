@@ -4908,6 +4908,7 @@ async function hsPrepare(user,id){
   EVSTORE={pub:ev.pub||[],priv:null,res:null};HS.priv=ev.priv||[];
   return user;
 }
+window.hsPrepare=hsPrepare;
 window.hostedLogin=async function(id){
   const pin=($("pin").value||"").trim(),err=$("err");
   if(!/^\d{6}$/.test(pin)){err.textContent="Enter your 6-digit PIN · أدخل الرقم السري المكون من 6 أرقام";return null;}
@@ -6976,6 +6977,146 @@ function admCourseAllowed(k){if(!admRestricted())return true;const c=admCrs();if
 {const oc=openCourses;openCourses=function(key){if(key&&admRestricted()&&!admCourseAllowed(key)){lxToast("This course is not assigned to you. Ask the admin.",true);key=null;}return oc.call(this,key);};}
 {const tg=tGrades;tGrades=function(){const r=tg.apply(this,arguments);return admRestricted()?r.filter(admGradeAllowed):r;};}
 {const ob=openBio;openBio=function(){if(admRestricted()&&!admCourseAllowed("bio")){openCourses(null);return;}return ob.apply(this,arguments);};}
+
+/* ===== Accounts: sign in with email + password, register (English only, approved by a teacher), staff first-time ID + PIN,
+   pending sign-ups for teachers/admin, set a student's login. Students have no national ID anywhere. ===== */
+const AC={mode:"login"};
+const AC_RX={name:/^[A-Za-z][A-Za-z' \-]{0,39}$/,email:/^[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$/,pw:/^[\x21-\x7E]{8,64}$/};
+const acPwOk=p=>AC_RX.pw.test(p)&&/[A-Za-z]/.test(p)&&/[0-9]/.test(p);
+const acGrades=()=>{let g=null;try{g=(CAL.user?.site||SITE||{}).grades;}catch(_){}return (g&&g.length?g:["Grade 8","Grade 9B","Grade 10","Grade 11","Grade 12"]);};
+const ACI={mail:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8fe3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  lock:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8fe3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>',
+  user:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8fe3b8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+  id:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8fe3b8" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6.5 16c.6-1.4 1.5-2 2.5-2s1.9.6 2.5 2M14 10h4M14 13h3"/></svg>'};
+const acField=(id,label,ar,icon,type,ph,extra="")=>`<label for="${id}"><span>${label}</span><span class="ar">${ar}</span></label><div class="field">${icon}<input id="${id}" type="${type}" placeholder="${ph}" dir="ltr" lang="en" spellcheck="false" ${extra}></div>`;
+
+function acDraw(){const f=$("f");if(!f)return;const M=AC.mode;
+  const tabs=`<div class="actabs" role="tablist"><button type="button" role="tab" data-am="login" aria-selected="${M==="login"}">Log in · دخول</button><button type="button" role="tab" data-am="reg" aria-selected="${M==="reg"}">Create account · حساب جديد</button></div>`;
+  let body="";
+  if(M==="login")body=acField("acem","Email","البريد الإلكتروني",ACI.mail,"email","name@example.com",'autocomplete="username" maxlength="120"')+`<div style="height:12px"></div>`+acField("acpw","Password","كلمة المرور",ACI.lock,"password","Your password",'autocomplete="current-password" maxlength="64"')
+    +`<button class="main" id="btn" type="submit"><span class="spin" id="spin"></span><span id="bt">Log in · دخول</span></button><div class="err" id="err" role="alert"></div>
+      <div class="hint">New student? Choose <b>Create account</b>. Forgot your password? Ask your teacher for a new one.</div><button type="button" class="aclink" data-am="staff">Teacher first-time sign-in with ID &amp; PIN</button>`;
+  else if(M==="reg")body=`<div class="acrow2"><div>${acField("acfn","First name","الاسم الأول",ACI.user,"text","e.g. Ahmed",'autocomplete="given-name" maxlength="40"')}</div><div>${acField("acln","Last name","اسم العائلة",ACI.user,"text","e.g. Alsaleh",'autocomplete="family-name" maxlength="40"')}</div></div>
+      <div style="height:12px"></div>${acField("acem","Email","البريد الإلكتروني",ACI.mail,"email","name@example.com",'autocomplete="email" maxlength="120"')}
+      <div style="height:12px"></div><div class="acrow2"><div>${acField("acpw","Password","كلمة المرور",ACI.lock,"password","8+ letters and numbers",'autocomplete="new-password" maxlength="64"')}</div><div>${acField("acpw2","Confirm password","تأكيد كلمة المرور",ACI.lock,"password","Type it again",'autocomplete="new-password" maxlength="64"')}</div></div>
+      <div style="height:12px"></div><label for="acgr"><span>My grade</span><span class="ar">صفي</span></label><div class="field"><select id="acgr" class="acsel"><option value="">Choose your grade</option>${acGrades().map(g=>`<option>${esc(g)}</option>`).join("")}</select></div>
+      <p class="acrule">English letters only · الحروف الإنجليزية فقط. The password needs at least 8 characters with letters and numbers.</p>
+      <button class="main" id="btn" type="submit"><span class="spin" id="spin"></span><span id="bt">Create my account · إنشاء الحساب</span></button><div class="err" id="err" role="alert"></div>
+      <div class="hint">Your teacher checks and approves new accounts before you can log in.</div>`;
+  else body=`<p class="acrule" style="margin-top:0">For teachers and the admin who have not set an email and password yet. After you sign in, open <b>My Profile</b> to set them.</p>`+acField("acsid","National / Iqama ID","رقم الهوية",ACI.id,"text","10-digit ID",'inputmode="numeric" maxlength="10" autocomplete="off"')+`<div style="height:12px"></div>`+acField("acpin","PIN","الرقم السري",ACI.lock,"password","6-digit PIN",'inputmode="numeric" maxlength="6" autocomplete="off"')
+    +`<button class="main" id="btn" type="submit"><span class="spin" id="spin"></span><span id="bt">Staff sign-in · دخول المعلمين</span></button><div class="err" id="err" role="alert"></div><button type="button" class="aclink" data-am="login">← Back to email login</button>`;
+  f.innerHTML=(M==="staff"?"":tabs)+body;f.setAttribute("autocomplete","on");
+  f.querySelectorAll("[data-am]").forEach(b=>b.onclick=()=>{AC.mode=b.dataset.am;acDraw();});
+  /* English-only typing: anything else is removed with a short note */
+  f.querySelectorAll("input").forEach(i=>i.addEventListener("input",()=>{const before=i.value;let v=before;
+    if(i.id==="acfn"||i.id==="acln")v=v.replace(/[^A-Za-z' \-]/g,"");else if(i.id==="acsid"||i.id==="acpin")v=v.replace(/\D/g,"");else v=v.replace(/[^\x21-\x7E]/g,"");
+    if(v!==before){i.value=v;$("err").textContent="Please type in English only · الرجاء الكتابة بالإنجليزية فقط";}else $("err").textContent="";}));
+  const first=f.querySelector("input");if(first&&document.activeElement?.tagName!=="INPUT")setTimeout(()=>first.focus({preventScroll:true}),50);}
+
+async function acSubmit(e){e.preventDefault();e.stopImmediatePropagation();const err=$("err"),btn=$("btn"),M=AC.mode,busy=on=>{btn.disabled=on;$("spin").style.display=on?"block":"none";};err.className="err";
+  if(M==="login"){const em=$("acem").value.trim(),pw=$("acpw").value;if(!AC_RX.email.test(em)){err.textContent="Enter your email address · أدخل بريدك الإلكتروني";return;}if(!pw){err.textContent="Enter your password · أدخل كلمة المرور";return;}
+    busy(true);let r;try{r=await hrpc("portal_login_email",{p_email:em,p_password:pw});}catch(_){busy(false);err.textContent="Can't reach the server. Check your internet and try again · تعذر الاتصال";return;}
+    if(r.error){busy(false);err.textContent={bad_login:"Wrong email or password · البريد أو كلمة المرور غير صحيحة",pending:"Your account is waiting for your teacher's approval · حسابك بانتظار موافقة المعلم",locked:"Too many wrong tries. Try again in 10 minutes · حاول بعد 10 دقائق",no_password:"This account has no password yet. Teachers: use the ID & PIN sign-in below · لا توجد كلمة مرور بعد"}[r.error]||"Could not log in.";return;}
+    await acEnter(r);busy(false);return;}
+  if(M==="reg"){const fn=$("acfn").value.trim(),ln=$("acln").value.trim(),em=$("acem").value.trim(),pw=$("acpw").value,pw2=$("acpw2").value,g=$("acgr").value;
+    if(!AC_RX.name.test(fn)){err.textContent="Write your first name in English letters · اكتب الاسم الأول بالإنجليزية";$("acfn").focus();return;}
+    if(!AC_RX.name.test(ln)){err.textContent="Write your last name in English letters · اكتب اسم العائلة بالإنجليزية";$("acln").focus();return;}
+    if(!AC_RX.email.test(em)){err.textContent="Check your email address · تحقق من البريد الإلكتروني";$("acem").focus();return;}
+    if(!acPwOk(pw)){err.textContent="The password needs at least 8 characters with letters and numbers · 8 خانات على الأقل بحروف وأرقام";$("acpw").focus();return;}
+    if(pw!==pw2){err.textContent="The two passwords are different · كلمتا المرور غير متطابقتين";$("acpw2").focus();return;}
+    if(!g){err.textContent="Choose your grade · اختر صفك";return;}
+    busy(true);let r;try{r=await hrpc("portal_register",{p_first:fn,p_last:ln,p_email:em,p_password:pw,p_grade:g});}catch(_){busy(false);err.textContent="Can't reach the server. Check your internet and try again · تعذر الاتصال";return;}busy(false);
+    if(r.error){err.textContent={email_taken:"This email already has an account. Choose Log in · هذا البريد مسجل مسبقاً",first:"Write your first name in English letters",last:"Write your last name in English letters",email:"Check your email address",password:"The password needs at least 8 characters with letters and numbers",busy:"Too many sign-ups right now. Try again in a few minutes."}[r.error]||"Could not create the account.";return;}
+    $("f").innerHTML=`<div class="acdone"><div class="acok">✓</div><h3>Account created · تم إنشاء الحساب</h3><p>Thank you, <b>${esc(fn)}</b>. Your teacher will approve your account soon. Then log in with <b dir="ltr">${esc(em.toLowerCase())}</b> and your password.</p><p class="ar">سيوافق معلمك على حسابك قريباً، ثم سجّل الدخول ببريدك وكلمة المرور.</p><button type="button" class="main" id="acback">Go to log in · تسجيل الدخول</button></div>`;
+    $("acback").onclick=()=>{AC.mode="login";acDraw();$("acem").value=em.toLowerCase();$("acpw").focus();};return;}
+  const id=$("acsid").value.trim(),pin=$("acpin").value.trim();if(!/^\d{10}$/.test(id)){err.textContent="Enter your 10-digit ID";return;}if(!/^\d{6}$/.test(pin)){err.textContent="Enter your 6-digit PIN";return;}
+  busy(true);let r;try{r=await hrpc("portal_login",{p_id:id,p_pin:pin});}catch(_){busy(false);err.textContent="Can't reach the server.";return;}
+  if(r.error){busy(false);err.textContent=r.error==="locked"?"Too many wrong tries. Try again in 10 minutes":"This sign-in is for teachers only, or the ID / PIN is wrong.";return;}
+  await acEnter(r);busy(false);}
+async function acEnter(r){HS.token=r.token;try{sessionStorage.setItem("bio_tok",r.token)}catch(_){}const st=await hsPrepare(r.user,r.id);show(st,r.id);AC.mode="login";acDraw();}
+
+if(!window.HOSTED){const f=$("f");if(f)f.innerHTML=`<p class="acrule" style="font-size:14px;text-align:center">Log in on the school website · سجّل الدخول من موقع المدرسة</p><a class="main" style="display:block;text-align:center;text-decoration:none" href="https://science-alanjal.pages.dev" target="_blank" rel="noopener">Open science-alanjal.pages.dev ↗</a>`;document.querySelector("#login .grades")?.remove();}
+if(window.HOSTED){acDraw();$("f").addEventListener("submit",acSubmit,true);document.querySelector("#login .grades")?.remove();
+  {const lo=logout;logout=function(){const r=lo.apply(this,arguments);AC.mode="login";acDraw();return r;};}}
+
+/* ---------- My Profile: no national ID for students; login email + password for everyone ---------- */
+{const pr=pfRender;pfRender=function(){const r=pr.apply(this,arguments);if(!window.HOSTED)return r;const u=CAL.user,d=PF.data||{};
+  const ro=[...document.querySelectorAll("#pfform .pfro")];const idRow=ro.find(x=>/National ID/.test(x.textContent));
+  if(idRow&&!u.t)idRow.remove();
+  const pinSec=[...document.querySelectorAll("#pfform .pfsec")].find(x=>/PIN/.test(x.querySelector("h3")?.textContent||""));if(pinSec&&!u.t)pinSec.remove();
+  const sec=document.createElement("div");sec.className="pfsec";sec.innerHTML=`<h3>Login email &amp; password · بيانات الدخول</h3><p class="pfhint">${d.haspw?"You log in with this email and password. English only.":"Set an email and password so you can log in without your ID and PIN."}</p>
+    <div class="pfpin acpf"><input id="aclem" type="email" placeholder="Email" dir="ltr" maxlength="120" value="${esc(d.email||"")}" autocomplete="username">${d.haspw?`<input id="aclcur" type="password" placeholder="Current password" maxlength="64" autocomplete="current-password">`:""}<input id="aclnew" type="password" placeholder="${d.haspw?"New password (optional)":"New password"}" maxlength="64" autocomplete="new-password"><button class="sbtn" type="button" id="aclsave">Save login</button></div><span class="pfmsg" id="aclmsg"></span>`;
+  document.querySelector("#pfform")?.appendChild(sec);
+  const emIn=document.querySelector("#pfemail");if(emIn&&emIn.closest(".pfed"))emIn.closest(".pfed").style.display="none";
+  $("aclsave").onclick=async()=>{const m=$("aclmsg"),em=$("aclem").value.trim(),np=$("aclnew").value,cur=$("aclcur")?.value||"";
+    if(!AC_RX.email.test(em)){m.textContent="Check the email address (English only).";m.className="pfmsg bad";return;}
+    if((np||!d.haspw)&&!acPwOk(np)){m.textContent="The password needs at least 8 characters with letters and numbers.";m.className="pfmsg bad";return;}
+    try{const res=await hrpc("portal_set_login",{p_token:HS.token,p_email:em,p_current:cur,p_new:np});if(res.error){m.textContent={email_taken:"Another account uses this email.",current:"The current password is wrong.",email:"Check the email address.",password:"The password needs at least 8 characters with letters and numbers."}[res.error]||res.error;m.className="pfmsg bad";return;}
+      m.textContent="✓ Saved. Use this email and password next time.";m.className="pfmsg";PF.data={...d,email:em.toLowerCase(),haspw:true};}catch(_){m.textContent="Could not save.";m.className="pfmsg bad";}};
+  return r;};}
+{const pl=pfLoad;pfLoad=async function(){const r=await pl.apply(this,arguments);if(window.HOSTED&&HS.token){try{const p=await hrpc("portal_profile_get",{p_token:HS.token});PF.data={...(PF.data||{}),haspw:!!p?.haspw,email:p?.email||PF.data?.email||""};}catch(_){}}return PF.data;};}
+
+/* ---------- pending sign-ups (teachers and admin) ---------- */
+async function acPending(host,after){if(!host)return;let L=[];try{L=await hrpc("portal_pending",{p_token:HS.token});}catch(_){return;}
+  const grades=(typeof admGrades==="function"?admGrades():acGrades()).filter(g=>typeof admGradeAllowed!=="function"||admGradeAllowed(g));
+  host.innerHTML=L.length?`<div class="panel acpend"><h3>🆕 New sign-ups waiting for approval <span class="psub">· ${L.length} · طلبات تسجيل جديدة</span></h3><table class="lxtbl admtbl"><thead><tr><th>Name</th><th>Email</th><th>Grade</th><th></th></tr></thead><tbody>${L.map(p=>`<tr><td><b>${esc(p.first)} ${esc(p.last)}</b><br><span class="psub">${admFmtD?admFmtD(p.at):""}</span></td><td dir="ltr">${esc(p.email)}</td>
+      <td><select data-pg="${esc(p.id)}">${grades.map(g=>`<option ${g===p.grade?"selected":""}>${esc(g)}</option>`).join("")}</select></td><td class="admact"><button class="sbtn on" data-ok="${esc(p.id)}">✓ Approve</button><button class="sbtn" data-no="${esc(p.id)}">✕ Reject</button></td></tr>`).join("")}</tbody></table>
+      ${L.length>1?`<div class="admbtns"><button class="sbtn" id="acall">✓ Approve all with the grade shown</button></div>`:""}</div>`:"";
+  const ok=async id=>{const g=host.querySelector(`[data-pg="${id}"]`).value;const r=await hrpc("portal_approve",{p_token:HS.token,p_id:id,p_grade:g});if(r?.error){lxToast(r.error==="grade"?"You can only approve students for your own grades.":"Could not approve.",true);return false;}return true;};
+  host.querySelectorAll("[data-ok]").forEach(b=>b.onclick=async()=>{b.disabled=true;if(await ok(b.dataset.ok)){lxToast("Approved · the student can log in now");await (typeof admRefreshRoster==="function"?admRefreshRoster():null);after?after():acPending(host);}else b.disabled=false;});
+  host.querySelectorAll("[data-no]").forEach(b=>b.onclick=async()=>{if(!confirm("Reject and delete this sign-up?"))return;await hrpc("portal_reject",{p_token:HS.token,p_id:b.dataset.no});lxToast("Sign-up rejected");acPending(host,after);});
+  const all=host.querySelector("#acall");if(all)all.onclick=async()=>{all.disabled=true;let n=0;for(const p of L)if(await ok(p.id))n++;lxToast(`${n} approved`);await (typeof admRefreshRoster==="function"?admRefreshRoster():null);after?after():acPending(host);};}
+async function acSetLogin(s,after){const em=prompt(`Login email for ${s.n} (English only).\nA new temporary password will be made.`,s.email||"");if(em==null)return;
+  if(!AC_RX.email.test(em.trim())){lxToast("Check the email address.",true);return;}
+  try{const r=await hrpc("portal_student_login",{p_token:HS.token,p_id:s.id,p_email:em.trim()});if(r.error){lxToast(r.error==="email_taken"?"Another account uses this email.":"Could not set the login.",true);return;}
+    s.email=r.email;acPwNote([{n:s.n,g:s.g,email:r.email,pw:r.password}]);after&&after();}catch(_){lxToast("Could not set the login.",true);}}
+function acPwNote(rows){AC.pw=[...(AC.pw||[]),...rows];let box=$("acpws");if(!box){box=document.createElement("div");box.id="acpws";($("admpins")||$("admbody")||document.body).prepend(box);}
+  box.innerHTML=`<div class="admpinbox"><b>New temporary passwords (shown only now)</b><table class="lxtbl">${AC.pw.map(p=>`<tr><td dir="auto">${esc(p.n)}</td><td>${esc(p.g||"")}</td><td dir="ltr">${esc(p.email)}</td><td><b class="admpin">${esc(p.pw)}</b></td></tr>`).join("")}</table><div class="admbtns"><button class="sbtn" id="acpdl">⬇ Download login slips (CSV)</button><button class="sbtn" id="acpcl">Clear</button></div></div>`;
+  $("acpdl").onclick=()=>admDownload("student-logins.csv",[["Name","Grade","Email","Temporary password","Website"],...AC.pw.map(p=>[p.n,p.g||"",p.email,p.pw,"https://science-alanjal.pages.dev"])]);$("acpcl").onclick=()=>{AC.pw=[];box.remove();};}
+
+/* admin roster: pending panel on top, Email column instead of ID for students, "Login" instead of PIN for students */
+if(typeof admRosterDraw==="function"){const rd=admRosterDraw;admRosterDraw=function(){const r=rd.apply(this,arguments);const B=$("admbody"),U=ADM.users||[];
+  B.querySelectorAll(".admtbl thead th").forEach(th=>{if(th.textContent==="ID")th.textContent="Email / ID";});
+  B.querySelectorAll(".admtbl tbody tr").forEach(tr=>{const ed=tr.querySelector("[data-ed]");if(!ed)return;const u=U.find(x=>x.id===ed.dataset.ed);if(!u)return;const c=tr.children[1];
+    if(u.role==="student"){c.innerHTML=u.email?`<span dir="ltr">${esc(u.email)}</span>`:'<span class="psub">no login yet</span>';const pb=tr.querySelector("[data-pin]");if(pb){pb.textContent=u.email?"New password":"Set login";pb.removeAttribute("data-pin");pb.onclick=()=>acSetLogin(u,()=>{});}}
+    else c.innerHTML=`${esc(u.id)}${u.email?`<br><span class="psub" dir="ltr">${esc(u.email)}</span>`:""}`;});
+  const q=$("admq");if(q)q.placeholder="Search name or email";
+  let pend=$("acpendhost");if(!pend){pend=document.createElement("div");pend.id="acpendhost";B.querySelector(".admbar")?.after(pend);}acPending(pend,()=>admRoster());
+  const imp=$("admimp");if(imp)imp.textContent="⬆ Import names (no login)";
+  const csv=$("admcsv");if(csv)csv.onclick=()=>admDownload("roster.csv",[["Name","Role","Grade","Email","Classes","Courses"],...U.map(u=>[u.n,u.role,u.g||"",u.email||"",(u.cls||[]).join(" "),(u.crs||[]).join(" ")])]);
+  return r;};}
+/* add student: no ID field */
+if(typeof admUserDlg==="function"){const ud=admUserDlg;admUserDlg=function(u,role){const r=ud.apply(this,arguments);const id=$("auid"),rl=$("aur");if(!id)return r;const lab=id.closest("label");
+  const sw=()=>{const stu=rl.value==="student";lab.style.display=stu?"none":"";if(stu&&!u){id.value="";}};sw();rl.addEventListener("change",sw);
+  const sv=$("ausave"),orig=sv.onclick;sv.onclick=async()=>{if(rl.value==="student"&&!u){id.value="0000000000";}if(u&&u.role==="student"){id.value="0000000000";const real=u.id;
+      const n=$("aun").value.trim();if(!n){$("aumsg").textContent="Enter the name.";return;}const crs=[],cls=[];$("aumsg").textContent="Saving…";
+      try{const res=await admApi("admin_user_save",{p_id:real,p_name:n,p_grade:$("aug").value.trim(),p_role:rl.value,p_courses:crs,p_classes:cls,p_new:false});if(res.error){$("aumsg").textContent=res.error==="student_to_staff"?"A student account cannot become a teacher. Add the teacher as a new account.":res.error;return;}$("admdlg").close();await admRoster();admRefreshRoster();lxToast("Saved");}catch(e){$("aumsg").textContent="Could not save: "+e.message;}return;}
+    return orig.apply(this,arguments);};
+  return r;};}
+/* import: names and grades only */
+if(typeof admImportDlg==="function"){admImportDlg=function(){const d=admDlg(`<h3>Import student names</h3><p class="psub">Paste rows from Excel: <b>name, grade</b> (one student per line). No national IDs are stored. Students then get a login with <b>Set login</b>, or they register themselves and you approve them.</p>
+  <textarea id="aimp" rows="10" dir="auto" placeholder="Ahmed Alsaleh, Grade 10"></textarea><label>Grade for rows without one <input id="aimpg" list="augl2" value="${(admGrades()[1]||admGrades()[0])}"><datalist id="augl2">${admGrades().map(g=>`<option>${g}</option>`).join("")}</datalist></label><p class="admmsg" id="aimsg"></p><div class="admbtns"><button class="sbtn on" id="aimgo">Import</button></div>`);
+  $("aimgo").onclick=async()=>{const def=$("aimpg").value.trim(),rows=$("aimp").value.split(/\r?\n/).map(l=>l.split(/\t|,|;/).map(s=>s.trim())).filter(r=>r[0]).map(r=>{const rest=r.filter(x=>!/^\d{6,}$/.test(x));return {n:rest[0]||"",g:rest[1]||def};});
+    if(!rows.length){$("aimsg").textContent="Paste at least one row.";return;}$("aimsg").textContent=`Importing ${rows.length}…`;
+    try{const out=await admApi("admin_import",{p_rows:rows});const ok=out.filter(o=>!o.error);d.close();await admRoster();admRefreshRoster();lxToast(`${ok.length} added`);}catch(e){$("aimsg").textContent="Could not import: "+e.message;}};};}
+/* teacher "My Classes": pending panel + email + set login */
+if(typeof openRoster==="function"){const orr=openRoster;openRoster=function(){const r=orr.apply(this,arguments);if(!window.HOSTED||(typeof isAdmin==="function"&&isAdmin()))return r;const v=$("adminview");if(!v)return r;
+  const body=v.querySelector(".admbody");let pend=document.createElement("div");pend.id="acpendhost";body?.prepend(pend);acPending(pend,()=>{admRefreshRoster().then(()=>openRoster());});
+  v.querySelectorAll("[data-rp]").forEach(b=>{const s=(HS.roster||[]).find(x=>x.id===b.dataset.rp);if(!s)return;const tr=b.closest("tr");tr.children[1].innerHTML=s.email?`<span dir="ltr">${esc(s.email)}</span>`:'<span class="psub">no login yet</span>';
+    b.textContent=s.email?"New password":"Set login";b.removeAttribute("data-rp");b.onclick=()=>acSetLogin(s,()=>{});});
+  return r;};}
+
+document.head.insertAdjacentHTML("beforeend",`<style data-own>
+.actabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;margin-bottom:16px;border-radius:14px;background:rgba(143,227,184,.08);border:1px solid rgba(143,227,184,.18)}
+.actabs button{border:0;background:none;color:inherit;padding:10px 6px;border-radius:10px;font:600 13.5px Inter,Tajawal,sans-serif;cursor:pointer}.actabs button[aria-selected=true]{background:var(--mint);color:#04170f}
+html[data-theme=light] .actabs{background:#eef6f1;border-color:rgba(16,35,47,.1)}html[data-theme=light] .actabs button[aria-selected=true]{color:#fff}
+.acrow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){.acrow2{grid-template-columns:1fr}}
+.acsel{width:100%;padding:14px 14px 14px 46px;border-radius:14px;border:1px solid rgba(143,227,184,.25);background:rgba(0,0,0,.25);color:inherit;font:15px Inter,sans-serif}
+html[data-theme=light] .acsel{background:#fff;border-color:rgba(16,35,47,.2)}
+.acrule{font-size:12px;opacity:.8;margin:10px 0 0;line-height:1.5}.aclink{display:block;margin:12px auto 0;background:none;border:0;color:#8fe3b8;font:600 12.5px Inter,sans-serif;cursor:pointer;text-decoration:underline}html[data-theme=light] .aclink{color:#1d8656}
+.acdone{text-align:center;padding:8px 0}.acok{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;display:grid;place-items:center;font-size:34px;background:#1d8656;color:#fff}.acdone h3{margin:0 0 8px}.acdone p{margin:6px 0;line-height:1.55}
+.acpend{border:2px solid #f2c94c}.acpend select{padding:6px 8px;border-radius:8px}.acpf input{min-width:0}
+</style>`);
 
 /* ===== Website themes (السمات): a Themes button beside the profile icon opens a drop-down; each theme changes
    the background scene, colours, font style and the whole icon set instantly. All icons are original. ===== */
