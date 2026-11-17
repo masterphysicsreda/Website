@@ -5899,7 +5899,7 @@ function admRosterDraw(){const B=$("admbody"),U=ADM.users||[],q=ADM.q.toLowerCas
   const grades=[...new Set([...ADM_GRADES,...U.filter(u=>u.role==="student").map(u=>u.g)])].filter(Boolean);
   const L=U.filter(u=>(!ADM.fr||u.role===ADM.fr)&&(!ADM.fg||u.g===ADM.fg||(u.cls||[]).includes(ADM.fg))&&(!q||u.n.toLowerCase().includes(q)||u.id.includes(q)));
   const cn=k=>COURSES[k]?.t||k;
-  B.innerHTML=`<div class="admbar"><button class="sbtn on" data-add="student">＋ Add student</button><button class="sbtn on" data-add="teacher">＋ Add teacher</button><button class="sbtn" id="admimp">⬆ Import a class list</button><button class="sbtn" id="admcsv">⬇ Export roster</button>
+  B.innerHTML=`<div class="admbar"><button class="sbtn on" data-add="student">＋ Add student</button><button class="sbtn on" data-add="teacher">＋ Add teacher</button><button class="sbtn" id="admimp">⬆ Import a class list</button>${ADM_MHROSTER?`<a class="sbtn" href="${esc(ADM_MHROSTER)}" target="_blank" rel="noopener" style="text-decoration:none">McGraw Hill roster ↗</a>`:""}<button class="sbtn" id="admcsv">⬇ Export roster</button>
     <span class="admsp"></span><input id="admq" placeholder="Search name or ID" value="${esc(ADM.q)}"><select id="admfr"><option value="">All roles</option><option value="student" ${ADM.fr==="student"?"selected":""}>Students</option><option value="teacher" ${ADM.fr==="teacher"?"selected":""}>Teachers</option><option value="admin" ${ADM.fr==="admin"?"selected":""}>Admins</option></select><select id="admfg"><option value="">All grades</option>${grades.map(g=>`<option ${ADM.fg===g?"selected":""}>${esc(g)}</option>`).join("")}</select></div>
     <p class="psub">${L.length} of ${U.length} accounts · new PINs are shown once, so note them or export them</p><div id="admpins"></div>
     <div class="lxtblwrap"><table class="lxtbl admtbl"><thead><tr><th>Name</th><th>ID</th><th>Role</th><th>Grade / classes</th><th>Courses</th><th>Last activity</th><th></th></tr></thead><tbody>${L.map(u=>`<tr><td dir="auto"><b>${esc(u.n)}</b>${u.locked?' <span class="admlv warn">locked</span>':""}</td><td>${esc(u.id)}</td><td><span class="admrole ${u.role}">${u.role}</span></td><td>${u.role==="student"?esc(u.g||""):(u.cls||[]).length?(u.cls||[]).map(esc).join(", "):'<span class="psub">all classes</span>'}</td><td>${u.role==="student"?'<span class="psub">by grade</span>':(u.crs||[]).includes("*")?"all courses":(u.crs||[]).map(cn).map(esc).join(", ")||'<span class="psub">none</span>'}</td><td>${admFmtD(u.last)}</td>
@@ -6159,6 +6159,22 @@ const admAIerr=e=>e.code==="no_key"?"The AI is not connected yet (add ANTHROPIC_
     $("traiok").onclick=async()=>{let n=0;for(const el of box.querySelectorAll("[data-ok]:checked")){const o=out[+el.dataset.ok];const ov={...(o.a.overrides||{})};o.S.forEach(s=>ov[s.id]=s.p);try{const r2=await tApi("test_override",{p_attempt:o.a.id,p_overrides:ov});if(r2?.ok)n++;}catch(_){}}
       $("traimsg").textContent=`✓ Saved for ${n} student${n===1?"":"s"}`;setTimeout(()=>tResults(id),900);};};
   return res;};}
+
+/* "Roster" tile → the website's own roster (admin: full management; teachers: their classes) */
+let ADM_MHROSTER=null;
+{const st0=showTeacher;showTeacher=function(st){if(window.HOSTED&&Array.isArray(st.l)){const r=st.l.find(x=>x[0]==="Roster");if(r){if(r[1]!=="#roster"){ADM_MHROSTER=r[1]||null;r[1]="#roster";}}else st.l.push(["Roster","#roster"]);}return st0.apply(this,arguments);};}
+{const rt2=renderTiles;renderTiles=function(box,links){rt2.apply(this,arguments);box.querySelectorAll('a[href="#roster"]').forEach(a=>{if(a._ro)return;a._ro=1;a.addEventListener("click",e=>{e.preventDefault();e.stopImmediatePropagation();openRoster();},true);
+  const g=a.querySelector(".go");if(g)g.textContent=isAdmin()?"Add students & teachers · courses →":"My classes · PINs →";});};}
+{const ng2=navGo;navGo=function(url){if(url==="#roster"){openRoster();return;}return ng2.apply(this,arguments);};}
+function openRoster(){if(!window.HOSTED){if(ADM_MHROSTER)window.open(ADM_MHROSTER,"_blank","noopener");return;}
+  if(isAdmin()){ADM.tab="roster";openAdmin();return;}
+  const v=admView();hideAllViews();["teach","home"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});v.style.display="block";scrollTo(0,0);
+  const R=(HS.roster||[]).slice().sort((a,b)=>(a.g+a.n).localeCompare(b.g+b.n,"ar")),G=[...new Set(R.map(s=>s.g))];
+  v.innerHTML=`<div class="card tbar fade"><div><h2>My Classes <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· طلابي</span></h2><div class="cls">${R.length} students in ${G.map(esc).join(", ")||"your classes"} · to add students or change classes, ask the admin</div></div><div class="arow">${ADM_MHROSTER?`<a class="out" href="${esc(ADM_MHROSTER)}" target="_blank" rel="noopener" style="margin-top:0;text-decoration:none">McGraw Hill roster ↗</a>`:""}<button class="out" id="admback" style="margin-top:0">← Dashboard</button></div></div>
+    <div class="admbody"><div id="admpins"></div>${G.map(g=>`<div class="panel"><h3>${esc(g)} <span class="psub">· ${R.filter(s=>s.g===g).length} students</span></h3><table class="lxtbl admtbl">${R.filter(s=>s.g===g).map(s=>`<tr><td dir="auto">${esc(s.n)}${s.locked?' <span class="admlv warn">locked</span>':""}</td><td>…${esc(s.id.slice(-4))}</td><td class="admact"><button class="sbtn" data-rp="${esc(s.id)}">${s.locked?"Unlock & reset PIN":"Reset PIN"}</button></td></tr>`).join("")}</table></div>`).join("")}</div>`;
+  $("admback").onclick=goHome;
+  v.querySelectorAll("[data-rp]").forEach(b=>b.onclick=async()=>{const s=R.find(x=>x.id===b.dataset.rp);if(!confirm(`Give ${s.n} a new PIN? The old PIN stops working.`))return;
+    try{const r=await hrpc("portal_reset_pin",{p_token:HS.token,p_id:s.id});if(r.pin){s.locked=false;admPinNote([{n:s.n,id:s.id,g:s.g,pin:r.pin}]);}}catch(_){lxToast("Could not reset the PIN.",true);}});}
 
 
 
