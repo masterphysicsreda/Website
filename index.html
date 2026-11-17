@@ -260,6 +260,19 @@ tr.pick{cursor:pointer}tr.pick:hover td{outline:1px solid rgba(143,227,184,.5)}
 .mh .ach{margin-left:auto;font-size:12px;color:var(--muted)}
 
 /* side navigation */
+#navcrs{display:none;position:fixed;z-index:60;min-width:230px;max-width:300px;max-height:80vh;overflow:auto;padding:6px;border-radius:14px;background:rgba(6,30,20,.97);border:1px solid rgba(143,227,184,.25);box-shadow:0 14px 40px rgba(0,0,0,.45);animation:navcrsin .14s ease-out}
+@keyframes navcrsin{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+#navcrs.top{animation-name:navcrsdn}@keyframes navcrsdn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+#navcrs .hd{font:800 11px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8fe3b8;padding:6px 10px 8px}#navcrs .hd span{font-family:Tajawal,sans-serif;text-transform:none;letter-spacing:0;opacity:.75}
+#navcrs button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:8px 10px;color:#e8f6ee;cursor:pointer;font:600 13.5px Inter,sans-serif}
+#navcrs button:hover,#navcrs button:focus-visible{background:rgba(143,227,184,.12);outline:none}#navcrs button.on{background:rgba(143,227,184,.18)}
+#navcrs button .ic{flex:0 0 26px;width:26px;height:26px;color:var(--c)}#navcrs button .ic svg{width:100%;height:100%}
+#navcrs button b{display:block;font-weight:700}#navcrs button i{display:block;font:500 12px Tajawal,sans-serif;font-style:normal;opacity:.7}
+#navcrs button.sub{padding-left:30px}#navcrs button.sub .ic{flex-basis:20px;width:20px;height:20px}
+#navcrs button.all{margin-top:4px;border-top:1px solid rgba(143,227,184,.15);border-radius:0 0 10px 10px;color:#8fe3b8;font-weight:700;justify-content:flex-end}
+html[data-theme=light] #navcrs{background:rgba(255,255,255,.98);border-color:rgba(16,35,47,.14);box-shadow:0 14px 40px rgba(16,35,47,.18)}
+html[data-theme=light] #navcrs button{color:#10232f}html[data-theme=light] #navcrs .hd,html[data-theme=light] #navcrs button.all{color:#1d8656}
+html[data-theme=light] #navcrs button:hover{background:rgba(29,134,86,.08)}html[data-theme=light] #navcrs button.on{background:rgba(29,134,86,.13)}
 #sidenav{display:none;position:fixed;z-index:30;left:0;top:0;bottom:0;width:92px;flex-direction:column;align-items:stretch;gap:0;padding:8px 8px;overflow-y:auto;background:rgba(4,23,15,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-right:1px solid rgba(143,227,184,.18)}
 .nv{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 4px;border-radius:14px;color:var(--ink);text-decoration:none;background:none;border:0;font:inherit;cursor:pointer;flex:none}
 .nv:hover{background:rgba(143,227,184,.08)}
@@ -6226,6 +6239,25 @@ $("nhback").onclick=()=>navStep(-1);$("nhfwd").onclick=()=>navStep(1);$("nhhome"
 {const mo=new MutationObserver(()=>navBar());["login","home","teach"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 addEventListener("keydown",e=>{if(!e.altKey||/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName))return;if(e.key==="ArrowLeft"){e.preventDefault();navStep(-1);}else if(e.key==="ArrowRight"){e.preventDefault();navStep(1);}});
 navBar();
+
+/* ===== "My Courses" side icon → drop-down list of its courses on hover (قائمة منسدلة) ===== */
+function navCrsItems(){const lim=k=>typeof admRestricted==="function"&&admRestricted()&&typeof admCourseAllowed==="function"&&!admCourseAllowed(k);
+  return TOP.filter(k=>COURSES[k]&&(k!=="saat"||canSAAT())&&crsVisible(k)&&!COURSES[k].hiddenFor&&!lim(k))
+    .map(k=>({k,C:COURSES[k],sub:(COURSES[k].hub||[]).filter(s=>COURSES[s]&&!lim(s)).map(s=>({k:s,C:COURSES[s]}))}));}
+function navCrsMenu(btn){let m=$("navcrs");if(!m){m=document.createElement("div");m.id="navcrs";m.setAttribute("role","menu");document.body.appendChild(m);
+    m.addEventListener("mouseenter",()=>clearTimeout(navCrsMenu._t));m.addEventListener("mouseleave",navCrsHide);}
+  clearTimeout(navCrsMenu._t);const it=navCrsItems(),row=(x,sub)=>`<button type="button" role="menuitem" data-k="${x.k}" class="${sub?"sub":""}${CRS.cur===x.k?" on":""}" style="--c:${x.C.c}"><span class="ic">${ICO[x.C.ico]||""}</span><span><b>${esc(x.C.t)}</b><i>${esc(x.C.ta||"")}</i></span></button>`;
+  m.innerHTML=`<div class="hd">My Courses <span>· مقرراتي</span></div>`+it.map(x=>row(x)+x.sub.map(s=>row(s,1)).join("")).join("")+`<button type="button" role="menuitem" data-k="" class="all">All courses →</button>`;
+  const r=btn.getBoundingClientRect(),top=innerWidth<=760;m.classList.toggle("top",top);m.style.display="block";
+  if(top){m.style.left=Math.max(6,Math.min(innerWidth-m.offsetWidth-6,r.left))+"px";m.style.top=(r.bottom+4)+"px";}
+  else{m.style.left=(r.right+6)+"px";m.style.top=Math.max(6,Math.min(innerHeight-m.offsetHeight-6,r.top))+"px";}
+  m.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{navCrsHide(0);hideAllViews();openCourses(b.dataset.k||null);});}
+function navCrsHide(d){clearTimeout(navCrsMenu._t);navCrsMenu._t=setTimeout(()=>{const m=$("navcrs");if(m)m.style.display="none";},d===0?0:220);}
+{const bn=buildNav;buildNav=function(){bn.apply(this,arguments);const b=$("sidenav").querySelector('[data-nav="#courses"]');if(!b)return;
+  b.setAttribute("aria-haspopup","menu");b.addEventListener("mouseenter",()=>navCrsMenu(b));b.addEventListener("mouseleave",()=>navCrsHide());
+  b.addEventListener("focus",()=>navCrsMenu(b));b.addEventListener("keydown",e=>{if(e.key==="Escape")navCrsHide(0);});};
+ $("sidenav").addEventListener("scroll",()=>navCrsHide(0));addEventListener("resize",()=>navCrsHide(0));
+ {const ns=navSync;navSync=function(){const r=ns.apply(this,arguments);if($("sidenav").style.display==="none")navCrsHide(0);return r;};}}
 
 /* ===== Admin control panel + site content layer (hosted mode) ===== */
 const ADM={tab:"overview",users:null,stats:null,q:"",fr:"",fg:"",ai:null,aiHist:[]};
