@@ -6977,6 +6977,270 @@ function admCourseAllowed(k){if(!admRestricted())return true;const c=admCrs();if
 {const tg=tGrades;tGrades=function(){const r=tg.apply(this,arguments);return admRestricted()?r.filter(admGradeAllowed):r;};}
 {const ob=openBio;openBio=function(){if(admRestricted()&&!admCourseAllowed("bio")){openCourses(null);return;}return ob.apply(this,arguments);};}
 
+/* ===== Website themes (السمات): a Themes button beside the profile icon opens a drop-down; each theme changes
+   the background scene, colours, font style and the whole icon set instantly. All icons are original. ===== */
+const SK_GLY={
+cartoon:{home:'<path class="f" d="M4 11.5 12 4.5l8 7V20H4z"/><path class="f2" d="M10 20v-5h4v5z"/><circle class="w" cx="16" cy="13" r="1.6"/><path d="M2.8 12.4 12 4.4l9.2 8"/>',
+  dash:'<path class="f" d="M3 17a9 9 0 0 1 18 0z"/><path d="M12 17l4-5"/><circle class="k" cx="12" cy="17" r="1.6"/><circle class="w" cx="7" cy="14" r="1"/>',
+  courses:'<rect class="f" x="4" y="14" width="16" height="5" rx="1.5"/><rect class="f2" x="5.5" y="9" width="13" height="5" rx="1.5"/><rect class="f" x="7" y="4" width="10" height="5" rx="1.5"/>',
+  grade:'<rect class="f" x="5" y="3" width="14" height="18" rx="2.5"/><path class="f2" d="M12 7.5l1.3 2.7 3 .4-2.2 2 .6 3-2.7-1.5-2.7 1.5.6-3-2.2-2 3-.4z"/>',
+  cal:'<rect class="f" x="3.5" y="5" width="17" height="15" rx="3"/><path class="f2" d="M3.5 9h17V8a3 3 0 0 0-3-3h-11a3 3 0 0 0-3 3z"/><path d="M8 3v4M16 3v4"/><circle class="w" cx="12" cy="14.5" r="2"/>',
+  assign:'<path class="f" d="M3 11 21 4l-6 16-3.5-6.5z"/><path class="f2" d="M11.5 13.5 21 4l-9.5 9.5L12 20z"/>',
+  tools:'<rect class="f" x="3" y="9" width="18" height="11" rx="2.5"/><path d="M9 9V6.5h6V9"/><rect class="f2" x="10" y="12" width="4" height="3" rx="1"/>',
+  reports:'<rect class="f" x="4" y="12" width="4" height="8" rx="1.2"/><rect class="f2" x="10" y="7" width="4" height="13" rx="1.2"/><rect class="f" x="16" y="4" width="4" height="16" rx="1.2"/>',
+  assess:'<path class="f" d="M5 19l1-4L16 5l3 3L9 18z"/><path class="f2" d="M16 5l3 3 1.5-1.5a2.1 2.1 0 0 0-3-3z"/><path d="M5 19l4-1"/>',
+  progress:'<path class="f" d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5a2.5 2.5 0 0 0 3 3M17 6h2.5a2.5 2.5 0 0 1-3 3M12 14v3"/><rect class="f2" x="8.5" y="17" width="7" height="3" rx="1"/>',
+  admin:'<path class="f" d="M12 2.8l1.8 2.4 2.9-.7.7 2.9 2.4 1.8-1.4 2.8 1.4 2.8-2.4 1.8-.7 2.9-2.9-.7L12 21.2l-1.8-2.4-2.9.7-.7-2.9-2.4-1.8L5.6 12 4.2 9.2l2.4-1.8.7-2.9 2.9.7z"/><circle class="w" cx="12" cy="12" r="3"/>',
+  brand:'<path class="f" d="M12 2.5l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17l-5.6 2.9 1.1-6.3-4.6-4.4 6.3-.9z"/><circle class="k" cx="10" cy="11" r=".9"/><circle class="k" cx="14" cy="11" r=".9"/><path d="M10 13.5q2 1.6 4 0"/>'},
+space:{home:'<circle class="f" cx="12" cy="12" r="5.5"/><ellipse cx="12" cy="12" rx="10.5" ry="3.2" transform="rotate(-20 12 12)"/>',
+  dash:'<circle cx="12" cy="12" r="8.5"/><circle class="f" cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle class="k" cx="15.5" cy="9" r="1"/>',
+  courses:'<path class="f" d="M12 2.5c3.5 2.5 5 6.5 4 11.5H8c-1-5 .5-9 4-11.5z"/><circle cx="12" cy="9" r="1.8"/><path d="M8 14l-3 3 3.5.5M16 14l3 3-3.5.5M10 17l2 4 2-4"/>',
+  grade:'<rect x="4" y="3" width="16" height="18" rx="2"/><path class="f" d="M12 7l1.2 2.6 2.8.3-2.1 1.9.6 2.8-2.5-1.4-2.5 1.4.6-2.8-2.1-1.9 2.8-.3z"/><path d="M8 18h8"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><circle class="f" cx="8" cy="14.5" r="2"/><path class="f" d="M16 12.5a2 2 0 1 0 0 4 2.6 2.6 0 0 1 0-4z"/>',
+  assign:'<rect class="f" x="9.5" y="9.5" width="5" height="5" rx="1" transform="rotate(45 12 12)"/><path d="M3 9l4-4 3 3-4 4zM21 15l-4 4-3-3 4-4zM15 5a4 4 0 0 1 4 4"/>',
+  tools:'<path class="f" d="M5 13a7 7 0 0 1 14 0v4a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z"/><rect x="8" y="10" width="8" height="5.5" rx="2.5"/><path d="M10 11.6l1.6-.6"/>',
+  reports:'<path d="M3 19l5-5 4 3 6-8"/><circle class="k" cx="3" cy="19" r="1.3"/><circle class="k" cx="8" cy="14" r="1.3"/><circle class="k" cx="12" cy="17" r="1.3"/><path class="f" d="M19 3l1 2 2.2.3-1.6 1.5.4 2.2-2-1-2 1 .4-2.2-1.6-1.5 2.2-.3z"/>',
+  assess:'<path class="f" d="M3.5 11l12-5 2 4.5-12 5z"/><path d="M17.5 6l2.5-1 2 4.5-2.5 1M10 13.5l-3 7M11.5 13l3 7.5"/>',
+  progress:'<path d="M3 18c4-10 13-13 18-13"/><circle class="f" cx="20" cy="5" r="2.3"/><circle class="k" cx="7" cy="12" r="1"/><circle class="k" cx="12.5" cy="8" r="1"/>',
+  admin:'<ellipse class="f" cx="12" cy="13" rx="9.5" ry="3.5"/><path d="M7.5 11.5a4.5 4.5 0 0 1 9 0M8 17.5l-1 3M16 17.5l1 3M12 17v4"/>',
+  brand:'<path class="f" d="M12 2.5c3.5 2.5 5 6.5 4 11.5H8c-1-5 .5-9 4-11.5z"/><circle cx="12" cy="9" r="1.8"/><path d="M8 14l-3 3 3.5.5M16 14l3 3-3.5.5M10 17l2 4 2-4"/>'},
+mountain:{home:'<path class="f" d="M4 11l8-6 8 6v9H4z"/><path d="M10 20v-5h4v5M3 11.6 12 5l9 6.6M7 8.8V5h2.5v2"/>',
+  dash:'<path class="f" d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  courses:'<path class="f" d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7 11.5l2-1.5 2 1.5M8 20c2-2 4-1 6-3"/>',
+  grade:'<rect x="5" y="3" width="14" height="18" rx="2"/><path class="f" d="M12 6l3 4h-1.8l2.3 3H8.5l2.3-3H9z"/><path d="M12 13v3M8 18.5h8"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M8 3v4M16 3v4"/><path class="f" d="M4 18.5l4.5-5.5 3 3 2-2 6.5 4.5z"/><circle cx="15.5" cy="10" r="1.7"/>',
+  assign:'<path class="f" d="M7 9a5 5 0 0 1 10 0v10a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9.5 4.5a2.5 2.5 0 0 1 5 0M9 14h6v4H9z"/>',
+  tools:'<path class="f" d="M2 20L12 5l10 15z"/><path d="M12 5v15M9 20l3-5 3 5M12 5l-1.5-2.5"/>',
+  reports:'<path d="M3 20h18"/><path class="f" d="M3 18l4-6 3 3 4-8 3 5 4-3v9H3z"/>',
+  assess:'<circle class="f" cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/><circle class="k" cx="12" cy="12" r="1"/>',
+  progress:'<path class="f" d="M2 20l9-14 4 6 2-2 5 10z"/><path d="M11 6V2l4 1.5L11 5"/>',
+  admin:'<path d="M8 21l2-10h4l2 10M9 16h6M12 5V3"/><path class="f" d="M6 11h12l-6-6z"/>',
+  brand:'<path class="f" d="M2 20l7-12 4 6 3-4 6 10z"/><path d="M7 11.5l2-1.5 2 1.5"/><circle cx="18" cy="5" r="1.8"/>'},
+science:{home:'<path d="M3 20h18M5 20V9l7-5 7 5v11"/><path class="f" d="M10.5 11v2.5l-2.5 4.5h8l-2.5-4.5V11z"/>',
+  dash:'<rect class="f" x="3" y="4" width="18" height="13" rx="2"/><path d="M5 11h3l2-4 2 7 2-5 1 2h4M8 21h8M12 17v4"/>',
+  courses:'<path d="M5 21h14M9 18h6M15 18a5 5 0 0 0-2.5-9"/><path class="f" d="M8.4 2.6l2.8-1 2.6 7-2.8 1z"/><path d="M8.5 12.5h4"/>',
+  grade:'<rect class="f" x="5" y="3" width="14" height="18" rx="2"/><path d="M8 3v18M11 8h5M11 12h5M11 16h3"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><rect class="f" x="8" y="11" width="8" height="7" rx="1"/><path d="M10.5 12.8v3.4M13.5 12.8v3.4M10.5 14.5h3"/>',
+  assign:'<path d="M3 13h18M5 13v7M19 13v7"/><path class="f" d="M7 4h3v12a1.5 1.5 0 0 1-3 0zM14 4h3v12a1.5 1.5 0 0 1-3 0z"/>',
+  tools:'<path class="f" d="M3 10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a3 3 0 0 1-3 3h-2.5L12 14l-2.5 2H6a3 3 0 0 1-3-3z"/><path d="M1.5 11H3M21 11h1.5"/>',
+  reports:'<path d="M3 3v18h18M6 17L19 7"/><circle class="k" cx="8" cy="14" r="1.3"/><circle class="k" cx="11" cy="13" r="1.3"/><circle class="k" cx="14" cy="10" r="1.3"/><circle class="k" cx="17" cy="9" r="1.3"/>',
+  assess:'<path d="M7 3h10M8 3v6l-4.5 9A2 2 0 0 0 5.3 21h13.4a2 2 0 0 0 1.8-3L16 9V3"/><path class="f" d="M5.5 15h13l1.5 3a1 1 0 0 1-.9 1.5H4.9A1 1 0 0 1 4 18z"/><circle cx="11" cy="11.5" r="1"/>',
+  progress:'<path d="M8 3c0 5 8 6 8 11s-8 4-8 7M16 3c0 5-8 6-8 11s8 4 8 7"/><path class="f" d="M9 6h6v1.6H9zM9 16.5h6v1.6H9z"/>',
+  admin:'<ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle class="f" cx="12" cy="12" r="2.2"/>',
+  brand:'<ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle class="f" cx="12" cy="12" r="2.2"/>'},
+doctor:{home:'<path class="f" d="M4 21V9l8-5 8 5v12z"/><path d="M12 10v6M9 13h6M10 21v-3h4v3"/>',
+  dash:'<rect class="f" x="3" y="4" width="18" height="13" rx="2"/><path d="M5 11h3l1.5-3 2 6 1.5-3H19M9 21h6M12 17v4"/>',
+  courses:'<path d="M6 3v5a4 4 0 0 0 8 0V3M10 12v3a4 4 0 0 0 8 0v-2M5 3h2M13 3h2"/><circle class="f" cx="18" cy="11" r="2.4"/>',
+  grade:'<rect class="f" x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2.5" width="6" height="3" rx="1"/><path d="M12 9v5M9.5 11.5h5M8 17.5h8"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><path class="f" d="M11 11.5h2v2h2v2h-2v2h-2v-2H9v-2h2z"/>',
+  assign:'<rect class="f" x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8v6M9 8h2.5a1.8 1.8 0 0 1 0 3.6H9M11 11.5l3.5 3.5M14.5 11.5 11 15"/>',
+  tools:'<rect class="f" x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M12 10.5v6M9 13.5h6"/>',
+  reports:'<path class="f" d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z"/><path d="M2 12h5l1.5-3 2.5 6 2-4h9"/>',
+  assess:'<path d="M10 14V5a2 2 0 0 1 4 0v9M12 8v7M16 6h2M16 9h2M16 12h2"/><circle class="f" cx="12" cy="17" r="3.5"/>',
+  progress:'<rect class="f" x="3" y="9" width="12" height="6" rx="3" transform="rotate(-35 9 12)"/><path d="M6.5 14.5l4.5-6M15 20l6-6M21 14v4.5M21 14h-4.5"/>',
+  admin:'<rect class="f" x="5" y="3" width="14" height="18" rx="2"/><path d="M10 3v3h4V3M8 18a4 4 0 0 1 8 0"/><circle cx="12" cy="11" r="2.4"/>',
+  brand:'<path d="M6 3v5a4 4 0 0 0 8 0V3M10 12v3a4 4 0 0 0 8 0v-2M5 3h2M13 3h2"/><circle class="f" cx="18" cy="11" r="2.4"/>'},
+ocean:{home:'<path class="f" d="M9 21l1.2-12h3.6L15 21z"/><path d="M8 9h8M10 5h4v4h-4zM12 3v2M3 21h18M6.5 6.5 3.5 5M17.5 6.5l3-1.5"/>',
+  dash:'<circle cx="12" cy="12" r="6.5"/><circle class="f" cx="12" cy="12" r="2.3"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5M5 5l3.5 3.5M15.5 15.5 19 19M19 5l-3.5 3.5M8.5 15.5 5 19"/>',
+  courses:'<path class="f" d="M12 3v13H5z"/><path class="f2" d="M13.5 6v10H19z"/><path d="M3 18h18l-2 3H5z"/>',
+  grade:'<path class="f" d="M9 8h6v11a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/><path d="M10 3h4v5h-4zM10.5 12h3v4h-3z"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><path class="f" d="M3 16c2-2 4-2 6 0s4 2 6 0 4-2 6 0v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  assign:'<circle cx="12" cy="5" r="2"/><path d="M12 7v14M8 11h8M4 13a8 8 0 0 0 16 0"/><path class="f" d="M4 12l-1.8 3h3.6zM20 12l-1.8 3h3.6z"/>',
+  tools:'<path class="f" d="M3 9h18v5a3 3 0 0 1-3 3h-3l-3-2-3 2H6a3 3 0 0 1-3-3z"/><path d="M12 9v5M19 3v6"/>',
+  reports:'<path d="M3 3v18h18"/><path class="f" d="M5 18c2-6 4-6 6-3s4-8 6-7 3 3 3 3v7H5z"/>',
+  assess:'<path class="f" d="M3 15a5 4 0 0 1 5-4h9a4 4 0 0 1 0 8H8a5 4 0 0 1-5-4z"/><path d="M10 11V7h3v4M13 7h2"/><circle cx="9" cy="15" r="1"/><circle cx="13" cy="15" r="1"/>',
+  progress:'<path class="f" d="M3 12c3-4 9-5 13 0-4 5-10 4-13 0z"/><path d="M16 12l5-4v8z"/><circle class="k" cx="7" cy="11.5" r=".9"/>',
+  admin:'<path class="f" d="M12 20c-5 0-9-4-8-9 1-4 4-7 8-7s7 3 8 7c1 5-3 9-8 9z"/><path d="M12 20V5M8 19 6 7M16 19l2-12"/>',
+  brand:'<path class="f" d="M12 3v13H5z"/><path class="f2" d="M13.5 6v10H19z"/><path d="M3 18h18l-2 3H5z"/>'},
+desert:{home:'<path class="f" d="M4 21V10h16v11z"/><path d="M3 10h18M9.5 21v-4a2.5 2.5 0 0 1 5 0v4M6 10V7M12 10V5M18 10V7"/>',
+  dash:'<path d="M12 2v2M9 4h6l1 3H8zM8 18h8l-1 3H9zM12 10v5"/><path class="f" d="M8 7h8l-1 11H9z"/>',
+  courses:'<path d="M12 21c0-5 1-9 0-12M8 21h8"/><path class="f" d="M12 9C9 5 5 6 3 8c3 0 6 0 9 1zM12 9c3-4 7-3 9-1-3 0-6 0-9 1zM12 9c-1-4 1-6 3-7-1 2-2 4-3 7z"/>',
+  grade:'<path class="f" d="M6 4h11a2 2 0 0 1 2 2v12H8a2 2 0 0 1-2-2z"/><path d="M6 16a2 2 0 1 0 2 2M9 8h7M9 11h7M9 14h5"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><path class="f" d="M14 11.5a3.5 3.5 0 1 0 0 6 4 4 0 0 1 0-6z"/>',
+  assign:'<path class="f" d="M3 14c1-2 3-2 4-1 1-3 3-4 4-2 1-2 3-2 4 1h2l2-3 1.5 1-1.5 3c0 2-1 3-3 3H6c-2 0-3-1-3-2z"/><path d="M6 16v5M9 16v5M14 16v5M17 16v5"/>',
+  tools:'<path class="f" d="M8 9h8l1 9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M10 9l1-4h2l1 4M12 5V3M17 12l4-3"/>',
+  reports:'<path d="M3 3v18h18"/><path class="f" d="M4 19c3-6 5-6 7-3 2-6 5-7 9-3v6H4z"/><circle cx="17" cy="6" r="2"/>',
+  assess:'<path d="M6 3h12M6 21h12"/><path class="f" d="M8 3c0 4 4 6 4 9s-4 5-4 9h8c0-4-4-6-4-9s4-5 4-9z"/>',
+  progress:'<path class="f" d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M9 15a3 3 0 0 0 3 3"/>',
+  admin:'<path class="f" d="M12 2l2.6 3.7 4.4.3-1 4.3 2.9 3.3-4 1.8-1 4.4-3.9-2.2-3.9 2.2-1-4.4-4-1.8 2.9-3.3-1-4.3 4.4-.3z"/><circle cx="12" cy="12" r="3"/>',
+  brand:'<path d="M12 21c0-5 1-9 0-12M8 21h8"/><path class="f" d="M12 9C9 5 5 6 3 8c3 0 6 0 9 1zM12 9c3-4 7-3 9-1-3 0-6 0-9 1zM12 9c-1-4 1-6 3-7-1 2-2 4-3 7z"/>'},
+robot:{home:'<rect class="f" x="4" y="7" width="16" height="12" rx="3"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><path d="M9 16h6M12 7V4M2 11v4M22 11v4"/><circle class="k" cx="12" cy="3.5" r="1"/>',
+  dash:'<rect class="f" x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>',
+  courses:'<path d="M4 21h8M8 21v-3M12 9.5l5-4 3 3M17 5.5l-1-2.5M20 8.5l2-1"/><path class="f" d="M6 18h4l3-8-3-1z"/><circle cx="11.5" cy="9.5" r="1.5"/>',
+  grade:'<rect class="f" x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/>',
+  cal:'<rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/><path class="f" d="M7 12h3v5H7zM14 12h3v5h-3z"/>',
+  assign:'<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><path d="M7 7.5l3 3M17 7.5l-3 3M10 15l-1 3M14 15l1 3"/><rect class="f" x="9" y="10" width="6" height="5" rx="1.5"/>',
+  tools:'<path class="f" d="M12 3.5l1.5 2 2.5-.6.6 2.5 2 1.5-1.2 2.3 1.2 2.3-2 1.5-.6 2.5-2.5-.6L12 20.5l-1.5-2-2.5.6-.6-2.5-2-1.5L6.6 12 5.4 9.6l2-1.5.6-2.5 2.5.6z"/><circle cx="12" cy="12" r="2.6"/>',
+  reports:'<path d="M3 3v18h18M6 14l3-3 3 2 4-6 4 3"/><path class="f" d="M6 17h2v2H6zM10 16h2v3h-2zM14 14h2v5h-2zM18 12h2v7h-2z"/>',
+  assess:'<rect class="f" x="6" y="6" width="12" height="12" rx="2"/><path d="M9 12l2 2 4-4M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+  progress:'<rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 10v4M11 8l-2 4h3l-2 4"/><path class="f" d="M4 9h5v6H4z"/>',
+  admin:'<path class="f" d="M4 10a8 8 0 0 0 10 10z"/><path d="M9 15l5-5M14 10l1-1M16 4a5 5 0 0 1 4 4M15 6.5a2.6 2.6 0 0 1 2.5 2.5M8 21h6"/>',
+  brand:'<rect class="f" x="4" y="7" width="16" height="12" rx="3"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><path d="M9 16h6M12 7V4M2 11v4M22 11v4"/><circle class="k" cx="12" cy="3.5" r="1"/>'}
+};
+const SK_KEY={"Home":"home","Dashboard":"dash","My Courses":"courses","Course":"courses","Gradebook":"grade","Weekly Assessment":"grade","Calendar":"cal","Assignments":"assign","My Tools":"tools","Roster":"tools","Reports":"reports","Assessments":"assess","My Progress":"progress","Admin Panel":"admin","Manage Content":"admin"};
+const SK_ORDER=["home","dash","courses","grade","cal","assign","tools","reports","assess","progress","admin"];
+/* theme list: [key, English, Arabic, font for headings, font for text, Google font families, icon colours, preview background] */
+const SKINS=[
+ ["classic","Classic","كلاسيكي",null,null,null,null,"linear-gradient(160deg,#04170f,#0f4e5c)"],
+ ["cartoon","Cartoon","كرتوني","'Baloo 2','Baloo Bhaijaan 2'","'Baloo 2','Baloo Bhaijaan 2'","Baloo+2:wght@500;700;800&family=Baloo+Bhaijaan+2:wght@500;700",["#ff6b6b","#ffd93d","#6bcB77","#4d96ff","#c77dff","#ff9f43"],"radial-gradient(circle at 30% 30%,#ffd93d 0 8%,transparent 9%),radial-gradient(circle at 75% 70%,#ff6b6b 0 7%,transparent 8%),#3a2a66"],
+ ["space","Space","الفضاء","'Orbitron'","'Exo 2'","Orbitron:wght@600;800&family=Exo+2:wght@400;600;700",["#7df9ff","#c084fc","#f0abfc","#60a5fa","#fde047","#5eead4"],"radial-gradient(circle at 70% 30%,#7c3aed55,transparent 45%),radial-gradient(1px 1px at 20% 30%,#fff,transparent),radial-gradient(1px 1px at 60% 70%,#fff,transparent),#050816"],
+ ["mountain","Mountains","الجبال","'Merriweather'","'Nunito Sans'","Merriweather:wght@700;900&family=Nunito+Sans:wght@400;600;700",["#6b9e78","#d08c4f","#5b8bb5","#c9a86a","#8a6f57","#9bb7a0"],"linear-gradient(#f6c89f,#a9c5e0 60%,#5f7790 61%)"],
+ ["science","Scientists","العلماء","'Space Grotesk'","'Space Grotesk'","Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@500",["#38bdf8","#34d399","#a78bfa","#f472b6","#fbbf24","#22d3ee"],"repeating-linear-gradient(0deg,#1e3a8a55 0 1px,transparent 1px 12px),repeating-linear-gradient(90deg,#1e3a8a55 0 1px,transparent 1px 12px),#0b1b3d"],
+ ["doctor","Doctors","الأطباء","'Nunito'","'Nunito'","Nunito:wght@500;700;800&family=Cairo:wght@500;700",["#14b8a6","#ef4444","#0ea5e9","#22c55e","#f59e0b","#8b5cf6"],"linear-gradient(135deg,#e6fffb,#c8f1ec)"],
+ ["ocean","Ocean","المحيط","'Comfortaa'","'Quicksand'","Comfortaa:wght@600;700&family=Quicksand:wght@500;600;700",["#22d3ee","#38bdf8","#2dd4bf","#fbbf24","#f472b6","#a5b4fc"],"linear-gradient(#0e7490,#082f49)"],
+ ["desert","Al-Ahsa Oasis","واحة الأحساء","'Amiri','Reem Kufi'","'Cairo'","Amiri:wght@700&family=Reem+Kufi:wght@600;700&family=Cairo:wght@500;600;700",["#d97706","#65a30d","#b45309","#0d9488","#e11d48","#ca8a04"],"linear-gradient(#fde7c2,#e9b872 70%,#c98a3e)"],
+ ["robot","Robotics","الروبوتات","'Rajdhani'","'Rajdhani'","Rajdhani:wght@500;600;700&family=Share+Tech+Mono",["#00e5ff","#76ff03","#ff4081","#ffd740","#b388ff","#64ffda"],"repeating-linear-gradient(90deg,#00e5ff22 0 2px,transparent 2px 18px),#07121c"]
+];
+const skGet=k=>SKINS.find(s=>s[0]===k)||SKINS[0];
+const skSvg=(g,cls="")=>`<svg viewBox="0 0 24 24" class="skg ${cls}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${g}</svg>`;
+let SKIN="classic";
+
+/* scenes drawn behind the page (original SVG art, made once per theme) */
+function skScene(k,light){const e=s=>`url("data:image/svg+xml,${encodeURIComponent(s)}")`;const W='xmlns="http://www.w3.org/2000/svg"';
+  const stars=(n,col,seed=7)=>{let s="",x=seed;for(let i=0;i<n;i++){x=(x*9301+49297)%233280;const a=x/233280;x=(x*9301+49297)%233280;const b=x/233280;s+=`<circle cx="${(a*400).toFixed(1)}" cy="${(b*400).toFixed(1)}" r="${(0.4+((i*7)%10)/10).toFixed(2)}" fill="${col}" opacity="${(0.35+((i*13)%60)/100).toFixed(2)}"/>`;}return s;};
+  switch(k){
+  case "cartoon":return {bg:light?"#fff4dc":"#2a1b4a",tile:e(`<svg ${W} width="160" height="160">${[[20,30,"#ff6b6b"],[90,20,"#ffd93d"],[140,80,"#4d96ff"],[50,110,"#6bcB77"],[120,140,"#c77dff"]].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="7" fill="${c}" opacity="${light?.45:.55}"/>`).join("")}<path d="M100 100l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6-4.5-4 6-1z" fill="${light?"#ffb703":"#ffd93d"}" opacity=".7"/><path d="M10 70q10-10 20 0t20 0" stroke="${light?"#4d96ff":"#c77dff"}" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/></svg>`),scene:""};
+  case "space":return {bg:light?"linear-gradient(170deg,#e9e6ff,#d6e4ff 60%,#f3e8ff)":"radial-gradient(900px 600px at 80% 15%,#4c1d9555,transparent 60%),radial-gradient(800px 500px at 10% 85%,#0e749055,transparent 60%),#040616",
+    tile:e(`<svg ${W} width="400" height="400">${stars(90,light?"#6d5bd0":"#ffffff")}</svg>`),scene:e(`<svg ${W} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"><circle cx="1260" cy="160" r="70" fill="${light?"#c4b5fd":"#7c3aed"}" opacity=".55"/><ellipse cx="1260" cy="160" rx="120" ry="22" fill="none" stroke="${light?"#a78bfa":"#c084fc"}" stroke-width="5" opacity=".5" transform="rotate(-18 1260 160)"/><circle cx="160" cy="760" r="38" fill="${light?"#93c5fd":"#0ea5e9"}" opacity=".45"/><path d="M1100 700l160-90" stroke="${light?"#8b5cf6":"#fff"}" stroke-width="2" opacity=".5"/></svg>`)};
+  case "mountain":{const p=light?["#a3b8cc","#7f97ae","#5d758c"]:["#1e2d3d","#16222f","#0d1620"];
+    return {bg:light?"linear-gradient(#fbd3b0,#f6e7d7 30%,#cfe3f5 70%)":"linear-gradient(#0b1730,#14284a 60%,#1c2f4f)",tile:light?"none":e(`<svg ${W} width="400" height="400">${stars(40,"#ffffff",3)}</svg>`),
+    scene:e(`<svg ${W} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><circle cx="1150" cy="230" r="${light?60:40}" fill="${light?"#fff3c4":"#f8f4e3"}" opacity="${light?.9:.85}"/><path d="M0 640L180 470 300 560 470 380 640 560 760 470 960 330 1150 540 1290 430 1440 520V900H0z" fill="${p[0]}"/><path d="M470 380l50 50-30-10-20 25-25-30-35 20z" fill="#fff" opacity=".7"/><path d="M960 330l60 70-35-12-25 28-28-34-40 22z" fill="#fff" opacity=".7"/><path d="M0 760L230 600 420 700 640 560 860 720 1080 600 1300 700 1440 640V900H0z" fill="${p[1]}"/><path d="M0 840L260 760 520 830 780 740 1040 820 1300 760 1440 800V900H0z" fill="${p[2]}"/>${[120,190,1250,1330,1390].map((x,i)=>`<path d="M${x} ${845-i*6}l14 -40 14 40z" fill="${light?"#4f6b55":"#0b1a14"}"/>`).join("")}</svg>`)};}
+  case "science":return {bg:light?"#f5f9ff":"#071630",tile:e(`<svg ${W} width="120" height="120"><path d="M0 .5H120M.5 0V120M0 60.5H120M60.5 0V120" stroke="${light?"#c7d7f2":"#173465"}" stroke-width="1"/><path d="M0 30.5H120M0 90.5H120M30.5 0V120M90.5 0V120" stroke="${light?"#e3ecfa":"#10284f"}" stroke-width="1"/></svg>`),
+    scene:e(`<svg ${W} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none" stroke="${light?"#9db7e3":"#2a5bb0"}" stroke-width="2.5" opacity=".7"><path d="M120 160l40-23 40 23v46l-40 23-40-23z M200 160l40-23 40 23v46l-40 23-40-23z M240 229v40"/><circle cx="240" cy="280" r="8"/><path d="M1240 680l40-23 40 23v46l-40 23-40-23z M1280 657v-40"/><circle cx="1280" cy="610" r="8"/><path d="M1200 140c40 60 80-60 120 0s80-60 120 0"/><text x="80" y="820" font-family="IBM Plex Mono,monospace" font-size="26" fill="${light?"#9db7e3":"#2a5bb0"}" stroke="none">E = mc²   ·   C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O</text></svg>`)};
+  case "doctor":return {bg:light?"linear-gradient(160deg,#f0fdfa,#e6f6ff)":"linear-gradient(160deg,#042f2e,#06283d)",tile:e(`<svg ${W} width="220" height="140"><path d="M0 80h60l10-22 14 46 12-38 8 14h116" stroke="${light?"#99e3d6":"#0f766e"}" stroke-width="2" fill="none"/><path d="M180 22h6v-6h6v6h6v6h-6v6h-6v-6h-6z" fill="${light?"#fecaca":"#7f1d1d"}" opacity=".8"/></svg>`),scene:""};
+  case "ocean":{const w=light?["#7dd3fc","#38bdf8","#0ea5e9"]:["#0c4a6e","#075985","#0b3b5c"];
+    return {bg:light?"linear-gradient(#e0f7ff,#b9ecfb 60%,#8fdcf5)":"linear-gradient(#031d33,#06304f 60%,#0a4069)",tile:e(`<svg ${W} width="300" height="300">${[[40,60,6],[200,120,4],[120,220,8],[260,260,5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${light?"#38bdf8":"#7dd3fc"}" stroke-width="1.5" opacity=".5"/>`).join("")}</svg>`),
+    scene:e(`<svg ${W} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><path d="M0 720q120-50 240 0t240 0 240 0 240 0 240 0 240 0V900H0z" fill="${w[0]}" opacity=".7"/><path d="M0 780q120-40 240 0t240 0 240 0 240 0 240 0 240 0V900H0z" fill="${w[1]}" opacity=".75"/><path d="M0 840q120-30 240 0t240 0 240 0 240 0 240 0 240 0V900H0z" fill="${w[2]}"/><path d="M1180 700q30-30 60 0-30 26-60 0zM1240 700l18-14v28z" fill="${light?"#f59e0b":"#fbbf24"}" opacity=".8"/></svg>`)};}
+  case "desert":return {bg:light?"linear-gradient(#ffe9c7,#fff6e6 45%,#f6dcb0)":"linear-gradient(#0b1026,#1e1b3a 55%,#3a2a3f)",tile:light?"none":e(`<svg ${W} width="400" height="400">${stars(50,"#fff2c4",5)}</svg>`),
+    scene:e(`<svg ${W} viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice">${light?`<circle cx="1180" cy="200" r="70" fill="#ffd27a" opacity=".85"/>`:`<path d="M1200 140a60 60 0 1 0 40 105 70 70 0 0 1-40-105z" fill="#ffe8a3"/>`}<path d="M0 700q200-90 420-10t420 0 600-40V900H0z" fill="${light?"#efc27f":"#3b2d33"}"/><path d="M0 790q260-70 520 0t520-10 400 0V900H0z" fill="${light?"#e0a85e":"#2a2028"}"/>${[[180,700],[240,690],[1290,720]].map(([x,y],i)=>`<g transform="translate(${x} ${y})" fill="${light?"#5a7a2b":"#151018"}"><path d="M-3 0q4-60 0-110h6q-4 50 0 110z"/><path d="M0-110q-40-25-70 0 35-10 70 0zM0-110q40-25 70 0-35-10-70 0zM0-110q-15-35-45-40 30 15 45 40zM0-110q15-35 45-40-30 15-45 40z"/></g>`).join("")}</svg>`)};
+  case "robot":return {bg:light?"#eef3f7":"#050d16",tile:e(`<svg ${W} width="200" height="200" fill="none" stroke="${light?"#c3d1dc":"#0f3a4a"}" stroke-width="2"><path d="M0 40h60l20 20h60l20-20h40M40 200v-60l20-20v-40M160 0v50l-20 20h-40"/><circle cx="60" cy="40" r="4"/><circle cx="160" cy="50" r="4"/><circle cx="60" cy="120" r="4"/></svg>`),scene:""};
+  }return null;}
+
+function skLoadFont(fam){if(!fam||document.getElementById("skf-"+fam.length+fam.slice(0,12)))return;const l=document.createElement("link");l.id="skf-"+fam.length+fam.slice(0,12);l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+fam+"&display=swap";document.head.appendChild(l);}
+function skStyle(){const k=SKIN,S=skGet(k),light=document.documentElement.getAttribute("data-theme")==="light";let st=$("skstyle");if(!st){st=document.createElement("style");st.id="skstyle";st.setAttribute("data-own","");document.head.appendChild(st);}
+  if(k==="classic"){st.textContent="";return;}const sc=skScene(k,light)||{},H=S[3]+",Tajawal,Inter,sans-serif",B=S[4]+",Tajawal,Inter,sans-serif";
+  st.textContent=`html[data-skin=${k}] body{background:${sc.bg}!important;font-family:${B}}
+  #skinbg{background-image:${[sc.scene,sc.tile].filter(x=>x&&x!=="none").join(",")||"none"};background-repeat:${[sc.scene?"no-repeat":"",sc.tile&&sc.tile!=="none"?"repeat":""].filter(Boolean).join(",")};background-size:${[sc.scene?"cover":"",sc.tile&&sc.tile!=="none"?"auto":""].filter(Boolean).join(",")};background-position:${[sc.scene?"center bottom":"",sc.tile&&sc.tile!=="none"?"0 0":""].filter(Boolean).join(",")}}
+  html[data-skin=${k}] :is(body,button,input,select,textarea,p,span,b,label,td,th,li,a,small,em,strong,div,.tl,.go,.nvl,.sbtn){font-family:${B}}
+  html[data-skin=${k}] :is(h1,h2,h3,h4,.tl,.brand h1,.mhh1){font-family:${H}!important;letter-spacing:${k==="space"||k==="robot"?".02em":"0"}}`;}
+function skApply(k,save){if(!SKINS.some(s=>s[0]===k))k="classic";SKIN=k;const S=skGet(k);document.documentElement.setAttribute("data-skin",k);if(S[5])skLoadFont(S[5]);
+  if(save)try{localStorage.setItem("sg_skin",k);}catch(_){}
+  let bg=$("skinbg");if(!bg){bg=document.createElement("div");bg.id="skinbg";bg.setAttribute("data-own","");bg.setAttribute("aria-hidden","true");($("bg")||document.body.firstChild).after(bg);}
+  skStyle();skPaint();document.querySelectorAll("#skinpop [data-sk]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.sk===k));
+  document.querySelectorAll("#arep,#srep").forEach(h=>h._draw&&h.offsetParent&&h._draw());}
+/* swap every dashboard / side-bar icon for the theme's own set, and recolour them */
+function skPaint(root){const k=SKIN,G=SK_GLY[k],S=skGet(k),pal=S[6];root=root||document;
+  const one=(iconEl,label,colEl)=>{if(!iconEl)return;const key=SK_KEY[label];if(!key)return;
+    if(iconEl.dataset.skOrig==null)iconEl.dataset.skOrig=iconEl.innerHTML;if(colEl&&colEl.dataset.skC==null)colEl.dataset.skC=colEl.style.getPropertyValue("--c")||"";
+    if(!G){iconEl.innerHTML=iconEl.dataset.skOrig;if(colEl)colEl.style.setProperty("--c",colEl.dataset.skC);return;}
+    iconEl.innerHTML=skSvg(G[key]);if(colEl&&pal)colEl.style.setProperty("--c",pal[SK_ORDER.indexOf(key)%pal.length]);};
+  root.querySelectorAll("#tiles .tile,#stiles .tile").forEach(t=>one(t.querySelector(".ti"),t.querySelector(".tl")?.textContent.trim(),t));
+  root.querySelectorAll("#sidenav .nv").forEach(n=>one(n.querySelector(".nvi"),n.querySelector(".nvl")?.textContent.trim(),n));
+  const bi=document.querySelector(".brand .icon");if(bi){if(bi.dataset.skOrig==null)bi.dataset.skOrig=bi.innerHTML;bi.innerHTML=G?skSvg(G.brand,"skbrand"):bi.dataset.skOrig;}}
+{const rt=renderTiles;renderTiles=function(box){const r=rt.apply(this,arguments);try{skPaint();}catch(_){}return r;};}
+{const bn=buildNav;buildNav=function(){const r=bn.apply(this,arguments);try{skPaint();}catch(_){}return r;};}
+{const at=applyTheme;applyTheme=function(){const r=at.apply(this,arguments);try{if(SKIN!=="classic")skStyle();}catch(_){}return r;};}
+
+/* ---------- the Themes button + drop-down (قائمة منسدلة) ---------- */
+(function(){const bar=$("themesw"),pf=$("pfbtn");if(!bar)return;const b=document.createElement("button");b.type="button";b.id="skinbtn";b.setAttribute("aria-haspopup","true");b.setAttribute("aria-expanded","false");b.title="Themes · السمات";
+  b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-1 2-2 0-1.4-1.2-1.6-1.2-2.8 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.4 17 3 12 3z"/><circle cx="7.5" cy="11" r="1.3" fill="currentColor"/><circle cx="10" cy="7" r="1.3" fill="currentColor"/><circle cx="15" cy="7" r="1.3" fill="currentColor"/></svg><span>Themes</span>`;
+  bar.insertBefore(b,pf);b.onclick=e=>{e.stopPropagation();skPop();};})();
+function skPop(){let p=$("skinpop");const btn=$("skinbtn");if(p){p.remove();btn.setAttribute("aria-expanded","false");return;}const old=$("palpop");if(old)old.remove();
+  p=document.createElement("div");p.id="skinpop";p.setAttribute("role","dialog");p.setAttribute("aria-label","Themes");
+  const mode=document.documentElement.getAttribute("data-theme-mode")||"dark",cur=document.documentElement.getAttribute("data-pal")||"mint";
+  p.innerHTML=`<div class="skh"><b>Themes</b> <span>· السمات</span><small>Changes the background, icons, colours and fonts instantly · saved on this device</small></div>
+    <div class="skgrid">${SKINS.map(([k,n,a,h,bf,f,pal,prev])=>{const G=SK_GLY[k];
+      return `<button type="button" class="skcard" data-sk="${k}" aria-pressed="${k===SKIN}" style="--pv:${prev}"><span class="skprev">${G?["courses","cal","reports"].map((x,i)=>`<i style="--c:${pal[i+1]}">${skSvg(G[x])}</i>`).join(""):`<i style="--c:#8fe3b8">${(META.Course||{}).svg||""}</i><i style="--c:#7fb2ff">${(META.Calendar||{}).svg||""}</i><i style="--c:#5fd3a0">${(META.Reports||{}).svg||""}</i>`}</span>
+        <span class="skname" style="${h?`font-family:${h},Tajawal,sans-serif`:""}">${n}</span><span class="skar">${a}</span></button>`;}).join("")}</div>
+    <div class="skrow"><b>Mode · الوضع</b><div class="skmodes">${[["light","☀ Light"],["dark","☾ Dark"],["auto","◐ Auto"]].map(([m,l])=>`<button type="button" data-mm="${m}" aria-pressed="${m===mode}">${l}</button>`).join("")}</div></div>
+    <div class="skrow skpalrow"><b>Light-mode colours · ألوان الوضع الفاتح</b><div class="skpals">${PALS.map(([k,n,c])=>`<button type="button" class="pal" data-p="${k}" aria-pressed="${k===cur}" title="${n}"><i style="background:${c}"></i>${n.split(" · ")[0]}</button>`).join("")}</div></div>`;
+  document.body.appendChild(p);btn.setAttribute("aria-expanded","true");
+  const r=btn.getBoundingClientRect(),w=Math.min(470,innerWidth-16);p.style.width=w+"px";p.style.top=(r.bottom+8)+"px";p.style.left=Math.max(8,Math.min(innerWidth-w-8,r.right-w))+"px";
+  p.querySelectorAll("[data-sk]").forEach(x=>x.onclick=()=>skApply(x.dataset.sk,true));
+  p.querySelectorAll("[data-mm]").forEach(x=>x.onclick=()=>{applyTheme(x.dataset.mm);p.querySelectorAll("[data-mm]").forEach(y=>y.setAttribute("aria-pressed",y===x));p.querySelector(".skpalrow").hidden=document.documentElement.getAttribute("data-theme")!=="light";});
+  p.querySelectorAll(".pal").forEach(x=>x.onclick=()=>{applyPal(x.dataset.p,true);p.querySelectorAll(".pal").forEach(y=>y.setAttribute("aria-pressed",y===x));});
+  p.querySelector(".skpalrow").hidden=document.documentElement.getAttribute("data-theme")!=="light";
+  p.onclick=e=>e.stopPropagation();p.addEventListener("keydown",e=>{if(e.key==="Escape"){p.remove();btn.setAttribute("aria-expanded","false");btn.focus();}});p.querySelector("[aria-pressed=true]")?.focus();}
+document.addEventListener("click",()=>{const p=$("skinpop");if(p){p.remove();$("skinbtn")?.setAttribute("aria-expanded","false");}});
+addEventListener("resize",()=>{const p=$("skinpop");if(p){p.remove();$("skinbtn")?.setAttribute("aria-expanded","false");}});
+
+/* ---------- styles: button, drop-down, and each theme's look ---------- */
+document.head.insertAdjacentHTML("beforeend",`<style data-own>
+#themesw button[data-m],#themesw #palbtn{display:none!important}
+#skinbtn{appearance:none;border:0;background:none;color:#cfe9dd;font:600 12.5px Inter,sans-serif;padding:6px 11px;border-radius:999px;cursor:pointer;display:flex!important;align-items:center;gap:6px}
+#skinbtn svg{width:18px;height:18px}#skinbtn:hover,#skinbtn[aria-expanded=true]{background:rgba(143,227,184,.18)}html[data-theme=light] #skinbtn{color:#1d5a42}
+@media(max-width:560px){#skinbtn span{display:none}}
+#skinbg{position:fixed;inset:0;z-index:0;pointer-events:none}html:not([data-skin]) #skinbg,html[data-skin=classic] #skinbg{display:none}
+html[data-skin]:not([data-skin=classic]) :is(#bg,.helix){display:none}
+#skinpop{position:fixed;z-index:120;max-height:calc(100vh - 80px);overflow:auto;padding:14px;border-radius:18px;background:rgba(6,30,20,.97);color:#e8f6ee;border:1px solid rgba(143,227,184,.25);box-shadow:0 18px 50px rgba(0,0,0,.5);animation:navcrsdn .16s ease-out}
+html[data-theme=light] #skinpop{background:#fff;color:#10232f;border-color:rgba(16,35,47,.14);box-shadow:0 18px 50px rgba(16,35,47,.2)}
+.skh b{font-size:16px}.skh span{font-family:Tajawal,sans-serif;opacity:.75}.skh small{display:block;margin-top:3px;font-size:11.5px;opacity:.7}
+.skgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:12px 0}@media(max-width:420px){.skgrid{grid-template-columns:repeat(2,1fr)}}
+.skcard{display:flex;flex-direction:column;align-items:center;gap:2px;padding:0 0 9px;border-radius:14px;border:2px solid transparent;background:rgba(143,227,184,.06);color:inherit;cursor:pointer;overflow:hidden;font:inherit}
+html[data-theme=light] .skcard{background:#f4f7f6}.skcard:hover{border-color:rgba(143,227,184,.5)}.skcard[aria-pressed=true]{border-color:#46c48a;box-shadow:0 0 0 3px rgba(70,196,138,.25)}
+.skprev{display:flex;gap:5px;justify-content:center;align-items:center;width:100%;height:58px;background:var(--pv);margin-bottom:6px}
+.skprev i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 20%,rgba(0,0,0,.35));border:1px solid color-mix(in srgb,var(--c) 55%,transparent)}
+.skprev i svg{width:19px;height:19px}.skprev .skg .f{fill:var(--c);fill-opacity:.35}.skprev .skg .f2{fill:var(--c);fill-opacity:.6}.skprev .skg .k{fill:currentColor}.skprev .skg .w{fill:#fff}
+.skname{font-weight:700;font-size:13.5px}.skar{font:500 11.5px Tajawal,sans-serif;opacity:.75}
+.skrow{margin-top:8px}.skrow>b{display:block;font-size:12px;margin-bottom:6px;opacity:.85}.skmodes,.skpals{display:flex;flex-wrap:wrap;gap:6px}
+.skmodes button,.skpals button{border:1px solid rgba(143,227,184,.3);background:none;color:inherit;border-radius:999px;padding:6px 12px;font:600 12.5px Inter,sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px}
+html[data-theme=light] .skmodes button,html[data-theme=light] .skpals button{border-color:rgba(16,35,47,.16)}
+.skmodes button[aria-pressed=true],.skpals button[aria-pressed=true]{background:#1d8656;border-color:#1d8656;color:#fff}.skpals i{width:12px;height:12px;border-radius:50%;display:inline-block}
+/* icon drawing styles shared by all themes */
+.skg .f{fill:var(--c);fill-opacity:.28}.skg .f2{fill:var(--c);fill-opacity:.55}.skg .k{fill:currentColor;stroke:none}.skg .w{fill:#fff;stroke:none}
+.brand .icon .skbrand{width:44px;height:44px;color:#eafff4}.brand .icon .skbrand .f{fill:#eafff4;fill-opacity:.3}.brand .icon .skbrand .f2{fill:#eafff4;fill-opacity:.55}
+/* CARTOON: chunky stickers, bouncy tiles */
+html[data-skin=cartoon] .tile{border:3px solid #2b2140!important;border-radius:26px;box-shadow:6px 7px 0 #2b2140!important;background:#3d2c6b}
+html[data-skin=cartoon][data-theme=light] .tile{background:#fff}
+html[data-skin=cartoon] .tile:hover{transform:translateY(-4px) rotate(-1.5deg)}
+html[data-skin=cartoon] .ti,html[data-skin=cartoon] .nvi{border:2.5px solid #2b2140;background:var(--c)!important;color:#2b2140;border-radius:50%}
+html[data-skin=cartoon] .skg{stroke:#2b2140;stroke-width:2}html[data-skin=cartoon] .skg .f{fill:#fff;fill-opacity:.9}html[data-skin=cartoon] .skg .f2{fill:#2b2140;fill-opacity:.25}
+html[data-skin=cartoon] .brand .icon{background:linear-gradient(145deg,#ffd93d,#ff9f43);border:3px solid #2b2140;box-shadow:5px 6px 0 #2b2140;border-radius:50%}
+html[data-skin=cartoon] .brand .icon .skbrand{color:#2b2140}html[data-skin=cartoon] .brand .icon .skbrand .f{fill:#fff;fill-opacity:.9}
+html[data-skin=cartoon] .brand h1 span{color:#ffd93d}html[data-skin=cartoon][data-theme=light] .brand h1{color:#2b2140}html[data-skin=cartoon][data-theme=light] .brand h1 span{color:#ff6b6b}
+html[data-skin=cartoon] .card,html[data-skin=cartoon] .panel{border-radius:24px}
+/* SPACE: neon glass, glowing icons */
+html[data-skin=space] .tile{background:rgba(10,14,40,.62);border:1px solid rgba(125,249,255,.25);border-radius:16px}
+html[data-skin=space][data-theme=light] .tile{background:rgba(255,255,255,.75);border-color:rgba(109,91,208,.25)}
+html[data-skin=space] .tile:hover{box-shadow:0 0 0 1px var(--c),0 0 26px color-mix(in srgb,var(--c) 55%,transparent)}
+html[data-skin=space] .ti{border-radius:50%;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c) 35%,transparent),rgba(5,8,22,.7))}
+html[data-skin=space] .skg{filter:drop-shadow(0 0 3px var(--c))}
+html[data-skin=space] .brand .icon{background:radial-gradient(circle at 30% 30%,#7c3aed,#0b1030);border-radius:50%;box-shadow:0 0 40px #7c3aed88}
+html[data-skin=space] .brand h1 span{color:#7df9ff}html[data-skin=space][data-theme=light] .brand h1 span{color:#6d28d9}html[data-skin=space] .brand h1{text-transform:uppercase;font-size:clamp(26px,4.4vw,42px)}
+/* MOUNTAINS: earthy cards */
+html[data-skin=mountain] .tile{border-radius:14px;background:rgba(20,40,70,.55);border:1px solid rgba(255,255,255,.18)}
+html[data-skin=mountain][data-theme=light] .tile{background:rgba(255,252,246,.86);border-color:rgba(93,117,140,.25)}
+html[data-skin=mountain] .ti{border-radius:14px 14px 30px 30px}
+html[data-skin=mountain] .brand .icon{background:linear-gradient(160deg,#6b9e78,#3b5e47);border-radius:18px}html[data-skin=mountain] .brand h1 span{color:#f6c89f}html[data-skin=mountain][data-theme=light] .brand h1 span{color:#b5652b}
+/* SCIENTISTS: blueprint */
+html[data-skin=science] .tile{border-radius:10px;border:1.5px dashed color-mix(in srgb,var(--c) 55%,transparent);background:rgba(7,22,48,.78)}
+html[data-skin=science][data-theme=light] .tile{background:rgba(255,255,255,.9)}
+html[data-skin=science] .ti{border-radius:10px}html[data-skin=science] .tile .go{font-family:'IBM Plex Mono',monospace!important;font-size:11px}
+html[data-skin=science] .brand .icon{background:linear-gradient(145deg,#1d4ed8,#0b1b3d);border-radius:14px}html[data-skin=science] .brand h1 span{color:#38bdf8}html[data-skin=science][data-theme=light] .brand h1 span{color:#1d4ed8}
+/* DOCTORS: clean clinic cards */
+html[data-skin=doctor] .tile{border-radius:20px;background:rgba(4,47,46,.7);border:1px solid rgba(20,184,166,.3);border-top:4px solid var(--c)}
+html[data-skin=doctor][data-theme=light] .tile{background:#fff;border-color:rgba(20,184,166,.25);border-top-color:var(--c)}
+html[data-skin=doctor] .ti{border-radius:50%}html[data-skin=doctor] .brand .icon{background:linear-gradient(145deg,#14b8a6,#0f766e);border-radius:50%}
+html[data-skin=doctor] .brand h1 span{color:#5eead4}html[data-skin=doctor][data-theme=light] .brand h1{color:#0f3d3a}html[data-skin=doctor][data-theme=light] .brand h1 span{color:#ef4444}
+/* OCEAN: bubbly glass */
+html[data-skin=ocean] .tile{border-radius:28px 28px 28px 8px;background:rgba(3,40,70,.55);border:1px solid rgba(125,211,252,.3)}
+html[data-skin=ocean][data-theme=light] .tile{background:rgba(255,255,255,.78)}
+html[data-skin=ocean] .ti{border-radius:50% 50% 50% 14%}html[data-skin=ocean] .brand .icon{background:linear-gradient(160deg,#22d3ee,#0369a1);border-radius:50% 50% 50% 18%}
+html[data-skin=ocean] .brand h1 span{color:#67e8f9}html[data-skin=ocean][data-theme=light] .brand h1 span{color:#0369a1}
+/* AL-AHSA OASIS: arches and geometric frames */
+html[data-skin=desert] .tile{border-radius:60px 60px 14px 14px;background:rgba(40,28,40,.6);border:1px solid rgba(253,231,194,.25)}
+html[data-skin=desert][data-theme=light] .tile{background:rgba(255,250,240,.88);border-color:rgba(180,83,9,.25)}
+html[data-skin=desert] .ti{border-radius:50% 50% 12px 12px}html[data-skin=desert] .brand .icon{background:linear-gradient(160deg,#d97706,#7c2d12);border-radius:40px 40px 14px 14px}
+html[data-skin=desert] .brand h1 span{color:#fbbf24}html[data-skin=desert][data-theme=light] .brand h1{color:#5b3410}html[data-skin=desert][data-theme=light] .brand h1 span{color:#b45309}
+/* ROBOTICS: cut-corner panels */
+html[data-skin=robot] .tile{border-radius:0;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px);background:rgba(7,18,28,.85);border:1px solid rgba(0,229,255,.3)}
+html[data-skin=robot][data-theme=light] .tile{background:#fff}
+html[data-skin=robot] .ti{border-radius:4px;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+html[data-skin=robot] .tile .go{font-family:'Share Tech Mono',monospace!important}html[data-skin=robot] .brand .icon{background:linear-gradient(145deg,#00e5ff,#0b3b4a);border-radius:6px}
+html[data-skin=robot] .brand h1 span{color:#00e5ff}html[data-skin=robot][data-theme=light] .brand h1 span{color:#0284c7}
+</style>`);
+{let k=null;try{k=localStorage.getItem("sg_skin");}catch(_){}skApply(k||"classic");}
+
 
 
 /* theme switch */
