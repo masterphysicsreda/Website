@@ -643,6 +643,7 @@ html[data-theme=light] .gbsel select{background:#fff;border-color:rgba(16,35,47,
 .gbwrap.compact .gbtbl{font-size:12px}.gbwrap.compact .gbtbl thead th{min-width:64px}.gbwrap.compact .gbin{width:44px;padding:3px 2px;font-size:13px}.gbwrap.compact .gbtbl th,.gbwrap.compact .gbtbl td{padding:2px 3px}.gbwrap.compact .gbname{min-width:170px;font-size:13px}.gbwrap.compact .gbhl{font-size:11.5px}
 /* ===== Assignments board (Padlet-style) ===== */
 .tsub{margin:14px 0;border-radius:18px;padding:14px 16px;background:linear-gradient(135deg,#fde7d3,#f9c9d6 50%,#d9d4fb);color:#10232f;box-shadow:0 10px 30px rgba(0,0,0,.18)}.tsubh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.tsubh h3{margin:0;font:800 17px Inter}.tsubh h3 span{font:600 15px Tajawal;color:#53687a}.tsubh em{font:700 12px Inter;font-style:normal;background:#b8720c;color:#fff;border-radius:999px;padding:2px 10px}.tsubh button{margin-left:auto;border:0;background:#13285c;color:#fff;border-radius:10px;padding:8px 14px;font:700 13px Inter;cursor:pointer}
+.e1lay{display:block;width:100%;text-align:left;padding:14px 12px;border:1px solid #555;border-top:0;margin:0;font:700 13px Inter,sans-serif;cursor:pointer;color:#10232f}.e1lay:first-of-type{border-top:1px solid #555}.e1lay.pk{outline:3px solid #2b6fb8;outline-offset:-3px}.e1lay.ln{box-shadow:inset 6px 0 0 #1d8656}
 .tswact{background:rgba(255,255,255,.75);border-radius:14px;padding:12px;margin-bottom:12px;border:2px solid rgba(16,35,47,.08)}.tswact.hot{border-color:#e5534b;box-shadow:0 0 0 4px rgba(229,83,75,.12)}
 .tswah{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:8px}.tswah b{font:800 15px Inter;flex:1 1 300px}.tswlive{font:800 11px Inter;letter-spacing:.04em;text-transform:uppercase;background:#10232f;color:#fff;border-radius:999px;padding:3px 9px}.tswact.hot .tswlive{background:#e5534b;animation:tswp 1.6s infinite}@keyframes tswp{50%{opacity:.55}}
 .tswmeta{flex-basis:100%;font-size:12.5px;color:#53687a}.tswbtn{display:flex;gap:6px;flex-wrap:wrap}.tswbtn button,.tswall,.tswtt button{appearance:none;border:1px solid rgba(16,35,47,.2);background:#fff;color:#10232f;border-radius:999px;padding:5px 11px;font:700 12px Inter;cursor:pointer}
@@ -1630,10 +1631,12 @@ const ICO={
  bio:SV('<path d="M7 2c0 6 10 6 10 12s-10 6-10 8"/><path d="M17 2c0 6-10 6-10 12s10 6 10 8"/><path d="M8.5 5h7M9 9h6M9 15h6M8.5 19h7"/>'),
  chem:SV('<path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3"/><path d="M7.5 15h9"/><circle cx="10.5" cy="17.7" r=".7"/><circle cx="13.5" cy="17" r=".7"/>'),
  phys:SV('<circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>'),
+ sci:SV('<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/>'),
  saat:SV('<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/><path d="M22 9v6"/>')
 };
 const COURSES={
  bio:{t:"Biology",ta:"الأحياء",c:"#46c48a",ico:"bio"},
+ sci8:{t:"Science · Grade 8",ta:"العلوم · الصف الثامن",c:"#f2994a",ico:"sci",grades:["Grade 8"]},
  chem:{t:"Chemistry",ta:"الكيمياء",c:"#c6a6ff",ico:"chem"},
  phys:{t:"Physics",ta:"الفيزياء",c:"#7fb2ff",ico:"phys"},
  saat:{t:"SAAT",ta:"التحصيلي",c:"#ffcf6b",ico:"saat",hub:["saat-bio","saat-phys","saat-chem"],sub:"Achievement Test preparation"},
@@ -1641,8 +1644,9 @@ const COURSES={
  "saat-phys":{t:"SAAT Physics",ta:"تحصيلي فيزياء",c:"#7fb2ff",ico:"phys",parent:"saat"},
  "saat-chem":{t:"SAAT Chemistry",ta:"تحصيلي كيمياء",c:"#c6a6ff",ico:"chem",parent:"saat"}
 };
-const TOP=["bio","chem","phys","saat"];
+const TOP=["sci8","bio","chem","phys","saat"];
 let CRS={user:null,mhcourse:null,cur:null,grade:null};
+function crsVisible(k){const u=CRS.user;if(!u||u.t)return true;const g8=u.g==="Grade 8";if(k==="sci8")return g8;if(g8)return false;return true;}
 const canSAAT=()=>!!CRS.user&&(CRS.user.t||(CRS.user.g==="Grade 12"&&(typeof SITE==="undefined"||SITE.saat!==false)));
 
 function courseTile(k){const C=COURSES[k];
@@ -1653,6 +1657,7 @@ function openCourses(key){
   ["login","home","teach","analytics","calview","progview","lessonview"].forEach(id=>$(id).style.display="none");
   $("coursesview").style.display="block";scrollTo(0,0);
   if(key&&(key==="saat"||COURSES[key]?.parent==="saat")&&!canSAAT())key=null;
+  if(key&&!COURSES[key]?.parent&&!crsVisible(key))key=null;
   CRS.cur=key||null;
   const C=key?COURSES[key]:null,body=$("crsbody");
   // breadcrumb
@@ -1663,11 +1668,11 @@ function openCourses(key){
   $("crstitle").innerHTML=C?`${esc(C.t)} <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· ${C.ta}</span>`:`My Courses <span style="font-family:Tajawal;font-size:.7em;color:var(--muted)">· مقرراتي</span>`;
   $("crsback").textContent=C?"← Back":"← Dashboard";
   if(!C){
-    body.innerHTML=`<div class="tiles ctiles">${TOP.filter(k=>k!=="saat"||canSAAT()).map(courseTile).join("")}</div>`;
+    body.innerHTML=`<div class="tiles ctiles">${TOP.filter(k=>(k!=="saat"||canSAAT())&&crsVisible(k)).map(courseTile).join("")}</div>`;
   }else if(C.hub){
     body.innerHTML=`<div class="panel crshero" style="--c:${C.c}"><span class="ti big">${ICO[C.ico]}</span><div><h3>${C.t} · ${C.ta}</h3><p class="psub">${C.sub} · choose a subject</p></div></div><div class="tiles ctiles">${C.hub.map(courseTile).join("")}</div>`;
-  }else if(key==="bio"){
-    openBio(null);return;
+  }else if(key==="bio"||key==="sci8"){
+    if(BIOX.prog!==key){BIOX.prog=key;BIOX.node=null;BIOX.brTab=null;}openBio(null);return;
   }else{
     body.innerHTML=curriculumPage(key);
   }
@@ -1704,7 +1709,7 @@ function curriculumPage(key){
 }
 function closeCourses(){
   const C=CRS.cur?COURSES[CRS.cur]:null;
-  if(CRS.cur==="bio"&&BIOX.node){openBio(BIOX.parent[BIOX.node]||null);return;}
+  if((CRS.cur==="bio"||CRS.cur==="sci8")&&BIOX.node){openBio(BIOX.parent[BIOX.node]||null);return;}
   if(C){openCourses(C.parent||null);return;}
   $("coursesview").style.display="none";
   $(CRS.user.t?"teach":"home").style.display="block";scrollTo(0,0);
@@ -1728,6 +1733,7 @@ function openProgress(key){
   ["login","home","teach","analytics","calview","coursesview","lessonview"].forEach(id=>$(id).style.display="none");
   $("progview").style.display="block";scrollTo(0,0);
   if(key&&(key==="saat"||COURSES[key]?.parent==="saat")&&!canSAAT())key=null;
+  if(key&&!COURSES[key]?.parent&&!crsVisible(key))key=null;
   PROG_KEY=key||null;const C=key?COURSES[key]:null;
   const crumbs=[`<a href="#" data-pn="">My Progress</a>`];
   if(C&&C.parent)crumbs.push(`<a href="#" data-pn="${C.parent}">${COURSES[C.parent].t}</a>`);
@@ -1753,12 +1759,16 @@ $("prog2crs").onclick=()=>openCourses(PROG_KEY||"bio");
 
 /* ===== Biology course: Inspire Biology structure in a McGraw Hill-style layout ===== */
 const MHTOC=[{"t":"Program Overview: Welcome to Inspire Biology","id":"abc8eaf9-b8f6-4368-bea9-2b3e997f1f6f","k":"program","c":[]},{"t":"Program Resources: Course Materials","id":"9bb08495-7eed-4dfc-b704-4fdf5569e55b","k":"program","c":[]},{"t":"Program Resources: Professional Learning Resources","id":"00859260-1767-408e-bc6a-623a5f097984","k":"program","c":[]},{"t":"Module 1: The Study of Life","id":"57f9c470-baf0-4fda-99c5-79e853a0d621","k":"module","c":[{"t":"Lesson 1: The Science of Life","id":"0fa1e97d-4dd6-4d6f-9b9a-a9f4164f03fc","k":"lesson"},{"t":"Lesson 2: The Nature of Science","id":"deb30791-b377-4150-a5f8-13e713a5334e","k":"lesson"}]},{"t":"Unit 1: Ecology","id":"5a96d65f-4ec4-4e74-9241-8841dbd4e05a","k":"unit","c":[{"t":"Module 2: Principles of Ecology","id":"a7f22b6a-548b-4890-aaf1-08cb3106fb58","k":"module","c":[{"t":"Lesson 1: Organisms and Their Relationships","id":"6940108f-4125-4b9b-86a6-b1739347f9ec","k":"lesson"},{"t":"Lesson 2: Flow of Energy in an Ecosystem","id":"d65fd7ab-4da3-41e7-bc07-8c2212e66445","k":"lesson"},{"t":"Lesson 3: Cycling of Matter","id":"c546ab0f-5fe8-4117-b83c-b94a3f9e6f33","k":"lesson"}]},{"t":"Module 3: Communities, Biomes, and Ecosystems","id":"a709b8b5-7185-4719-9a48-723aabd7b3b1","k":"module","c":[{"t":"Lesson 1: Community Ecology","id":"dbf7a60e-dce9-4ca5-ba4f-c6691f28fee5","k":"lesson"},{"t":"Lesson 2: Terrestrial Biomes","id":"18f8cfe3-6b8f-4949-8f59-a2ba457d3d1d","k":"lesson"},{"t":"Lesson 3: Aquatic Ecosystems","id":"4895eab9-b28d-448e-b06b-4b79e13c798e","k":"lesson"}]},{"t":"Module 4: Population Ecology","id":"d598db0b-4251-43db-961e-cd1ac8777f9d","k":"module","c":[{"t":"Lesson 1: Population Dynamics","id":"88d6c776-4b07-4c74-8d5b-62667c4d297c","k":"lesson"},{"t":"Lesson 2: Human Population","id":"04686829-bb65-441c-8ff8-b079f61dae83","k":"lesson"}]},{"t":"Module 5: Biodiversity and Conservation","id":"2b5b6a6b-f8dc-49b3-afc6-28985b669d83","k":"module","c":[{"t":"Lesson 1: Biodiversity","id":"2490b18a-3285-413d-8005-df7c0087302b","k":"lesson"},{"t":"Lesson 2: Threats to Biodiversity","id":"6ec5c4ed-5113-4acb-9ef1-a921ac1f020b","k":"lesson"},{"t":"Lesson 3: Conserving Biodiversity","id":"1484a5f8-a19d-4a86-aaf7-117091c58ddc","k":"lesson"}]},{"t":"Module: Earth and Space Science: Relationships Between Humans and Earth","id":"51f3f59d-145c-4722-8953-d838b933ee54","k":"module","c":[{"t":"Lesson: Earth's Surface Processes","id":"ad226640-408f-459c-ba13-1a5e96372e3b","k":"lesson"},{"t":"Lesson: Human and Earth Interactions","id":"7820c2ec-bcde-48d3-9312-f4ee7ecc49a4","k":"lesson"}]}]},{"t":"Unit 2: The Cell","id":"e306a62d-599a-47af-adbb-0b500ebd97c8","k":"unit","c":[{"t":"Module 6: Chemistry in Biology","id":"c8f9d39d-df2f-4688-ba16-1fb1bf495360","k":"module","c":[{"t":"Lesson 1: Matter","id":"2b53c41a-9a00-4d73-a87f-5be79cfa8a12","k":"lesson"},{"t":"Lesson 2: Chemical Reactions","id":"fed67005-900f-49bc-8531-33f7f9ec3902","k":"lesson"},{"t":"Lesson 3: Water and Its Solutions","id":"fd94c81e-ca2e-48b5-a006-128f436ba6fe","k":"lesson"},{"t":"Lesson 4: The Building Blocks of Life","id":"e300a5fb-9431-4498-9172-4ad06b09c216","k":"lesson"}]},{"t":"Module 7: Cellular Structure and Function","id":"29914e5e-8881-4607-b0e3-4bad8034729f","k":"module","c":[{"t":"Lesson 1: Cell Discovery and Theory","id":"df5bd622-2707-439a-a396-39d7a55658b4","k":"lesson"},{"t":"Lesson 2: The Plasma Membrane","id":"d5644ff6-daee-4caa-8cd7-b5b9b224df47","k":"lesson"},{"t":"Lesson 3: Cellular Transport","id":"eef77cb9-1c6d-4b65-9f68-73df6e65180d","k":"lesson"},{"t":"Lesson 4: Structures and Organelles","id":"4ff7ed91-f79d-4081-943b-0a05b9630d90","k":"lesson"}]},{"t":"Module 8: Cellular Energy","id":"3c0ac322-2097-4a1f-b2a6-951b4b0696fc","k":"module","c":[{"t":"Lesson 1: How Organisms Obtain Energy","id":"b614efb2-f266-495c-9356-e711a8aeae2b","k":"lesson"},{"t":"Lesson 2: Photosynthesis","id":"79a3491f-ef71-4d99-9f47-f0dc6b46957e","k":"lesson"},{"t":"Lesson 3: Cellular Respiration","id":"22fa0d42-7e58-46fc-b616-379c98561e29","k":"lesson"}]},{"t":"Module 9: Cellular Reproduction and Sexual Reproduction","id":"db441f2f-39a4-4d91-beda-fa8da1b4dcbb","k":"module","c":[{"t":"Lesson 1: Cellular Reproduction","id":"3af2180c-2958-4b71-b87d-7c431aa51d5e","k":"lesson"},{"t":"Lesson 2: Meiosis and Sexual Reproduction","id":"0436a54f-53e1-44ad-b71a-b86983b2a495","k":"lesson"}]}]},{"t":"Unit 3: Genetics","id":"ab1ea06f-06b8-4d4c-af36-8fb3281112c5","k":"unit","c":[{"t":"Module 10: Introduction to Genetics and Patterns of Inheritance","id":"a0523c4d-cc6e-486d-9b94-3f10b4c531c9","k":"module","c":[{"t":"Lesson 1: Mendelian Genetics","id":"5f5430ff-3311-4b3e-876e-832272d748db","k":"lesson"},{"t":"Lesson 2: Genetic Recombination and Gene Linkage","id":"094018fb-4fb2-42ba-9bf7-a9b52d26124d","k":"lesson"},{"t":"Lesson 3: Applied Genetics","id":"4b05a33f-a6bd-461f-95ef-775715224b1b","k":"lesson"},{"t":"Lesson 4: Basic Patterns of Human Inheritance","id":"a993a0e5-9bc4-4e57-8453-718839365385","k":"lesson"},{"t":"Lesson 5: Complex Patterns of Inheritance","id":"fb62da39-5b3d-4061-b1c5-2638043e0d0d","k":"lesson"}]},{"t":"Module 11: Molecular Genetics","id":"60e6737f-09e6-4596-be86-16906ee57957","k":"module","c":[{"t":"Lesson 1: DNA: The Genetic Material","id":"ed5e46fb-f8d8-4ae6-bc9d-0628447236d6","k":"lesson"},{"t":"Lesson 2: Replication of DNA","id":"6d1e3395-ee58-453c-bffd-d32a17c3e6e4","k":"lesson"},{"t":"Lesson 3: DNA, RNA, and Protein","id":"c813cfff-a874-4f13-ae61-d1d835e738cf","k":"lesson"},{"t":"Lesson 4: Gene Regulation and Mutation","id":"8edd96ae-a3dc-4c79-b9bb-d611b6d75542","k":"lesson"}]},{"t":"Module 12: Biotechnology","id":"144b1080-dc13-43df-8a92-b5fb05293cfb","k":"module","c":[{"t":"Lesson 1: DNA Technology","id":"1e059985-7b9d-4bd6-8a6b-cd64ae44fc06","k":"lesson"},{"t":"Lesson 2: The Human Genome","id":"89386188-af7f-4749-ab9e-f3bbcf2c86f0","k":"lesson"}]}]},{"t":"Unit 4: History of Biological Diversity","id":"cbbf39b6-ab75-4f0d-ab39-5d7209ff0c56","k":"unit","c":[{"t":"Module 13: The History of Life","id":"1c6b8b93-435f-4df3-bf74-fba4042a93b9","k":"module","c":[{"t":"Lesson 1: Fossil Evidence of Change","id":"23d36eea-9efc-495e-af15-adc1bc63b7c6","k":"lesson"},{"t":"Lesson 2: The Origin of Life","id":"5f388805-b1e9-4d1e-bac2-f1b687eb37c4","k":"lesson"}]},{"t":"Module 14: Evolution","id":"37aa7b8f-7c17-4073-ad74-5b49ef84cb9c","k":"module","c":[{"t":"Lesson 1: Darwin's Theory of Evolution by Natural Selection","id":"848e1624-80c6-4663-96e1-95183031e40b","k":"lesson"},{"t":"Lesson 2: Evidence of Evolution","id":"4fe17e2b-2f95-480f-920e-5c0b8525edcd","k":"lesson"},{"t":"Lesson 3: Shaping Evolutionary Theory","id":"52f74ba7-b58a-4023-9168-91c14b7ca102","k":"lesson"}]},{"t":"Module 15: Primate Evolution","id":"22d919db-0a2f-4165-9aff-3bdf3008076e","k":"module","c":[{"t":"Lesson 1: Primates","id":"8a5694ff-cbc0-46cd-aff9-8dada05de2c3","k":"lesson"},{"t":"Lesson 2: Hominoids to Hominins","id":"cae11386-4586-4046-913e-46dc7957e409","k":"lesson"},{"t":"Lesson 3: Human Ancestry","id":"78aee7a7-19a4-4587-85ca-93656a1d655f","k":"lesson"}]},{"t":"Module 16: Organizing Life's Diversity","id":"644c3d0d-0109-4bf0-8f33-2596cf11038a","k":"module","c":[{"t":"Lesson 1: The History of Classification","id":"a6142beb-3aa4-4785-afb4-86dc24e471a8","k":"lesson"},{"t":"Lesson 2: Modern Classification","id":"bf4a7aac-d31c-4277-8d19-1f0e64612873","k":"lesson"},{"t":"Lesson 3: Domains and Kingdoms","id":"296eb856-11af-4782-a06a-e574fd5f0273","k":"lesson"}]},{"t":"Module: Earth and Space Science: Earth's Early History","id":"e082ff5d-87fa-490c-ae14-e1e4269f9d78","k":"module","c":[{"t":"Lesson: Crustal Movements and the Theory of Plate Tectonics","id":"f1a7eecb-5903-476d-a364-a1614c484535","k":"lesson"},{"t":"Lesson: Earth's Formation and Early History","id":"4deaf23a-2bea-4594-8a9c-28276dc14d9d","k":"lesson"}]}]},{"t":"Unit 5: The Diversity of Life","id":"4e9ea245-79c4-4d70-b7f8-22de6f1a4590","k":"unit","c":[{"t":"Module 17: Bacteria and Viruses","id":"4b220472-e335-4abd-91ea-de1353860ba7","k":"module","c":[{"t":"Lesson 1: Bacteria","id":"deea4b45-8f93-43a2-b598-21a8664e2b05","k":"lesson"},{"t":"Lesson 2: Viruses and Prions","id":"0d059e88-bd70-403b-b90a-752564ac8ff6","k":"lesson"}]},{"t":"Module 18: Protists and Fungi","id":"b4c13777-74b5-481f-9b46-dae16159bc1f","k":"module","c":[{"t":"Lesson 1: Introduction to Protists","id":"9ac56fb1-0ac4-4774-b14f-8f68f12f2372","k":"lesson"},{"t":"Lesson 2: Protist Diversity","id":"13e0a92d-03a8-483a-bce9-ffc411dd76c2","k":"lesson"},{"t":"Lesson 3: Introduction to Fungi","id":"94cf05cd-b7a4-4ef6-83b8-bff42278b6d8","k":"lesson"},{"t":"Lesson 4: Fungus Diversity and Ecology","id":"9920097d-b58f-4cf9-95af-3c21c8c4ee35","k":"lesson"}]},{"t":"Module 19: Introduction to Plants","id":"b7970920-7358-4350-b9b9-cd96528d752f","k":"module","c":[{"t":"Lesson 1: Plant Evolution and Diversity","id":"cc3e2ce4-c5ae-43d8-b427-4aad9b038a2d","k":"lesson"},{"t":"Lesson 2: Plant Structure and Function","id":"65a3ab81-e6f0-4e38-bc04-c19b9dffff17","k":"lesson"},{"t":"Lesson 3: Plant Reproduction","id":"4a3a82d3-d800-4277-a97a-7b287f4d87ba","k":"lesson"}]},{"t":"Module 20: Introduction to Animals","id":"7d2bbbca-2823-44f1-afda-ec1dd6a00f42","k":"module","c":[{"t":"Lesson 1: Animal Characteristics","id":"5912f534-2db8-4895-9bac-9677b09e251c","k":"lesson"},{"t":"Lesson 2: Animal Body Plans","id":"5b8ada9b-341c-486a-9314-35c58f832b92","k":"lesson"}]},{"t":"Module 21: Animal Behavior and Diversity","id":"67865c64-1b6d-4802-b886-eadae6c62a12","k":"module","c":[{"t":"Lesson 1: Invertebrates","id":"286021ad-6be9-42a3-88fa-e3fa5ef15e5f","k":"lesson"},{"t":"Lesson 2: Vertebrates","id":"6d292155-1d62-4363-bc49-dfa191c47bf6","k":"lesson"},{"t":"Lesson 3: Animal Behavior","id":"0aa9df94-fd7e-4c67-ae17-9181a38e76be","k":"lesson"}]}]},{"t":"Unit 6: The Human Body","id":"dd646340-e5f2-4e83-b629-1ee946240887","k":"unit","c":[{"t":"Module 22: Integumentary, Skeletal, and Muscular Systems","id":"bcb8db05-7c14-4c6e-a96f-c9ba0c80fd51","k":"module","c":[{"t":"Lesson 1: The Integumentary System","id":"b7fe7b33-35f2-4a52-99d9-6e7a9884c349","k":"lesson"},{"t":"Lesson 2: The Skeletal System","id":"dceeda54-00b7-42a1-971a-e4fba349bac5","k":"lesson"},{"t":"Lesson 3: The Muscular System","id":"0023299f-bc3a-46fe-a472-8d2bed12d2ba","k":"lesson"}]},{"t":"Module 23: Nervous System","id":"79ff3fae-4dea-45ea-b534-0958f370db1d","k":"module","c":[{"t":"Lesson 1: Structure of the Nervous System","id":"203b85c5-c53e-420b-add3-8d2165ae4ef0","k":"lesson"},{"t":"Lesson 2: Organization of the Nervous System","id":"23469cfa-8dc3-4d79-a827-f66cca9838f6","k":"lesson"},{"t":"Lesson 3: The Senses","id":"e469fa87-204a-454b-9f08-e63ad27ab60c","k":"lesson"},{"t":"Lesson 4: Effects of Drugs","id":"71b1a9db-4209-48c6-8bdb-10cb1ce68e08","k":"lesson"}]},{"t":"Module 24: Circulatory, Respiratory, and Excretory Systems","id":"f40afa27-2730-4bbd-846e-7c12baad4e11","k":"module","c":[{"t":"Lesson 1: Circulatory System","id":"b8c55221-4e76-450b-b9d6-5508fc7f0e1e","k":"lesson"},{"t":"Lesson 2: Respiratory System","id":"f70f35bc-62e8-4ee1-ad0c-9b88db184f57","k":"lesson"},{"t":"Lesson 3: The Excretory System","id":"048b75c1-c1a6-4a00-a074-f3b305f9697e","k":"lesson"}]},{"t":"Module 25: Digestive and Endocrine Systems","id":"0f1f626f-1f14-4895-a620-82304b0e0eb0","k":"module","c":[{"t":"Lesson 1: The Digestive System","id":"0ae0f06a-904f-460d-ba30-0b34342fabcd","k":"lesson"},{"t":"Lesson 2: Nutrition","id":"04dbd3f4-ab3a-45dd-8cfe-c951d92ca17f","k":"lesson"},{"t":"Lesson 3: The Endocrine System","id":"bd458a66-0bd1-4e8d-b8d5-576101f3d8dd","k":"lesson"}]},{"t":"Module 26: Human Reproduction and Development","id":"821daaa1-66a2-49a5-ba0a-7c2b4d1c0b97","k":"module","c":[{"t":"Lesson 1: Reproductive Systems","id":"f0443a03-f620-4576-ac78-d70e69439644","k":"lesson"},{"t":"Lesson 2: Human Development Before Birth","id":"56cae786-7c23-4b38-8789-4e6b43932890","k":"lesson"},{"t":"Lesson 3: Birth, Growth, and Aging","id":"e6681dc6-b1e3-4236-96ef-79d789643c06","k":"lesson"}]},{"t":"Module 27: The Immune System","id":"886e7643-866a-499a-abc1-a620fa11558b","k":"module","c":[{"t":"Lesson 1: Infectious Diseases","id":"f51f0f0b-f573-4f89-a6d1-32314b500fd9","k":"lesson"},{"t":"Lesson 2: The Immune System","id":"20834455-10ec-4a57-9c6e-3d55683d6340","k":"lesson"},{"t":"Lesson 3: Noninfectious Disorders","id":"00e18a28-e692-4263-a933-0f7bcbdcf2c1","k":"lesson"}]}]}];
+const SCI8TOC=[{"t": "Program Overview: Welcome to Inspire Science", "id": "d12873d8-6729-4e94-9c9a-bbcec86e09cd", "k": "program", "c": []}, {"t": "Program Resources: Course Materials", "id": "b649d279-dfdf-469d-81b9-c27e8ac2be22", "k": "program", "c": []}, {"t": "Program Resources: Professional Learning Resources", "id": "2a2dc376-1536-4241-bbf3-8bc7b16ac9cb", "k": "program", "c": []}, {"t": "Module 1: Geologic Time", "id": "ee654545-33ef-4a7a-b08c-75ff28fb11ca", "k": "module", "c": [{"t": "Lesson 1: Analyzing the Rock and Fossil Records", "id": "c61626c4-5cee-4ad3-b4b8-75ece4ac87d6", "k": "lesson"}, {"t": "Lesson 2: Building a Time Line", "id": "b439cc14-5b42-4142-bc36-717c43f37d16", "k": "lesson"}]}, {"t": "Module 2: Natural Selection and Adaptations", "id": "847cedc0-d320-4b6f-9421-c9f1864fa4f5", "k": "module", "c": [{"t": "Lesson 1: How Traits Change", "id": "6aca186f-e1b3-46bb-ae7c-bec1164e4feb", "k": "lesson"}, {"t": "Lesson 2: The Theory of Evolution by Natural Selection", "id": "3e5d8b59-9a1b-4312-b337-6f6a8c1f828f", "k": "lesson"}, {"t": "Lesson 3: Artificial Selection", "id": "d95fae7c-4b81-4692-b816-dfd0b5da7a55", "k": "lesson"}]}, {"t": "Module 3: Evidence of Evolution", "id": "00f0b872-9e4e-4269-a184-c11b540660c7", "k": "module", "c": [{"t": "Lesson 1: Fossil Evidence of Evolution", "id": "a784df32-00c2-4849-883f-bbb8a02c28b1", "k": "lesson"}, {"t": "Lesson 2: Biological Evidence of Evolution", "id": "f7ef472c-7517-45e7-8be9-927459f4b1a0", "k": "lesson"}]}, {"t": "Module 4: Forces and Motion", "id": "bbdf31a6-d62a-4357-ae87-242ffb5fc3c6", "k": "module", "c": [{"t": "Lesson 1: Position and Motion", "id": "82ad5e98-fd7a-408e-af3c-13314bd84d77", "k": "lesson"}, {"t": "Lesson 2: Force and Acceleration", "id": "03f56af8-572e-4edf-8614-a0d604311bbd", "k": "lesson"}, {"t": "Lesson 3: Force Pairs", "id": "ec4ace6a-35f5-4fdb-b7d5-8efd2d6c9d99", "k": "lesson"}, {"t": "Lesson 4: Gravitational Force", "id": "785456f9-b749-4409-8869-f2424aefb547", "k": "lesson"}]}, {"t": "Module 5: Mechanical Energy", "id": "370e2b1f-abf8-41df-88a4-808a73d08a75", "k": "module", "c": [{"t": "Lesson 1: Kinetic Energy", "id": "093dc372-f65f-4a02-bdf2-02c0385fa3c1", "k": "lesson"}, {"t": "Lesson 2: Potential Energy", "id": "2fdb4802-5b23-4d8b-a247-e1335f38a4e5", "k": "lesson"}, {"t": "Lesson 3: Conservation of Energy", "id": "b9228f8f-0f83-4610-8b28-207759312206", "k": "lesson"}]}, {"t": "Module 6: Electromagnetic Forces", "id": "87c0068d-e3af-43af-8739-2ed7bbf7141b", "k": "module", "c": [{"t": "Lesson 1: Magnetic Forces", "id": "7606cc3b-5ec2-4eab-97cc-7a768f6932d8", "k": "lesson"}, {"t": "Lesson 2: Electric Forces", "id": "6e1ad951-1f4f-4002-a6ab-65804f75ae82", "k": "lesson"}, {"t": "Lesson 3: Simple Circuits", "id": "fdf3a21b-987f-4b87-b4ec-714f2be2b04d", "k": "lesson"}, {"t": "Lesson 4: Electromagnetism", "id": "552d9f32-b61b-4154-8fc0-d250676c73c5", "k": "lesson"}]}, {"t": "Module 7: Introduction to Waves", "id": "5abafc04-06dd-4109-af6b-e573f9930998", "k": "module", "c": [{"t": "Lesson 1: Wave Properties", "id": "1d3c2db6-132b-4c10-9c6c-95b959fece28", "k": "lesson"}, {"t": "Lesson 2: Mechanical Wave Interactions", "id": "57b269b2-ab3e-4039-8976-06777e36e230", "k": "lesson"}]}, {"t": "Module 8: Light", "id": "f58ca0f3-8975-4c15-ab20-86a8cfdf4857", "k": "module", "c": [{"t": "Lesson 1: How Light Travels", "id": "93e0dd5e-a6b3-4e69-9c95-c90fd92775c4", "k": "lesson"}, {"t": "Lesson 2: Reflection and Mirrors", "id": "6b29063f-c1ae-4e46-95e8-2dd572ab97df", "k": "lesson"}, {"t": "Lesson 3: Refraction and Lenses", "id": "85d9f3e1-abc9-4e72-a39a-1cece365298a", "k": "lesson"}, {"t": "Lesson 4: Color of Light", "id": "d6167331-4198-45d3-8781-948dfd9bb74c", "k": "lesson"}]}, {"t": "Module 9: Information Technologies", "id": "0eb7188d-9f5b-4a86-a6ed-6c446b004103", "k": "module", "c": [{"t": "Lesson 1: Communicating with Signals", "id": "73a412c6-41a1-419a-87df-681413a32473", "k": "lesson"}, {"t": "Lesson 2: Modern Communication with Digital Signals", "id": "f8ed0da9-0cf1-4d06-9e9b-c03716ac3929", "k": "lesson"}]}, {"t": "Module 10: Earth and Human Activity", "id": "316b13c2-8e52-4c4e-94ce-702efb97a36b", "k": "module", "c": [{"t": "Lesson 1: Human Population Growth", "id": "7508c451-761e-43a0-8168-d62f239d7f17", "k": "lesson"}, {"t": "Lesson 2: People and the Environment", "id": "b0e00e76-07dc-484b-b369-f02421bbce9d", "k": "lesson"}]}, {"t": "Module 11: The Sun-Earth-Moon System", "id": "9948ea3f-9a7b-4702-ac20-731d0166742a", "k": "module", "c": [{"t": "Lesson 1: Earth's Motion Around the Sun", "id": "bd72d540-025c-4ea4-841c-bdf19e131fc6", "k": "lesson"}, {"t": "Lesson 2: Lunar Phases", "id": "c799dcf6-ef06-4093-839b-dd7a981b244a", "k": "lesson"}, {"t": "Lesson 3: Eclipses", "id": "9debc90a-f713-4489-b794-64eb00185efe", "k": "lesson"}]}, {"t": "Module 12: Exploring the Universe", "id": "e1897a2a-a2fb-4e8f-beb0-f02eea1f731c", "k": "module", "c": [{"t": "Lesson 1: Gravity and the Universe", "id": "fcf9d251-4d12-465f-b951-1b026a4ec7e4", "k": "lesson"}, {"t": "Lesson 2: The Solar System", "id": "47599f62-fb41-4c82-a89c-03b1e7c24062", "k": "lesson"}]}, {"t": "Program Resources: Glossary", "id": "1c9afaea-2024-40f2-86f4-a16b2eb2c78f", "k": "program", "c": []}];
+const PROGS={bio:{toc:MHTOC,name:"Inspire Biology",course:"bio",suffix:".661d5688-6a41-4f91-a3d3-843758063492/overview",folder:()=>CRS.mhfolder},
+  sci8:{toc:SCI8TOC,name:"Inspire Science, Grade 8",course:"sci8",suffix:".8edb0d0f-510a-4556-8d07-0e6e3014f8a5/overview",folder:()=>(typeof TDRV!=="undefined"&&TDRV?.sci8)||null}};
 const MH_SUFFIX=".661d5688-6a41-4f91-a3d3-843758063492/overview";
-const BIOX={byId:{},parent:{},node:null,open:new Set(),q:"",info:false,brTab:null,brOpen:new Set()};
-(function index(list,par){list.forEach(n=>{BIOX.byId[n.id]=n;if(par)BIOX.parent[n.id]=par.id;if(n.c)index(n.c,n);});})(MHTOC,null);
+const BIOX={prog:"bio",progOf:{},byId:{},parent:{},node:null,open:new Set(),q:"",info:false,brTab:null,brOpen:new Set()};
+Object.entries(PROGS).forEach(([pk,P])=>(function index(list,par){list.forEach(n=>{BIOX.byId[n.id]=n;BIOX.progOf[n.id]=pk;if(par)BIOX.parent[n.id]=par.id;if(n.c)index(n.c,n);});})(P.toc,null));
+const PRG=()=>PROGS[BIOX.prog]||PROGS.bio;
 const isT=()=>!!CRS.user?.t;
-const TOPV=()=>isT()?MHTOC:MHTOC.filter(x=>x.k!=="program");
-const mhUrl=n=>{const pre=CRS.mhfolder;return pre&&n?pre+n.id+MH_SUFFIX:"https://my.mheducation.com/";};
+const TOPV=()=>isT()?PRG().toc:PRG().toc.filter(x=>x.k!=="program");
+const mhUrl=n=>{const P=PROGS[n?BIOX.progOf[n.id]:BIOX.prog]||PRG(),pre=P.folder();return pre&&n?pre+n.id+P.suffix:"https://my.mheducation.com/";};
 const short=t=>t.replace(/^(Lesson|Module|Unit)( \d+)?:\s*/,"").replace(/^Program (Overview|Resources):\s*/,"");
 const numOf=t=>(t.match(/^(Lesson|Module|Unit) (\d+)/)||[])[2]||"";
 const kindLabel={program:"Program",unit:"Unit",module:"Module",lesson:"Lesson"};
@@ -1803,16 +1813,17 @@ function moduleSections(n){
 
 /* render */
 function openBio(id){
+  if(id&&BIOX.progOf[id]&&BIOX.progOf[id]!==BIOX.prog){BIOX.prog=BIOX.progOf[id];BIOX.brTab=null;}
   if(id&&!isT()&&BIOX.byId[id]?.k==="program")id=null;
   const host=$("crsbody");BIOX.node=id||null;BIOX.info=false;
   const n=id?BIOX.byId[id]:null;
   // header crumb in the outer bar
-  $("crscrumb").innerHTML=`<a href="#" data-nav="">My Courses</a> › <a href="#" data-bio="">Biology</a>`+(n?ancestors(id).map(a=>` › <a href="#" data-bio="${a.id}">${esc(kindLabel[a.k]+" "+(numOf(a.t)||""))}</a>`).join("")+` › <span>${esc(n.t.split(":")[0])}</span>`:"");
+  $("crscrumb").innerHTML=`<a href="#" data-nav="">My Courses</a> › <a href="#" data-bio="">${esc(COURSES[PRG().course]?.t||"Biology")}</a>`+(n?ancestors(id).map(a=>` › <a href="#" data-bio="${a.id}">${esc(kindLabel[a.k]+" "+(numOf(a.t)||""))}</a>`).join("")+` › <span>${esc(n.t.split(":")[0])}</span>`:"");
   $("crscrumb").querySelectorAll("[data-nav]").forEach(a=>a.onclick=e=>{e.preventDefault();openCourses(null);});
   $("crscrumb").querySelectorAll("[data-bio]").forEach(a=>a.onclick=e=>{e.preventDefault();openBio(a.dataset.bio||null);});
   $("crsback").textContent="← Back";
   host.innerHTML=`<div class="mhw">
-    <div class="mhtop"><div class="mhcls"><span class="mhlogo">${ICO.bio}</span><span>Class: <b>Inspire Biology</b>${CRS.user.t?"":" · "+esc(CRS.user.g)}</span></div>
+    <div class="mhtop"><div class="mhcls"><span class="mhlogo">${ICO.bio}</span><span>Class: <b>${esc(PRG().name)}</b>${CRS.user.t?"":" · "+esc(CRS.user.g)}</span></div>
       <div class="mhsearch"><input id="biosearch" placeholder="Search course resources" value="${esc(BIOX.q)}" aria-label="Search course resources"><button aria-label="Search">${SV('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>')}</button></div></div>
     <div class="mhbody"><aside class="mhside" id="bioside"></aside><section class="mhmain" id="biomain"></section></div></div>`;
   drawSide();drawMain();
@@ -1826,7 +1837,7 @@ function drawSide(){
   else if(n.c&&n.c.length){ctx=n;list=n.c;}
   else{const p=BIOX.parent[n.id];ctx=p?BIOX.byId[p]:null;list=ctx?ctx.c:TOPV();}
   el.innerHTML=`<button class="mhbrowse" id="biobrowse">${SV('<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M5 16v-2h14v2"/>')} Browse This Course</button>
-    ${ctx?`<div class="mhctx"><a href="#" data-go="${ctx.id}">${esc(ctx.t)}</a></div>`:`<div class="mhctx"><span>Inspire Biology</span></div>`}
+    ${ctx?`<div class="mhctx"><a href="#" data-go="${ctx.id}">${esc(ctx.t)}</a></div>`:`<div class="mhctx"><span>${esc(PRG().name)}</span></div>`}
     ${ctx&&ctx.k==="module"?(()=>{const op=(BIOX.sideOpen||(BIOX.sideOpen=new Set())).has(ctx.id),cur=n&&n.k==="lesson"?n:null;
       return `<nav class="mhlist mhdd${op?" open":""}"><button type="button" class="mhli mhddh${n&&n.id===ctx.id?" on":""}" aria-expanded="${op}" aria-controls="mhddl"><span><b>${esc(ctx.t)}</b><small>${cur?esc(cur.t):`${list.length} lessons · اختر الدرس`}</small></span><i class="mhddc">⌄</i></button>
       <div class="mhddl" id="mhddl" role="listbox">${list.map(x=>`<a href="#" class="mhli sub${n&&n.id===x.id?" on":""}" role="option" aria-selected="${n&&n.id===x.id}" data-go="${x.id}"><span>${esc(x.t)}</span><i>→</i></a>`).join("")}</div></nav>`;})()
@@ -1850,7 +1861,7 @@ function drawMain(){
     el.querySelectorAll("[data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();BIOX.q="";openBio(a.dataset.go);});return;
   }
   if(!n){
-    el.innerHTML=`<h1 class="mhh1">Inspire Biology</h1><div class="mhban"></div><p class="mhsub">Choose a unit or module to open it. ${T?"Every page links to the same page in your McGraw Hill class.":"Lessons open in McGraw Hill after you sign in."}</p>
+    el.innerHTML=`<h1 class="mhh1">${esc(PRG().name)}</h1><div class="mhban"></div><p class="mhsub">Choose a unit or module to open it. ${T?"Every page links to the same page in your McGraw Hill class.":"Lessons open in McGraw Hill after you sign in."}</p>
       <div class="mhcards">${TOPV().map(x=>`<a href="#" class="mhcard${x.k==="program"?" prog":""}" data-go="${x.id}"><small>${x.k==="unit"?`${x.c.length} modules · ${x.c.reduce((s,m)=>s+m.c.length,0)} lessons`:x.k==="module"?`${x.c.length} lessons`:"Program resources"}</small><b>${esc(x.t)}</b></a>`).join("")}</div>`;
   }else if(n.k==="unit"){
     el.innerHTML=`<h1 class="mhh1">${esc(n.t)}</h1><div class="mhban"></div>${toolbar(n,false)}
@@ -1888,15 +1899,15 @@ function infoPanel(n){
   const anc=ancestors(n.id),mod=n.k==="lesson"?BIOX.byId[BIOX.parent[n.id]]:n;
   return `<aside class="mhinfo"><div class="mhinfoh"><h2>Planning Information</h2><button id="bioinfox" aria-label="Close">✕</button></div>
     <h3>☑ ${n.k==="lesson"?"Lesson":"Module"} overview</h3>
-    <p><b>Location:</b> ${anc.map(a=>esc(a.t)).join(" › ")||"Inspire Biology"}</p>
+    <p><b>Location:</b> ${anc.map(a=>esc(a.t)).join(" › ")||esc(PRG().name)}</p>
     ${n.k==="lesson"?`<p><b>Lesson flow (5E):</b> Engage → Explain → Explore → Elaborate → Evaluate</p><p><b>Lessons in this module:</b></p><ol>${mod.c.map(l=>`<li${l.id===n.id?' class="cur"':""}>${esc(l.t.replace(/^Lesson( \d+)?: /,""))}</li>`).join("")}</ol>`:`<p><b>Lessons:</b></p><ol>${n.c.map(l=>`<li>${esc(l.t.replace(/^Lesson( \d+)?: /,""))}</li>`).join("")}</ol>`}
     <p class="mhsub">Focus question, objectives and vocabulary are in McGraw Hill.</p><a class="mhbtn" href="${mhUrl(n)}" target="_blank" rel="noopener" style="display:inline-flex">Open in McGraw Hill ↗</a></aside>`;
 }
 /* Browse This Course modal (tabs → modules → lessons) */
 function openBrowse(){
   const m=$("biobrowsedlg");m.style.display="flex";
-  if(!BIOX.brTab){const n=BIOX.node?BIOX.byId[BIOX.node]:null;const top=n?(ancestors(n.id)[0]||n):MHTOC[3];BIOX.brTab=top.id;}
-  if(!isT()&&BIOX.byId[BIOX.brTab]?.k==="program")BIOX.brTab=MHTOC[3].id;
+  if(!BIOX.brTab){const n=BIOX.node?BIOX.byId[BIOX.node]:null;const top=n?(ancestors(n.id)[0]||n):TOPV().find(x=>x.k!=="program");BIOX.brTab=top.id;}
+  if(!isT()&&BIOX.byId[BIOX.brTab]?.k==="program")BIOX.brTab=TOPV().find(x=>x.k!=="program").id;
   drawBrowse();
 }
 function drawBrowse(){
@@ -1914,6 +1925,33 @@ function drawBrowse(){
 function closeBrowse(){$("biobrowsedlg").style.display="none";}
 $("biobrowsedlg").addEventListener("click",e=>{if(e.target.id==="biobrowsedlg")closeBrowse();});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&$("biobrowsedlg").style.display==="flex")closeBrowse();});
+
+/* ===== Inspire Science, Grade 8: same McGraw Hill-style layout, with the Grade 8 section names ===== */
+{const ls0=lessonSections,ms0=moduleSections;
+lessonSections=function(n){if(BIOX.progOf[n.id]!=="sci8")return ls0.apply(this,arguments);
+  const L=short(n.title||n.t),X=LXLESSONS[n.id],R=(t,d,tags,teacher)=>drvRepl(n.id,{t,d,tags,teacher});
+  return drvMerge(n.id,[
+    {h:"Lesson Planning Resources",sub:"Plan the lesson and present it to the class.",teacher:true,items:[R(`Teacher Edition: ${L}`,"Teacher Edition pages and planning notes",["eBook"],1),R(`Lesson Planner: ${L}`,"Pacing, objectives and standards",["PDF"],1),R(`Teacher Presentation: ${L}`,"Ready-made interactive presentation",["Interactive Presentation"],1),R(`Answer Keys: ${L}`,"Answer keys for the lesson activities",["PDF"],1)]},
+    {h:"Science Probe",sub:"Find out what students already think before the lesson.",items:[R(`Science Probe: ${L}`,"Uncover students' preconceptions",["Learning Resource"])]},
+    {h:"Engage",tag:"Interactive Content",sub:"Spark curiosity and launch the phenomenon.",items:[X?{t:`Launch the Lesson: ${L}`,d:"Phenomenon + CER question, scored 1–4 with feedback on each part",tags:["Interactive","CER"],lx:"launch"}:R(`Engage: ${L}`,"Launch the lesson phenomenon",["Interactive Presentation"])]},
+    {h:"Explore and Explain",tag:"Interactive Content",sub:"Investigate, gather evidence and build the key ideas.",items:[...(X?[{t:`Learn: ${L}`,d:"Key ideas with diagrams for this lesson",tags:["Interactive"],lx:"learn"},{t:`Simulations: ${L}`,d:X.labels?.sims?.[1]||"Embedded simulations",tags:["Interactive","Simulation"],lx:"sims"}]:[]),R(`Explore and Explain: ${L}`,"Investigations, readings and checkpoints in McGraw Hill",["Interactive Presentation"])]},
+    {h:"Elaborate",tag:"Interactive Content",sub:"Apply and extend the ideas.",items:[...(X?[{t:`${X.labels?.lab?.[0]||"Lab"}: ${L}`,d:X.labels?.lab?.[1]||"Virtual lab with challenges and a data table",tags:["Interactive","Lab"],lx:"lab"}]:[]),R(`Elaborate: ${L}`,"Extension activities",["Interactive Presentation"])]},
+    {h:"Evaluate",tag:"Assessment",sub:"Check understanding of the lesson.",items:[...(X?[{t:`Practice: ${L}`,d:(X.labels?.practice?.[1]||"Practice activities")+" · 2 tries each",tags:[],lx:"practice"},{t:`Vocabulary Flashcards: ${L}`,d:"Flip the cards, then take the graded vocabulary check",tags:[],lx:"flash"},{t:`Lesson Check: ${L}`,d:"Graded questions, written answers marked by AI · download PDF",tags:["Assessment"],lx:"check"}]:[R(`Lesson Check: ${L}`,"Short assessment of the lesson",["Assessment"])]),R(`Lesson Check Answer Key: ${L}`,"Answer key for the Lesson Check",["PDF"],1)]},
+    {h:"Lesson Library",sub:"Videos, simulations and interactives for this lesson.",items:[R(`Videos, Simulations, and Interactives: ${L}`,"Open the lesson library in McGraw Hill",["Web"])]},
+    {h:"Language Resources",sub:"Spanish and language support resources.",items:[R(`Spanish Lesson Resources: ${L}`,"Spanish versions of the lesson materials",["PDF"])]},
+    {h:"Teacher-added Resources",sub:"Resources you add for this class.",teacher:true,items:[]},
+    ...(X?[{h:isT()?"Class Results":"My Report",tag:isT()?"Teacher":"Score & result code",sub:isT()?"Live results for this lesson and the class CSV.":"Your overall score for this lesson and every part.",items:[isT()?{t:`Class results: ${L}`,d:"Live class table · download CSV",tags:["Teacher"],lx:"results"}:{t:`My report: ${L}`,d:"Score, grade and result code for this lesson",tags:["Report"],lx:"report"}]}]:[])]);};
+moduleSections=function(n){if(BIOX.progOf[n.id]!=="sci8")return ms0.apply(this,arguments);
+  const M=short(n.t),R=(t,d,tags,teacher)=>drvRepl(n.id,{t,d,tags,teacher});
+  return drvMerge(n.id,[
+    {h:"Module Planning Resources",sub:"Plan and present the whole module.",teacher:true,items:[R(`Teacher Edition: ${M}`,"Teacher Edition for this module",["eBook"],1),R(`Module Planner: ${M}`,"Pacing, performance expectations and preconceptions",["PDF"],1),R(`School-to-Home Resources: ${M}`,"Letters and activities for families",["PDF"],1)]},
+    {h:"Module Opener",tag:"Interactive Content",sub:"Encounter the phenomenon and ask questions.",items:[R(`Module Opener: ${M}`,"Encounter the phenomenon",["Interactive Presentation"])]},
+    {h:"Lessons",lessons:true},
+    {h:"STEM Module Project",sub:"Apply the module ideas to a real-world design challenge.",items:[R(`STEM Module Project: ${M}`,"Project launch and planning",["Interactive Presentation"])]},
+    {h:"Module Wrap-Up",sub:"Revisit the phenomenon and pull the ideas together.",items:[R(`Module Wrap-Up: ${M}`,"Revisit the phenomenon",["Interactive Presentation"])]},
+    {h:"Module Assessment",tag:"Assessment",sub:"Check understanding of the whole module.",items:[R(`Module Test: ${M}`,"Summative assessment",["Assessment"]),R(`Three-Dimensional Assessment Guide: ${M}`,"Guide to the module's 3D assessments",["PDF"],1)]},
+    {h:"Module Library",sub:"Videos, simulations, STEM activities and study tools.",items:[R(`Videos, Simulations, and Interactives: ${M}`,"Open the module library in McGraw Hill",["Web"]),R(`STEM Activities: ${M}`,"Hands-on STEM activities",["Learning Resource"]),R(`Study Tools: ${M}`,"Vocabulary and review",["Learning Resource"])]},
+    {h:"Language Resources",sub:"Spanish module resources.",items:[R(`Spanish Module Resources: ${M}`,"Spanish versions of the module materials",["PDF"])]}]);};}
 
 /* ===== Original figures for Lesson M2L1 (drawn for this portal) ===== */
 function lxPPSeries(steps,K){let N=200,P=20;const r=.6,a=.01,b=.25,m=.3,o=[];for(let t=0;t<steps;t++){const dN=r*N*(1-N/K)-a*N*P,dP=b*a*N*P-m*P;N=Math.max(0,N+dN*.25);P=Math.max(0,P+dP*.25);o.push([N,P]);}return o;}
@@ -2181,7 +2219,7 @@ function openLesson(id,tab){
   $("lxnotes").dataset.notes=id;nbBadges();
   lxRenderLearn();lxRenderLab();lxRenderPractice();lxRenderFlash();lxRenderQuiz();lxShow(tab||"launch");lxBar();
 }
-function closeLesson(){if(LX.sim)LX.sim.stop();$("lessonview").style.display="none";openCourses("bio");openBio(LX.id);scrollTo(0,0);}
+function closeLesson(){if(LX.sim)LX.sim.stop();$("lessonview").style.display="none";openCourses(BIOX.progOf[LX.id]||"bio");openBio(LX.id);scrollTo(0,0);}
 const LXPAGES=[["launch","1 · Launch the Lesson","CER question · scored 1–4 with feedback"],["learn","2 · Learn","Key ideas and diagrams"],["lab","3 · Ecosystem Lab","Adjust the factors, record data"],["sims","4 · Simulations","Embedded models + online library"],["practice","5 · Practice","Sort and order"],["flash","6 · Vocabulary Flashcards","Flip, mark, graded check"],["check","7 · Lesson Check","Graded · download PDF"],["report","My report","Score and result code"],["results","Class results","Import codes · CSV"]];
 function lxPages(){const lb=LX.L?.labels||{};return LXPAGES.filter(p=>p[0]!=="results"||CAL.user?.t).map(p=>lb[p[0]]?[p[0],p[1].replace(/^(\d · ).*$/,"$1")+lb[p[0]][0],lb[p[0]][1]||p[2]]:p);}
 function lxShow(t){
@@ -4292,6 +4330,393 @@ LXLESSONS[M2L3_ID]={key:"M2L3",title:"Cycling of Matter",eyebrow:"Module 2 · Pr
   ],
   cer:CER_M2L3,kit:{lab:c3Lab,practice:c3Practice,sims:c3Sims,score:c3Score}};
 
+/* ===== Inspire Science Grade 8 · Module 1: Geologic Time · interactive lessons (original Al-Anjal content; helpers from m1lessons.js) ===== */
+const G8L1_ID="c61626c4-5cee-4ad3-b4b8-75ece4ac87d6",G8L2_ID="b439cc14-5b42-4142-bc36-717c43f37d16";
+const GC={sand:"#e9cf8f",lime:"#d9dccf",shale:"#9fa7ae",red:"#c98a6a",coal:"#4a4a4a",ign:"#b0475a",soil:"#8a6b48",cong:"#c9b48a"};
+/* draw a cross-section: layers bottom→top [{n,col,h,fos}], dike {x,w,top}, fault {x,top}, unconf idx */
+function e1Section(S,opt){opt=opt||{};const W=opt.W||520,H=opt.H||300,x0=40,w=W-80;let y=H-20,s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="${esc(opt.aria||"rock layers")}" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${W}" height="${H}" fill="#f4f8fb"/>`;
+  const tops=[];S.layers.forEach((L,i)=>{const h=L.h||40,yt=y-h;tops.push([yt,y]);const wave=S.unconf===i;
+    s+=wave?`<path d="M${x0} ${y} L${x0} ${yt+6} ${Array.from({length:9},(_,k)=>`Q${x0+w*(k+.5)/9} ${yt+(k%2?12:-2)} ${x0+w*(k+1)/9} ${yt+6}`).join(" ")} L${x0+w} ${y}Z" fill="${L.col}" stroke="#555" stroke-width="1"/>`:`<rect x="${x0}" y="${yt}" width="${w}" height="${h}" fill="${L.col}" stroke="#555" stroke-width="1"/>`;
+    if(L.dots)for(let k=0;k<26;k++)s+=`<circle cx="${x0+8+((k*53)%(w-16))}" cy="${yt+6+((k*17)%(h-10))}" r="1.6" fill="#6b5a3a" opacity=".55"/>`;
+    if(L.fos)s+=`<text x="${x0+w*0.62}" y="${yt+h/2+6}" font-size="17">${L.fos}</text>`;
+    s+=`<text x="${x0+12}" y="${yt+h/2+5}" font-size="14" font-weight="800" fill="#10232f">${L.n}</text>`;y=yt;});
+  if(S.unconf!=null){const [yt]=tops[S.unconf];s+=`<text x="${x0+w+4}" y="${yt+10}" font-size="10" fill="#7a3b0a">erosion</text>`;}
+  if(S.dike){const d=S.dike,top=tops[d.top][0],bot=H-20;s+=`<path d="M${x0+d.x} ${bot} L${x0+d.x+d.w} ${bot} L${x0+d.x+d.w*0.8} ${top} L${x0+d.x+d.w*0.2} ${top}Z" fill="${GC.ign}" stroke="#5a1f2b"/><text x="${x0+d.x+d.w/2}" y="${(top+bot)/2}" font-size="14" font-weight="800" fill="#fff" text-anchor="middle">${d.n}</text>`;}
+  if(S.fault){const f=S.fault,top=tops[f.top][0],bot=H-20;s+=`<path d="M${x0+f.x} ${bot} L${x0+f.x+60} ${top}" stroke="#111" stroke-width="3" stroke-dasharray="7 4"/><text x="${x0+f.x+64}" y="${top+14}" font-size="14" font-weight="800">${f.n}</text>`;}
+  return s+`<text x="${W/2}" y="${H-4}" font-size="10.5" text-anchor="middle" fill="${AF.mu}">${esc(opt.cap||"cross-section: oldest at the bottom")}</text></svg>`;}
+
+/* =====================================================================
+   LESSON 1 · ANALYZING THE ROCK AND FOSSIL RECORDS
+   ===================================================================== */
+const E1CER={layers:[{n:"A",col:GC.lime,h:46,fos:"🐚"},{n:"B",col:GC.shale,h:40,fos:"🪲"},{n:"C",col:GC.sand,h:44,dots:1},{n:"D",col:GC.red,h:40,fos:"🦴"},{n:"E",col:GC.sand,h:36,dots:1}],dike:{n:"F",x:150,w:40,top:2},unconf:3};
+LXFIG.e1cer=()=>e1Section(E1CER,{aria:"Rock layers A to E with an igneous intrusion F",cap:"Outcrop near Riyadh (illustrative) · 🐚 sea shells · 🪲 trilobite · 🦴 bone fragments"});
+LXFIG.e1super=()=>e1Section({layers:[{n:"1",col:GC.lime,h:50},{n:"2",col:GC.shale,h:42},{n:"3",col:GC.sand,h:46,dots:1},{n:"4",col:GC.red,h:40}]},{W:420,H:240,aria:"Law of superposition",cap:"Superposition: in undisturbed layers, 1 is oldest and 4 is youngest"});
+LXFIG.e1cross=()=>e1Section({layers:[{n:"1",col:GC.lime,h:50},{n:"2",col:GC.shale,h:42},{n:"3",col:GC.sand,h:46,dots:1}],dike:{n:"X",x:140,w:46,top:2}},{W:420,H:200,aria:"Cross-cutting relationships",cap:"Cross-cutting: the intrusion X is younger than every layer it cuts"});
+LXFIG.e1fosfig=()=>`<svg viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="How a fossil forms" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="640" height="210" fill="#fff"/>
+  ${[["1. An organism dies","🐟","#bfe0f5"],["2. Sediment buries it quickly","🐟","#e9cf8f"],["3. Minerals replace hard parts","🦴","#d9dccf"],["4. Uplift and erosion expose it","🦴","#c98a6a"]].map(([t,ic,c],i)=>{const x=14+i*156;return `<rect x="${x}" y="30" width="140" height="130" rx="10" fill="${c}" stroke="#10232f" stroke-opacity=".2"/><text x="${x+70}" y="${i<3?140:90}" font-size="34" text-anchor="middle">${ic}</text>${i?`<rect x="${x}" y="${i===3?110:60}" width="140" height="${i===3?50:6}" fill="#8a6b48" opacity=".35"/>`:""}<text x="${x+70}" y="185" font-size="12" font-weight="700" text-anchor="middle">${t}</text>${i<3?`<text x="${x+148}" y="100" font-size="18" fill="${AF.mu}">→</text>`:""}`;}).join("")}
+  <text x="320" y="20" font-size="12" text-anchor="middle" fill="${AF.mu}">Fossils form best when hard parts are buried quickly, before they decay</text></svg>`;
+LXFIG.e1corr=()=>{const A=[{n:"",col:GC.lime,h:40,fos:"🐚"},{n:"",col:GC.shale,h:34,fos:"🪲"},{n:"",col:GC.sand,h:40,dots:1}],B=[{n:"",col:GC.red,h:30},{n:"",col:GC.lime,h:40,fos:"🐚"},{n:"",col:GC.shale,h:34,fos:"🪲"},{n:"",col:GC.sand,h:26,dots:1}];
+  return `<svg viewBox="0 0 640 230" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Correlating two outcrops with index fossils" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="640" height="230" fill="#fff"/>
+  <g transform="translate(20,0)">${e1Section({layers:A},{W:260,H:200,cap:"Outcrop 1"}).replace(/^<svg[^>]*>|<\/svg>$/g,"")}</g><g transform="translate(360,0)">${e1Section({layers:B},{W:260,H:200,cap:"Outcrop 2 (200 km away)"}).replace(/^<svg[^>]*>|<\/svg>$/g,"")}</g>
+  <path d="M240 120 L420 120" stroke="${AF.blue}" stroke-dasharray="5 4"/><path d="M240 158 L420 154" stroke="${AF.blue}" stroke-dasharray="5 4"/><text x="330" y="112" font-size="11" text-anchor="middle" fill="${AF.blue}">same index fossils = same age</text></svg>`;};
+LXFIG.e1qsec=()=>e1Section({layers:[{n:"P",col:GC.lime,h:44},{n:"Q",col:GC.shale,h:40},{n:"R",col:GC.sand,h:44,dots:1},{n:"S",col:GC.red,h:38}],dike:{n:"T",x:260,w:40,top:3},fault:{n:"U",x:90,top:1}},{aria:"Quiz cross-section",cap:"Layers P–S, intrusion T and fault U"});
+
+/* ---------- launch: CER ---------- */
+const E1K={claim:/\bF\b.*(before|older|earlier).*\bD\b|\bD\b.*(after|younger|later).*\bF\b|F.*(قبل|أقدم).*D/i,cuts:/cut|through|crosses|يقطع|اخترق|يخترق/i,notD:/not.*\bD\b|doesn'?t.*\bD\b|does not.*\bD\b|stops?.*\bD\b|below \bD\b|under \bD\b|لا يقطع|لم يقطع/i,
+  concept:/superposition|cross-?cutting|erosion|unconformity|older.*(bottom|below)|bottom.*oldest|التراكب|التقاطع|التعرية|عدم التوافق/i,cause:CERK.cause};
+function e1CerScore(c,e,r){const P={c:0,e:0,r:0},F={c:"",e:"",r:""};
+  if(c.trim().length<5)F.c="Write a claim: which formed first, the intrusion F or layer D?";
+  else if(E1K.claim.test(c)){P.c=1;F.c="Clear claim: F formed before layer D (after A, B and C).";}
+  else F.c="Look again: does F cut through layer D? Your claim should say whether F is older or younger than D.";
+  const nE=[E1K.cuts.test(e),E1K.notD.test(e),/\bA\b|\bB\b|\bC\b|A, B|A,B/.test(e),/erosion|wav|uneven|تعرية/i.test(e)].filter(Boolean).length;
+  if(e.trim().length<8)F.e="Add evidence from the diagram: which layers does F cut?";
+  else if(nE>=3){P.e=2;F.e="Strong evidence: F cuts A, B and C but stops at the erosion surface under D.";}
+  else if(nE>=1){P.e=1;F.e="Some evidence. Say exactly which layers F cuts through and which layer it does NOT cut.";}
+  else F.e="Evidence must describe the diagram: which layers does F cut through?";
+  const cc=E1K.concept.test(r),ca=E1K.cause.test(r);
+  if(r.trim().length<8)F.r="Explain the science: which principles help you order the events?";
+  else if(cc&&ca){P.r=2;F.r="Strong reasoning: you used superposition and cross-cutting relationships.";}
+  else if(cc||ca){P.r=1;F.r=cc?"Good principle. Now connect it: something that cuts a layer must be younger than that layer; D lies on top, so D is younger still.":"You gave a reason. Name the principles: superposition and cross-cutting relationships.";}
+  else F.r="Reasoning should use the law of superposition and the principle of cross-cutting relationships.";
+  const pts=P.c+P.e+P.r;return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4};}
+const CER_G8L1={title:"Reading the rocks of the Tuwaiq escarpment",
+  intro:`<p>Geologists studying a road cut near Riyadh drew this cross-section. Layers <b>A–E</b> are sedimentary rocks. <b>F</b> is igneous rock that was once hot magma and pushed up through cracks. The wavy line on top of layer C is an old <b>erosion surface</b>: wind and water wore the land down before layer D was laid on top. Layer A contains sea shells, layer B a trilobite and layer D bone fragments.</p>`,
+  fig:LXFIG.e1cer,figcap:"Illustrative cross-section for teaching",
+  table:()=>`<table class="certbl"><tr><th>Feature</th><th>What the geologists observed</th></tr><tr><td>Layers A, B, C</td><td>flat, one on top of another; F cuts through all three</td></tr><tr><td>Erosion surface</td><td>wavy top of C; the top of F is worn flat at the same level</td></tr><tr><td>Layer D</td><td>lies on the erosion surface; F does not enter D</td></tr><tr><td>Layer E</td><td>on top of D, undisturbed</td></tr></table>`,
+  question:"Which formed first: the igneous intrusion F or layer D? Use the diagram to support your answer.",ph:["e.g. F formed before / after D…","F cuts through layers…, but…","This is because of the principle of…"],
+  rubric:[["Claim","F formed before layer D (and after A, B and C).","0–1"],["Evidence","Describes that F cuts A, B and C, is worn off at the erosion surface, and does not cut D.","0–2"],["Reasoning","Uses superposition AND cross-cutting relationships (something that cuts a layer is younger than it; a layer on top is younger than what is below).","0–2"]],
+  ex:["The intrusion F formed before layer D, but after layers A, B and C.","F cuts through layers A, B and C, but it stops at the wavy erosion surface on top of C and does not enter layer D. The top of F is worn flat like layer C.","By the principle of cross-cutting relationships, F must be younger than the layers it cuts, so it formed after A, B and C. Then erosion wore down both C and F. By the law of superposition, D was deposited on top of this surface, so D is younger than F."],
+  ai:`PHENOMENON: A cross-section near Riyadh: sedimentary layers A (bottom, sea shells), B (trilobite), C (sandstone), then a wavy erosion surface, then D (bone fragments) and E (top). An igneous intrusion F cuts through A, B and C, its top is worn flat at the erosion surface, and it does not enter D.
+QUESTION: Which formed first: the igneous intrusion F or layer D?
+RUBRIC:
+- Claim 0-1: 1 if it says F formed before D (older than D).
+- Evidence 0-2: 2 = says F cuts A, B and C AND does not cut D / stops at the erosion surface; 1 = only part of this; 0 = none.
+- Reasoning 0-2: 2 = uses superposition AND cross-cutting relationships correctly; 1 = only one; 0 = none.`,
+  score:e1CerScore};
+
+/* ---------- Rock Layer Detective lab ---------- */
+const E1SC=[
+  {t:"Warm-up: four flat layers",S:{layers:[{n:"A",col:GC.lime,h:46},{n:"B",col:GC.shale,h:40},{n:"C",col:GC.sand,h:44,dots:1},{n:"D",col:GC.red,h:40}]},order:["A","B","C","D"],hint:"In undisturbed layers the bottom layer is the oldest."},
+  {t:"An intrusion",S:{layers:[{n:"A",col:GC.lime,h:46},{n:"B",col:GC.shale,h:40},{n:"C",col:GC.sand,h:44,dots:1},{n:"D",col:GC.red,h:40}],dike:{n:"E",x:220,w:44,top:2}},order:["A","B","C","E","D"],hint:"E cuts A, B and C but not D."},
+  {t:"A fault",S:{layers:[{n:"A",col:GC.lime,h:46},{n:"B",col:GC.shale,h:40},{n:"C",col:GC.sand,h:44,dots:1},{n:"D",col:GC.red,h:40}],fault:{n:"F",x:120,top:3}},order:["A","B","C","D","F"],hint:"A fault that breaks every layer is younger than all of them."},
+  {t:"Erosion surface (unconformity)",S:{layers:[{n:"A",col:GC.lime,h:46},{n:"B",col:GC.shale,h:40},{n:"C",col:GC.sand,h:44,dots:1},{n:"D",col:GC.red,h:40}],unconf:2,fault:{n:"F",x:300,top:1}},order:["A","B","F","C","D"],hint:"The fault breaks A and B but stops at the erosion surface below C."},
+  {t:"Intrusion and fault together",S:{layers:[{n:"A",col:GC.lime,h:42},{n:"B",col:GC.shale,h:38},{n:"C",col:GC.sand,h:40,dots:1},{n:"D",col:GC.red,h:36},{n:"E",col:GC.cong,h:34,dots:1}],dike:{n:"G",x:280,w:40,top:4},fault:{n:"F",x:80,top:2}},order:["A","B","C","F","D","E","G"],hint:"F cuts A–C only. G cuts every layer, so it is the youngest."}];
+const E1CH=[{id:"s1",t:"Order the warm-up section with no mistakes.",h:"Bottom = oldest."},{id:"dike",t:"Solve the section with an intrusion.",h:"Use cross-cutting relationships."},{id:"fault",t:"Solve the section with a fault.",h:"What does the fault break?"},{id:"unc",t:"Solve the section with an erosion surface.",h:"The erosion surface cuts off older features."},{id:"hard",t:"Solve the hardest section with at most 1 mistake.",h:"Find what each feature cuts."},{id:"data",t:"Record at least 4 solved sections in your data table.",h:"Each solved section is recorded automatically."}];
+function e1Lab(){const st=LX.st;st.e=st.e||{};const E=st.e;E.sc=E.sc??0;
+  const sc=E1SC[E.sc],chal=()=>$("echal");E.cur=E.cur&&E.cur.sc===E.sc?E.cur:{sc:E.sc,seq:[],miss:0,done:false};const C=E.cur;
+  $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff;padding:8px">${e1Section(sc.S,{aria:sc.t})}</div><div class="lxchal" id="echal"></div></div>
+    <div class="lxctl"><div class="lxchips">${E1SC.map((x,i)=>`<button data-sc="${i}" class="${i===E.sc?"on":""}">${i+1}. ${esc(x.t)}</button>`).join("")}</div>
+      <div class="lxprac"><p class="lxtask"><b>Tap the rocks and events from OLDEST to YOUNGEST.</b> ${C.done?"":`${C.seq.length} / ${sc.order.length}`}</p><div class="lxchips big" id="eopts">${lxShuffle(sc.order,"e"+E.sc).map(x=>`<button data-v="${x}" class="${C.seq.includes(x)?"right":""}" ${C.seq.includes(x)||C.done?"disabled":""}>${x}</button>`).join("")}</div>
+        <div class="lxseq">${C.seq.map((x,i)=>`<span>${i+1}. ${x}</span>`).join(" → ")}</div><div class="lxfb" id="emsg"></div><div class="lxbtns"><button class="lxbtn" id="ereset">Start this section again</button></div></div>
+      <div class="lxverdict" id="ev">${C.done?`Solved with ${C.miss} mistake${C.miss===1?"":"s"}. ${E.sc<E1SC.length-1?"Try the next section.":""}`:"Hint: "+esc(sc.hint)}</div></div></div>
+    <div class="lxprac"><div class="ph"><h3>My data table</h3><span class="lxqs" id="edn"></span></div><p class="lxtask">Every solved section is recorded here.</p><div class="lxtblwrap"><table class="lxtbl" id="etbl"></table></div></div>
+    <div class="lxprac"><div class="ph"><h3>Analyse your data</h3><span class="lxqs" id="lxan"></span></div><div id="lxanq"></div></div>`;
+  LX.sim={stop(){},resize(){}};
+  $("lxlab").querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{E.sc=+b.dataset.sc;lxSave();e1Lab();});
+  $("ereset").onclick=()=>{E.cur={sc:E.sc,seq:[],miss:0,done:false};lxSave();e1Lab();};
+  $("eopts").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(C.done)return;const want=sc.order[C.seq.length];
+    if(b.dataset.v===want){C.seq.push(want);lxSfx.right();if(C.seq.length===sc.order.length){C.done=true;lxSfx.win();
+        st.data.push({sc:E.sc+1,t:sc.t,n:sc.order.length,miss:C.miss,first:sc.order[0],last:sc.order[sc.order.length-1]});
+        const ids=["s1","dike","fault","unc","hard"];if(E.sc===0&&C.miss===0)aDone("s1",E1CH,chal());if(E.sc===1)aDone("dike",E1CH,chal());if(E.sc===2)aDone("fault",E1CH,chal());if(E.sc===3)aDone("unc",E1CH,chal());if(E.sc===4&&C.miss<=1)aDone("hard",E1CH,chal());
+        if(st.data.length>=4)aDone("data",E1CH,chal());}lxSave();e1Lab();lxBar();}
+    else{C.miss++;lxSfx.wrong();lxSave();const m=$("emsg");m.className="lxfb no";m.innerHTML=`<b>${b.dataset.v} is not next.</b><span>${esc(sc.hint)}</span>`;}});
+  $("etbl").innerHTML=`<thead><tr><th>#</th><th>Section</th><th>Events</th><th>Mistakes</th><th>Oldest</th><th>Youngest</th></tr></thead><tbody>${st.data.map((d,i)=>`<tr><td>${i+1}</td><td>${esc(d.t)}</td><td>${d.n}</td><td><b>${d.miss}</b></td><td>${d.first}</td><td>${d.last}</td></tr>`).join("")}</tbody>`;$("edn").textContent=`${st.data.length} solved`;
+  aChal(chal(),E1CH);e1Analysis();}
+function e1Analysis(){const st=LX.st,d=st.data,host=$("lxanq");if(!host)return;
+  if(d.length<3){host.innerHTML=`<p class="lxsub">Solve at least 3 sections to unlock the analysis questions. They are checked against <b>your own</b> table.</p>`;$("lxan").textContent="locked";return;}
+  const last=d[d.length-1],tot=d.reduce((s,x)=>s+x.miss,0);
+  const Q=[{type:"num",stem:"How many mistakes did you make in your <b>last</b> solved section?",a:last.miss,unit:"mistakes",tol:0,why:`Your last row shows ${last.miss}.`,hint:"Read the Mistakes column in the last row."},
+    {type:"num",stem:"How many mistakes did you make <b>in total</b> in your table?",a:tot,unit:"mistakes",tol:0,why:`Adding the column gives ${tot}.`,hint:"Add up the Mistakes column."},
+    {type:"mcq",stem:"In section 2, why is intrusion E younger than layer C?",opts:["E cuts through C, and something that cuts a rock must be younger than it","E is on top of C","E contains more fossils","Igneous rock is always the oldest"],a:0,why:"Principle of cross-cutting relationships.",hint:"What does E do to layer C?"},
+    {type:"mcq",stem:"What does an erosion surface (unconformity) tell you?",opts:["Some rock layers were worn away, so part of the record is missing","The layers were tilted","The rocks are all the same age","A fossil formed there"],a:0,why:"An unconformity is a gap in the rock record caused by erosion or no deposition.",hint:"What happens during erosion?"}];
+  const sig=d.length+":"+tot;if(st.anSig!==sig){st.an={};st.anSig=sig;lxSave();}
+  host.innerHTML=Q.map((q,i)=>lxQHTML(q,"a"+i,i+1)).join("");const upd=()=>{$("lxan").textContent=`${Q.filter((_,j)=>st.an?.["a"+j]?.ok).length} / ${Q.length} correct`;};Q.forEach((q,i)=>lxWireQ(q,"a"+i,st.an||(st.an={}),upd));upd();}
+
+/* ---------- practice ---------- */
+const E1PR={sup:"Superposition",hor:"Original horizontality",cut:"Cross-cutting",inc:"Inclusions",unc:"Unconformity"};
+const E1PRQ=[["In undisturbed layers, the bottom layer is the oldest.","sup"],["Sediment is laid down in flat, horizontal layers.","hor"],["A crack filled with magma is younger than the layers it crosses.","cut"],["Pieces of granite inside a sandstone layer are older than the sandstone.","inc"],["A wavy surface shows that layers were eroded before new ones were deposited.","unc"],["A fault breaks three layers, so it formed after all three.","cut"],["Tilted layers must have been flat when they formed, then moved later.","hor"],["Layer 5 sits on layer 4, so layer 5 is younger.","sup"]];
+const E1PRW={sup:"Law of superposition: younger layers are deposited on top of older ones.",hor:"Principle of original horizontality: sediments settle in flat layers.",cut:"Cross-cutting relationships: a feature that cuts rock is younger than the rock.",inc:"Inclusions: a rock piece inside another rock is older than the rock around it.",unc:"An unconformity is a gap in the rock record from erosion or no deposition."};
+const E1FT={mold:"Mold",cast:"Cast",carb:"Carbon film",trace:"Trace fossil",orig:"Original material"};
+const E1FTQ=[["An empty shell-shaped hollow left in rock","mold"],["Minerals fill a hollow and make a stone copy of a shell","cast"],["A thin black outline of a fern leaf","carb"],["Dinosaur footprints in mudstone","trace"],["An insect trapped in amber","orig"],["Worm burrows preserved in sandstone","trace"],["A woolly mammoth frozen in ice","orig"],["A thin carbon outline of a fish","carb"]];
+const E1FTW={mold:"A mold is the hollow left after an organism dissolves away.",cast:"A cast forms when minerals fill a mold.",carb:"A carbon film is a thin layer of carbon left after other elements leave.",trace:"Trace fossils show activity (tracks, burrows), not the body itself.",orig:"Some fossils keep the original material, e.g. in amber or ice."};
+const E1ORD=["An organism dies","Sediment quickly buries the remains","Soft parts decay","Minerals replace or fill the hard parts","Layers of sediment harden into rock","Uplift and erosion expose the fossil"];
+const E1IX={g:"Good index fossil",p:"Poor index fossil"};
+const E1IXQ=[["Lived for a short time and was found all over the world","g"],["Lived for 300 million years in many places","p"],["Lived for a short time in only one small lake","p"],["Easy to recognise, common, widespread, short-lived","g"],["Very rare and found in one cave","p"],["Ammonite species that lived 2 million years in oceans worldwide","g"]];
+function e1Practice(){const st=LX.st;st.e=st.e||{};const E=st.e;["pr","prW","ft","ftW","ix","ixW"].forEach(k=>E[k]=E[k]||{});E.ord=E.ord||{seq:[],miss:0,done:false};
+  const host=$("lxprac"),re=()=>e1Practice();
+  host.innerHTML=aCard("Which principle?",aSc(E.pr,E1PRQ),"Name the principle used in each statement. 2 tries each.",aSortHTML("pr",E1PRQ,E1PR,E.pr,E.prW,(i,a)=>E1PRW[a]))
+    +aCard("Which kind of fossil?",aSc(E.ft,E1FTQ),"Sort each example. 2 tries each.",aSortHTML("ft",E1FTQ,E1FT,E.ft,E.ftW,(i,a)=>E1FTW[a]))
+    +aSeqHTML("eord",E1ORD,E.ord,"eord","Tap the steps of fossil formation in order.","How a body fossil forms")
+    +aCard("Good or poor index fossil?",aSc(E.ix,E1IXQ),"An index fossil helps date and match rock layers. 2 tries each.",aSortHTML("ix",E1IXQ,E1IX,E.ix,E.ixW,(i,a)=>a==="g"?"Good index fossils lived for a short time, were widespread and are easy to identify.":"It lived too long or in too small an area to date layers in many places."));
+  aWireSort(host,{pr:[E.pr,E.prW,E1PRQ,E1PR],ft:[E.ft,E.ftW,E1FTQ,E1FT],ix:[E.ix,E.ixW,E1IXQ,E1IX]},re);
+  aWireSeq("eord",E1ORD,E.ord,()=>{E.ord={seq:[],miss:0,done:false};lxSave();re();},re,pv=>pv.seq.length?`After “${esc(pv.seq[pv.seq.length-1])}”, what happens next?`:"It all starts when the organism dies.");}
+const E1SIMT=["fo1","fo2","fo3","co1","co2","co3"];
+function e1Score(st){const E=st.e||{};const pr={ok:aHf(E.pr,E1PRQ,E.prW)+aHf(E.ft,E1FTQ,E.ftW)+aHf(E.ix,E1IXQ,E.ixW)+(E.ord?.done&&E.ord.miss<=1?1:0),n:E1PRQ.length+E1FTQ.length+E1IXQ.length+1};
+  return {c:{ok:E1CH.filter(x=>st.ch[x.id]).length+E1SIMT.filter(k=>st.sim?.[k]).length,n:E1CH.length+E1SIMT.length},pr};}
+
+/* ---------- simulations ---------- */
+function e1Sims(){aSimNav([["fo","🦴 Make a fossil",e1Fossil],["co","↔ Match the outcrops",e1Corr]]);}
+function e1Fossil(host){
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#eaf3fb"><canvas id="fcv" style="height:260px"></canvas></div>
+    ${aTasks([["fo1","Make a fossil form (choose conditions, then run 10 000 years)."],["fo2","Show that a soft-bodied jellyfish left on the surface does not become a fossil."],["fo3","Answer: which two conditions make fossils most likely?"]])}</div>
+    <div class="lxctl"><div class="lxchips" id="forg">${[["fish","🐟 Fish (bones)"],["shell","🐚 Clam (shell)"],["jelly","🪼 Jellyfish (soft)"],["leaf","🍃 Leaf"]].map(([k,n],i)=>`<button data-o="${k}" class="${i?"":"on"}">${n}</button>`).join("")}</div>
+      ${simSliders([["bur","How fast is it buried? (0 = never, 10 = within days)",0,10,1,2],["oxy","Oxygen and scavengers at the bottom",0,10,1,5]])}
+      <div class="lxbtns"><button class="lxbtn pri" id="fgo">▶ Run 10 000 years</button></div>
+      <div class="lxro"><div><span>Years</span><b id="fyr">0</b></div><div><span>Remains left</span><b id="frem">100%</b></div><div><span>Result</span><b id="fres">–</b></div></div>
+      <div class="lxprac"><p class="lxtask"><b>Question:</b> Which two conditions make fossils most likely?</p><div class="lxchips" id="fq"><button data-v="a">Hard parts and quick burial</button><button data-v="b">Soft body and lots of oxygen</button><button data-v="c">Living on land and dying slowly</button></div><div class="lxfb" id="fqm"></div></div>
+      <div class="lxverdict" id="fv">Choose an organism and the conditions, then run the model.</div></div></div>`;
+  let org="fish",run=false,raf=0,t=0,rem=1,buried=0,res=null;const P={};const read=()=>Object.assign(P,simRead([["bur"],["oxy"]]));read();
+  LX.fieldSim={stop(){run=false;cancelAnimationFrame(raf);}};
+  const hard={fish:0.75,shell:0.95,jelly:0.05,leaf:0.35}[org];
+  const draw=()=>{const F=aFit("fcv");if(!F)return;const{x,w,h}=F,sea=h*0.15,bed=h*0.72;x.fillStyle="#bfe0f5";x.fillRect(0,sea,w,bed-sea);x.fillStyle="#e9cf8f";x.fillRect(0,bed,w,h-bed);
+    const layers=Math.round(buried*6);for(let i=0;i<layers;i++){x.fillStyle=i%2?"#d9c27f":"#cdb373";x.fillRect(0,bed-(i+1)*9,w,9);}
+    x.globalAlpha=Math.max(0.08,rem);x.font="40px serif";x.textAlign="center";x.fillText({fish:"🐟",shell:"🐚",jelly:"🪼",leaf:"🍃"}[org],w/2,bed-layers*9+8);x.globalAlpha=1;
+    if(res==="fossil"){x.font="13px Inter";x.fillStyle="#10232f";x.fillText("Fossil preserved in rock!",w/2,bed+40);}x.textAlign="left";x.font="12px Inter";x.fillStyle=AF.mu;x.fillText(`${Math.round(t)} years`,10,18);};
+  const loop=()=>{if(!run)return;t+=180;const hp={fish:0.75,shell:0.95,jelly:0.05,leaf:0.35}[org];
+    buried=Math.min(1,buried+P.bur/10*0.05);const decay=(1-buried)*(0.012+P.oxy*0.006)*(1.2-hp);rem=Math.max(0,rem-decay*(1-hp*0.6));
+    $("fyr").textContent=Math.round(t);$("frem").textContent=Math.round(rem*100)+"%";draw();
+    if(t>=10000){run=false;res=rem>0.35&&buried>0.8?"fossil":"none";$("fres").textContent=res==="fossil"?"Fossil!":"Nothing left";
+      $("fv").innerHTML=res==="fossil"?"The remains were buried before they decayed, and minerals replaced the hard parts: a fossil formed.":`No fossil: ${P.bur<4?"the remains were not buried quickly enough":"the remains decayed before they were protected"}${hp<0.2?", and a soft body decays fast":""}.`;
+      if(res==="fossil")simDone("fo1","A fossil formed: quick burial and hard parts.");if(org==="jelly"&&P.bur===0&&res==="none")simDone("fo2","Soft bodies left uncovered decay completely.");aTick();return;}
+    raf=requestAnimationFrame(loop);};
+  host.querySelectorAll("#forg button").forEach(b=>b.onclick=()=>{org=b.dataset.o;host.querySelectorAll("#forg button").forEach(x=>x.classList.toggle("on",x===b));t=0;rem=1;buried=0;res=null;draw();});
+  $("fgo").onclick=()=>{read();t=0;rem=1;buried=0;res=null;$("fres").textContent="…";run=true;raf=requestAnimationFrame(loop);};["bur","oxy"].forEach(k=>$("sm-"+k).oninput=read);
+  $("fq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="a",m=$("fqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Hard parts resist decay, and quick burial protects remains from scavengers and oxygen.</span>":"<b>Test it.</b><span>Try the jellyfish and the clam with the same settings.</span>";if(ok)simDone("fo3");aTick();});
+  draw();}
+function e1Corr(host){const L=[["🐚","Limestone with sea shells",GC.lime],["🪲","Shale with trilobites",GC.shale],["🌿","Sandstone with plant fossils",GC.sand]],R=[["🔴","Red siltstone",GC.red],["🐚","Limestone with sea shells",GC.lime],["🪲","Shale with trilobites",GC.shale],["🌿","Sandstone with plant fossils",GC.sand]];
+  const st=LX.st;st.e=st.e||{};const E=st.e;E.links=E.links||{};let pick=null;LX.fieldSim={stop(){}};
+  const draw=()=>{const ok=Object.entries(E.links).filter(([l,r])=>L[l][0]===R[r][0]).length;
+    host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff;padding:12px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:40px">
+      <div><b>Outcrop 1 · Jabal Tuwaiq</b>${L.map((x,i)=>`<button class="e1lay${pick===i?" pk":""}${E.links[i]!=null?" ln":""}" data-l="${i}" style="background:${x[2]}">${x[0]} ${esc(x[1])}${E.links[i]!=null?` → ${R[E.links[i]][0]}`:""}</button>`).reverse().join("")}</div>
+      <div><b>Outcrop 2 · 200 km east</b>${R.map((x,i)=>`<button class="e1lay" data-r="${i}" style="background:${x[2]}">${x[0]} ${esc(x[1])}</button>`).reverse().join("")}</div></div><p class="lxsub">Tap a layer in outcrop 1, then the layer of the same age in outcrop 2. Top = youngest.</p></div>
+      ${aTasks([["co1","Correctly match all three layers of outcrop 1."],["co2","Make your matches with no wrong links."],["co3","Answer: why is the red siltstone only in outcrop 2?"]])}</div>
+      <div class="lxctl"><div class="lxro"><div><span>Correct matches</span><b>${ok} / 3</b></div><div><span>Wrong tries</span><b>${E.cw||0}</b></div></div><div class="lxbtns"><button class="lxbtn" id="cclr">Clear links</button></div>
+        <div class="lxprac"><p class="lxtask"><b>Question:</b> The red siltstone sits on top in outcrop 2 only. What is the best explanation?</p><div class="lxchips" id="cq"><button data-v="a">It was deposited only there, or it was eroded away from outcrop 1</button><button data-v="b">It is the oldest layer</button><button data-v="c">Fossils turned into siltstone</button></div><div class="lxfb" id="cqm"></div></div>
+        <div class="lxverdict">Index fossils let geologists match layers of the same age in places far apart: this is called correlation.</div></div></div>`;
+    host.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{pick=+b.dataset.l;draw();});
+    host.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{if(pick==null){lxToast("First tap a layer in outcrop 1.",true);return;}const r=+b.dataset.r;if(L[pick][0]===R[r][0]){E.links[pick]=r;lxSfx.right();}else{E.cw=(E.cw||0)+1;lxSfx.wrong();lxToast("Those layers have different fossils.",true);}pick=null;
+      if(Object.entries(E.links).filter(([l,rr])=>L[l][0]===R[rr][0]).length===3){simDone("co1","Layers correlated by their fossils.");if(!E.cw)simDone("co2","Perfect correlation.");}lxSave();draw();});
+    $("cclr").onclick=()=>{E.links={};E.cw=0;lxSave();draw();};
+    $("cq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const okk=b.dataset.v==="a",m=$("cqm");m.className="lxfb "+(okk?"ok":"no");m.innerHTML=okk?"<b>Correct.</b><span>Layers are not deposited everywhere, and erosion can remove layers in one place.</span>":"<b>Not quite.</b><span>It is on top, so by superposition it is the youngest.</span>";if(okk)simDone("co3");aTick();});aTick();};
+  draw();}
+
+LXLESSONS[G8L1_ID]={key:"G8M1L1",title:"Analyzing the Rock and Fossil Records",eyebrow:"Grade 8 Science · Module 1: Geologic Time · Lesson 1",
+  lede:"Rock layers are like the pages of Earth's history book. Learn how fossils form, read rock layers with the principles geologists use, put events in order in the Rock Layer Detective lab, then check your understanding.",
+  goals:["How do fossils form, and what can they tell us about Earth's past?","How do scientists use rock layers to find the relative ages of rocks and events?","How can index fossils be used to match rock layers in different places?"],
+  labels:{launch:["Launch the Lesson","Reading the rocks of the Tuwaiq escarpment · CER scored 1–4"],lab:["Rock Layer Detective","Order layers, intrusions, faults and erosion surfaces from oldest to youngest"],sims:["Simulations","2 embedded models (make a fossil, match outcrops with index fossils)"],practice:["Practice","Principles, kinds of fossils, how fossils form, index fossils"]},
+  learn:[
+    {h:"Earth's history in the rocks",k:"gr",html:"<p>Earth is about 4.6 billion years old. Nobody was there to watch most of its history, so scientists read the evidence left in <b>rocks</b> and <b>fossils</b>. The idea that the same processes that shape Earth today (erosion, deposition, volcanoes) also worked in the past is called <b>uniformitarianism</b>.</p>"},
+    {h:"What is a fossil?",html:"<p>A <b>fossil</b> is the preserved remains or evidence of an organism that lived long ago. Most fossils are found in <b>sedimentary rock</b>, such as limestone, shale and sandstone.</p>"},
+    {h:"How fossils form",k:"wide fig",fig:"e1fosfig",html:"<p>Most organisms decay or are eaten after they die. A fossil is most likely to form when the organism has <b>hard parts</b> (bones, shells, teeth, wood) and is <b>buried quickly</b> by sediment. Then minerals in groundwater slowly replace or fill the hard parts.</p>"},
+    {h:"Kinds of fossils",k:"wide",html:"<table><tr><th>Fossil</th><th>How it forms</th><th>Example</th></tr><tr><td>Mold</td><td>an organism dissolves and leaves a hollow in the rock</td><td>a shell-shaped hollow</td></tr><tr><td>Cast</td><td>minerals fill a mold</td><td>a stone copy of a shell</td></tr><tr><td>Carbon film</td><td>a thin film of carbon is left behind</td><td>fern leaf outline</td></tr><tr><td>Original material</td><td>the organism itself is preserved</td><td>insect in amber, mammoth in ice</td></tr><tr><td>Trace fossil</td><td>evidence of activity</td><td>footprints, burrows</td></tr></table>"},
+    {h:"Fossils from Saudi Arabia",k:"note",html:"<p>Limestone in the Al-Ahsa area and the Tuwaiq escarpment contains fossils of shells and other sea animals. This tells us that, millions of years ago, shallow seas covered much of the Arabian Peninsula. Fossils show past <b>environments</b> and how life has changed.</p>"},
+    {h:"Relative-age dating",html:"<p><b>Relative-age dating</b> puts rocks and events in order (older or younger) without giving an age in years. Geologists use a few simple principles.</p>"},
+    {h:"The law of superposition",k:"wide fig",fig:"e1super",html:"<p>In undisturbed rock layers, the <b>oldest layer is at the bottom</b> and each layer above is younger. Sediment is laid down in flat layers (<b>original horizontality</b>), so tilted or folded layers were moved after they formed.</p>"},
+    {h:"Cross-cutting relationships",k:"wide fig",fig:"e1cross",html:"<p>An <b>intrusion</b> (magma that hardens inside cracks) or a <b>fault</b> (a break where rocks move) is <b>younger than the rocks it cuts</b>. Pieces of rock inside another rock (<b>inclusions</b>) are older than the rock around them.</p>"},
+    {h:"Unconformities: missing pages",html:"<p>An <b>unconformity</b> is a surface where rock layers were eroded away, or never deposited, before new layers formed on top. It is a gap in the rock record, like pages torn out of a book.</p>"},
+    {h:"Index fossils and correlation",k:"wide fig",fig:"e1corr",html:"<p>An <b>index fossil</b> is from an organism that lived for a <b>short time</b>, was <b>widespread</b> and is <b>easy to recognise</b>. Rock layers with the same index fossils are about the same age, even far apart. Matching layers like this is called <b>correlation</b>.</p>"}
+  ],
+  vocab:[["Fossil","The preserved remains or evidence of an organism that lived long ago."],["Sedimentary rock","Rock formed when sediment is pressed and cemented together; most fossils are found in it."],["Mold","A hollow in rock left after an organism dissolves away."],["Cast","A fossil formed when minerals fill a mold."],["Carbon film","A thin film of carbon left from an organism."],["Trace fossil","Evidence of an organism's activity, such as a footprint or burrow."],["Relative-age dating","Ordering rocks and events from oldest to youngest without giving ages in years."],["Law of superposition","In undisturbed layers, the oldest layer is at the bottom and the youngest at the top."],["Cross-cutting relationship","A feature that cuts across rock is younger than the rock it cuts."],["Intrusion","Magma that pushes into cracks in rock and hardens."],["Fault","A break in rock along which the rock has moved."],["Unconformity","A gap in the rock record where layers were eroded or never deposited."],["Index fossil","A fossil of an organism that lived a short time over a wide area, used to date and match layers."],["Correlation","Matching rock layers of the same age in different places."],["Uniformitarianism","The idea that processes acting today also acted in the past."]],
+  quiz:[
+    {type:"mcq",stem:"Most fossils are found in which type of rock?",opts:["Sedimentary rock","Igneous rock","Metamorphic rock","Volcanic glass"],a:0,why:"Sediment can bury remains gently; heat and melting destroy them.",hint:"Which rock forms from layers of sediment?"},
+    {type:"mcq",stem:"Which conditions make it most likely that a fossil will form?",opts:["Hard parts and quick burial","Soft body and slow burial","Lots of oxygen and scavengers","Living high in the mountains"],a:0,why:"Hard parts resist decay and quick burial protects remains.",hint:"Think about the fossil simulation."},
+    {type:"mcq",stem:"Dinosaur footprints in mudstone are an example of a…",opts:["trace fossil","cast","carbon film","original-material fossil"],a:0,why:"Footprints show activity, not the body itself.",hint:"They show what the animal did."},
+    {type:"mcq",stem:"In undisturbed layers, the oldest layer is…",opts:["at the bottom","at the top","in the middle","the thickest one"],a:0,why:"Law of superposition.",hint:"Which layer was laid down first?"},
+    {type:"mcq",stem:"A fault cuts through layers 1, 2 and 3. What can you conclude?",opts:["The fault is younger than all three layers","The fault is older than layer 1","The layers formed after the fault","Faults never cut layers"],a:0,why:"Cross-cutting relationships: what cuts is younger.",hint:"Which came first: the layers or the break?"},
+    {type:"tf",stem:"An unconformity shows that part of the rock record is missing.",a:true,why:"It is a gap caused by erosion or no deposition.",hint:"Think of missing pages."},
+    {type:"mcq",stem:"Which is the best index fossil?",opts:["A species that lived 1 million years in oceans worldwide","A species that lived 300 million years","A species found in one small lake","A species that left no hard parts"],a:0,why:"Short-lived, widespread and easy to recognise.",hint:"Short time, wide area."},
+    {type:"mcq",stem:"Limestone with sea-shell fossils is found in the Arabian desert. What does this suggest?",opts:["A shallow sea once covered the area","The shells were carried by wind","Sea animals lived in the desert","The rock is very young"],a:0,why:"Fossils show past environments.",hint:"Where do these animals live?"},
+    {type:"mcq",fig:"e1qsec",stem:"Look at the cross-section. Which layer is the <b>oldest</b>?",opts:["P","S","T","U"],a:0,why:"P is at the bottom and nothing cuts below it.",hint:"Superposition."},
+    {type:"mcq",fig:"e1qsec",stem:"Using the same cross-section: intrusion T cuts all four layers. Which statement is correct?",opts:["T is younger than layer S","T is older than layer P","T is the same age as Q","T formed before any layer"],a:0,why:"T cuts S, so it formed after S.",hint:"Cross-cutting."},
+    {type:"mcq",fig:"e1qsec",stem:"Fault U breaks P and Q but not R. When did the fault form?",opts:["After Q but before R","Before P","After S","At the same time as T"],a:0,why:"It cuts P and Q, so it is younger than them; R lies on top unbroken, so R is younger.",hint:"What does U cut and not cut?"},
+    {type:"tf",stem:"Relative-age dating gives the exact age of a rock in years.",a:false,fix:"it only gives the order: older or younger",why:"Exact ages come from absolute-age dating (next lesson).",hint:"Relative means compared with something else."},
+    {type:"mcq",stem:"Pieces of granite are found inside a layer of sandstone. Which is older?",opts:["The granite pieces","The sandstone","They are the same age","It is impossible to tell"],a:0,why:"Inclusions are older than the rock around them.",hint:"The pieces had to exist first."},
+    {type:"num",stem:"Five layers lie on top of each other. If you number them from the top (1 = top), which number is the oldest layer?",a:5,unit:"",tol:0,why:"The bottom layer, number 5, is the oldest.",hint:"Count down to the bottom."},
+    {type:"write",stem:"Explain why a soft jellyfish is much less likely to become a fossil than a clam.",model:"A jellyfish has no hard parts, so its soft body decays or is eaten quickly before it can be buried. A clam has a hard shell that resists decay, so it is more likely to be buried by sediment and have its shell replaced by minerals.",rubric:"Full (1): soft parts decay quickly AND hard parts (shell) survive long enough to be buried/mineralised. Partial (0.5): only one side. None (0): no valid reason."},
+    {type:"write",stem:"Two outcrops are 200 km apart. Explain how a geologist could show that two of their layers are the same age.",model:"The geologist can look for the same index fossils in both layers. Index fossils come from organisms that lived for a short time over a wide area, so layers that contain the same index fossils formed at about the same time. This is called correlation.",rubric:"Full (1): uses index fossils (same fossils) AND explains why they show the same age (short-lived, widespread) or names correlation. Partial (0.5): mentions matching fossils or rock type without explanation. None (0): no valid method."}
+  ],
+  cer:CER_G8L1,kit:{lab:e1Lab,practice:e1Practice,sims:e1Sims,score:e1Score}};
+
+/* =====================================================================
+   LESSON 2 · BUILDING A TIME LINE
+   ===================================================================== */
+const E2EV=[["Earth forms",4600,"🌍"],["First single-celled life",3800,"🦠"],["Oxygen builds up in the air",2400,"💨"],["First many-celled animals",600,"🪼"],["First fish",500,"🐟"],["First land plants",470,"🌿"],["First insects",400,"🪲"],["Mass extinction (end of Permian)",252,"💥"],["First dinosaurs",230,"🦕"],["First mammals",200,"🐭"],["First flowering plants",130,"🌸"],["Dinosaurs extinct (asteroid)",66,"☄"],["First humans (Homo sapiens)",0.3,"🧍"]];
+const E2ERA=[["Precambrian",4600,541,"#c9b3d9"],["Paleozoic Era",541,252,"#9fc7a8"],["Mesozoic Era",252,66,"#8fb5d8"],["Cenozoic Era",66,0,"#f2c94c"]];
+LXFIG.e2scale=()=>{const W=700,H=180,X=v=>20+(4600-v)/4600*(W-40);let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Geologic time scale" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${W}" height="${H}" fill="#fff"/>`;
+  E2ERA.forEach(([n,a,b,c])=>{s+=`<rect x="${X(a)}" y="50" width="${Math.max(3,X(b)-X(a))}" height="46" fill="${c}" stroke="#fff"/>`;});
+  s+=`<text x="${(X(4600)+X(541))/2}" y="78" font-size="13" font-weight="700" text-anchor="middle">Precambrian (about 88% of Earth's history)</text>`;
+  [["Paleozoic",541,252],["Mesozoic",252,66],["Cenozoic",66,0]].forEach(([n,a,b],i)=>{s+=`<line x1="${(X(a)+X(b))/2}" y1="96" x2="${560+i*0}" y2="${120+i*18}" stroke="${AF.mu}"/><text x="565" y="${124+i*18}" font-size="12" font-weight="700">${n} Era (${a}–${b} mya)</text>`;});
+  [4600,3000,1000,541,0].forEach(v=>{s+=`<text x="${X(v)}" y="42" font-size="10.5" text-anchor="middle" fill="${AF.mu}">${v} mya</text>`;});
+  return s+`<text x="20" y="20" font-size="12" fill="${AF.mu}">mya = million years ago · the three eras of complex life fit in the last 12%</text></svg>`;};
+LXFIG.e2half=()=>aBarSVG({cats:["0","1","2","3","4"],series:[["Parent","#7b4fbf",[100,50,25,12.5,6.25]],["Daughter","#d9a21b",[0,50,75,87.5,93.75]]],ymax:100,yl:"% of atoms",xl:"Number of half-lives",aria:"Parent and daughter atoms over half-lives"});
+LXFIG.e2bracket=()=>e1Section({layers:[{n:"",col:GC.sand,h:36,dots:1},{n:"ash 70 my",col:"#555",h:14},{n:"",col:GC.shale,h:40,fos:"🦕"},{n:"ash 66 my",col:"#555",h:14},{n:"",col:GC.red,h:34}]},{W:420,H:190,aria:"Dating a fossil between two ash layers",cap:"Volcanic ash can be dated in years; the fossil lies between 66 and 70 million years"}).replace(/fill="#10232f">ash/g,'fill="#fff">ash');
+LXFIG.e2qhalf=()=>aLineSVG({xs:[0,5730,11460,17190,22920],series:[["C-14","#7b4fbf",[100,50,25,12.5,6.25]]],ymax:100,yl:"% of carbon-14 left",xl:"Years",aria:"Decay of carbon-14"});
+
+/* ---------- launch ---------- */
+const E2K={claim:/66.*70|70.*66|between.*6[6-9]|بين.*66/i,concept:/superposition|radioactive|half-?life|absolute|isotope|decay|ash|إشعاع|عمر النصف|التراكب|المطلق/i,cause:CERK.cause};
+function e2CerScore(c,e,r){const P={c:0,e:0,r:0},F={c:"",e:"",r:""},nums=(e.match(/\d+(?:\.\d+)?/g)||[]).map(Number),hasA=nums.includes(66),hasB=nums.includes(70);
+  if(c.trim().length<5)F.c="Write a claim: how old are the dinosaur fossils?";
+  else if(E2K.claim.test(c)){P.c=1;F.c="Clear claim: the fossils are between 66 and 70 million years old.";}
+  else F.c="Use both ash layers: the fossils are older than one and younger than the other. Give a range.";
+  if(e.trim().length<8)F.e="Add evidence: the ages of the ash layers and where the fossils are.";
+  else if(hasA&&hasB&&/above|below|between|on top|under|فوق|تحت|بين/i.test(e)){P.e=2;F.e="Strong evidence: both ash ages and the position of the fossil layer.";}
+  else if(hasA||hasB){P.e=1;F.e="Use BOTH ash ages (66 and 70 million years) and say where the fossil layer is.";}
+  else F.e="Evidence must use the data: the ash layer ages.";
+  const cc=E2K.concept.test(r),ca=E2K.cause.test(r);
+  if(r.trim().length<8)F.r="Explain the science: how were the ash layers dated, and why does position matter?";
+  else if(cc&&ca){P.r=2;F.r="Strong reasoning: absolute dating of the ash (radioactive decay) plus superposition.";}
+  else if(cc||ca){P.r=1;F.r=cc?"Good idea. Connect both parts: ash is dated in years by radioactive decay; by superposition the fossils are younger than the ash below and older than the ash above.":"You gave a reason. Name the science: radioactive (absolute) dating and the law of superposition.";}
+  else F.r="Reasoning should use radioactive (absolute) dating of the ash and the law of superposition.";
+  const pts=P.c+P.e+P.r;return {P,F,pts,level:pts<=1?1:pts===2?2:pts<=4?3:4};}
+const CER_G8L2={title:"How old is the dinosaur bone?",
+  intro:`<p>Sedimentary rock with dinosaur bones cannot be dated in years directly. But volcanic eruptions leave layers of <b>ash</b>, and ash contains radioactive elements that can be dated. In a quarry, scientists found a dinosaur bone layer between two ash layers. Lab tests using radioactive decay gave the ages of the ash.</p>`,
+  fig:LXFIG.e2bracket,figcap:"Illustrative cross-section",
+  table:()=>`<table class="certbl"><tr><th>Layer (top to bottom)</th><th>Rock</th><th>Age from radioactive dating</th></tr><tr><td>1</td><td>red siltstone</td><td>–</td></tr><tr><td>2</td><td>volcanic ash</td><td>66 million years</td></tr><tr><td>3</td><td>shale with dinosaur bones</td><td>?</td></tr><tr><td>4</td><td>volcanic ash</td><td>70 million years</td></tr><tr><td>5</td><td>sandstone</td><td>–</td></tr></table>`,
+  question:"How old are the dinosaur bones? Use the data to support your answer.",ph:["e.g. The bones are between … and … million years old","The ash above the bones is … and the ash below is…","This is because…"],
+  rubric:[["Claim","The bones are between 66 and 70 million years old.","0–1"],["Evidence","Uses both ash ages and the position of the bone layer between them.","0–2"],["Reasoning","Ash is dated in years by radioactive (absolute) dating; by superposition the bones are younger than the ash below and older than the ash above.","0–2"]],
+  ex:["The dinosaur bones are between 66 and 70 million years old.","The bone layer lies between two ash layers. The ash below it is 70 million years old and the ash above it is 66 million years old.","Scientists can find the age of volcanic ash in years using radioactive decay (absolute-age dating). By the law of superposition, the bone layer formed after the lower ash (so it is younger than 70 million years) and before the upper ash (so it is older than 66 million years)."],
+  ai:`PHENOMENON: Quarry layers top to bottom: red siltstone; volcanic ash dated 66 million years; shale with dinosaur bones; volcanic ash dated 70 million years; sandstone. Ash ages come from radioactive decay.
+QUESTION: How old are the dinosaur bones?
+RUBRIC:
+- Claim 0-1: 1 if between 66 and 70 million years.
+- Evidence 0-2: 2 = both ash ages AND the position between them; 1 = partial; 0 = none.
+- Reasoning 0-2: 2 = radioactive/absolute dating of ash AND superposition; 1 = only one; 0 = none.`,
+  score:e2CerScore};
+
+/* ---------- Half-life lab ---------- */
+const E2CH=[{id:"h3",t:"Run 3 half-lives and show about 12.5% of the parent atoms are left.",h:"Press 'Next half-life' three times."},{id:"small",t:"With 50 atoms, see how much the result varies from the ideal halving.",h:"Change the sample size, reset and run again."},{id:"big",t:"With 1000 atoms, stay within 3% of the ideal value after 2 half-lives.",h:"Big samples follow the halving rule closely."},{id:"bone",t:"Date the bone sample: choose carbon-14 and find how many years make 25% remain.",h:"25% = 2 half-lives."},{id:"rock",t:"Choose uranium-235 and find the age of a rock with 50% parent left.",h:"50% = 1 half-life."},{id:"data",t:"Record at least 5 rows in your data table.",h:"Press Record after each half-life."}];
+const E2ISO={c14:["Carbon-14 → Nitrogen-14",5730,"years","bones, wood, shells up to about 50 000 years"],k40:["Potassium-40 → Argon-40",1.3,"billion years","volcanic rock and ash"],u235:["Uranium-235 → Lead-207",704,"million years","very old igneous rocks"]};
+function e2Lab(){const st=LX.st;st.e2=st.e2||{};const Z=st.e2;Z.n=Z.n||200;Z.iso=Z.iso||"c14";
+  $("lxlab").innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff"><canvas id="hcv" style="height:260px"></canvas><div class="lxlegend"><span><i style="background:#7b4fbf"></i>Parent (radioactive)</span><span><i style="background:#d9a21b"></i>Daughter (stable)</span></div></div>
+    <div class="lxcard2"><h4>Parent atoms left (%)</h4><canvas id="hg" style="height:160px;width:100%;display:block"></canvas></div><div class="lxchal" id="hchal"></div></div>
+    <div class="lxctl"><div class="lxchips" id="hiso">${Object.entries(E2ISO).map(([k,v])=>`<button data-i="${k}" class="${Z.iso===k?"on":""}">${v[0]}</button>`).join("")}</div>
+      <div class="lxsl"><div class="row"><label>Sample size (atoms)</label><output id="hno">${Z.n}</output></div><input type="range" id="hn" min="50" max="1000" step="50" value="${Z.n}"></div>
+      <div class="lxbtns"><button class="lxbtn pri" id="hstep">▶ Next half-life</button><button class="lxbtn" id="hrec">● Record</button><button class="lxbtn" id="hres">⟲ New sample</button></div>
+      <div class="lxro"><div><span>Half-lives</span><b id="hk">0</b></div><div><span>Parent left</span><b id="hp">100%</b></div><div><span>Age of sample</span><b id="hage">0</b></div></div>
+      <div class="lxverdict" id="hv">Each atom has a 50% chance of decaying in one half-life. Nobody can predict which atom will decay, but a large sample halves very regularly.</div></div></div>
+    <div class="lxprac"><div class="ph"><h3>My data table</h3><span class="lxqs" id="hdn"></span></div><div class="lxbtns"><button class="lxbtn" id="hclr">Clear table</button></div><div class="lxtblwrap"><table class="lxtbl" id="htbl"></table></div></div>
+    <div class="lxprac"><div class="ph"><h3>Analyse your data</h3><span class="lxqs" id="lxan"></span></div><div id="lxanq"></div></div>`;
+  const chal=$("hchal");let atoms=[],k=0,hist=[100];LX.sim={stop(){},resize(){draw();}};
+  const reset=()=>{atoms=Array.from({length:Z.n},()=>1);k=0;hist=[100];upd();};
+  const pct=()=>atoms.filter(a=>a).length/atoms.length*100;
+  const draw=()=>{const F=aFit("hcv");if(!F)return;const{x,w,h}=F,n=atoms.length,cols=Math.ceil(Math.sqrt(n*w/h)),sz=Math.min(w/cols,h/Math.ceil(n/cols));
+    atoms.forEach((a,i)=>{x.fillStyle=a?"#7b4fbf":"#d9a21b";x.beginPath();x.arc((i%cols)*sz+sz/2,Math.floor(i/cols)*sz+sz/2,Math.max(1.5,sz*0.38),0,7);x.fill();});};
+  const upd=()=>{draw();simGraph($("hg"),[{v:hist,c:"#7b4fbf"},{v:hist.map((_,i)=>100/Math.pow(2,i)),c:"#bbb",dash:[4,4],w:1}],{xl:"half-lives"});$("hk").textContent=k;$("hp").textContent=pct().toFixed(1)+"%";$("hage").textContent=`${+(k*E2ISO[Z.iso][1]).toFixed(2)} ${E2ISO[Z.iso][2]}`;
+    $("hv").innerHTML=k?`After ${k} ${k>1?"half-lives":"half-life"} the ideal value is ${(100/Math.pow(2,k)).toFixed(1)}%; your sample has ${pct().toFixed(1)}%. ${E2ISO[Z.iso][0].split(" →")[0]} is used for ${E2ISO[Z.iso][3]}.`:"Press Next half-life.";
+    const p=pct();if(k===3&&Math.abs(p-12.5)<6)aDone("h3",E2CH,chal);if(Z.n<=50&&k>=2&&Math.abs(p-100/Math.pow(2,k))>3)aDone("small",E2CH,chal);if(Z.n>=1000&&k===2&&Math.abs(p-25)<=3)aDone("big",E2CH,chal);
+    if(Z.iso==="c14"&&k===2)aDone("bone",E2CH,chal);if(Z.iso==="u235"&&k===1)aDone("rock",E2CH,chal);};
+  $("hstep").onclick=()=>{if(k>=8)return;atoms=atoms.map(a=>a&&Math.random()<0.5?1:0);k++;hist.push(+pct().toFixed(1));upd();};
+  $("hres").onclick=reset;$("hn").oninput=e=>{Z.n=+e.target.value;$("hno").textContent=Z.n;lxSave();reset();};
+  $("hiso").querySelectorAll("button").forEach(b=>b.onclick=()=>{Z.iso=b.dataset.i;lxSave();$("hiso").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));reset();});
+  const tbl=()=>{$("htbl").innerHTML=`<thead><tr><th>#</th><th>Isotope</th><th>Atoms</th><th>Half-lives</th><th>Parent left (%)</th><th>Ideal (%)</th><th>Age</th></tr></thead><tbody>${st.data.map((d,i)=>`<tr><td>${i+1}</td><td>${esc(d.iso)}</td><td>${d.n}</td><td>${d.k}</td><td><b>${d.p}</b></td><td>${d.ideal}</td><td>${esc(d.age)}</td></tr>`).join("")}</tbody>`;$("hdn").textContent=`${st.data.length} rows`;};
+  $("hrec").onclick=()=>{if(st.data.length>=30){lxToast("Table is full.",true);return;}const I=E2ISO[Z.iso];st.data.push({iso:I[0].split(" →")[0],n:Z.n,k,p:+pct().toFixed(1),ideal:+(100/Math.pow(2,k)).toFixed(2),age:`${+(k*I[1]).toFixed(2)} ${I[2]}`});lxSave();tbl();if(st.data.length>=5)aDone("data",E2CH,chal);e2Analysis();lxBar();lxToast("Recorded");};
+  $("hclr").onclick=()=>{st.data=[];lxSave();tbl();e2Analysis();};
+  aChal(chal,E2CH);tbl();reset();e2Analysis();setTimeout(()=>{if($("hcv"))upd();},200);}
+function e2Analysis(){const st=LX.st,d=st.data,host=$("lxanq");if(!host)return;
+  if(d.length<3){host.innerHTML=`<p class="lxsub">Record at least 3 rows to unlock the analysis questions. They are checked against <b>your own</b> table.</p>`;$("lxan").textContent="locked";return;}
+  const last=d[d.length-1];
+  const Q=[{type:"num",stem:"What percentage of parent atoms was left in your <b>last</b> row?",a:last.p,unit:"%",tol:0.002,why:`Your last row shows ${last.p}%.`,hint:"Read the Parent left column."},
+    {type:"num",stem:`In your last row, ${last.k} half-life(s) had passed. What is the ideal percentage left?`,a:last.ideal,unit:"%",tol:0.01,why:`100 ÷ 2 for each half-life = ${last.ideal}%.`,hint:"Halve 100 once for each half-life."},
+    {type:"mcq",stem:"Why do small samples not follow the halving rule exactly?",opts:["Decay is random, so chance has a big effect when there are few atoms","Small samples decay faster","Half-life changes with sample size","Daughter atoms turn back into parent atoms"],a:0,why:"Each atom decays randomly; with many atoms the random effects average out.",hint:"Compare 50 atoms with 1000 atoms."},
+    {type:"mcq",stem:"A geologist wants to date a 200-million-year-old volcanic rock. Which isotope is best?",opts:["Uranium-235 or potassium-40","Carbon-14","Any isotope works equally well","None: rocks cannot be dated"],a:0,why:"Carbon-14 has a short half-life and is gone after about 50 000 years; long half-lives suit old rocks.",hint:"Compare the half-lives."}];
+  const sig=d.map(x=>x.p).join("|");if(st.anSig!==sig){st.an={};st.anSig=sig;lxSave();}
+  host.innerHTML=Q.map((q,i)=>lxQHTML(q,"a"+i,i+1)).join("");const upd=()=>{$("lxan").textContent=`${Q.filter((_,j)=>st.an?.["a"+j]?.ok).length} / ${Q.length} correct`;};Q.forEach((q,i)=>lxWireQ(q,"a"+i,st.an||(st.an={}),upd));upd();}
+
+/* ---------- practice ---------- */
+const E2ORDE=["Precambrian","Paleozoic Era","Mesozoic Era","Cenozoic Era"];
+const E2ERQ=[["First fish appear","p"],["Dinosaurs live","m"],["First single-celled life","pc"],["Humans appear","c"],["Trilobites live in the oceans","p"],["First flowering plants","m"],["Mammals become the largest land animals","c"],["Oxygen builds up in the atmosphere","pc"]];
+const E2ER={pc:"Precambrian",p:"Paleozoic",m:"Mesozoic",c:"Cenozoic"};
+const E2RA={r:"Relative-age dating",a:"Absolute-age dating"};
+const E2RAQ=[["Layer C is older than layer D","r"],["This ash is 66 million years old","a"],["Uses radioactive decay and half-lives","a"],["Uses superposition and cross-cutting","r"],["The fault formed after the intrusion","r"],["The bone is 12 000 years old by carbon-14","a"]];
+function e2Practice(){const st=LX.st;st.e2=st.e2||{};const Z=st.e2;["er","erW","ra","raW"].forEach(k=>Z[k]=Z[k]||{});Z.ord=Z.ord||{seq:[],miss:0,done:false};Z.ev=Z.ev||{seq:[],miss:0,done:false};
+  const host=$("lxprac"),re=()=>e2Practice(),EVO=["First single-celled life","First fish","First dinosaurs","Dinosaurs extinct","First humans"];
+  host.innerHTML=aSeqHTML("eora",E2ORDE,Z.ord,"eora","Tap the divisions of the geologic time scale from oldest to youngest.","Order the time scale")
+    +aCard("Which era?",aSc(Z.er,E2ERQ),"Place each event in its era. 2 tries each.",aSortHTML("er",E2ERQ,E2ER,Z.er,Z.erW,(i,a)=>({pc:"The Precambrian is 4.6 billion to 541 million years ago: early, mostly single-celled life.",p:"Paleozoic: 541–252 million years ago; ocean life, fish, first land plants and insects.",m:"Mesozoic: 252–66 million years ago; the age of reptiles and dinosaurs.",c:"Cenozoic: 66 million years ago to today; the age of mammals."})[a]))
+    +aSeqHTML("eoev",EVO,Z.ev,"eoev","Tap these events in the order they happened.","Build a time line")
+    +aCard("Relative or absolute?",aSc(Z.ra,E2RAQ),"Which kind of dating is it? 2 tries each.",aSortHTML("ra",E2RAQ,E2RA,Z.ra,Z.raW,(i,a)=>a==="r"?"Relative-age dating gives an order, not a number of years.":"Absolute-age dating gives an age in years, using radioactive decay."));
+  aWireSort(host,{er:[Z.er,Z.erW,E2ERQ,E2ER],ra:[Z.ra,Z.raW,E2RAQ,E2RA]},re);
+  aWireSeq("eora",E2ORDE,Z.ord,()=>{Z.ord={seq:[],miss:0,done:false};lxSave();re();},re,()=>"The oldest division covers most of Earth's history.");
+  aWireSeq("eoev",EVO,Z.ev,()=>{Z.ev={seq:[],miss:0,done:false};lxSave();re();},re,()=>"Life started simple and became more complex.");}
+const E2SIMT=["tl1","tl2","tl3","ex1","ex2","ex3"];
+function e2Score(st){const Z=st.e2||{};const pr={ok:aHf(Z.er,E2ERQ,Z.erW)+aHf(Z.ra,E2RAQ,Z.raW)+(Z.ord?.done&&Z.ord.miss<=1?1:0)+(Z.ev?.done&&Z.ev.miss<=1?1:0),n:E2ERQ.length+E2RAQ.length+2};
+  return {c:{ok:E2CH.filter(x=>st.ch[x.id]).length+E2SIMT.filter(k=>st.sim?.[k]).length,n:E2CH.length+E2SIMT.length},pr};}
+
+/* ---------- simulations ---------- */
+function e2Sims(){aSimNav([["tl","🕐 Earth's history in 24 hours",e2Clock],["ex","📉 Mass extinctions",e2Ext]]);}
+function e2Clock(host){LX.fieldSim={stop(){}};
+  host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff;padding:10px"><div id="clkm"></div></div>
+    ${aTasks([["tl1","Move the clock to the time the first fish appear."],["tl2","Find the time when the dinosaurs became extinct."],["tl3","Answer: how much of the 24 hours do humans take up?"]])}</div>
+    <div class="lxctl"><div class="lxsl"><div class="row"><label>Time on the 24-hour clock</label><output id="clko">00:00</output></div><input type="range" id="clk" min="0" max="1440" step="1" value="0"></div>
+      <div class="lxro"><div><span>Real time</span><b id="clkr">4.6 billion years ago</b></div><div><span>Era</span><b id="clke">Precambrian</b></div></div>
+      <div class="lxcard2"><h4>Events so far</h4><div id="clkev"></div></div>
+      <div class="lxprac"><p class="lxtask"><b>Question:</b> If Earth's whole history were one day, how long have humans existed?</p><div class="lxchips" id="clq"><button data-v="a">About the last 6 seconds</button><button data-v="b">About the last 6 hours</button><button data-v="c">About half the day</button></div><div class="lxfb" id="clqm"></div></div></div></div>`;
+  const mya=m=>4600*(1-m/1440),fmt=m=>`${String(Math.floor(m/60)).padStart(2,"0")}:${String(Math.floor(m%60)).padStart(2,"0")}`;
+  const upd=()=>{const m=+$("clk").value,v=mya(m),era=E2ERA.find(([n,a,b])=>v<=a&&v>=b)||E2ERA[3];$("clko").textContent=fmt(m);$("clkr").textContent=v>=1000?`${(v/1000).toFixed(2)} billion years ago`:v>=1?`${Math.round(v)} million years ago`:"today";$("clke").textContent=era[0];
+    const seen=E2EV.filter(e=>e[1]>=v-0.001);$("clkev").innerHTML=seen.map(e=>`<div>${e[2]} <b>${fmt((1-e[1]/4600)*1440)}</b> ${esc(e[0])}</div>`).join("");
+    $("clk").style.setProperty("accent-color",era[3]);
+    if(Math.abs(v-500)<25)simDone("tl1","First fish: around 21:23 on the clock.");if(Math.abs(v-66)<6)simDone("tl2","Dinosaurs died out at about 23:39.");aTick();
+    $("clkm").innerHTML=e2ClockSVG(m);};
+  $("clk").oninput=upd;$("clq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="a",m=$("clqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>300 000 years out of 4.6 billion is about 0.0065% of the day: roughly the last 6 seconds before midnight.</span>":"<b>Much less!</b><span>Move the slider right to the end and look at when humans appear.</span>";if(ok)simDone("tl3");aTick();});upd();}
+function e2ClockSVG(m){const cx=150,cy=150,R=120;let s=`<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" style="width:100%;max-width:320px;display:block;margin:auto"><circle cx="${cx}" cy="${cy}" r="${R+8}" fill="#fff" stroke="#10232f" stroke-opacity=".2"/>`;
+  const arc=(a0,a1,col)=>{const p=a=>[cx+R*Math.sin(a/1440*2*Math.PI),cy-R*Math.cos(a/1440*2*Math.PI)];const[x0,y0]=p(a0),[x1,y1]=p(a1);return `<path d="M${cx} ${cy} L${x0} ${y0} A${R} ${R} 0 ${a1-a0>720?1:0} 1 ${x1} ${y1}Z" fill="${col}"/>`;};
+  E2ERA.forEach(([n,a,b,c])=>{s+=arc((1-a/4600)*1440,(1-b/4600)*1440,c);});
+  for(let h=0;h<24;h+=3){const a=h/24*2*Math.PI;s+=`<text x="${cx+(R+18)*Math.sin(a)-8}" y="${cy-(R+18)*Math.cos(a)+4}" font-size="10">${h}h</text>`;}
+  const a=m/1440*2*Math.PI;s+=`<line x1="${cx}" y1="${cy}" x2="${cx+R*Math.sin(a)}" y2="${cy-R*Math.cos(a)}" stroke="#10232f" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="5" fill="#10232f"/>`;
+  return s+`</svg>`;}
+function e2Ext(host){LX.fieldSim={stop(){}};const D=[[541,250],[485,520],[444,330],[420,420],[372,300],[359,360],[300,440],[252,150],[230,330],[201,260],[150,460],[100,560],[66,380],[30,640],[0,760]];const EX=[444,372,252,201,66];
+  const st=LX.st;st.e2=st.e2||{};const Z=st.e2;Z.fx=Z.fx||[];
+  const draw=()=>{const W=620,H=260,X=v=>40+(541-v)/541*(W-60),Y=n=>H-30-n/800*(H-60);
+    let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" style="width:100%;height:auto;background:#fff;border-radius:8px"><rect width="${W}" height="${H}" fill="#fff"/>`;
+    E2ERA.slice(1).forEach(([n,a,b,c])=>{s+=`<rect x="${X(a)}" y="20" width="${X(b)-X(a)}" height="${H-50}" fill="${c}" opacity=".25"/><text x="${(X(a)+X(b))/2}" y="34" font-size="11" text-anchor="middle">${n.replace(" Era","")}</text>`;});
+    s+=`<path d="${D.map(([t,n],i)=>(i?"L":"M")+X(t)+" "+Y(n)).join("")}" fill="none" stroke="${AF.blue}" stroke-width="2.5"/>`;
+    D.forEach(([t,n])=>{const hit=EX.includes(t),f=Z.fx.includes(t);s+=`<circle cx="${X(t)}" cy="${Y(n)}" r="${f?7:5}" fill="${f?AF.red:hit?"#fff":AF.blue}" stroke="${AF.blue}" stroke-width="2" data-t="${t}" style="cursor:pointer"/>`;});
+    [541,400,252,66,0].forEach(v=>{s+=`<text x="${X(v)}" y="${H-12}" font-size="10" text-anchor="middle" fill="${AF.mu}">${v}</text>`;});
+    s+=`<text x="${W/2}" y="${H-1}" font-size="10" text-anchor="middle" fill="${AF.mu}">million years ago</text><text transform="translate(12 ${H/2}) rotate(-90)" font-size="10" text-anchor="middle" fill="${AF.mu}">families of sea animals (illustrative)</text></svg>`;
+    host.innerHTML=`<div class="lxlab"><div class="lxstagewrap"><div class="lxfield" style="background:#fff;padding:8px" id="exf">${s}</div>
+      ${aTasks([["ex1","Tap the points where the number of families suddenly drops (find at least 3)."],["ex2","Find all five big mass extinctions."],["ex3","Answer: why are mass extinctions used as boundaries on the time scale?"]])}</div>
+      <div class="lxctl"><p class="lxtask">Each dot is a time. Tap the dots where many families disappeared. Found: <b>${Z.fx.length} / 5</b></p>
+        <div class="lxprac"><p class="lxtask"><b>Question:</b> Why do eras end at mass extinctions?</p><div class="lxchips" id="exq"><button data-v="a">The fossils in the rocks change suddenly, so the boundary is easy to see</button><button data-v="b">Eras must all be the same length</button><button data-v="c">The rocks change colour</button></div><div class="lxfb" id="exqm"></div></div>
+        <div class="lxverdict">The biggest drop, at the end of the Permian (252 million years ago), wiped out most species in the oceans. The one 66 million years ago ended the age of dinosaurs.</div></div></div>`;
+    host.querySelectorAll("[data-t]").forEach(c=>c.onclick=()=>{const t=+c.dataset.t;if(EX.includes(t)){if(!Z.fx.includes(t)){Z.fx.push(t);lxSfx.right();}}else{lxSfx.wrong();lxToast("No sudden drop there.",true);}if(Z.fx.length>=3)simDone("ex1");if(Z.fx.length>=5)simDone("ex2","All five big mass extinctions found.");lxSave();draw();});
+    $("exq").querySelectorAll("button").forEach(b=>b.onclick=()=>{const ok=b.dataset.v==="a",m=$("exqm");m.className="lxfb "+(ok?"ok":"no");m.innerHTML=ok?"<b>Correct.</b><span>Sudden changes in fossils mark the boundaries between eras and periods.</span>":"<b>Not quite.</b><span>Eras are very different lengths. What changes in the fossil record?</span>";if(ok)simDone("ex3");aTick();});aTick();};
+  draw();}
+
+LXLESSONS[G8L2_ID]={key:"G8M1L2",title:"Building a Time Line",eyebrow:"Grade 8 Science · Module 1: Geologic Time · Lesson 2",
+  lede:"How do scientists know a rock is millions of years old? Discover absolute-age dating and half-life in the lab, explore Earth's history squeezed into one day, find the mass extinctions, then check your understanding.",
+  goals:["How do scientists find the absolute age of rocks?","How is the geologic time scale organised, and why?","How have major events, such as mass extinctions, shaped the history of life?"],
+  labels:{launch:["Launch the Lesson","How old is the dinosaur bone? · CER scored 1–4"],lab:["Half-Life Lab","Watch atoms decay, compare isotopes and sample sizes, date samples, record your data"],sims:["Simulations","2 embedded models (Earth's history in 24 hours, mass extinctions graph)"],practice:["Practice","Order the time scale, place events in eras, build a time line, relative or absolute dating"]},
+  learn:[
+    {h:"Absolute-age dating",k:"gr",html:"<p><b>Absolute-age dating</b> finds the age of a rock in years. It uses <b>radioactive decay</b>: some atoms (isotopes) are unstable and slowly change into other, stable atoms.</p>"},
+    {h:"Isotopes and radioactive decay",html:"<p><b>Isotopes</b> are atoms of the same element with different numbers of neutrons. A radioactive <b>parent</b> isotope decays into a stable <b>daughter</b> isotope at a steady rate. Comparing the amounts of parent and daughter tells scientists how much time has passed.</p>"},
+    {h:"Half-life",k:"wide fig",fig:"e2half",html:"<p>The <b>half-life</b> is the time it takes for <b>half</b> of the parent atoms in a sample to decay. After 1 half-life 50% is left, after 2 half-lives 25%, after 3 half-lives 12.5%, and so on.</p>"},
+    {h:"Choosing the right isotope",k:"wide",html:"<table><tr><th>Parent → daughter</th><th>Half-life</th><th>Used to date</th></tr><tr><td>Carbon-14 → nitrogen-14</td><td>5 730 years</td><td>bones, wood, shells (up to about 50 000 years)</td></tr><tr><td>Potassium-40 → argon-40</td><td>1.3 billion years</td><td>volcanic rock and ash</td></tr><tr><td>Uranium-235 → lead-207</td><td>704 million years</td><td>very old igneous rocks</td></tr></table>"},
+    {h:"Dating sedimentary layers",k:"wide fig",fig:"e2bracket",html:"<p>Sedimentary rocks are made of pieces of older rocks, so they cannot be dated directly. Scientists date <b>igneous</b> layers above and below them, such as volcanic ash, and use superposition to give a range of ages.</p>"},
+    {h:"The geologic time scale",k:"wide fig",fig:"e2scale",html:"<p>The <b>geologic time scale</b> is a record of Earth's history divided into <b>eons</b>, <b>eras</b>, <b>periods</b> and <b>epochs</b>. The divisions are based on major changes in the fossil record, so they are not equal in length.</p>"},
+    {h:"Eras of life",k:"wide",html:"<table><tr><th>Era</th><th>Time (million years ago)</th><th>Life</th></tr><tr><td>Precambrian</td><td>4 600–541</td><td>mostly single-celled life; first simple animals at the end</td></tr><tr><td>Paleozoic</td><td>541–252</td><td>trilobites, fish, first land plants, insects, amphibians, reptiles</td></tr><tr><td>Mesozoic</td><td>252–66</td><td>dinosaurs, first mammals and birds, flowering plants</td></tr><tr><td>Cenozoic</td><td>66–today</td><td>mammals spread; humans appear about 300 000 years ago</td></tr></table>"},
+    {h:"Mass extinctions",html:"<p>A <b>mass extinction</b> is the death of many species in a short time. There have been five big ones. The largest, at the end of the Permian (252 million years ago), ended the Paleozoic Era. An asteroid impact 66 million years ago ended the Mesozoic and the dinosaurs. Mass extinctions are boundaries on the time scale.</p>"},
+    {h:"Earth's history in one day",k:"note",html:"<p>If all 4.6 billion years were squeezed into 24 hours, the first fish would appear at about 21:23, dinosaurs would die out at about 23:39, and humans would appear only in the last few seconds before midnight.</p>"}
+  ],
+  vocab:[["Absolute-age dating","Finding the age of a rock in years, using radioactive decay."],["Isotope","An atom of an element with a different number of neutrons."],["Radioactive decay","The process in which unstable parent isotopes change into stable daughter isotopes."],["Parent isotope","The unstable isotope that decays."],["Daughter isotope","The stable isotope produced by decay."],["Half-life","The time it takes for half of the parent atoms in a sample to decay."],["Geologic time scale","A record of Earth's history divided into eons, eras, periods and epochs."],["Eon","The longest division of geologic time."],["Era","A division of an eon, e.g. Paleozoic, Mesozoic, Cenozoic."],["Period","A division of an era, e.g. Jurassic, Cretaceous."],["Epoch","A division of a period."],["Mass extinction","The extinction of many species in a short time."],["Precambrian","The time from Earth's formation to 541 million years ago."]],
+  quiz:[
+    {type:"mcq",stem:"What does absolute-age dating give?",opts:["The age of a rock in years","Only whether a rock is older or younger","The type of rock","The colour of the rock"],a:0,why:"It uses radioactive decay to give an age in years.",hint:"Absolute means an actual number."},
+    {type:"mcq",stem:"A half-life is the time it takes for…",opts:["half of the parent atoms to decay","all of the atoms to decay","the daughter atoms to double","a rock to form"],a:0,why:"That is the definition of half-life.",hint:"Half of what?"},
+    {type:"num",stem:"A sample starts with 800 parent atoms. How many parent atoms are left after <b>3 half-lives</b>?",a:100,unit:"atoms",tol:0,why:"800 → 400 → 200 → 100.",hint:"Halve it three times."},
+    {type:"num",stem:"Carbon-14 has a half-life of about 5 730 years. A bone has 25% of its carbon-14 left. How old is it?",a:11460,unit:"years",tol:0.005,why:"25% means 2 half-lives: 2 × 5 730 = 11 460 years.",hint:"How many half-lives give 25%?"},
+    {type:"mcq",fig:"e2qhalf",stem:"The graph shows the decay of carbon-14. About how much is left after 17 190 years?",opts:["12.5%","25%","50%","6.25%"],a:0,why:"17 190 years = 3 half-lives → 12.5%.",hint:"Read the third point."},
+    {type:"mcq",stem:"Why is carbon-14 NOT used to date a 100-million-year-old rock?",opts:["Its half-life is too short; almost none would be left","It only works on igneous rocks","It decays too slowly","Rocks never contain carbon"],a:0,why:"After about 50 000 years too little carbon-14 remains to measure.",hint:"Compare 5 730 years with 100 million years."},
+    {type:"mcq",stem:"Why can't sedimentary rock usually be dated directly by radioactive decay?",opts:["It is made of pieces of older rocks","It has no atoms","It is too young","It always contains fossils"],a:0,why:"The grains are older than the layer; scientists date igneous layers instead.",hint:"What is sedimentary rock made of?"},
+    {type:"mcq",stem:"Which list is in order from OLDEST to YOUNGEST?",opts:["Precambrian, Paleozoic, Mesozoic, Cenozoic","Cenozoic, Mesozoic, Paleozoic, Precambrian","Mesozoic, Paleozoic, Cenozoic, Precambrian","Paleozoic, Precambrian, Mesozoic, Cenozoic"],a:0,why:"Precambrian is the oldest and Cenozoic is today's era.",hint:"Cenozoic means 'recent life'."},
+    {type:"mcq",stem:"In which era did dinosaurs live?",opts:["Mesozoic","Paleozoic","Cenozoic","Precambrian"],a:0,why:"Mesozoic: 252–66 million years ago.",hint:"The 'middle life' era."},
+    {type:"mcq",stem:"Why are the divisions of the geologic time scale not all the same length?",opts:["They are based on major changes in the fossil record","Scientists made a mistake","Each one is exactly 100 million years","They follow the seasons"],a:0,why:"Boundaries mark big events such as mass extinctions.",hint:"What do the boundaries mark?"},
+    {type:"tf",stem:"The Precambrian covers most of Earth's history.",a:true,why:"About 88%: from 4.6 billion to 541 million years ago.",hint:"Look at the time scale bar."},
+    {type:"mcq",fig:"e2bracket",stem:"Using the figure, the dinosaur fossil is best described as…",opts:["between 66 and 70 million years old","exactly 66 million years old","older than 70 million years","younger than 66 million years"],a:0,why:"It lies between ash layers dated 66 and 70 million years.",hint:"Superposition plus the ash ages."},
+    {type:"mcq",stem:"What ended the Mesozoic Era 66 million years ago?",opts:["A mass extinction linked to an asteroid impact","The first humans","The formation of Earth","An ice age that killed all life"],a:0,why:"The impact caused a mass extinction, including the dinosaurs.",hint:"What happened to the dinosaurs?"},
+    {type:"num",stem:"Potassium-40 has a half-life of 1.3 billion years. A volcanic rock has 50% of its potassium-40 left. How old is it, in billions of years?",a:1.3,unit:"billion years",tol:0.01,why:"50% = 1 half-life = 1.3 billion years.",hint:"50% is one half-life."},
+    {type:"write",stem:"Explain how scientists could find the age, in years, of a layer of volcanic ash.",model:"Volcanic ash contains radioactive parent isotopes such as potassium-40 that decay into daughter isotopes at a steady rate (half-life). Scientists measure how much parent and daughter are in the ash. From the ratio and the known half-life they calculate how many half-lives have passed, which gives the age in years.",rubric:"Full (1): radioactive parent decays to daughter AND measure amounts/ratio AND use half-life to calculate age. Partial (0.5): two of these. None (0): one or none."},
+    {type:"write",stem:"Describe the difference between relative-age dating and absolute-age dating, with an example of each.",model:"Relative-age dating puts rocks or events in order without numbers, for example using superposition to say layer A is older than layer B. Absolute-age dating gives an age in years using radioactive decay, for example dating volcanic ash as 66 million years old.",rubric:"Full (1): correct difference (order vs years) AND an example of each. Partial (0.5): correct difference without both examples. None (0): incorrect."}
+  ],
+  cer:CER_G8L2,kit:{lab:e2Lab,practice:e2Practice,sims:e2Sims,score:e2Score}};
+
 /* ===== My Notes: per-lesson notebook with typing and stylus drawing ===== */
 const NB={lesson:null,title:"",notes:[],cur:null,tool:"pen",color:"#1d2433",width:3,paper:"lined",pencilOnly:false,undo:[],redo:[],saveT:0,drawing:null,penSeen:false};
 const NBCOLORS=["#1d2433","#1652b8","#c03c2c","#1d8656","#b8720c","#7b4fc4"];
@@ -5151,7 +5576,7 @@ async function openSubs(){if(!subT())return;subViews();hideAllViews();$("subview
 function subChip(dim,val,label,n,extra=""){const on=SUBF[dim]===val;return `<button type="button" class="pfc${on?" on":""}${n===0&&!on?" zero":""}" data-d="${dim}" data-v="${esc(val)}" ${extra}>${label}${n!=null?`<em>${n}</em>`:""}</button>`;}
 function subFilters(){const A=SUB.all||[],cnt=(dim,f)=>A.filter(s=>subMatch(s,dim)&&f(s)).length;
   const grades=[...new Set([...Object.keys(CAL.user?.r||{}),...A.map(s=>s.g).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
-  const units=MHTOC.filter(n=>n.k==="unit"||n.k==="module");
+  const units=[...MHTOC,...SCI8TOC].filter(n=>n.k==="unit"||n.k==="module");
   const opt=(v,l,n,cur)=>`<option value="${esc(v)}" ${cur===v?"selected":""}>${esc(l)}${n!=null?`  (${n})`:""}</option>`;
   const dd=(id,ic,cap,html,c)=>`<label class="pfdd${c?" set":""}" for="${id}"><span class="pfic">${ic}</span><span class="pfcap">${cap}</span><select id="${id}">${html}</select><b class="pfar">▾</b></label>`;
   const course=TOP.map(k=>{const C=COURSES[k];return opt(k,C.t,k==="bio"?cnt("course",()=>true):0,SUBF.course);}).join("");
@@ -5358,7 +5783,7 @@ const tRid=()=>Math.random().toString(36).slice(2,8);
 const tLocalDT=iso=>{if(!iso)return "";const d=new Date(iso);return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;};
 const tFmt=iso=>{if(!iso)return "";const d=new Date(iso);return d.toLocaleString("en-GB",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});};
 const tLessonName=id=>{const n=id&&BIOX.byId[id];return n?n.t.replace(/^Lesson (\d+):\s*/,"L$1 · "):"";};
-function tLessonOpts(sel,allLabel){const units=MHTOC.filter(n=>n.k==="unit"||n.k==="module"),mods=units.flatMap(u=>u.k==="module"?[u]:(u.c||[]).filter(m=>m.k==="module"));
+function tLessonOpts(sel,allLabel){const units=[...SCI8TOC,...MHTOC].filter(n=>n.k==="unit"||n.k==="module"),mods=units.flatMap(u=>u.k==="module"?[u]:(u.c||[]).filter(m=>m.k==="module"));
   return `<option value="">${allLabel||"All modules and lessons"}</option>`+mods.map(m=>`<optgroup label="${esc(m.t)}">${(m.c||[]).filter(l=>l.k==="lesson").map(l=>`<option value="${l.id}" ${sel===l.id?"selected":""}>${LXLESSONS[l.id]?"⚡ ":""}${esc(l.t)}</option>`).join("")}</optgroup>`).join("");}
 function tGrades(){return [...new Set([...Object.keys(CAL.user?.r||{}),...(typeof GRADES!=="undefined"?GRADES:[]),...(TS.list||[]).map(t=>t.grade).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));}
 function tRoster(g){if(tHosted()&&HS.roster)return HS.roster.filter(s=>s.g===g).map(s=>({id:s.id,n:s.n}));return (CAL.user?.r?.[g]||[]).map(s=>({id:s.i,n:s.n}));}
@@ -5870,7 +6295,7 @@ function cxOpen(id){const x=CONTENT.find(c=>c.id==id);if(!x)return;const d=x.dat
   dl.querySelector("button").onclick=()=>dl.close();dl.showModal();}
 document.addEventListener("click",e=>{const a=e.target.closest("[data-cxo]");if(!a)return;e.preventDefault();cxOpen(a.dataset.cxo);});
 {const dm=drvMerge;drvMerge=function(id,secs){const r=dm(id,secs);if(!CONTENT.length)return r;const T=!!CAL.user?.t;
-  const mine=CONTENT.filter(x=>x.course==="bio"&&x.target===id&&["file","link","tool"].includes(x.kind)&&(T||!x.hidden));
+  const mine=CONTENT.filter(x=>x.course===(BIOX.progOf[id]||"bio")&&x.target===id&&["file","link","tool"].includes(x.kind)&&(T||!x.hidden));
   mine.forEach(x=>{let s=r.find(q=>q.h===x.section);if(!s){s={h:x.section||"Teacher-added Resources",sub:"Resources added by your teacher.",items:[]};const li=r.findIndex(q=>q.h==="My Report"||q.h==="Class Results");li>=0?r.splice(li,0,s):r.push(s);}
     if(s.items){s.items.push({cx:x,t:x.title,d:"",tags:[],teacher:x.teacher});if(s.teacher&&!x.teacher)s.teacher=false;}});
   return r;};}
@@ -5888,7 +6313,7 @@ const admLessonCfg=id=>CONTENT.find(x=>x.kind==="lesson"&&x.target===id&&!x.hidd
 {const lp=lxPages;lxPages=function(){let P=lp.apply(this,arguments);const cfg=LX.L?._cfg;if(!cfg)return P;
   const hide=cfg.hide||[];P=P.filter(p=>!hide.includes(p[0]));if(cfg.order?.length){const o=cfg.order;P.sort((a,b)=>{const ia=o.indexOf(a[0]),ib=o.indexOf(b[0]);return (ia<0?99:ia)-(ib<0?99:ib);});}return P;};}
 {const rs=lxRenderSims;lxRenderSims=function(){const r=rs.apply(this,arguments);const tools=LX.L?._cfg?.tools||[],host=$("lxsims");
-  const extra=CONTENT.filter(x=>x.kind==="tool"&&x.course==="bio"&&x.target===LX.id&&(!x.hidden||CAL.user?.t));
+  const extra=CONTENT.filter(x=>x.kind==="tool"&&x.course===(BIOX.progOf[LX.id]||"bio")&&x.target===LX.id&&(!x.hidden||CAL.user?.t));
   if(host&&(tools.length||extra.length)){const box=document.createElement("div");box.className="lxprac";
     box.innerHTML=`<div class="ph"><h3>More tools from your teacher</h3></div>${[...tools.map((t,i)=>({id:"L"+i,title:t.t,data:{url:t.url,desc:t.desc,tasks:t.tasks},kind:"tool"})),...extra].map(x=>`<div class="lxbtns" style="align-items:center"><button class="lxbtn pri" data-lt="${x.id}">▶ ${esc(x.title)}</button><span class="lxsub">${esc(x.data?.desc||"")}</span></div>`).join("")}`;
     host.appendChild(box);box.querySelectorAll("[data-lt]").forEach(b=>b.onclick=()=>{const id=b.dataset.lt;if(id[0]==="L"){const t=tools[+id.slice(1)];DSIM["lt"+id]={t:t.t,src:t.url,credit:"Added by your teacher",d:t.desc||"",tasks:t.tasks?.length?t.tasks:["Explore the tool and record what you notice."]};dsimPlay("lt"+id);}else cxOpen(id);});}
@@ -5949,7 +6374,7 @@ function admBadge(F){const t=$("admtile");if(!t)return;let b=t.querySelector(".a
   if(!b){b=document.createElement("span");b.className="admbadge";t.appendChild(b);}b.textContent=`⚠ ${n} to check`;b.title="Self-check found issues · open the Admin Panel → Overview";}
 /* roster */
 async function admRoster(){const B=$("admbody");B.innerHTML='<p class="psub">Loading…</p>';try{ADM.users=await admApi("admin_users");}catch(e){B.innerHTML=`<p class="psub">Could not load: ${esc(e.message)}</p>`;return;}admRosterDraw();}
-function admCourseKeys(){return [...new Set(["bio","chem","phys","saat",...admCourses().map(c=>c.data?.key).filter(Boolean)])];}
+function admCourseKeys(){return [...new Set(["sci8","bio","chem","phys","saat",...admCourses().map(c=>c.data?.key).filter(Boolean)])];}
 function admRosterDraw(){const B=$("admbody"),U=ADM.users||[],q=ADM.q.toLowerCase();
   const grades=[...new Set([...admGrades(),...U.filter(u=>u.role==="student").map(u=>u.g)])].filter(Boolean);
   const L=U.filter(u=>(!ADM.fr||u.role===ADM.fr)&&(!ADM.fg||u.g===ADM.fg||(u.cls||[]).includes(ADM.fg))&&(!q||u.n.toLowerCase().includes(q)||u.id.includes(q)));
@@ -5995,9 +6420,10 @@ function admImportDlg(){const d=admDlg(`<h3>Import a class list</h3><p class="ps
       lxToast(`${ok.length} added${bad.length?` · ${bad.length} skipped (${[...new Set(bad.map(b=>b.error==="exists"?"already exists":"bad ID or name"))].join(", ")})`:""}`,!!bad.length);}catch(e){$("aimsg").textContent="Could not import: "+e.message;}};}
 
 /* destination picker */
-function admTargets(course){if(course==="bio"){const out=[["","— choose a unit, module or lesson —"]];const walk=(l,dep)=>l.forEach(n=>{if(n.k==="program")return;out.push([n.id,"  ".repeat(dep)+n.t]);if(n.c&&n.k!=="lesson")walk(n.c,dep+1);});walk(MHTOC,0);return out;}
+function admTargets(course){if(course==="bio"||course==="sci8"){BIOX.prog=course;const out=[["","— choose a unit, module or lesson —"]];const walk=(l,dep)=>l.forEach(n=>{if(n.k==="program")return;out.push([n.id,"  ".repeat(dep)+n.t]);if(n.c&&n.k!=="lesson")walk(n.c,dep+1);});walk(PROGS[course].toc,0);return out;}
   const c=COURSES[course]?.custom?.data;const out=[["","Whole course"]];(c?.modules||[]).forEach(m=>{out.push([m.id,m.name]);(m.lessons||[]).forEach(l=>out.push([l.id,"  "+l.name]));});return out;}
-function admSecs(course,target){if(course!=="bio")return CSECS;const n=BIOX.byId[target];return n?.k==="lesson"?LSECS:MSECS;}
+const LSECS8=["Lesson Planning Resources","Science Probe","Engage","Explore and Explain","Elaborate","Evaluate","Lesson Library","Language Resources","Teacher-added Resources"],MSECS8=["Module Planning Resources","Module Opener","STEM Module Project","Module Wrap-Up","Module Assessment","Module Library","Language Resources"];
+function admSecs(course,target){if(course!=="bio"&&course!=="sci8")return CSECS;const n=BIOX.byId[target];return course==="sci8"?(n?.k==="lesson"?LSECS8:MSECS8):(n?.k==="lesson"?LSECS:MSECS);}
 function admDest(pre){const keys=admCourseKeys().filter(canEditCourse);const c=pre?.course||ADM.preCourse||keys[0]||"bio";
   return `<div class="admdest"><label>Course<select id="adc">${keys.map(k=>`<option value="${esc(k)}" ${k===c?"selected":""}>${esc(COURSES[k]?.t||k)}</option>`).join("")}</select></label><label class="wide">Place (unit / module / lesson)<select id="adt"></select></label><label>Section<select id="ads"></select></label></div>`;}
 function admDestWire(pre){const fill=()=>{const c=$("adc").value,T=admTargets(c);$("adt").innerHTML=T.map(([v,t])=>`<option value="${esc(v)}">${esc(t)}</option>`).join("");if(pre?.target&&T.some(t=>t[0]===pre.target))$("adt").value=pre.target;fs();};
@@ -6006,7 +6432,7 @@ function admDestWire(pre){const fill=()=>{const c=$("adc").value,T=admTargets(c)
   return ()=>({course:$("adc").value,target:$("adt").value,section:$("ads").value});}
 
 /* content tab: files + links */
-function admPlaceName(x){if(x.course==="bio"){const n=BIOX.byId[x.target];return n?n.t:"Biology";}const c=COURSES[x.course]?.custom?.data;let nm=c?.t||x.course;(c?.modules||[]).forEach(m=>{if(m.id===x.target)nm+=" › "+m.name;(m.lessons||[]).forEach(l=>{if(l.id===x.target)nm+=" › "+m.name+" › "+l.name;});});return nm;}
+function admPlaceName(x){if(x.course==="bio"||x.course==="sci8"){const n=BIOX.byId[x.target];return n?n.t:COURSES[x.course].t;}const c=COURSES[x.course]?.custom?.data;let nm=c?.t||x.course;(c?.modules||[]).forEach(m=>{if(m.id===x.target)nm+=" › "+m.name;(m.lessons||[]).forEach(l=>{if(l.id===x.target)nm+=" › "+m.name+" › "+l.name;});});return nm;}
 function admContent(){const B=$("admbody"),L=CONTENT.filter(x=>["file","link"].includes(x.kind)&&canEditCourse(x.course));
   B.innerHTML=`<div class="panel"><h3>Add a file or link <span class="ar">إضافة ملف أو رابط</span></h3><div class="seg" id="adkind"><button class="sbtn on" data-k="file">📄 Upload a file</button><button class="sbtn" data-k="link">🔗 Web link / video</button></div>
     <div class="admform">${admDest()}<label class="wide">Title<input id="adti" dir="auto" placeholder="e.g. Photosynthesis worksheet"></label><label class="wide">Short description<input id="adde" dir="auto" placeholder="What students should do with it"></label>
@@ -6069,7 +6495,7 @@ function admLessons(){const B=$("admbody"),ids=Object.keys(LXBASE).length?[...ne
     <p class="admmsg" id="almsg"></p><div class="admbtns"><button class="sbtn on" id="alsave">Save lesson changes</button><button class="sbtn" id="alopen">Open the lesson</button>${row?`<button class="sbtn" id="alreset">Reset to original</button>`:""}</div></div>
     <p class="psub">Built-in labs and simulations stay as they are; here you can hide, reorder and add to them. New built-in labs need a code update.</p>`;
   const cur=()=>{const lis=[...B.querySelectorAll("#alord li")];return {order:lis.map(li=>li.dataset.k),hide:lis.filter(li=>!li.querySelector("input").checked).map(li=>li.dataset.k)};};
-  const persist=async(c)=>{const m=$("almsg");m.textContent="Saving…";try{await admApi("content_save",{p_item:{id:row?.id,kind:"lesson",course:"bio",target:sel,title:base.title,data:c}});await admReloadContent();m.textContent="";lxToast("Lesson updated");admLessons();}catch(e){m.textContent="Could not save: "+e.message;}};
+  const persist=async(c)=>{const m=$("almsg");m.textContent="Saving…";try{await admApi("content_save",{p_item:{id:row?.id,kind:"lesson",course:BIOX.progOf[sel]||"bio",target:sel,title:base.title,data:c}});await admReloadContent();m.textContent="";lxToast("Lesson updated");admLessons();}catch(e){m.textContent="Could not save: "+e.message;}};
   $("alsel").onchange=e=>{ADM.lesson=e.target.value;admLessons();};
   B.querySelectorAll("[data-mu],[data-md]").forEach(b=>b.onclick=()=>{const c=cur(),i=+(b.dataset.mu??b.dataset.md),j=b.dataset.mu!=null?i-1:i+1;if(j<0||j>=c.order.length)return;[c.order[i],c.order[j]]=[c.order[j],c.order[i]];Object.assign(cfg,c);const ol=$("alord");const lis=[...ol.children];ol.insertBefore(lis[Math.max(i,j)],lis[Math.min(i,j)]);B.querySelectorAll("#alord li").forEach((li,k)=>{li.querySelector("[data-mu]").dataset.mu=k;li.querySelector("[data-md]").dataset.md=k;});});
   $("alsave").onclick=()=>persist({...cfg,...cur()});$("alopen").onclick=()=>openLesson(sel);const rs=$("alreset");if(rs)rs.onclick=async()=>{if(!confirm("Remove all your changes to this lesson?"))return;await admApi("content_delete",{p_id:row.id});await admReloadContent();admLessons();};
