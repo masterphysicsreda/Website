@@ -5420,6 +5420,227 @@ $("pfback").onclick=()=>goHome();
 {const mo=new MutationObserver(()=>pfAvatar());["login"].forEach(id=>{const e=$(id);if(e)mo.observe(e,{attributes:true,attributeFilter:["style"]});});}
 pfAvatar();
 
+/* ===== 3D avatar (شخصيتي): build a character or upload an image in My Profile; it greets the user for ~2.8 s after login ===== */
+const AV={data:null,uid:null,seq:0};
+const AV_SKIN=["#fbe0cc","#f0c6a2","#dca57c","#b97e55","#8e5a3a","#5f3a25"];
+const AV_HC=["#1b1512","#3d2617","#6e4426","#a8743f","#dcb56e","#9aa0aa","#7a2e2e"];
+const AV_EC=["#4a2e1a","#1f5f8b","#2e7d4f","#5e6670"];
+const AV_OC=["#1f4e79","#1d8656","#7b4fbf","#c2410c","#334155","#be185d","#0e7490"];
+const AV_HJ=["#1f2937","#f8fafc","#7b4fbf","#0e7490","#be185d","#a16207","#64748b"];
+const AV_BG=["#46c48a","#5aa9ff","#c58cff","#ffb35c","#ff7a9a","#e5e7eb"];
+const AV_OPT={
+  kind:[["b","Boy · ولد"],["g","Girl · بنت"]],
+  hair:[["short","Short"],["side","Side part"],["spiky","Spiky"],["curly","Curly"],["long","Long"],["bun","Bun"],["none","None"]],
+  head:[["none","None"],["ghutra","Ghutra"],["shemagh","Shemagh"],["hijab","Hijab"],["cap","Cap"],["beanie","Beanie"]],
+  eyes:[["round","Round"],["happy","Happy"],["wink","Wink"],["sparkle","Sparkle"]],
+  gl:[["none","None"],["round","Round"],["square","Square"],["goggles","Lab goggles"]],
+  out:[["lab","Lab coat"],["thobe","Thobe"],["uniform","Uniform"],["hoodie","Hoodie"]],
+  acc:[["none","None"],["flask","Flask"],["atom","Atom"],["dna","DNA"],["book","Book"],["leaf","Leaf"]]
+};
+const AV_DEF={kind:"b",skin:2,hair:"short",hc:1,head:"none",hjc:0,eyes:"round",ec:0,gl:"none",out:"lab",oc:0,acc:"flask",bg:0};
+const avCfg=c=>({...AV_DEF,...(c||{})});
+/* colour helpers */
+function avMix(h,t,a){const p=x=>[1,3,5].map(i=>parseInt(x.slice(i,i+2),16)),A=p(h),B=p(t);return "#"+A.map((v,i)=>Math.round(v+(B[i]-v)*a).toString(16).padStart(2,"0")).join("");}
+const avL=(h,a)=>avMix(h,"#ffffff",a),avD=(h,a)=>avMix(h,"#000000",a);
+
+/* ---------- character drawing: returns the layers of the figure (back → front) ---------- */
+function avLayers(c,P){c=avCfg(c);const sk=AV_SKIN[c.skin]||AV_SKIN[2],hc=AV_HC[c.hc]||AV_HC[1],ec=AV_EC[c.ec]||AV_EC[0],oc=AV_OC[c.oc]||AV_OC[0],hj=AV_HJ[c.hjc]||AV_HJ[0];
+  const g=(id,stops,cx="35%",cy="30%",r="75%")=>`<radialGradient id="${P+id}" cx="${cx}" cy="${cy}" r="${r}">${stops.map(([o,col])=>`<stop offset="${o}" stop-color="${col}"/>`).join("")}</radialGradient>`;
+  const lg=(id,stops,x2=0,y2=1)=>`<linearGradient id="${P+id}" x1="0" y1="0" x2="${x2}" y2="${y2}">${stops.map(([o,col])=>`<stop offset="${o}" stop-color="${col}"/>`).join("")}</linearGradient>`;
+  const u=id=>`url(#${P+id})`;
+  const white=c.out==="lab"||c.out==="thobe",cloth=white?"#f6f8fb":oc,sleeve=cloth;
+  const defs=`<defs>${g("sk",[[0,avL(sk,.35)],[.55,sk],[1,avD(sk,.28)]])}${g("hr",[[0,avL(hc,.32)],[.6,hc],[1,avD(hc,.35)]],"40%","25%","80%")}
+    ${lg("cl",[[0,avL(cloth,white?0:.18)],[1,avD(cloth,white?.16:.3)]])}${g("hj",[[0,avL(hj,.3)],[.6,hj],[1,avD(hj,.35)]],"40%","25%","85%")}
+    ${lg("in",[[0,avL(oc,.2)],[1,avD(oc,.25)]])}${g("gw",[[0,"#ffffff"],[.6,"#eef2f6"],[1,"#c9d2dc"]],"40%","25%","85%")}
+    <pattern id="${P}chk" width="9" height="9" patternUnits="userSpaceOnUse"><rect width="9" height="9" fill="#fbfbfb"/><path d="M0 0h4.5v4.5H0zM4.5 4.5H9V9H4.5z" fill="#c62828" opacity=".85"/><path d="M0 4.5h9M4.5 0v9" stroke="#8e1b1b" stroke-width=".6" opacity=".5"/></pattern>
+    <radialGradient id="${P}gl" cx="30%" cy="25%" r="80%"><stop offset="0" stop-color="#bfe6ff" stop-opacity=".75"/><stop offset="1" stop-color="#5aa9ff" stop-opacity=".25"/></radialGradient></defs>`;
+  const L={back:"",body:"",head:"",face:"",front:"",hand:""};
+  /* back layer */
+  if(c.head==="hijab")L.back+=`<path d="M100 30c-38 0-62 30-62 66 0 26 8 44 18 56-14 6-26 20-30 40h148c-4-20-16-34-30-40 10-12 18-30 18-56 0-36-24-66-62-66z" fill="${u("hj")}"/>`;
+  else if(c.head==="ghutra"||c.head==="shemagh")L.back+=`<path d="M100 34c-40 0-60 28-60 62 0 30 2 52-12 82 20 6 36 6 50-2l2-40h40l2 40c14 8 30 8 50 2-14-30-12-52-12-82 0-34-20-62-60-62z" fill="${c.head==="ghutra"?u("gw"):`url(#${P}chk)`}"/>`;
+  else{if(c.hair==="long")L.back+=`<path d="M100 38c-34 0-54 24-54 58 0 38-6 62-12 78 18 8 40 6 56-2V120h20v52c16 8 38 10 56 2-6-16-12-40-12-78 0-34-20-58-54-58z" fill="${u("hr")}"/>`;
+    if(c.hair==="bun")L.back+=`<circle cx="100" cy="34" r="17" fill="${u("hr")}"/>`;}
+  if(c.out==="hoodie")L.back+=`<path d="M58 160c0-22 18-32 42-32s42 10 42 32z" fill="${avD(oc,.25)}"/>`;
+  /* body layer: torso, left arm, neck */
+  L.body+=`<path d="M86 128h28v28c0 8-28 8-28 0z" fill="${avD(sk,.12)}"/>`;
+  L.body+=`<path d="M34 262c0-60 22-98 66-102 44 4 66 42 66 102z" fill="${u("cl")}"/>`;
+  if(c.out==="lab")L.body+=`<path d="M86 158l14 30 14-30" fill="${u("in")}"/><path d="M84 158l16 44 16-44M100 202v58" stroke="#c9d3de" stroke-width="2.4" fill="none"/><rect x="118" y="214" width="22" height="20" rx="3" fill="none" stroke="#c9d3de" stroke-width="2"/><path d="M123 214v-10M129 214v-12" stroke="${oc}" stroke-width="3" stroke-linecap="round"/>`;
+  else if(c.out==="thobe")L.body+=`<path d="M90 158q10 8 20 0" stroke="#d5dde6" stroke-width="3" fill="none"/><path d="M100 164v46" stroke="#d5dde6" stroke-width="2.2"/><circle cx="100" cy="176" r="2.2" fill="#c3ccd6"/><circle cx="100" cy="190" r="2.2" fill="#c3ccd6"/>`;
+  else if(c.out==="uniform")L.body+=`<path d="M84 158l16 18 16-18-4 20-12 6-12-6z" fill="#f8fafc"/><path d="M96 178l4 30 4-30z" fill="${avD(oc,.35)}"/><circle cx="130" cy="200" r="9" fill="#f2c94c" stroke="${avD(oc,.3)}" stroke-width="2"/><path d="M126 200l3 3 5-6" stroke="${avD(oc,.4)}" stroke-width="2" fill="none"/>`;
+  else L.body+=`<path d="M92 162l-2 26M108 162l2 26" stroke="#f8fafc" stroke-width="2.4" stroke-linecap="round"/><rect x="72" y="216" width="56" height="26" rx="10" fill="${avD(oc,.18)}"/>`;
+  L.body+=`<path d="M58 176q-18 36-8 70" stroke="${u("cl")}" stroke-width="24" stroke-linecap="round" fill="none"/><path d="M58 176q-18 36-8 70" stroke="${avD(sleeve,white?.12:.25)}" stroke-width="24" stroke-linecap="round" fill="none" opacity=".35"/><circle cx="50" cy="248" r="11" fill="${u("sk")}"/>`;
+  /* head layer */
+  L.head+=`<ellipse cx="54" cy="98" rx="8" ry="11" fill="${avD(sk,.08)}"/><ellipse cx="146" cy="98" rx="8" ry="11" fill="${avD(sk,.08)}"/>`;
+  L.head+=`<ellipse cx="100" cy="92" rx="46" ry="50" fill="${u("sk")}"/>`;
+  L.head+=`<ellipse cx="74" cy="112" rx="9" ry="5.5" fill="#ff6b8a" opacity=".28"/><ellipse cx="126" cy="112" rx="9" ry="5.5" fill="#ff6b8a" opacity=".28"/><path d="M97 104q3 5 6 0" stroke="${avD(sk,.3)}" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+  /* face layer */
+  const brow=y=>`<path d="M72 ${y}q10-6 20-1M108 ${y-1}q10-5 20 1" stroke="${avD(hc,.1)}" stroke-width="3.4" fill="none" stroke-linecap="round"/>`;
+  const eye=(x,k)=>k==="arc"?`<path d="M${x-8} 97q8-9 16 0" stroke="#2a1d16" stroke-width="3.2" fill="none" stroke-linecap="round"/>`
+    :`<ellipse cx="${x}" cy="96" rx="7.5" ry="8.8" fill="#fff"/><circle cx="${x}" cy="97" r="5.6" fill="${ec}"/><circle cx="${x}" cy="97" r="2.8" fill="#120c08"/><circle cx="${x+2}" cy="94.4" r="1.9" fill="#fff"/>${k==="sp"?`<circle cx="${x-2.4}" cy="99.4" r="1" fill="#fff"/>`:""}${c.kind==="g"?`<path d="M${x-8} 90l-3-3M${x+8} 90l3-3M${x+5} 88l2-4" stroke="#2a1d16" stroke-width="1.6" stroke-linecap="round"/>`:""}`;
+  L.face+=brow(84)+(c.eyes==="happy"?eye(82,"arc")+eye(118,"arc"):c.eyes==="wink"?eye(82,"o")+eye(118,"arc"):eye(82,c.eyes==="sparkle"?"sp":"o")+eye(118,c.eyes==="sparkle"?"sp":"o"));
+  L.face+=`<path d="M86 118q14 15 28 0q-14 7-28 0z" fill="#7a2e2e"/><path d="M93 123q7 4 14 0" stroke="#ff8a9a" stroke-width="2.4" fill="none" stroke-linecap="round"/>`;
+  /* front layer: hair, headwear, glasses */
+  const HF={short:`M54 92c-2-34 20-56 46-56 28 0 50 20 46 58-8-18-24-28-46-28-20 0-38 8-46 26z`,
+    side:`M54 94c-4-34 18-58 48-58 26 0 48 18 44 56-14-12-34-30-62-30-12 0-22 12-30 32z`,
+    spiky:`M54 92l-2-26 12 6 4-22 12 12 8-22 10 16 12-18 6 20 14-12 2 22 12-6-4 30c-10-16-26-24-46-24-22 0-38 8-46 24z`,
+    long:`M52 108c-6-42 18-72 48-72s54 28 48 72c-6-28-26-44-48-44-12 0-20 6-26 12-6 4-14 14-22 32z`,
+    bun:`M54 92c-2-32 20-52 46-52s48 20 46 52c-8-16-26-24-46-24s-38 8-46 24z`};
+  if(c.head==="hijab")L.front+=`<path d="M100 40c-30 0-50 24-50 54v6c6-26 26-42 50-42s44 16 50 42v-6c0-30-20-54-50-54z" fill="${u("hj")}"/><path d="M52 104c2 24 18 42 48 46 30-4 46-22 48-46 4 26-14 56-48 58-34-2-52-32-48-58z" fill="${u("hj")}"/>`;
+  else if(c.head==="ghutra"||c.head==="shemagh"){const f=c.head==="ghutra"?u("gw"):`url(#${P}chk)`;L.front+=`<path d="M48 104c0-40 22-66 52-66s52 26 52 66c-4-6-6-16-10-22-10-10-26-14-42-14s-32 4-42 14c-4 6-6 16-10 22z" fill="${f}"/><path d="M50 62q50-26 100 0" stroke="#151515" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M52 70q48-24 96 0" stroke="#2a2a2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>`;}
+  else{if(c.hair==="curly")L.front+=[[60,70,14],[74,54,15],[94,46,16],[114,48,16],[132,58,15],[143,76,12],[57,88,10],[146,92,9]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${u("hr")}"/>`).join("");
+    else if(HF[c.hair])L.front+=`<path d="${HF[c.hair]}" fill="${u("hr")}"/>`;
+    if(c.head==="cap")L.front+=`<path d="M52 82c0-30 22-48 48-48s48 18 48 48z" fill="${u("in")}"/><path d="M98 78q34-4 68 10q-30 6-68 2z" fill="${avD(oc,.25)}"/><circle cx="100" cy="36" r="4" fill="${avD(oc,.3)}"/>`;
+    if(c.head==="beanie")L.front+=`<path d="M52 84c0-34 22-52 48-52s48 18 48 52z" fill="${u("in")}"/><rect x="48" y="74" width="104" height="16" rx="8" fill="${avD(oc,.22)}"/><circle cx="100" cy="30" r="9" fill="${avL(oc,.4)}"/>`;}
+  if(c.gl==="round")L.front+=`<g fill="none" stroke="#1d1d1f" stroke-width="2.6"><circle cx="82" cy="97" r="12"/><circle cx="118" cy="97" r="12"/><path d="M94 96q6-4 12 0M70 95l-14-3M130 95l14-3"/></g>`;
+  else if(c.gl==="square")L.front+=`<g fill="none" stroke="#1d1d1f" stroke-width="2.8"><rect x="69" y="87" width="26" height="20" rx="5"/><rect x="105" y="87" width="26" height="20" rx="5"/><path d="M95 95h10M69 94l-13-3M131 94l13-3"/></g>`;
+  else if(c.gl==="goggles")L.front+=`<rect x="50" y="86" width="100" height="10" rx="5" fill="#334155"/><rect x="66" y="82" width="32" height="26" rx="11" fill="url(#${P}gl)" stroke="#334155" stroke-width="3"/><rect x="102" y="82" width="32" height="26" rx="11" fill="url(#${P}gl)" stroke="#334155" stroke-width="3"/><path d="M72 88q6-3 10 0M108 88q6-3 10 0" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>`;
+  /* hand layer: waving arm + held object */
+  L.hand+=`<g class="avwave"><path d="M142 176q24-22 22-62" stroke="${u("cl")}" stroke-width="24" stroke-linecap="round" fill="none"/><circle cx="164" cy="106" r="12" fill="${u("sk")}"/><path d="M158 98v-8M164 96v-10M170 98v-8" stroke="${avD(sk,.15)}" stroke-width="5" stroke-linecap="round"/></g>`;
+  const A={flask:`<path d="M44 206h14v12l12 22c3 6-1 12-8 12H40c-7 0-11-6-8-12l12-22z" fill="#e8f6ff" stroke="#9ab" stroke-width="2"/><path d="M36 238l8-14h14l8 14c2 4-1 8-6 8H42c-5 0-8-4-6-8z" fill="#46c48a"/><circle cx="48" cy="232" r="2.6" fill="#d8ffe9"/><circle cx="54" cy="226" r="1.8" fill="#d8ffe9"/>`,
+    atom:`<g transform="translate(50 214)"><ellipse rx="20" ry="8" fill="none" stroke="#5aa9ff" stroke-width="2.4"/><ellipse rx="20" ry="8" transform="rotate(60)" fill="none" stroke="#c58cff" stroke-width="2.4"/><ellipse rx="20" ry="8" transform="rotate(-60)" fill="none" stroke="#46c48a" stroke-width="2.4"/><circle r="5" fill="#ff8a65"/></g>`,
+    dna:`<g transform="translate(50 214)" stroke-width="3" stroke-linecap="round" fill="none"><path d="M-8 -22c16 10 16 18 0 28s-16 18 0 28" stroke="#5aa9ff"/><path d="M8 -22c-16 10-16 18 0 28s16 18 0 28" stroke="#ff7a9a"/><path d="M-4 -14h8M-6 0h12M-4 14h8" stroke="#cbd5e1" stroke-width="2.4"/></g>`,
+    book:`<rect x="32" y="206" width="36" height="44" rx="4" fill="${oc}"/><rect x="36" y="210" width="28" height="36" rx="2" fill="#f8fafc" opacity=".25"/><path d="M42 222h16M42 230h12" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>`,
+    leaf:`<path d="M50 246c-20-12-18-38 8-48 10 16 8 38-8 48z" fill="#46c48a"/><path d="M50 246c2-14 4-28 8-48" stroke="#1d8656" stroke-width="2" fill="none"/>`};
+  if(A[c.acc])L.hand+=`<g class="avacc">${A[c.acc]}</g>`;
+  return {defs,L};}
+
+/* ---------- 3D stage: layered SVGs in a CSS 3D rig (real parallax when it turns) ---------- */
+function avStage(d,opt){opt=opt||{};d=d||{mode:"build",cfg:AV_DEF};const P="av"+(++AV.seq)+"_",bg=AV_BG[avCfg(d.cfg).bg]||AV_BG[0];
+  let inner;
+  if(d.mode==="photo"&&d.img){const edge=Array.from({length:10},(_,i)=>`<div class="avedge" style="transform:translateZ(${-i-1}px)"></div>`).join("");
+    inner=`<div class="avcoin">${edge}<div class="avface" style="background-image:url('${d.img}')"></div><div class="avback"><span>${esc(pfInitials(CAL.user?.n||""))}</span></div></div>`;}
+  else{const {defs,L}=avLayers(d.cfg,P),Z={back:-26,body:0,head:16,face:22,front:28,hand:36};
+    inner=Object.keys(Z).map((k,i)=>`<svg class="avly avl-${k}" viewBox="0 0 200 262" style="transform:translateZ(${Z[k]}px)" aria-hidden="true">${i===0?defs:""}${L[k]}</svg>`).join("");}
+  return `<div class="av3${opt.splash?" spl":""}" style="--avbg:${bg}" role="img" aria-label="3D avatar"><div class="avglow"></div><div class="avrig"><div class="avped"><i></i></div><div class="avfig">${inner}</div></div><div class="avshadow"></div></div>`;}
+
+/* ---------- storage ---------- */
+const avHosted=()=>!!(window.HOSTED&&window.HS?.token);
+async function avLoad(){const id=CAL.uid;if(!id)return null;if(AV.uid===id&&AV.data)return AV.data;let d=null;
+  try{d=JSON.parse(localStorage.getItem("av_"+id)||"null");}catch(_){}
+  if(avHosted()){try{const r=await hrpc("portal_avatar_get",{p_token:HS.token});if(r&&typeof r==="object"){d=r;try{localStorage.setItem("av_"+id,JSON.stringify(r));}catch(_){}}}catch(_){}}
+  AV.uid=id;AV.data=d;return d;}
+async function avSave(d){const id=CAL.uid;
+  if(avHosted()){const r=await hrpc("portal_avatar_save",{p_token:HS.token,p_avatar:d});if(r?.error)throw new Error(r.error);}
+  try{localStorage.setItem("av_"+id,JSON.stringify(d));}catch(_){}AV.uid=id;AV.data=d;}
+
+/* ---------- login greeting (2.8 s, tap or Esc to skip) ---------- */
+function avSplash(d,opt){opt=opt||{};const u=CAL.user;if(!u)return;const old=$("avsplash");if(old)old.remove();
+  const first=String(u.n||"").trim().split(/\s+/)[0]||"",has=!!d,T=!!u.t;d=d||{mode:"build",cfg:{...AV_DEF,out:T?"lab":"uniform",acc:T?"flask":"book"}};
+  const s=document.createElement("div");s.id="avsplash";s.setAttribute("role","dialog");s.setAttribute("aria-label","Welcome");
+  s.innerHTML=`<div class="avsp-bg">${Array.from({length:22},(_,i)=>`<i style="--x:${(i*37)%100}%;--d:${(i%7)*0.25}s;--s:${4+(i%4)*2}px"></i>`).join("")}</div>
+    <div class="avsp-in">${avStage(d,{splash:1})}<div class="avsp-t"><small>${T?"Welcome back · أهلاً بعودتك":"Welcome back · أهلاً بك"}</small><h2 dir="auto">${esc(first||u.n)}</h2><p>${esc(T?"Teacher":u.g||"")} · Science Gate</p>${has?"":`<em>Create your own 3D avatar in My Profile · صمّم شخصيتك من الملف الشخصي</em>`}</div><div class="avsp-bar"><b></b></div></div>
+    <button type="button" class="avsp-skip">Skip ›</button>`;
+  document.body.appendChild(s);const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,ms=opt.ms||(reduce?1600:2800);s.style.setProperty("--ms",ms+"ms");
+  const close=()=>{if(s._c)return;s._c=1;s.classList.add("out");setTimeout(()=>s.remove(),450);document.removeEventListener("keydown",k);};const k=e=>{if(e.key==="Escape")close();};
+  s.addEventListener("click",close);document.addEventListener("keydown",k);setTimeout(close,ms);}
+async function avAfterLogin(){const id=CAL.uid;if(!id||!CAL.user)return;const key="av_seen_"+id;try{if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");}catch(_){}
+  const d=await Promise.race([avLoad(),new Promise(r=>setTimeout(()=>r(AV.data),900))]);if(d&&d.splash===false)return;avSplash(d);}
+{const s0=show;show=function(st,id){const r=s0.apply(this,arguments);AV.data=null;AV.uid=null;setTimeout(avAfterLogin,30);return r;};}
+{const lo=logout;logout=function(){const id=CAL.uid;try{if(id)sessionStorage.removeItem("av_seen_"+id);}catch(_){}AV.data=null;AV.uid=null;return lo.apply(this,arguments);};}
+
+/* ---------- builder in My Profile ---------- */
+const AVB={d:null,tab:"build"};
+function avBuilder(){const host=$("pfsheet");if(!host||!CAL.user)return;let sec=$("avbuild");if(!sec){sec=document.createElement("section");sec.id="avbuild";sec.className="avb";host.appendChild(sec);}
+  if(!AVB.d){AVB.d=JSON.parse(JSON.stringify(AV.data||{mode:"build",cfg:{...AV_DEF},splash:true}));AVB.tab=AVB.d.mode==="photo"?"photo":"build";}
+  const D=AVB.d,c=D.cfg=avCfg(D.cfg);
+  const chips=(k,label,ar)=>`<div class="avrow"><label>${label} <span class="ar">${ar}</span></label><div class="avchips">${AV_OPT[k].map(([v,n])=>`<button type="button" data-k="${k}" data-v="${v}" class="${c[k]===v?"on":""}">${n}</button>`).join("")}</div></div>`;
+  const sw=(k,pal,label,ar)=>`<div class="avrow"><label>${label} <span class="ar">${ar}</span></label><div class="avsw">${pal.map((col,i)=>`<button type="button" data-k="${k}" data-v="${i}" class="${c[k]===i?"on":""}" style="--s:${col}" aria-label="${label} ${i+1}"></button>`).join("")}</div></div>`;
+  sec.innerHTML=`<div class="avb-h"><h3>My 3D Avatar <span class="ar">· شخصيتي ثلاثية الأبعاد</span></h3><p class="pfhint">Design a character or upload an image. It greets you for about 3 seconds each time you log in.</p></div>
+    <div class="avb-g"><div class="avb-st"><div id="avprev">${avStage(AVB.tab==="photo"?D:{mode:"build",cfg:c})}</div><p class="pfhint">Drag to turn the character.</p>
+        <div class="avb-btns"><button type="button" class="sbtn" id="avrand">🎲 Surprise me</button><button type="button" class="sbtn" id="avplay">▶ Preview login</button></div></div>
+      <div class="avb-c"><div class="avtabs"><button type="button" data-t="build" class="${AVB.tab==="build"?"on":""}">🧑‍🔬 Build character · صمّم</button><button type="button" data-t="photo" class="${AVB.tab==="photo"?"on":""}">🖼 Upload image · ارفع صورة</button></div>
+        ${AVB.tab==="build"?`${chips("kind","Character","الشخصية")}${sw("skin",AV_SKIN,"Skin","البشرة")}${chips("hair","Hair","الشعر")}${sw("hc",AV_HC,"Hair colour","لون الشعر")}${chips("head","Headwear","غطاء الرأس")}${["hijab","cap","beanie"].includes(c.head)?sw("hjc",c.head==="hijab"?AV_HJ:AV_OC,"Headwear colour","اللون"):""}
+          ${chips("eyes","Eyes","العيون")}${sw("ec",AV_EC,"Eye colour","لون العيون")}${chips("gl","Glasses","النظارة")}${chips("out","Outfit","الملابس")}${sw("oc",AV_OC,"Outfit colour","لون الملابس")}${chips("acc","Holding","في اليد")}${sw("bg",AV_BG,"Glow","الإضاءة")}`
+        :`<div class="avup"><label class="sbtn pfup">📷 ${D.img?"Change image":"Choose image"}<input type="file" id="avfile" accept="image/*" hidden></label>${D.img?`<button type="button" class="sbtn" id="avrm">Remove image</button>`:""}
+          <p class="pfhint">Your image becomes a 3D medal that spins in when you log in. Use a picture of yourself or a drawing of your own character. Square images look best.</p>${pfHosted()&&PF.photo?`<button type="button" class="sbtn" id="avusepf">Use my profile photo</button>`:""}</div>`}
+        <label class="avsplchk"><input type="checkbox" id="avspl" ${D.splash!==false?"checked":""}> Show my avatar when I log in · اعرض شخصيتي عند الدخول</label>
+        <div class="pfbtns"><button type="button" class="sbtn pri" id="avsave">Save avatar · حفظ</button>${AV.data?`<button type="button" class="sbtn" id="avdel">Reset</button>`:""}<span class="pfmsg" id="avmsg"></span></div></div></div>`;
+  const prev=()=>{$("avprev").innerHTML=avStage(AVB.tab==="photo"?D:{mode:"build",cfg:c});avDrag($("avprev"));},dirty=()=>{const m=$("avmsg");if(m){m.textContent="Not saved yet";m.className="pfmsg";}};
+  sec.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=b.dataset.k,v=b.dataset.v;c[k]=/^\d+$/.test(v)&&!AV_OPT[k]?+v:v;
+    if(k==="kind"){if(v==="g"&&["short","spiky"].includes(c.hair))c.hair="long";if(v==="b"&&c.head==="hijab")c.head="none";}if(k==="head"&&v==="hijab")c.hair="none";
+    D.mode="build";avBuilder();dirty();});
+  sec.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{AVB.tab=b.dataset.t;if(AVB.tab==="build")D.mode="build";else if(D.img)D.mode="photo";avBuilder();});
+  $("avrand").onclick=()=>{const r=a=>a[Math.floor(Math.random()*a.length)],k=r(["b","g"]);Object.assign(c,{kind:k,skin:Math.floor(Math.random()*6),hair:r(k==="g"?["long","bun","curly","side","none"]:["short","side","spiky","curly"]),hc:Math.floor(Math.random()*6),
+      head:r(k==="g"?["none","hijab","hijab","beanie"]:["none","ghutra","shemagh","cap"]),hjc:Math.floor(Math.random()*7),eyes:r(AV_OPT.eyes)[0],ec:Math.floor(Math.random()*4),gl:r(AV_OPT.gl)[0],out:r(AV_OPT.out)[0],oc:Math.floor(Math.random()*7),acc:r(AV_OPT.acc)[0],bg:Math.floor(Math.random()*6)});
+    if(c.head==="hijab")c.hair="none";AVB.tab="build";D.mode="build";avBuilder();dirty();};
+  $("avplay").onclick=()=>avSplash(AVB.tab==="photo"&&D.img?{...D,mode:"photo"}:{mode:"build",cfg:c});
+  $("avspl").onchange=e=>{D.splash=e.target.checked;dirty();};
+  const f=$("avfile");if(f)f.onchange=async e=>{const fl=e.target.files[0],m=$("avmsg");if(!fl)return;if(!/^image\//.test(fl.type)){m.textContent="Choose an image file.";m.className="pfmsg bad";return;}
+    try{D.img=await avShrink(fl);D.mode="photo";avBuilder();dirty();}catch(_){m.textContent="Could not read this image.";m.className="pfmsg bad";}};
+  const rm=$("avrm");if(rm)rm.onclick=()=>{D.img="";D.mode="build";avBuilder();dirty();};
+  const up=$("avusepf");if(up)up.onclick=()=>{D.img=PF.photo;D.mode="photo";avBuilder();dirty();};
+  $("avsave").onclick=async()=>{const m=$("avmsg");if(AVB.tab==="photo"&&!D.img){m.textContent="Choose an image first.";m.className="pfmsg bad";return;}
+    D.mode=AVB.tab==="photo"?"photo":"build";const out={mode:D.mode,cfg:c,splash:D.splash!==false,...(D.mode==="photo"?{img:D.img}:{})};
+    m.textContent="Saving…";m.className="pfmsg";try{await avSave(out);AVB.d=JSON.parse(JSON.stringify(out));avBuilder();$("avmsg").textContent="✓ Saved · you'll see it at your next login";}catch(_){m.textContent="Could not save. The image may be too large.";m.className="pfmsg bad";}};
+  const dl=$("avdel");if(dl)dl.onclick=async()=>{if(!confirm("Remove your avatar and go back to the default character?"))return;try{if(avHosted())await hrpc("portal_avatar_save",{p_token:HS.token,p_avatar:null});localStorage.removeItem("av_"+CAL.uid);}catch(_){}AV.data=null;AVB.d=null;avBuilder();};
+  avDrag($("avprev"));}
+function avShrink(file){return new Promise((res,rej)=>{const url=URL.createObjectURL(file),im=new Image();im.onload=()=>{const s=Math.min(im.width,im.height),c=document.createElement("canvas");c.width=c.height=320;const x=c.getContext("2d");x.drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,320,320);URL.revokeObjectURL(url);res(c.toDataURL("image/jpeg",0.85));};im.onerror=()=>{URL.revokeObjectURL(url);rej();};im.src=url;});}
+function avDrag(box){const st=box&&box.querySelector(".av3");if(!st)return;const rig=st.querySelector(".avrig");let x0=null,a=0;
+  st.addEventListener("pointerdown",e=>{x0=e.clientX;st.setPointerCapture(e.pointerId);st.classList.add("drag");});
+  st.addEventListener("pointermove",e=>{if(x0==null)return;a=Math.max(-70,Math.min(70,(e.clientX-x0)*0.6));rig.style.transform=`rotateY(${a}deg)`;});
+  const up=()=>{if(x0==null)return;x0=null;st.classList.remove("drag");rig.style.transform="";};st.addEventListener("pointerup",up);st.addEventListener("pointercancel",up);}
+{const pr=pfRender;pfRender=function(){const r=pr.apply(this,arguments);if(!AV.data&&CAL.uid&&AV.uid!==CAL.uid)avLoad().then(()=>{AVB.d=null;avBuilder();});avBuilder();return r;};}
+{const op=openProfile;openProfile=function(){AVB.d=null;return op.apply(this,arguments);};}
+
+/* ---------- styles ---------- */
+document.head.insertAdjacentHTML("beforeend",`<style data-own>
+.av3{position:relative;width:240px;height:310px;margin:0 auto;perspective:900px;touch-action:none;cursor:grab;user-select:none}
+.av3.drag{cursor:grabbing}.av3.drag .avrig{animation:none;transition:none}
+.avglow{position:absolute;left:50%;top:46%;width:230px;height:230px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--avbg) 55%,transparent),transparent 68%);filter:blur(6px);animation:avpulse 3s ease-in-out infinite}
+.avrig{position:absolute;inset:0;transform-style:preserve-3d;animation:avturn 7s ease-in-out infinite;transition:transform .5s}
+.avfig{position:absolute;left:20px;right:20px;top:6px;height:262px;transform-style:preserve-3d;animation:avbob 3.2s ease-in-out infinite}
+.avly{position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+.avped{position:absolute;left:50%;bottom:10px;width:200px;height:200px;margin-left:-100px;transform:translateY(62px) rotateX(82deg);transform-style:preserve-3d;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--avbg) 40%,#0b1f17) 0 55%,transparent 56%),conic-gradient(from 0deg,var(--avbg),#ffffff88,var(--avbg),#ffffff22,var(--avbg));box-shadow:0 0 40px color-mix(in srgb,var(--avbg) 70%,transparent)}
+.avped i{position:absolute;inset:16px;border-radius:50%;border:2px dashed color-mix(in srgb,var(--avbg) 80%,#fff);animation:avspin 9s linear infinite}
+.avshadow{position:absolute;left:50%;bottom:30px;width:150px;height:22px;margin-left:-75px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.35),transparent 70%);animation:avshad 3.2s ease-in-out infinite}
+.avwave{transform-box:fill-box;transform-origin:10% 95%;animation:avwave 1.6s ease-in-out infinite}
+.avacc{transform-box:fill-box;transform-origin:50% 100%;animation:avacc 3.2s ease-in-out infinite}
+.avcoin{position:absolute;left:50%;top:40px;width:180px;height:180px;margin-left:-90px;transform-style:preserve-3d}
+.avcoin .avface,.avcoin .avback,.avcoin .avedge{position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden}.avcoin .avedge{backface-visibility:visible}
+.avcoin .avface{background-size:cover;background-position:center;border:6px solid color-mix(in srgb,var(--avbg) 70%,#fff);box-shadow:inset 0 0 0 2px rgba(255,255,255,.6),inset -18px -22px 40px rgba(0,0,0,.25),inset 14px 14px 30px rgba(255,255,255,.25);transform:translateZ(1px)}
+.avcoin .avback{transform:rotateY(180deg) translateZ(11px);background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--avbg) 60%,#fff),var(--avbg));display:flex;align-items:center;justify-content:center;font:800 54px Inter,sans-serif;color:#fff}
+.avcoin .avedge{background:color-mix(in srgb,var(--avbg) 55%,#0b1f17)}
+@keyframes avturn{0%,100%{transform:rotateY(-24deg)}50%{transform:rotateY(24deg)}}
+@keyframes avbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes avshad{0%,100%{transform:scaleX(1);opacity:1}50%{transform:scaleX(.86);opacity:.7}}
+@keyframes avwave{0%,100%{transform:rotate(0)}50%{transform:rotate(-16deg)}}
+@keyframes avacc{0%,100%{transform:rotate(0)}50%{transform:rotate(6deg)}}
+@keyframes avspin{to{transform:rotate(360deg)}}
+@keyframes avpulse{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+#avsplash{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#0f3d2a,#03140d 70%);animation:avspin-in .35s ease-out;cursor:pointer}
+html[data-theme=light] #avsplash{background:radial-gradient(ellipse at 50% 40%,#ffffff,#d7efe3 75%)}
+#avsplash.out{animation:avsp-out .45s ease-in forwards}
+.avsp-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}.avsp-bg i{position:absolute;left:var(--x);bottom:-10px;width:var(--s);height:var(--s);border-radius:50%;background:#8fe3b8;opacity:.0;animation:avrise 2.6s ease-out var(--d) infinite}
+html[data-theme=light] .avsp-bg i{background:#1d8656}
+.avsp-in{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center}
+.av3.spl{width:280px;height:330px;transform:scale(1.08);margin-bottom:14px}.av3.spl .avrig{animation:aventer 1.1s cubic-bezier(.2,.9,.25,1.2) both,avturn 7s ease-in-out 1.1s infinite}
+.av3.spl .avcoin{animation:avflip 1.3s cubic-bezier(.2,.8,.2,1) both}
+.avsp-t{margin-top:4px;animation:avtxt .7s ease-out .45s both}.avsp-t small{display:block;font:700 12px Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#8fe3b8}
+.avsp-t h2{margin:.15em 0 .1em;font:800 clamp(30px,6vw,46px) Georgia,serif;color:#fff}.avsp-t p{margin:0;color:#b9d6c8;font:500 14px Inter,sans-serif}
+.avsp-t em{display:block;margin-top:10px;font:500 12.5px Inter,Tajawal,sans-serif;font-style:normal;color:#f2c94c}
+html[data-theme=light] .avsp-t h2{color:#10232f}html[data-theme=light] .avsp-t small{color:#1d8656}html[data-theme=light] .avsp-t p{color:#53687a}html[data-theme=light] .avsp-t em{color:#a16207}
+.avsp-bar{width:180px;height:4px;margin-top:18px;border-radius:4px;background:rgba(143,227,184,.18);overflow:hidden}.avsp-bar b{display:block;height:100%;background:linear-gradient(90deg,#46c48a,#8fe3b8);animation:avbar var(--ms) linear both}
+.avsp-skip{position:absolute;right:18px;bottom:18px;background:none;border:1px solid rgba(143,227,184,.35);color:#8fe3b8;border-radius:20px;padding:6px 14px;font:600 13px Inter,sans-serif;cursor:pointer}
+@keyframes avspin-in{from{opacity:0}to{opacity:1}}@keyframes avsp-out{to{opacity:0;transform:scale(1.04)}}
+@keyframes aventer{0%{transform:translateY(60px) rotateY(-110deg) scale(.6);opacity:0}60%{opacity:1}100%{transform:rotateY(-24deg)}}
+@keyframes avflip{0%{transform:rotateY(-540deg) scale(.4);opacity:0}100%{transform:rotateY(0) scale(1);opacity:1}}
+@keyframes avtxt{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}@keyframes avbar{from{width:0}to{width:100%}}
+@keyframes avrise{0%{opacity:0;transform:translateY(0)}20%{opacity:.7}100%{opacity:0;transform:translateY(-75vh)}}
+@media (prefers-reduced-motion:reduce){.avrig,.avfig,.avwave,.avacc,.avglow,.avped i,.avsp-bg i,.av3.spl .avrig,.av3.spl .avcoin{animation:none!important}}
+.avb{margin-top:22px;padding:18px;border-radius:16px;border:1px solid rgba(16,35,47,.1);background:#f5faf7;color:#10232f}
+.avb-h h3{margin:0 0 4px}.avb-g{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:start;margin-top:10px}@media (max-width:760px){.avb-g{grid-template-columns:1fr}}
+.avb-st{border-radius:14px;padding:10px 0 12px;background:radial-gradient(ellipse at 50% 35%,#134a33,#04170f 75%);text-align:center;color:#cfe6da}.avb-st .pfhint{color:#9fc2b1}
+.avb-st .pfhint{margin:0 0 8px}.avb-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.avtabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}.avtabs button{border:1px solid rgba(16,35,47,.18);background:none;color:inherit;border-radius:20px;padding:7px 14px;font:600 13px Inter,sans-serif;cursor:pointer}.avtabs button.on{background:#1d8656;border-color:#1d8656;color:#fff}
+.avrow{display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;margin:7px 0}.avrow>label{font:700 12.5px Inter,sans-serif;color:#2b4150}.avrow .ar{font-family:Tajawal,sans-serif;color:#6b7f8c;font-weight:600}
+@media (max-width:520px){.avrow{grid-template-columns:1fr}}
+.avchips{display:flex;flex-wrap:wrap;gap:5px}.avchips button{border:1px solid rgba(16,35,47,.16);background:#fff;color:inherit;border-radius:9px;padding:5px 10px;font:600 12.5px Inter,sans-serif;cursor:pointer}
+.avchips button.on{background:#1d8656;border-color:#1d8656;color:#fff}
+.avsw{display:flex;flex-wrap:wrap;gap:6px}.avsw button{width:26px;height:26px;border-radius:50%;background:var(--s);border:2px solid #fff;cursor:pointer;box-shadow:inset -3px -4px 6px rgba(0,0,0,.2)}
+.avsw button.on{outline:3px solid #46c48a;outline-offset:2px}.avsplchk{display:flex;gap:8px;align-items:center;margin:14px 0 6px;font:600 13px Inter,Tajawal,sans-serif}.avup{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.avup .pfhint{flex-basis:100%}
+</style>`);
+
 /* ===== Submit work → teacher review (Assignments) =====
    Students submit a snapshot of each lesson activity. The teacher reviews it in Assignments with typed
    feedback, a mark and pen / Apple Pencil annotations; the student sees the review beside the work. */
