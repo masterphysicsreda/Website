@@ -7241,6 +7241,333 @@ html[data-skin=robot] .brand h1 span{color:#00e5ff}html[data-skin=robot][data-th
 </style>`);
 {let k=null;try{k=localStorage.getItem("sg_skin");}catch(_){}skApply(k||"classic");}
 
+/* ===== My Competitions (مسابقاتي): teachers build a game from lesson questions, pick a theme and settings, then host it
+   live (teacher-paced) or let students play at their own pace. Students pick a character; after each question the
+   characters race across the theme's land; at the end the top three stand on the podium. All art is original. ===== */
+const CP={list:null,E:null,id:null,st:null,timer:null,off:0,me:null,ans:null,selfQ:null,phaseKey:"",raceT:null,view:"list"};
+const cpHosted=()=>!!(window.HOSTED&&window.HS?.token);
+const cpT=()=>!!CAL.user?.t;
+
+/* ---------------- themes and their original characters ---------------- */
+const CP_TH={
+ space:{t:"Space Race",a:"سباق الفضاء",sky:["#050816","#1b1046"],ground:"#2a2350",accent:"#7df9ff",chars:[["Nova","#ff6b6b"],["Orion","#4d96ff"],["Luna","#c77dff"],["Comet","#ffd93d"],["Vega","#5eead4"],["Astro","#ff9f43"]]},
+ ocean:{t:"Ocean Dive",a:"غوص المحيط",sky:["#0e7490","#082f49"],ground:"#e9cf8f",accent:"#67e8f9",chars:[["Finn","#ff9f43"],["Shelly","#22c55e"],["Inky","#c77dff"],["Pinch","#ef4444"],["Splash","#38bdf8"],["Puffy","#ffd93d"]]},
+ forest:{t:"Forest Trail",a:"درب الغابة",sky:["#cdeccd","#7fbf7f"],ground:"#8a6b48",accent:"#2f9e44",chars:[["Rusty","#e8590c"],["Hoppy","#e9ecef"],["Bruno","#8d5a3b"],["Hoot","#b08968"],["Dash","#c08552"],["Spike","#9c7a54"]]},
+ car:{t:"Car Race",a:"سباق السيارات",sky:["#9fd3ff","#e3f2ff"],ground:"#3d3d45",accent:"#ffd43b",chars:[["Blaze","#e03131"],["Turbo","#1c7ed6"],["Zip","#2f9e44"],["Bolt","#fab005"],["Rocket","#ae3ec9"],["Flash","#f76707"]]},
+ football:{t:"Penalty Match",a:"مباراة ركلات الترجيح",sky:["#1b3a1b","#0b2a12"],ground:"#2f9e44",accent:"#ffffff",chars:[["No. 7","#e03131"],["No. 10","#1c7ed6"],["No. 9","#fab005"],["No. 11","#2f9e44"],["No. 8","#ae3ec9"],["No. 4","#ffffff"]]},
+ mountain:{t:"Summit Climb",a:"تسلق القمة",sky:["#ffd9b8","#a9c5e0"],ground:"#7d93aa",accent:"#e8590c",chars:[["Sky","#e03131"],["Rock","#1c7ed6"],["Peak","#2f9e44"],["Ridge","#fab005"],["Cliff","#ae3ec9"],["Trail","#f76707"]]},
+ desert:{t:"Camel Race",a:"سباق الهجن",sky:["#ffe9c7","#f6dcb0"],ground:"#e0a85e",accent:"#b45309",chars:[["Sahm","#e03131"],["Barq","#1c7ed6"],["Reem","#2f9e44"],["Najm","#fab005"],["Ghaith","#ae3ec9"],["Hilal","#f76707"]]},
+ robot:{t:"Robot Run",a:"سباق الروبوتات",sky:["#07121c","#0b2233"],ground:"#16324a",accent:"#00e5ff",chars:[["Bit","#00e5ff"],["Byte","#76ff03"],["Chip","#ff4081"],["Gear","#ffd740"],["Volt","#b388ff"],["Pixel","#ff6e40"]]}
+};
+const CP_THK=Object.keys(CP_TH);
+const cpD=(h,a)=>typeof avD==="function"?avD(h,a):h,cpL=(h,a)=>typeof avL==="function"?avL(h,a):h;
+/* one character, 100×100 */
+function cpChar(th,i){const T=CP_TH[th]||CP_TH.space,[nm,c]=T.chars[i%T.chars.length],d=cpD(c,.3),eye=(x,y,r=3.2)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#fff"/><circle cx="${x+.6}" cy="${y+.4}" r="${r*.55}" fill="#1b1b1b"/><circle cx="${x+1.3}" cy="${y-.8}" r="${r*.22}" fill="#fff"/>`;let s="";
+  if(th==="space")s=`<rect x="34" y="58" width="32" height="30" rx="10" fill="${c}"/><rect x="26" y="60" width="10" height="18" rx="4" fill="${d}"/><rect x="40" y="66" width="20" height="8" rx="3" fill="#fff" opacity=".7"/><circle cx="50" cy="40" r="24" fill="#f1f5f9" stroke="${d}" stroke-width="3"/><path d="M33 40a17 13 0 0 1 34 0v3a17 11 0 0 1-34 0z" fill="url(#cpv${i})"/><defs><linearGradient id="cpv${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7dd3fc"/><stop offset="1" stop-color="${d}"/></linearGradient></defs><path d="M38 34q6-5 12-4" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/><path d="M50 16v-8" stroke="#94a3b8" stroke-width="2.5"/><circle cx="50" cy="7" r="${3+i%3}" fill="${c}"/><rect x="37" y="86" width="9" height="8" rx="3" fill="${d}"/><rect x="54" y="86" width="9" height="8" rx="3" fill="${d}"/>`;
+  else if(th==="ocean"){const k=i%6;s=k===0?`<path d="M18 50q20-26 50 0-30 26-50 0z" fill="${c}"/><path d="M66 50l18-14v28z" fill="${d}"/><path d="M36 34q8-10 18-4" fill="${d}"/>${eye(30,46)}<path d="M24 56q4 3 8 0" stroke="${d}" stroke-width="2" fill="none"/>`
+    :k===1?`<ellipse cx="50" cy="56" rx="28" ry="20" fill="${c}"/><path d="M32 52l8-10 10 6 10-6 8 10-8 10H40z" fill="${d}" opacity=".5"/><circle cx="82" cy="52" r="10" fill="#a3e635"/>${eye(85,49,2.6)}<path d="M28 72l-6 8M72 72l6 8" stroke="#a3e635" stroke-width="6" stroke-linecap="round"/>`
+    :k===2?`<circle cx="50" cy="40" r="22" fill="${c}"/>${[22,34,46,58,70].map((x,j)=>`<path d="M${x+4} 58q${j%2?6:-6} 14 0 26" stroke="${c}" stroke-width="7" fill="none" stroke-linecap="round"/>`).join("")}${eye(42,40)}${eye(58,40)}<path d="M45 50q5 4 10 0" stroke="${d}" stroke-width="2.4" fill="none"/>`
+    :k===3?`<ellipse cx="50" cy="60" rx="24" ry="16" fill="${c}"/><path d="M26 56q-12-6-10-20 8 4 12 8M74 56q12-6 10-20-8 4-12 8" fill="${c}"/><path d="M16 36l-4-6 8 2zM84 36l4-6-8 2z" fill="${d}"/>${eye(42,46)}${eye(58,46)}<path d="M44 66q6 4 12 0" stroke="${d}" stroke-width="2.4" fill="none"/><path d="M32 74l-8 8M68 74l8 8M40 76l-4 8M60 76l4 8" stroke="${d}" stroke-width="3" stroke-linecap="round"/>`
+    :k===4?`<path d="M14 58q20-34 62-14 10 4 10 12-30-2-30 10-26 6-42-8z" fill="${c}"/><path d="M50 40l6-12 6 14z" fill="${d}"/><path d="M14 58l-8-8 2 14z" fill="${d}"/>${eye(70,50,2.8)}<path d="M84 56q-6 3-12 1" stroke="${d}" stroke-width="2" fill="none"/>`
+    :`<circle cx="50" cy="52" r="26" fill="${c}"/>${Array.from({length:12},(_,j)=>{const a=j/12*Math.PI*2;return `<path d="M${50+26*Math.cos(a)} ${52+26*Math.sin(a)}l${7*Math.cos(a)} ${7*Math.sin(a)}" stroke="${d}" stroke-width="3" stroke-linecap="round"/>`;}).join("")}${eye(42,48)}${eye(58,48)}<circle cx="50" cy="62" r="4" fill="${d}"/>`;}
+  else if(th==="forest"){const k=i%6,face=k===1?"#f8f9fa":c,ear=k===0?`<path d="M28 30l6-22 14 16zM72 30l-6-22-14 16z" fill="${face}"/><path d="M31 26l4-12 7 9zM69 26l-4-12-7 9z" fill="#2b1d16" opacity=".5"/>`
+      :k===1?`<ellipse cx="38" cy="16" rx="7" ry="20" fill="${face}"/><ellipse cx="62" cy="16" rx="7" ry="20" fill="${face}"/><ellipse cx="38" cy="16" rx="3.5" ry="14" fill="#ffc9c9"/><ellipse cx="62" cy="16" rx="3.5" ry="14" fill="#ffc9c9"/>`
+      :k===2?`<circle cx="30" cy="28" r="10" fill="${face}"/><circle cx="70" cy="28" r="10" fill="${face}"/><circle cx="30" cy="28" r="5" fill="${d}"/><circle cx="70" cy="28" r="5" fill="${d}"/>`
+      :k===3?`<path d="M28 34l4-18 10 12zM72 34l-4-18-10 12z" fill="${d}"/>`
+      :k===4?`<path d="M34 26q-14-20-4-26M66 26q14-20 4-26M30 10l-8-4M70 10l8-4" stroke="#7a5230" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="30" cy="34" rx="8" ry="5" fill="${face}"/><ellipse cx="70" cy="34" rx="8" ry="5" fill="${face}"/>`
+      :Array.from({length:9},(_,j)=>`<path d="M${22+j*7} ${36-Math.abs(j-4)*2}l3-14 4 14" fill="#5c4033"/>`).join("");
+    s=`${ear}<circle cx="50" cy="54" r="30" fill="${face}"/>${k===3?`<circle cx="38" cy="50" r="11" fill="#fff8e1"/><circle cx="62" cy="50" r="11" fill="#fff8e1"/>${eye(38,50,5)}${eye(62,50,5)}<path d="M46 62l4 6 4-6z" fill="#f59f00"/>`
+      :`<ellipse cx="50" cy="66" rx="15" ry="11" fill="${k===0?"#fff":cpL(face,.5)}"/>${eye(39,50)}${eye(61,50)}<ellipse cx="50" cy="61" rx="5" ry="3.6" fill="#2b1d16"/><path d="M45 69q5 4 10 0" stroke="#2b1d16" stroke-width="2" fill="none"/>`}<ellipse cx="32" cy="64" rx="5" ry="3" fill="#ff8fab" opacity=".45"/><ellipse cx="68" cy="64" rx="5" ry="3" fill="#ff8fab" opacity=".45"/>`;}
+  else if(th==="car")s=`<path d="M8 66q2-14 18-16l12-14h26l14 14q14 2 16 16v8H8z" fill="${c}"/><path d="M40 40h11v12H30zM55 40h8l10 12H55z" fill="#bde0fe"/><circle cx="47" cy="44" r="5" fill="${d}"/><rect x="42" y="56" width="16" height="12" rx="3" fill="#fff"/><text x="50" y="66" font-size="10" font-weight="900" text-anchor="middle" font-family="Inter,Arial">${i+1}</text><path d="M84 50l8-6v8z" fill="${d}"/><circle cx="28" cy="76" r="10" fill="#222"/><circle cx="28" cy="76" r="4.5" fill="#adb5bd"/><circle cx="74" cy="76" r="10" fill="#222"/><circle cx="74" cy="76" r="4.5" fill="#adb5bd"/><path d="M10 62h10" stroke="#ffe066" stroke-width="4" stroke-linecap="round"/>`;
+  else if(th==="football"){const sk=["#f0c6a2","#b97e55","#dca57c","#8e5a3a","#fbe0cc","#5f3a25"][i%6];s=`<circle cx="50" cy="22" r="13" fill="${sk}"/><path d="M37 20q2-14 13-14t13 14q-6-6-13-6t-13 6z" fill="#2b1d16"/>${eye(45,23,2.2)}${eye(55,23,2.2)}<path d="M46 29q4 3 8 0" stroke="#2b1d16" stroke-width="1.6" fill="none"/><path d="M32 40q18-8 36 0l-4 26H36z" fill="${c}" stroke="${d}" stroke-width="2"/><text x="50" y="58" font-size="13" font-weight="900" text-anchor="middle" fill="${c==="#ffffff"?"#1c7ed6":"#fff"}" font-family="Inter,Arial">${nm.replace("No. ","")}</text><path d="M36 66h28v8H36z" fill="#f8f9fa"/><path d="M40 74l-6 18M60 74l8 16" stroke="${sk}" stroke-width="7" stroke-linecap="round"/><path d="M30 92h8M66 90h8" stroke="#212529" stroke-width="6" stroke-linecap="round"/><path d="M32 42l-8 16M68 42l8 16" stroke="${c}" stroke-width="7" stroke-linecap="round"/><circle cx="82" cy="88" r="8" fill="#fff" stroke="#212529" stroke-width="1.5"/><path d="M82 82l3 3-1 4h-4l-1-4z" fill="#212529"/>`;}
+  else if(th==="mountain")s=`<rect x="54" y="38" width="20" height="30" rx="6" fill="${d}"/><path d="M36 40q14-8 28 0l-2 30H38z" fill="${c}"/><circle cx="50" cy="26" r="13" fill="#f0c6a2"/><path d="M36 24a14 12 0 0 1 28 0z" fill="${c}"/><rect x="34" y="22" width="32" height="4" rx="2" fill="${d}"/>${eye(45,29,2.2)}${eye(55,29,2.2)}<path d="M46 34q4 3 8 0" stroke="#2b1d16" stroke-width="1.6" fill="none"/><path d="M38 70l-6 22M62 70l6 22" stroke="#495057" stroke-width="8" stroke-linecap="round"/><path d="M36 44l-14-12" stroke="${c}" stroke-width="7" stroke-linecap="round"/><path d="M22 32l-4-14M18 18l8 2" stroke="#868e96" stroke-width="3" stroke-linecap="round"/><path d="M64 44q10 8 20 0" stroke="#fab005" stroke-width="2.5" fill="none"/>`;
+  else if(th==="desert")s=`<path d="M14 62q0-14 14-14 4-16 16-10 6-12 18-2 14-6 18 8l10 2-2 10-8-2q-2 14-14 14H24q-10 0-10-6z" fill="#d4a373"/><path d="M84 44q8-2 10 6l-6 2" fill="#d4a373"/>${eye(88,48,2.2)}<path d="M26 74v20M38 74v20M58 74v20M70 74v20" stroke="#b07d4f" stroke-width="5" stroke-linecap="round"/><path d="M36 42q10-6 22 0l-2 10H38z" fill="${c}"/><circle cx="47" cy="30" r="9" fill="#dca57c"/><path d="M36 30q2-14 11-14t11 14l2 8q-13-6-26 0z" fill="#fff"/><path d="M37 22q10-6 20 0" stroke="#222" stroke-width="3" fill="none"/><path d="M28 50q-4 8 0 16" stroke="${c}" stroke-width="4" fill="none"/>`;
+  else s=`<rect x="30" y="46" width="40" height="34" rx="8" fill="${c}"/><rect x="38" y="54" width="24" height="14" rx="4" fill="#0b2233"/><path d="M42 58h4M54 58h4M44 64h12" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><rect x="28" y="12" width="44" height="32" rx="10" fill="${cpL(c,.25)}"/><rect x="34" y="20" width="32" height="16" rx="8" fill="#0b2233"/><circle cx="43" cy="28" r="4.5" fill="${c}"/><circle cx="57" cy="28" r="4.5" fill="${c}"/><path d="M50 12V4" stroke="#adb5bd" stroke-width="3"/><circle cx="50" cy="4" r="${3+i%3}" fill="${c}"/><path d="M30 56l-12 10M70 56l12 10" stroke="${cpD(c,.2)}" stroke-width="7" stroke-linecap="round"/><path d="M40 80v10M60 80v10" stroke="#495057" stroke-width="7" stroke-linecap="round"/><circle cx="40" cy="92" r="4" fill="#212529"/><circle cx="60" cy="92" r="4" fill="#212529"/>`;
+  return `<svg viewBox="0 0 100 100" class="cpch" aria-label="${esc(nm)}">${s}</svg>`;}
+
+/* ---------------- the race land (drawn once per theme, characters move on top) ---------------- */
+const CP_W=1000,CP_H=440;
+function cpScene(th){const T=CP_TH[th]||CP_TH.space,[a,b]=T.sky;let s=`<defs><linearGradient id="cpsky_${th}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="${CP_W}" height="${CP_H}" fill="url(#cpsky_${th})"/>`;
+  const stars=n=>Array.from({length:n},(_,i)=>`<circle cx="${(i*137)%CP_W}" cy="${(i*89)%(CP_H-60)}" r="${1+(i%3)*.5}" fill="#fff" opacity="${.3+(i%5)/8}"/>`).join("");
+  if(th==="space")s+=stars(90)+`<circle cx="70" cy="370" r="120" fill="#1c7ed6"/><path d="M-10 330q60-30 120 10t60 70" fill="#2f9e44" opacity=".8"/><circle cx="930" cy="110" r="52" fill="#c77dff"/><ellipse cx="930" cy="110" rx="90" ry="16" fill="none" stroke="#f0abfc" stroke-width="5" transform="rotate(-15 930 110)"/>`;
+  else if(th==="ocean")s+=`<path d="M0 30q60-20 120 0t120 0 120 0 120 0 120 0 120 0 120 0 120 0 160 0V0H0z" fill="#67e8f9" opacity=".35"/>${Array.from({length:14},(_,i)=>`<circle cx="${(i*71)%CP_W}" cy="${60+(i*53)%280}" r="${3+i%4}" fill="none" stroke="#bae6fd" opacity=".5"/>`).join("")}<path d="M0 400q120-30 240 0t240 0 240 0 280 0V${CP_H}H0z" fill="${T.ground}"/>${[60,180,820,940].map((x,i)=>`<path d="M${x} 400q-10-40 6-70q-12 40 8 70z" fill="${i%2?"#2f9e44":"#e64980"}"/>`).join("")}`;
+  else if(th==="forest")s+=`<circle cx="880" cy="70" r="40" fill="#fff3bf"/>${[0,120,240,360,480,600,720,840,960].map((x,i)=>`<path d="M${x} 300l40-${110+(i%3)*30} 40 ${110+(i%3)*30}z" fill="${i%2?"#2b8a3e":"#37b24d"}" opacity=".85"/>`).join("")}<rect y="300" width="${CP_W}" height="${CP_H-300}" fill="#69db7c"/><path d="M0 330q250 30 500 0t500 0V${CP_H}H0z" fill="${T.ground}" opacity=".55"/>`;
+  else if(th==="car")s+=`${[120,420,760].map(x=>`<g fill="#fff" opacity=".85"><ellipse cx="${x}" cy="60" rx="50" ry="16"/><ellipse cx="${x+30}" cy="50" rx="30" ry="14"/></g>`).join("")}<rect y="150" width="${CP_W}" height="40" fill="#69db7c"/><rect y="190" width="${CP_W}" height="${CP_H-190}" fill="${T.ground}"/>${Array.from({length:20},(_,i)=>`<rect x="${i*55}" y="186" width="27" height="8" fill="${i%2?"#e03131":"#fff"}"/>`).join("")}`;
+  else if(th==="football")s+=`<rect y="110" width="${CP_W}" height="${CP_H-110}" fill="${T.ground}"/>${Array.from({length:10},(_,i)=>`<rect x="${i*100}" y="110" width="50" height="${CP_H-110}" fill="#2b8a3e" opacity=".5"/>`).join("")}<path d="M0 112h${CP_W}" stroke="#fff" stroke-width="3"/><rect x="930" y="150" width="60" height="230" fill="none" stroke="#fff" stroke-width="6"/><path d="M930 150l50 20v190l-50 20" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/>${stars(30)}`;
+  else if(th==="mountain")s+=`<circle cx="160" cy="90" r="46" fill="#fff3c4"/><path d="M0 440L520 40 1000 440z" fill="${T.ground}"/><path d="M520 40l70 54-36-8-34 30-30-36-44 18z" fill="#fff"/><path d="M0 440l260-160 180 160z" fill="#5d758c"/><path d="M640 440l200-150 160 150z" fill="#5d758c"/><path d="M60 418L520 52" stroke="#fff" stroke-width="4" stroke-dasharray="10 12" opacity=".6"/>`;
+  else if(th==="desert")s+=`<circle cx="860" cy="80" r="50" fill="#ffd27a"/><path d="M0 220q200-70 420-10t580-10V${CP_H}H0z" fill="#efc27f"/><rect y="250" width="${CP_W}" height="${CP_H-250}" fill="${T.ground}"/>${[70,940].map(x=>`<g transform="translate(${x} 250)" fill="#5a7a2b"><path d="M-3 0q4-70 0-120h6q-4 60 0 120z"/><path d="M0-120q-40-25-70 0 35-10 70 0zM0-120q40-25 70 0-35-10-70 0zM0-120q-15-35-45-40 30 15 45 40zM0-120q15-35 45-40-30 15-45 40z"/></g>`).join("")}`;
+  else s+=`${Array.from({length:12},(_,i)=>`<path d="M${i*90} 0v${80+(i%4)*30}h40" stroke="#00e5ff" stroke-width="2" fill="none" opacity=".25"/>`).join("")}<rect y="180" width="${CP_W}" height="${CP_H-180}" fill="${T.ground}"/>${Array.from({length:25},(_,i)=>`<rect x="${i*40}" y="178" width="20" height="4" fill="#00e5ff" opacity=".6"/>`).join("")}`;
+  if(th!=="mountain")s+=`<g><rect x="900" y="${th==="space"||th==="ocean"?90:th==="car"?186:th==="football"?120:th==="desert"?250:th==="robot"?180:300}" width="14" height="${CP_H}" fill="url(#cpchk)"/></g><defs><pattern id="cpchk" width="14" height="14" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#fff"/><rect x="7" y="7" width="7" height="7" fill="#fff"/><rect x="7" width="7" height="7" fill="#111"/><rect y="7" width="7" height="7" fill="#111"/></pattern></defs>`;
+  else s+=`<path d="M520 40v-30l30 10-30 10" fill="#e03131" stroke="#495057" stroke-width="2"/>`;
+  return s;}
+/* position on the track: f = 0..1 progress, lane k of n */
+function cpPos(th,f,k,n){f=Math.max(0,Math.min(1,f));if(th==="mountain"){const x=60+f*440,y=418-f*366,off=(k-(n-1)/2)*18;return [x+off*.6-36,y+off*.75-70];}
+  const top=th==="space"?110:th==="ocean"?110:th==="car"?200:th==="football"?130:th==="desert"?255:th==="robot"?190:310,bot=th==="forest"||th==="desert"?CP_H-70:CP_H-75;
+  const y=n<=1?(top+bot)/2:top+(bot-top)*k/(n-1);return [60+f*(860-60),y-48];}
+function cpRaceMount(box,th){box.innerHTML=`<svg class="cprace" viewBox="0 0 ${CP_W} ${CP_H}" preserveAspectRatio="xMidYMid slice">${cpScene(th)}<g class="cprun"></g></svg>`;box._th=th;box._g={};}
+function cpRaceUpdate(box,players,o){o=o||{};const th=box._th,svg=box.querySelector(".cprun");if(!svg)return;const n=Math.min(players.length,o.max||8);
+  let show=players.slice(0,n);const me=players.find(p=>p.me);if(me&&!show.includes(me)){show[n-1]=me;}
+  const lanes=[...show].sort((a,b)=>String(a.u).localeCompare(String(b.u)));const keep=new Set();
+  lanes.forEach((p,k)=>{keep.add(p.u);let g=box._g[p.u];const f=o.frac(p),[x,y]=cpPos(th,f,k,lanes.length),sc=lanes.length>6?.82:1;
+    if(!g){g=document.createElementNS("http://www.w3.org/2000/svg","g");g.setAttribute("class","cpp"+(p.me?" me":""));const ci=+String(p.ch||"0").split(":")[1]||0;
+      g.innerHTML=`<g class="cpbob">${cpChar(th,ci).replace("<svg ",`<svg x="0" y="0" width="${96*sc}" height="${96*sc}" `)}</g><g class="cptag"><rect x="${4*sc}" y="${92*sc}" rx="9" height="20" width="${88*sc}" fill="rgba(0,0,0,.55)"/><text x="${48*sc}" y="${106*sc}" text-anchor="middle" font-size="12.5" font-weight="700" fill="#fff" font-family="Inter,Tajawal,sans-serif"></text></g>`;
+      const [x0,y0]=cpPos(th,0,k,lanes.length);g.style.transform=`translate(${x0}px,${y0}px)`;svg.appendChild(g);box._g[p.u]=g;g.getBoundingClientRect();}
+    g.querySelector(".cptag text").textContent=`${String(p.n||"").trim().split(/\s+/)[0]} · ${p.s}`;g.classList.toggle("me",!!p.me);
+    requestAnimationFrame(()=>{g.style.transform=`translate(${x}px,${y}px)`;});});
+  Object.keys(box._g).forEach(u=>{if(!keep.has(u)){box._g[u].remove();delete box._g[u];}});}
+function cpPodium(th,players){const T=CP_TH[th]||CP_TH.space,top=players.slice(0,3),slot=[[1,330,190,"#c0c0c0","2"],[0,500,140,"#ffd43b","1"],[2,670,230,"#cd7f32","3"]];
+  let s=`<svg class="cprace" viewBox="0 0 ${CP_W} ${CP_H}" preserveAspectRatio="xMidYMid slice">${cpScene(th)}<rect width="${CP_W}" height="${CP_H}" fill="rgba(0,0,0,.25)"/>`;
+  slot.forEach(([r,x,y,col,lab])=>{const p=top[r];s+=`<rect x="${x-75}" y="${y+70}" width="150" height="${CP_H-y-70}" rx="8" fill="${col}"/><rect x="${x-75}" y="${y+70}" width="150" height="16" fill="#fff" opacity=".35"/><text x="${x}" y="${y+150}" font-size="54" font-weight="900" text-anchor="middle" fill="#fff" font-family="Inter,Arial" opacity=".9">${lab}</text>`;
+    if(p){const ci=+String(p.ch||"0").split(":")[1]||0;s+=`<g class="cppod" style="animation-delay:${r*0.35}s">${cpChar(th,ci).replace("<svg ",`<svg x="${x-55}" y="${y-48}" width="110" height="110" `)}<text x="${x}" y="${y-56}" font-size="17" font-weight="800" text-anchor="middle" fill="#fff" font-family="Inter,Tajawal,sans-serif" stroke="rgba(0,0,0,.55)" stroke-width="4" paint-order="stroke">${esc(String(p.n||"").trim().split(/\s+/).slice(0,2).join(" "))}</text><text x="${x}" y="${y-36}" font-size="14" font-weight="700" text-anchor="middle" fill="${T.accent}" font-family="Inter,sans-serif" stroke="rgba(0,0,0,.6)" stroke-width="3" paint-order="stroke">${p.s} pts</text></g>`;}});
+  s+=Array.from({length:40},(_,i)=>`<rect class="cpconf" x="${(i*97)%CP_W}" y="-20" width="8" height="14" fill="${["#ff6b6b","#ffd93d","#6bcb77","#4d96ff","#c77dff"][i%5]}" style="animation-delay:${(i%10)*.18}s;animation-duration:${2.4+(i%5)*.4}s"/>`).join("");
+  return s+`</svg>`;}
+
+/* ---------------- question bank from the lessons ---------------- */
+function cpBank(lessonId){if(typeof tBank!=="function"||!LXLESSONS[lessonId])return [];const L=LXLESSONS[lessonId],out=[],LET="ABCDEFGH";let vocab=(L.vocab||[]).map(v=>v[0]);
+  tBank(lessonId).forEach(it=>{const q=it.q;if(q.t==="mcq"&&q.opts?.length>=2&&q.opts.length<=6)out.push({src:it.src,stem:q.stem,opts:q.opts,a:LET.indexOf(it.key),fig:q.fig||null,lesson:lessonId});
+    else if(q.t==="tf")out.push({src:it.src,stem:q.stem,opts:["True · صح","False · خطأ"],a:it.key==="T"?0:1,fig:q.fig||null,lesson:lessonId});
+    else if(q.t==="blank"&&vocab.length>=4){const others=tShuf(vocab.filter(v=>v!==it.key),L.key+q.id).slice(0,3),opts=tShuf([it.key,...others],L.key+q.id+"o");out.push({src:"Vocabulary",stem:q.stem.replace("Write the term:","Which term matches:"),opts,a:opts.indexOf(it.key),lesson:lessonId});}});
+  return out.filter(q=>q.a>=0);}
+function cpModules(course){const toc=course==="sci8"?SCI8TOC:MHTOC;const units=toc.filter(n=>n.k==="unit"||n.k==="module");return units.flatMap(u=>u.k==="module"?[u]:(u.c||[]).filter(m=>m.k==="module"));}
+
+/* ---------------- view plumbing ---------------- */
+function cpView(){let v=$("compview");if(v)return v;v=document.createElement("section");v.id="compview";v.className="cpview";($("gbview")||$("calview")).after(v);window.NAVMO?.observe(v,{attributes:true,attributeFilter:["style"]});return v;}
+VIEWS.compview="#comps";
+{const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const v=$("compview");if(v){v.style.display="none";cpStop();}document.body.classList.remove("cpgame");return r;};}
+{const ng=navGo;navGo=function(url){if(url==="#comps"){openComps();return;}return ng.apply(this,arguments);};}
+META["My Competitions"]={c:"#ffd36b",ar:"مسابقاتي",svg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3.5 4M17 6h3a3 3 0 0 1-3.5 4M12 13v4M8 21h8M9 17h6"/><path d="M12 6.2l.8 1.5 1.6.2-1.2 1.1.3 1.6-1.5-.8-1.5.8.3-1.6-1.2-1.1 1.6-.2z" fill="currentColor"/></svg>'};
+if(typeof SK_KEY!=="undefined"){SK_KEY["My Competitions"]="comp";const CG={cartoon:'<rect class="f" x="2.5" y="8" width="19" height="10" rx="5"/><path d="M7 11v4M5 13h4"/><circle class="w" cx="16" cy="12" r="1.3"/><circle class="w" cx="18" cy="14.5" r="1.3"/>',
+  space:'<path d="M5 21V4"/><path class="f" d="M5 4h12l-3 4 3 4H5z"/><circle class="k" cx="17" cy="18" r="1.5"/><circle class="k" cx="20" cy="15" r="1"/>',
+  mountain:'<path class="f" d="M2 20l8-13 4 6 2-3 6 10z"/><path d="M10 7V2.5l4 1.5-4 1.5"/><circle cx="18" cy="5" r="2"/>',
+  science:'<circle class="f" cx="12" cy="15" r="6"/><path d="M8 3l2.5 6.5M16 3l-2.5 6.5"/><ellipse cx="12" cy="15" rx="4" ry="1.6"/><ellipse cx="12" cy="15" rx="4" ry="1.6" transform="rotate(60 12 15)"/>',
+  doctor:'<circle class="f" cx="12" cy="15" r="6"/><path d="M8 3l2.5 6.5M16 3l-2.5 6.5M12 12.5v5M9.5 15h5"/>',
+  ocean:'<path class="f" d="M7 4h10v4a5 5 0 0 1-10 0z"/><path d="M12 13v4M8 21h8M9 17h6"/><path d="M3 21q2-2 4 0"/>',
+  desert:'<path class="f" d="M3 18l2-10 4 4 3-6 3 6 4-4 2 10z"/><path d="M3 21h18"/><circle cx="12" cy="4" r="1"/>',
+  robot:'<rect class="f" x="2.5" y="8" width="19" height="10" rx="3"/><path d="M7 11v4M5 13h4M15 11h3M15 15h3"/>'};
+  Object.keys(CG).forEach(k=>{if(SK_GLY[k])SK_GLY[k].comp=CG[k];});if(!SK_ORDER.includes("comp"))SK_ORDER.push("comp");}
+{const rt=renderTiles;renderTiles=function(box,links){if(window.HOSTED&&(box.id==="tiles"||box.id==="stiles")&&Array.isArray(links)&&!links.some(x=>x[1]==="#comps"))links=[...links,["My Competitions","#comps"]];
+  const r=rt.call(this,box,links);box.querySelectorAll('a[href="#comps"]').forEach(a=>{if(a._cp)return;a._cp=1;a.addEventListener("click",e=>{e.preventDefault();e.stopImmediatePropagation();openComps();},true);
+    const g=a.querySelector(".go");if(g)g.textContent=cpT()?"Build & host game contests →":"Play competitions →";});return r;};}
+if(typeof NAVMENUS!=="undefined")NAVMENUS["#comps"]=()=>cpT()?{h:["My Competitions","مسابقاتي"],rows:[{t:"All competitions",a:"كل المسابقات",ic:"🏆",c:"#ffd36b",go:()=>openComps()},{t:"New competition",a:"مسابقة جديدة",ic:"＋",c:"#46c48a",go:()=>{openComps();setTimeout(()=>cpEdit(null),50);}}]}:null;
+
+function cpStop(){clearTimeout(CP.timer);CP.timer=null;clearTimeout(CP.raceT);CP.view="list";}
+async function cpApi(fn,args){const r=await hrpc("portal_comp_"+fn,{p_token:HS.token,...(args||{})});if(r&&r.error)throw new Error(r.error);return r;}
+async function openComps(){if(!CAL.user)return;hideAllViews();const v=cpView();v.style.display="block";scrollTo(0,0);CP.view="list";
+  if(!cpHosted()){v.innerHTML=`<div class="card tbar fade"><div><h2>My Competitions <span class="ar">· مسابقاتي</span></h2></div><div class="arow"><button class="out" id="cpback">← Dashboard</button></div></div><p class="psub" style="padding:20px">Competitions run on the hosted website (science-alanjal.pages.dev) because players need a live connection.</p>`;$("cpback").onclick=goHome;return;}
+  v.innerHTML=`<div class="card tbar fade"><div><h2>${cpT()?"My Competitions":"Competitions"} <span class="ar">· مسابقاتي</span></h2><div class="cls">${cpT()?"Build a game from lesson questions, choose a theme, then host it live or let students play at their own pace":"Join a competition, choose your character and race your classmates"}</div></div>
+    <div class="arow">${cpT()?`<button class="out" id="cpnew" style="margin-top:0">＋ New competition</button>`:""}<button class="out" id="cpback" style="margin-top:0">← Dashboard</button></div></div><div id="cplist" class="cplist"><p class="psub">Loading…</p></div>`;
+  $("cpback").onclick=goHome;if(cpT())$("cpnew").onclick=()=>cpEdit(null);
+  try{CP.list=await cpApi("list");}catch(e){$("cplist").innerHTML=`<p class="psub">Could not load competitions. Check the internet and try again.</p>`;return;}cpListDraw();}
+function cpListDraw(){const L=CP.list||[],box=$("cplist");if(!box)return;const ST={draft:["Draft","مسودة"],lobby:["Open · waiting","بانتظار اللاعبين"],live:["Live now","مباشر الآن"],ended:["Finished","انتهت"]};
+  if(!L.length){box.innerHTML=`<div class="cpempty">${cpChar("space",0)}<p>${cpT()?"No competitions yet. Press <b>＋ New competition</b> to build your first game.":"No competitions for you right now. When your teacher opens one, it appears here."}</p></div>`;return;}
+  box.innerHTML=L.map(c=>{const T=CP_TH[c.theme]||CP_TH.space,s=ST[c.status]||ST.draft;return `<div class="cpcard" style="--sky1:${T.sky[0]};--sky2:${T.sky[1]};--acc:${T.accent}">
+    <div class="cpbanner">${[0,1,2].map(i=>cpChar(c.theme,i)).join("")}</div><div class="cpbody"><b dir="auto">${esc(c.title)}</b><span>${T.t} · ${T.a}</span>
+    <small>${cpT()?`${esc(c.grade)} · `:""}${c.n} questions · ${c.mode==="self"?"Self-paced":"Live"}${cpT()?` · ${c.players} player${c.players==1?"":"s"}`:""}</small><em class="cpst ${c.status}">${s[0]} · ${s[1]}</em>
+    <div class="cpbtns">${cpT()?`${c.status==="draft"||c.status==="ended"?`<button class="sbtn" data-ed="${c.id}">✎ Edit</button>`:""}<button class="sbtn pri" data-host="${c.id}">${c.status==="draft"?"▶ Open for players":c.status==="ended"?"🏆 Results":"🎮 Host screen"}</button><button class="sbtn" data-del="${c.id}" title="Delete">🗑</button>`
+      :`<button class="sbtn pri" data-play="${c.id}">${c.status==="ended"?"🏆 See results":c.joined?"🎮 Continue":"▶ Join"}</button>`}</div></div></div>`;}).join("");
+  box.querySelectorAll("[data-ed]").forEach(b=>b.onclick=async()=>{try{cpEdit(await cpApi("get",{p_id:b.dataset.ed}));}catch(_){lxToast("Could not open it.",true);}});
+  box.querySelectorAll("[data-host]").forEach(b=>b.onclick=async()=>{const c=L.find(x=>x.id===b.dataset.host);if(c.status==="draft"){try{await cpApi("control",{p_id:c.id,p_act:"open"});}catch(_){lxToast("Could not open it.",true);return;}}cpGame(c.id);});
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{if(!confirm("Delete this competition and its results?"))return;try{await cpApi("delete",{p_id:b.dataset.del});CP.list=CP.list.filter(x=>x.id!==b.dataset.del);cpListDraw();}catch(_){lxToast("Could not delete.",true);}});
+  box.querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>cpGame(b.dataset.play));}
+
+/* ---------------- teacher: build / edit ---------------- */
+function cpEdit(c){const v=cpView();CP.view="edit";const grades=(typeof tGrades==="function"?tGrades():[]).filter(g=>typeof admGradeAllowed!=="function"||admGradeAllowed(g));
+  const E=CP.E={id:c?.id||"",title:c?.title||"",grade:c?.grade||grades[0]||"",students:c?.students||[],course:c?.course||"bio",mod:"",lesson:c?.lessons?.[0]||"",lessons:c?.lessons||[],theme:c?.theme||"space",mode:c?.mode||"live",
+    settings:{time:20,points:1000,streak:true,shufQ:false,shufA:true,race:true,...(c?.settings||{})},questions:(c?.questions||[]).map(q=>({...q}))};
+  if(E.lesson){const m=cpModules(E.course).find(m=>(m.c||[]).some(l=>l.id===E.lesson));if(m)E.mod=m.id;}
+  v.innerHTML=`<div class="card tbar fade"><div><h2>${E.id?"Edit competition":"New competition"} <span class="ar">· ${E.id?"تعديل المسابقة":"مسابقة جديدة"}</span></h2><div class="cls">1 Players · 2 Questions · 3 Theme · 4 Settings</div></div><div class="arow"><button class="out" id="cpcancel" style="margin-top:0">← Back</button></div></div>
+  <div class="cpedit"><section class="cpsec"><h3>1 · Players <span class="ar">اللاعبون</span></h3>
+      <div class="cpgrid2"><label>Competition name <span class="ar">اسم المسابقة</span><input id="cptitle" maxlength="120" placeholder="e.g. Ecosystems Space Race" value="${esc(E.title)}"></label>
+      <label>Grade <span class="ar">الصف</span><select id="cpgrade">${grades.map(g=>`<option ${g===E.grade?"selected":""}>${esc(g)}</option>`).join("")}</select></label></div>
+      <div class="cpstud"><label class="cpchk"><input type="checkbox" id="cpall" ${E.students.length?"":"checked"}> Everyone in the grade · كل طلاب الصف</label><div id="cpslist" class="cpslist"></div></div></section>
+    <section class="cpsec"><h3>2 · Questions <span class="ar">الأسئلة</span> <small id="cpqn"></small></h3>
+      <div class="cpgrid3"><label>Course <span class="ar">المقرر</span><select id="cpcourse">${[["bio","Biology · الأحياء"],["sci8","Science · Grade 8 · العلوم"]].filter(([k])=>typeof admCourseAllowed!=="function"||admCourseAllowed(k)).map(([k,n])=>`<option value="${k}" ${k===E.course?"selected":""}>${n}</option>`).join("")}</select></label>
+        <label>Module <span class="ar">الوحدة</span><select id="cpmod"></select></label><label>Lesson <span class="ar">الدرس</span><select id="cples"></select></label></div>
+      <div class="cpqcols"><div><div class="cpqh"><b>Question bank</b><span><button class="sbtn" id="cpaddall" type="button">Add all</button></span></div><div id="cpbank" class="cpbank"></div></div>
+        <div><div class="cpqh"><b>In this game</b><span><button class="sbtn" id="cpown" type="button">＋ Write my own</button></span></div><div id="cpsel" class="cpbank sel"></div></div></div></section>
+    <section class="cpsec"><h3>3 · Theme <span class="ar">السمة</span></h3><div class="cpthemes">${CP_THK.map(k=>{const T=CP_TH[k];return `<button type="button" class="cpth" data-th="${k}" aria-pressed="${k===E.theme}" style="--sky1:${T.sky[0]};--sky2:${T.sky[1]}"><span class="cpthc">${[0,1,2].map(i=>cpChar(k,i)).join("")}</span><b>${T.t}</b><small>${T.a}</small></button>`;}).join("")}</div>
+      <div class="cpthprev" id="cpthprev"></div></section>
+    <section class="cpsec"><h3>4 · Settings <span class="ar">الإعدادات</span></h3><div class="cpset">
+      <label>Game style <span class="ar">طريقة اللعب</span><select id="cpmode"><option value="live" ${E.mode==="live"?"selected":""}>Live · teacher moves to each question together</option><option value="self" ${E.mode==="self"?"selected":""}>Self-paced · each student climbs at their own speed</option></select></label>
+      <label>Time per question <span class="ar">زمن السؤال</span><select id="cptime">${[10,15,20,30,45,60,90,120].map(t=>`<option value="${t}" ${+E.settings.time===t?"selected":""}>${t} seconds</option>`).join("")}</select></label>
+      <label>Points for a correct answer <span class="ar">النقاط</span><select id="cppts">${[500,1000,2000].map(t=>`<option ${+E.settings.points===t?"selected":""}>${t}</option>`).join("")}</select></label>
+      <label class="cpchk"><input type="checkbox" id="cpstreak" ${E.settings.streak?"checked":""}> Streak bonus (+100 for each correct answer in a row) · مكافأة التتابع</label>
+      <label class="cpchk"><input type="checkbox" id="cpshq" ${E.settings.shufQ?"checked":""}> Shuffle question order · ترتيب عشوائي للأسئلة</label>
+      <label class="cpchk"><input type="checkbox" id="cpsha" ${E.settings.shufA?"checked":""}> Shuffle answer choices · ترتيب عشوائي للخيارات</label>
+      <label class="cpchk"><input type="checkbox" id="cprace" ${E.settings.race!==false?"checked":""}> Show the race after each question · عرض السباق بعد كل سؤال</label>
+      <p class="pfhint">Faster correct answers earn more points (from 100% down to 50% of the points as time runs out).</p></div></section>
+    <div class="cpsave"><button class="sbtn pri" id="cpsave" type="button">💾 Save competition · حفظ</button><span class="pfmsg" id="cpmsg"></span></div></div>`;
+  $("cpcancel").onclick=openComps;
+  const roster=()=>{const g=$("cpgrade").value,R=typeof tRoster==="function"?tRoster(g):[],all=$("cpall").checked;$("cpslist").innerHTML=all?"":R.length?R.map(s=>`<label class="cpchk"><input type="checkbox" value="${esc(s.id)}" ${E.students.includes(s.id)?"checked":""}> <span dir="auto">${esc(s.n)}</span></label>`).join(""):`<p class="psub">No students listed for this grade.</p>`;
+    $("cpslist").querySelectorAll("input").forEach(i=>i.onchange=()=>{E.students=[...$("cpslist").querySelectorAll("input:checked")].map(x=>x.value);});};
+  $("cpall").onchange=()=>{if($("cpall").checked)E.students=[];roster();};$("cpgrade").onchange=()=>{E.grade=$("cpgrade").value;E.students=[];roster();};roster();
+  const mods=()=>{const M=cpModules(E.course);$("cpmod").innerHTML=M.map(m=>`<option value="${m.id}" ${m.id===E.mod?"selected":""}>${esc(m.t)}</option>`).join("");if(!M.some(m=>m.id===E.mod)){E.mod=(M.find(m=>(m.c||[]).some(l=>LXLESSONS[l.id]))||M[0])?.id||"";$("cpmod").value=E.mod;}les();};
+  const les=()=>{const m=cpModules(E.course).find(m=>m.id===E.mod),L=(m?.c||[]).filter(l=>l.k==="lesson");$("cples").innerHTML=L.map(l=>`<option value="${l.id}" ${l.id===E.lesson?"selected":""}>${LXLESSONS[l.id]?"⚡ ":""}${esc(l.t)}</option>`).join("");
+    if(!L.some(l=>l.id===E.lesson)){E.lesson=(L.find(l=>LXLESSONS[l.id])||L[0])?.id||"";$("cples").value=E.lesson;}bank();};
+  const key=q=>q.stem+"|"+(q.opts||[]).join("|");
+  const bank=()=>{const B=cpBank(E.lesson),have=new Set(E.questions.map(key));$("cpbank").innerHTML=B.length?B.map((q,i)=>`<label class="cpq${have.has(key(q))?" in":""}"><input type="checkbox" data-bi="${i}" ${have.has(key(q))?"checked":""}><span><em>${esc(q.src)}</em> <span class="cpstem">${q.stem}</span><small>${q.opts.map((o,j)=>`<i class="${j===q.a?"ok":""}">${esc(o)}</i>`).join("")}</small></span></label>`).join("")
+      :`<p class="psub">This lesson has no question bank yet. Choose a lesson marked ⚡, or press <b>＋ Write my own</b>.</p>`;
+    $("cpbank").querySelectorAll("[data-bi]").forEach(x=>x.onchange=()=>{const q=B[+x.dataset.bi];if(x.checked){if(E.questions.length>=60){lxToast("A competition can have up to 60 questions.",true);x.checked=false;return;}E.questions.push({...q});}else E.questions=E.questions.filter(y=>key(y)!==key(q));if(!E.lessons.includes(E.lesson))E.lessons.push(E.lesson);sel();bank();});
+    $("cpaddall").onclick=()=>{const have2=new Set(E.questions.map(key));B.forEach(q=>{if(!have2.has(key(q))&&E.questions.length<60)E.questions.push({...q});});if(!E.lessons.includes(E.lesson))E.lessons.push(E.lesson);sel();bank();};};
+  const sel=()=>{$("cpqn").textContent=`${E.questions.length} selected`;$("cpsel").innerHTML=E.questions.length?E.questions.map((q,i)=>`<div class="cpq in"><b>${i+1}</b><span><span class="cpstem">${q.stem}</span><small>${q.opts.map((o,j)=>`<i class="${j===q.a?"ok":""}">${esc(o)}</i>`).join("")}</small></span><span class="cpqa"><button type="button" data-up="${i}" title="Move up">↑</button><button type="button" data-rm="${i}" title="Remove">✕</button></span></div>`).join(""):`<p class="psub">Tick questions on the left, or write your own.</p>`;
+    $("cpsel").querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{E.questions.splice(+b.dataset.rm,1);sel();bank();});
+    $("cpsel").querySelectorAll("[data-up]").forEach(b=>b.onclick=()=>{const i=+b.dataset.up;if(i>0){[E.questions[i-1],E.questions[i]]=[E.questions[i],E.questions[i-1]];sel();}});};
+  $("cpcourse").onchange=()=>{E.course=$("cpcourse").value;E.mod="";mods();};$("cpmod").onchange=()=>{E.mod=$("cpmod").value;E.lesson="";les();};$("cples").onchange=()=>{E.lesson=$("cples").value;bank();};mods();sel();
+  $("cpown").onclick=()=>cpOwnQ(q=>{E.questions.push(q);sel();});
+  const thprev=()=>{const b=$("cpthprev");cpRaceMount(b,E.theme);const fake=CP_TH[E.theme].chars.slice(0,5).map((x,i)=>({u:"p"+i,n:x[0],ch:E.theme+":"+i,s:[4200,3100,2500,1800,900][i]}));cpRaceUpdate(b,[],{frac:()=>0});setTimeout(()=>cpRaceUpdate(b,fake,{frac:p=>p.s/5000}),60);};
+  v.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{E.theme=b.dataset.th;v.querySelectorAll("[data-th]").forEach(x=>x.setAttribute("aria-pressed",x===b));thprev();});thprev();
+  $("cpsave").onclick=async()=>{const m=$("cpmsg");E.title=$("cptitle").value.trim();E.mode=$("cpmode").value;Object.assign(E.settings,{time:+$("cptime").value,points:+$("cppts").value,streak:$("cpstreak").checked,shufQ:$("cpshq").checked,shufA:$("cpsha").checked,race:$("cprace").checked});
+    if(!E.title){m.textContent="Give the competition a name.";m.className="pfmsg bad";$("cptitle").focus();return;}if(!E.questions.length){m.textContent="Add at least one question.";m.className="pfmsg bad";return;}
+    if(!$("cpall").checked&&!E.students.length){m.textContent="Tick at least one student, or choose everyone in the grade.";m.className="pfmsg bad";return;}
+    let Q=E.questions.map(q=>({stem:q.stem,opts:[...q.opts],a:q.a,fig:q.fig||null}));
+    if(E.settings.shufA)Q=Q.map((q,i)=>{const idx=tShuf(q.opts.map((_,j)=>j),E.title+i);return {...q,opts:idx.map(j=>q.opts[j]),a:idx.indexOf(q.a)};});
+    if(E.settings.shufQ)Q=tShuf(Q,E.title+"q");
+    m.textContent="Saving…";m.className="pfmsg";
+    try{const r=await cpApi("save",{p_comp:{id:E.id||null,title:E.title,grade:E.grade,students:$("cpall").checked?[]:E.students,course:E.course,lessons:E.lessons,theme:E.theme,mode:E.mode,settings:E.settings,questions:Q}});E.id=r.id;m.textContent="✓ Saved";lxToast("Competition saved");setTimeout(openComps,500);}
+    catch(err){m.textContent=err.message==="grade"?"You can only make competitions for your own grades.":"Could not save. Check the internet and try again.";m.className="pfmsg bad";}};}
+function cpOwnQ(done){const d=document.createElement("dialog");d.className="cpdlg";d.innerHTML=`<form method="dialog"><h3>Write a question <span class="ar">اكتب سؤالاً</span></h3><label>Question<textarea id="cpo_s" rows="3" maxlength="400" dir="auto"></textarea></label>
+  ${[0,1,2,3].map(i=>`<label class="cpopt"><input type="radio" name="cpo_a" value="${i}" ${i?"":"checked"}><input id="cpo_${i}" maxlength="140" dir="auto" placeholder="Choice ${"ABCD"[i]}${i>1?" (optional)":""}"></label>`).join("")}<p class="pfhint">Choose the circle next to the correct answer.</p>
+  <div class="cpbtns"><button class="sbtn pri" value="ok">Add</button><button class="sbtn" value="cancel">Cancel</button></div></form>`;document.body.appendChild(d);d.showModal();
+  d.addEventListener("close",()=>{if(d.returnValue==="ok"){const s=$("cpo_s").value.trim(),o=[0,1,2,3].map(i=>$("cpo_"+i).value.trim()),a=+d.querySelector("[name=cpo_a]:checked").value;const opts=o.filter(Boolean);
+    if(s&&opts.length>=2&&o[a]){done({src:"Teacher",stem:esc(s),opts,a:opts.indexOf(o[a])});}else lxToast("Write the question, at least two choices, and mark the correct one.",true);}d.remove();});}
+
+/* ---------------- the game screen (teacher host and student play) ---------------- */
+async function cpGame(id){const v=cpView();hideAllViews();v.style.display="block";document.body.classList.add("cpgame");CP.id=id;CP.view="game";CP.st=null;CP.ans=null;CP.selfQ=null;CP.phaseKey="";CP.me=null;
+  v.innerHTML=`<div class="cpstage" id="cpstage"><div class="cpbg" id="cpbg"></div><div class="cptop"><button class="cpx" id="cpexit" type="button">✕ Leave</button><b id="cptitle2"></b><span id="cpinfo"></span></div><div class="cpmain" id="cpmain"><p class="cpwait">Loading…</p></div></div>`;
+  $("cpexit").onclick=()=>{cpStop();document.body.classList.remove("cpgame");openComps();};await cpPoll();}
+async function cpPoll(){if(CP.view!=="game")return;clearTimeout(CP.timer);let s;try{s=await cpApi("state",{p_id:CP.id});}catch(e){CP.timer=setTimeout(cpPoll,2500);return;}
+  if(CP.view!=="game")return;CP.off=new Date(s.now).getTime()-Date.now();const first=!CP.st||CP.st.theme!==s.theme;CP.st=s;
+  if(first){const bg=$("cpbg");cpRaceMount(bg,s.theme);bg.classList.add("dim");$("cptitle2").textContent=s.title;}
+  try{s.staff?cpHost(s):cpPlay(s);}catch(e){console.error(e);}
+  CP.timer=setTimeout(cpPoll,s.status==="ended"?6000:s.status==="lobby"?1500:1000);}
+const cpNow=()=>Date.now()+CP.off,cpLeft=s=>Math.max(0,Math.ceil(((+(s.settings?.time)||20)*1000-(cpNow()-new Date(s.q_at).getTime()))/1000));
+const cpFrac=s=>p=>p.s/Math.max(1,(s.n||1)*(+(s.settings?.points)||1000));
+function cpOpts(q,mine,reveal,clickable){const C=["#e8590c","#1c7ed6","#2f9e44","#ae3ec9","#f08c00","#0c8599"];
+  return `<div class="cpopts n${q.opts.length}">${q.opts.map((o,i)=>{const cls=reveal?(i===q.a?"ok":mine===i?"no":"dim"):mine===i?"pick":"";const cnt=reveal&&q.counts?` <em>${q.counts[i]||0}</em>`:"";
+    return `<button type="button" class="cpopt ${cls}" data-o="${i}" style="--oc:${C[i%C.length]}" ${clickable?"":"disabled"}><span class="cpL">${"ABCDEF"[i]}</span><span class="cpot" dir="auto">${esc(o)}</span>${cnt}</button>`;}).join("")}</div>`;}
+function cpQ(q){return `<div class="cpqbox"><div class="cpqstem" dir="auto">${q.stem}</div>${q.fig&&LXFIG[q.fig]?`<div class="cpfig">${LXFIG[q.fig]()}</div>`:""}</div>`;}
+function cpLobby(s,me){const P=s.players;return `<div class="cplobby"><h2>${s.staff?"Waiting for players":"You're in!"} <span class="ar">${s.staff?"بانتظار اللاعبين":"أنت في المسابقة"}</span></h2>
+  <p>${s.staff?`Students in <b>${esc(CP.list?.find(x=>x.id===s.id)?.grade||"the grade")}</b> open <b>My Competitions</b> and press Join.`:"Wait for your teacher to start the game."}</p>
+  <div class="cplob">${P.map(p=>`<div class="cplp${p.me?" me":""}">${cpChar(s.theme,+String(p.ch||"0").split(":")[1]||0)}<span dir="auto">${esc(String(p.n||"").split(/\s+/)[0])}</span></div>`).join("")||`<p class="cpwait">Nobody has joined yet…</p>`}</div>
+  <p class="cpcount">${P.length} player${P.length===1?"":"s"} joined · ${s.n} questions · ${s.mode==="self"?"Self-paced":"Live"} · ${+(s.settings?.time)||20}s per question</p></div>`;}
+function cpRaceShow(s,cap,after){const m=$("cpmain");m.innerHTML=`<div class="cpracebox"><div class="cpcap">${cap}</div><div class="cpracewrap" id="cprw"></div></div>`;const b=$("cprw");cpRaceMount(b,s.theme);
+  const prev=CP.prevScores||{};cpRaceUpdate(b,s.players.map(p=>({...p,s:prev[p.u]??0})),{frac:cpFrac(s)});setTimeout(()=>cpRaceUpdate(b,s.players,{frac:cpFrac(s)}),120);
+  CP.prevScores=Object.fromEntries(s.players.map(p=>[p.u,p.s]));clearTimeout(CP.raceT);if(after)CP.raceT=setTimeout(after,2600);}
+function cpBoard(s,k=5){return `<ol class="cpboard">${s.players.slice(0,k).map((p,i)=>`<li class="${p.me?"me":""}"><span>${i+1}</span>${cpChar(s.theme,+String(p.ch||"0").split(":")[1]||0)}<b dir="auto">${esc(p.n||"")}</b><em>${p.s}</em></li>`).join("")}</ol>`;}
+function cpEnd(s){const m=$("cpmain");if(CP.phaseKey==="end")return;CP.phaseKey="end";lxSfx?.win?.();
+  m.innerHTML=`<div class="cppodwrap"><h2>🏆 Winners · منصة التتويج</h2><div class="cppod">${cpPodium(s.theme,s.players)}</div>${cpBoard(s,10)}
+    ${s.staff&&s.stats?`<details class="cpstats"><summary>Question results · نتائج الأسئلة</summary>${s.stats.map(x=>`<div><b>Q${x.qi+1}</b><i style="--w:${x.all?Math.round(x.right/x.all*100):0}%"></i><span>${x.right}/${x.all} correct</span></div>`).join("")}</details>`:""}
+    ${s.staff?`<div class="cpbtns"><button class="sbtn" id="cpreset">↺ Play again (clears results)</button></div>`:""}</div>`;
+  if(s.staff)$("cpreset").onclick=async()=>{if(!confirm("Clear all players and results so the class can play again?"))return;await cpApi("control",{p_id:s.id,p_act:"reset"});await cpApi("control",{p_id:s.id,p_act:"open"});CP.phaseKey="";cpPoll();};}
+
+/* teacher */
+function cpHost(s){const m=$("cpmain"),info=$("cpinfo");info.textContent=`${s.players.length} players`;
+  if(s.status==="ended")return cpEnd(s);
+  if(s.status==="lobby"){if(CP.phaseKey!=="lobby"+s.players.length){CP.phaseKey="lobby"+s.players.length;m.innerHTML=cpLobby(s)+`<div class="cpbtns big"><button class="sbtn pri" id="cpstart" ${s.players.length?"":"disabled"}>▶ Start the game</button></div>`;
+      $("cpstart").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"start"});CP.prevScores={};cpPoll();};}return;}
+  if(s.mode==="self"){const key="self"+s.players.map(p=>p.u+p.s+p.qi).join();if(CP.phaseKey===key)return;CP.phaseKey=key;
+    if(!$("cprw")){m.innerHTML=`<div class="cpracebox"><div class="cpcap">Self-paced race · السباق الذاتي</div><div class="cpracewrap" id="cprw"></div>${""}<div id="cpsb"></div><div class="cpbtns"><button class="sbtn pri" id="cpfin">🏁 End the game and show the podium</button></div></div>`;cpRaceMount($("cprw"),s.theme);$("cpfin").onclick=async()=>{if(confirm("End the game for everyone?")){await cpApi("control",{p_id:s.id,p_act:"end"});cpPoll();}};}
+    cpRaceUpdate($("cprw"),s.players,{frac:cpFrac(s)});$("cpsb").innerHTML=`<div class="cpprog">${s.players.map(p=>`<span>${esc(String(p.n||"").split(/\s+/)[0])} <b>${p.qi}/${s.n}</b>${p.done?" ✓":""}</span>`).join("")}</div>`;return;}
+  const q=s.q,left=cpLeft(s),all=s.answered>=s.players.length&&s.players.length>0;
+  if(s.phase==="q"){if((left<=0||all)&&!CP.revealing){CP.revealing=1;cpApi("control",{p_id:s.id,p_act:"reveal"}).finally(()=>{CP.revealing=0;cpPoll();});}
+    const key="q"+s.cur;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer" id="cptm"></span><span id="cpans"></span></div>${cpQ(q)}${cpOpts(q,null,false,false)}<div class="cpbtns"><button class="sbtn" id="cpskip">⏭ Stop the timer</button></div></div>`;
+      $("cpskip").onclick=()=>cpApi("control",{p_id:s.id,p_act:"reveal"}).then(cpPoll);}
+    $("cptm").textContent=left+"s";$("cptm").classList.toggle("low",left<=5);$("cpans").textContent=`${s.answered}/${s.players.length} answered`;return;}
+  if(s.phase==="r"){const key="r"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;
+    m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span>${Object.values(q.counts||{}).reduce((a,b)=>a+b,0)} answers</span></div>${cpQ(q)}${cpOpts(q,null,true,false)}
+      <div class="cpbtns big">${s.settings?.race!==false?`<button class="sbtn pri" id="cprc">🏁 Show the race</button>`:""}<button class="sbtn ${s.settings?.race!==false?"":"pri"}" id="cpnx">${s.cur+1>=s.n?"🏆 Podium":"Next question ▶"}</button></div></div>`;
+    const nx=async()=>{await cpApi("control",{p_id:s.id,p_act:"next"});cpPoll();};$("cpnx").onclick=nx;if($("cprc"))$("cprc").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"race"});cpPoll();};return;}
+  if(s.phase==="s"){const key="s"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;cpRaceShow(s,`After question ${s.cur+1} · بعد السؤال ${s.cur+1}`,()=>{const m2=$("cpmain");const bx=document.createElement("div");bx.className="cpbtns big";bx.innerHTML=`<button class="sbtn pri" id="cpnx2">${s.cur+1>=s.n?"🏆 Podium":"Next question ▶"}</button>`;m2.querySelector(".cpracebox")?.appendChild(bx);$("cpnx2").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"next"});cpPoll();};});}}
+
+/* student */
+function cpPlay(s){const m=$("cpmain"),me=s.players.find(p=>p.me),info=$("cpinfo");info.textContent=me?`${me.s} pts`:"";
+  if(s.status==="ended")return cpEnd(s);
+  if(!me){if(CP.phaseKey==="pick")return;CP.phaseKey="pick";const T=CP_TH[s.theme]||CP_TH.space;
+    m.innerHTML=`<div class="cppick"><h2>Choose your character <span class="ar">اختر شخصيتك</span></h2><p>${T.t} · ${T.a}</p><div class="cpchars">${T.chars.map((c,i)=>`<button type="button" data-ci="${i}" class="cpcho">${cpChar(s.theme,i)}<b>${c[0]}</b></button>`).join("")}</div><div class="cpbtns big"><button class="sbtn pri" id="cpjoin" disabled>▶ Join the race</button></div></div>`;
+    let pick=null;m.querySelectorAll("[data-ci]").forEach(b=>b.onclick=()=>{pick=b.dataset.ci;m.querySelectorAll("[data-ci]").forEach(x=>x.classList.toggle("on",x===b));$("cpjoin").disabled=false;});
+    $("cpjoin").onclick=async()=>{$("cpjoin").disabled=true;try{await cpApi("join",{p_id:s.id,p_ch:s.theme+":"+pick});CP.phaseKey="";cpPoll();}catch(e){lxToast(e.message==="closed"?"This competition is closed.":"Could not join.",true);$("cpjoin").disabled=false;}};return;}
+  if(s.status==="lobby"){const key="lobby"+s.players.length;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=cpLobby(s,me);}return;}
+  if(s.mode==="self")return cpSelf(s,me);
+  const q=s.q;if(!q)return;
+  if(s.phase==="q"){const key="q"+s.cur,left=cpLeft(s),mine=s.mine?.choice??CP.ans?.[s.cur];
+    if(CP.phaseKey!==key){CP.phaseKey=key;CP.ans=CP.ans||{};m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer" id="cptm"></span><span>${me.s} pts</span></div>${cpQ(q)}<div id="cpow">${cpOpts(q,mine,false,mine==null)}</div><p class="cplock" id="cplock">${mine!=null?"Answer locked · بانتظار النتيجة":""}</p></div>`;
+      m.querySelectorAll("[data-o]").forEach(b=>b.onclick=async()=>{const o=+b.dataset.o;CP.ans[s.cur]=o;$("cpow").innerHTML=cpOpts(q,o,false,false);$("cplock").textContent="Answer locked · بانتظار النتيجة";lxSfx?.tick?.();
+        try{await cpApi("answer",{p_id:s.id,p_qi:s.cur,p_choice:o});}catch(e){$("cplock").textContent=e.message==="late"?"Time's up!":"Could not send the answer.";}});}
+    const t=$("cptm");if(t){t.textContent=left+"s";t.classList.toggle("low",left<=5);}if(left<=0&&mine==null){$("cplock").textContent="Time's up · انتهى الوقت";m.querySelectorAll("[data-o]").forEach(b=>b.disabled=true);}return;}
+  if(s.phase==="r"){const key="r"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;const mi=s.mine;const ok=mi?.ok;ok?lxSfx?.right?.():lxSfx?.wrong?.();
+    m.innerHTML=`<div class="cpqwrap"><div class="cpres ${ok?"ok":"no"}">${ok?`✓ Correct! +${mi.pts}`:mi?"✗ Not this time":"⏱ No answer"}<small>${me.s} pts · streak ${me.st}</small></div>${cpQ(q)}${cpOpts(q,mi?.choice,true,false)}</div>`;return;}
+  if(s.phase==="s"){const key="s"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;cpRaceShow(s,`After question ${s.cur+1} · بعد السؤال ${s.cur+1}`);}}
+async function cpSelf(s,me){const m=$("cpmain");if(CP.selfBusy)return;
+  if(me.done){const key="done"+s.players.map(p=>p.s).join();if(CP.phaseKey===key)return;CP.phaseKey=key;m.innerHTML=`<div class="cpracebox"><div class="cpcap">🏁 You finished! Waiting for the others · أنهيت السباق</div><div class="cpracewrap" id="cprw"></div>${cpBoard(s)}</div>`;cpRaceMount($("cprw"),s.theme);cpRaceUpdate($("cprw"),s.players,{frac:cpFrac(s)});return;}
+  if(CP.selfQ&&CP.phaseKey==="sq"+CP.selfQ.qi){const left=Math.max(0,Math.ceil(((+(s.settings?.time)||20)*1000-(cpNow()-new Date(CP.selfQ.served_at).getTime()))/1000));const t=$("cptm");if(t){t.textContent=left+"s";t.classList.toggle("low",left<=5);}if(left<=0&&!CP.selfAns)cpSelfAnswer(s,null);return;}
+  if(CP.phaseKey.startsWith("sr"))return;
+  CP.selfBusy=1;let r;try{r=await cpApi("question",{p_id:s.id});}catch(e){CP.selfBusy=0;return;}CP.selfBusy=0;if(r.done){CP.phaseKey="";return;}
+  CP.selfQ=r;CP.selfAns=null;CP.phaseKey="sq"+r.qi;
+  m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${r.qi+1} / ${r.n}</span><span class="cptimer" id="cptm"></span><span>${me.s} pts</span></div>${cpQ(r.q)}<div id="cpow">${cpOpts(r.q,null,false,true)}</div><p class="cplock" id="cplock"></p></div>`;
+  m.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>cpSelfAnswer(s,+b.dataset.o));}
+async function cpSelfAnswer(s,o){if(CP.selfAns)return;CP.selfAns=1;const Q=CP.selfQ;let r;try{r=await cpApi("answer",{p_id:s.id,p_qi:Q.qi,p_choice:o});}catch(e){r={ok:false,pts:0,a:null};}
+  r.ok?lxSfx?.right?.():lxSfx?.wrong?.();CP.phaseKey="sr"+Q.qi;$("cpow").innerHTML=cpOpts({...Q.q,a:r.a},o,true,false);$("cplock").innerHTML=`<span class="cpres inline ${r.ok?"ok":"no"}">${r.ok?`✓ Correct! +${r.pts}`:o==null?"⏱ Time's up":"✗ Not this time"}</span>`;
+  setTimeout(async()=>{if(CP.view!=="game")return;let st;try{st=await cpApi("state",{p_id:s.id});}catch(_){st=s;}CP.st=st;
+    if(st.settings?.race!==false){cpRaceShow(st,`Question ${Q.qi+1} of ${Q.n} · السؤال ${Q.qi+1}`,()=>{CP.phaseKey="";CP.selfQ=null;cpPoll();});}else{CP.phaseKey="";CP.selfQ=null;cpPoll();}},1100);}
+
+/* ---------------- styles ---------------- */
+document.head.insertAdjacentHTML("beforeend",`<style data-own>
+#compview{display:none;width:100%;max-width:1150px}.cpview .ar{font-family:Tajawal,sans-serif;font-size:.72em;color:var(--muted)}
+.cplist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:14px}
+.cpcard{border-radius:18px;overflow:hidden;background:var(--glass);border:1px solid rgba(143,227,184,.2)}html[data-theme=light] .cpcard{background:#fff;border-color:rgba(16,35,47,.12)}
+.cpbanner{height:92px;display:flex;justify-content:center;align-items:flex-end;gap:4px;background:linear-gradient(var(--sky1),var(--sky2));padding-bottom:4px}.cpbanner .cpch{width:70px;height:70px}
+.cpbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:3px}.cpbody>b{font-size:16px}.cpbody>span{font-size:12.5px;opacity:.8}.cpbody small{font-size:12px;opacity:.75}
+.cpst{font-style:normal;font-size:11.5px;font-weight:700;align-self:flex-start;padding:2px 8px;border-radius:999px;background:rgba(143,227,184,.15);margin-top:4px}.cpst.live{background:#e03131;color:#fff}.cpst.lobby{background:#fab005;color:#2b2140}
+.cpbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center}.cpbody .cpbtns{justify-content:flex-start}.cpbtns.big .sbtn{font-size:16px;padding:12px 22px}
+.cpempty{grid-column:1/-1;text-align:center;padding:30px}.cpempty .cpch{width:110px;height:110px}
+.cpedit{display:flex;flex-direction:column;gap:14px;margin-top:14px}.cpsec{background:#fff;color:#10232f;border-radius:18px;padding:18px}.cpsec h3{margin:0 0 12px}.cpsec h3 small{font-size:12px;color:#1d8656;margin-left:8px}
+.cpsec label{display:flex;flex-direction:column;gap:4px;font:600 12.5px Inter,sans-serif}.cpsec input:not([type=checkbox]):not([type=radio]),.cpsec select,.cpsec textarea{padding:9px 10px;border:1px solid rgba(16,35,47,.2);border-radius:10px;font:14px Inter,Tajawal,sans-serif;background:#fff;color:#10232f}
+.cpgrid2{display:grid;grid-template-columns:2fr 1fr;gap:12px}.cpgrid3{display:grid;grid-template-columns:1fr 1.4fr 1.6fr;gap:12px}@media(max-width:760px){.cpgrid2,.cpgrid3,.cpqcols{grid-template-columns:1fr!important}}
+.cpchk{flex-direction:row!important;align-items:center;gap:8px!important;font-weight:500!important}.cpstud{margin-top:12px}.cpslist{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 12px;margin-top:8px;max-height:220px;overflow:auto}
+.cpqcols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}.cpqh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cpbank{max-height:420px;overflow:auto;border:1px solid rgba(16,35,47,.12);border-radius:12px;padding:6px;background:#f8faf9}.cpq{display:flex!important;flex-direction:row!important;gap:8px!important;align-items:flex-start;padding:8px;border-radius:10px;font-weight:500!important;cursor:pointer}
+.cpq:hover{background:#eef6f1}.cpq.in{background:#e6f5ec}.cpq em{font-style:normal;font-size:10.5px;font-weight:700;color:#1d8656;text-transform:uppercase}.cpq .cpstem{font-size:13.5px}.cpq small{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.cpq small i{font-style:normal;font-size:11.5px;padding:1px 7px;border-radius:6px;background:#fff;border:1px solid rgba(16,35,47,.12)}.cpq small i.ok{background:#d3f9d8;border-color:#2f9e44}.cpq>b{min-width:22px;color:#1d8656}
+.cpqa{margin-left:auto;display:flex;gap:4px}.cpqa button{border:1px solid rgba(16,35,47,.15);background:#fff;border-radius:6px;cursor:pointer;padding:2px 7px}
+.cpthemes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.cpth{border:2px solid transparent;border-radius:14px;overflow:hidden;padding:0 0 8px;background:#f4f7f6;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:#10232f;font:inherit}
+.cpth[aria-pressed=true]{border-color:#1d8656;box-shadow:0 0 0 3px rgba(29,134,86,.25)}.cpthc{display:flex;justify-content:center;width:100%;height:64px;background:linear-gradient(var(--sky1),var(--sky2));align-items:flex-end}.cpthc .cpch{width:50px;height:50px}.cpth small{font-family:Tajawal,sans-serif;opacity:.7}
+.cpthprev{margin-top:12px;border-radius:14px;overflow:hidden;aspect-ratio:1000/440;max-height:300px}
+.cpset{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}.cpset .pfhint{grid-column:1/-1}@media(max-width:760px){.cpset{grid-template-columns:1fr}}
+.cpsave{display:flex;gap:12px;align-items:center;justify-content:flex-end;padding-bottom:30px}.cpsave .sbtn{font-size:16px;padding:12px 22px}
+.cpdlg{border:0;border-radius:18px;padding:20px;width:min(520px,94vw)}.cpdlg form{display:flex;flex-direction:column;gap:8px}.cpdlg label{display:flex;flex-direction:column;gap:4px;font:600 13px Inter}.cpdlg textarea,.cpdlg input:not([type=radio]){padding:8px 10px;border:1px solid #ccd;border-radius:9px;font:14px Inter,Tajawal}
+.cpdlg .cpopt{flex-direction:row;align-items:center;gap:8px}.cpdlg .cpopt input:not([type=radio]){flex:1}
+/* game stage */
+body.cpgame #sidenav,body.cpgame #navhist{display:none!important}body.cpgame.withnav .wrap{padding-left:18px}
+.cpstage{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;color:#fff;overflow:auto}
+.cpbg{position:fixed;inset:0;z-index:-1}.cpbg svg{width:100%;height:100%;display:block}.cpbg.dim::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.cptop{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(0,0,0,.35);backdrop-filter:blur(6px)}.cptop b{flex:1;font-size:17px}.cptop span{font-weight:700}
+.cpx{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 14px;cursor:pointer;font:600 13px Inter,sans-serif}
+.cpmain{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px}.cpwait{font-size:18px;opacity:.85}
+.cplobby,.cppick,.cpqwrap,.cpracebox,.cppodwrap{width:min(1000px,100%);text-align:center}.cplobby h2,.cppick h2,.cppodwrap h2{font-size:clamp(24px,4vw,38px);margin:0 0 6px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.cplob{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0}.cplp{display:flex;flex-direction:column;align-items:center;background:rgba(0,0,0,.35);border-radius:14px;padding:6px 8px;animation:cpin .5s cubic-bezier(.2,.9,.3,1.3) both}
+.cplp .cpch{width:74px;height:74px}.cplp.me{outline:3px solid #ffd43b}.cplp span{font-weight:700;font-size:13px}.cpcount{opacity:.85}
+.cpchars{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin:18px 0}.cpcho{background:rgba(0,0,0,.35);border:3px solid transparent;border-radius:18px;padding:10px;cursor:pointer;color:#fff;display:flex;flex-direction:column;align-items:center;font:700 15px Inter,sans-serif;transition:transform .15s}
+.cpcho .cpch{width:100px;height:100px}.cpcho:hover{transform:translateY(-4px)}.cpcho.on{border-color:#ffd43b;background:rgba(255,212,59,.18);transform:scale(1.05)}
+.cpqmeta{display:flex;justify-content:space-between;gap:10px;font-weight:700;margin-bottom:10px}.cptimer{font-size:22px;background:rgba(0,0,0,.45);border-radius:999px;padding:2px 14px}.cptimer.low{background:#e03131;animation:cppulse .5s infinite alternate}
+.cpqbox{background:rgba(255,255,255,.95);color:#10232f;border-radius:18px;padding:18px 20px;box-shadow:0 10px 30px rgba(0,0,0,.3)}.cpqstem{font-size:clamp(18px,2.6vw,26px);font-weight:700;line-height:1.35}.cpfig{max-width:520px;margin:10px auto 0}
+.cpopts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.cpopts.n3 .cpopt:last-child{grid-column:1/-1}@media(max-width:640px){.cpopts{grid-template-columns:1fr}}
+.cpopt{display:flex;align-items:center;gap:12px;min-height:70px;padding:12px 16px;border:0;border-radius:16px;background:var(--oc);color:#fff;font:700 clamp(15px,2vw,19px) Inter,Tajawal,sans-serif;text-align:left;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);transition:transform .1s,opacity .2s}
+.cpopt:hover:not(:disabled){transform:translateY(-2px)}.cpopt:disabled{cursor:default}.cpopt .cpL{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.25);display:grid;place-items:center;flex:none}.cpopt .cpot{flex:1}
+.cpopt em{font-style:normal;background:rgba(0,0,0,.3);border-radius:999px;padding:2px 10px}.cpopt.pick{outline:4px solid #fff;transform:scale(1.02)}.cpopt.dim{opacity:.35}.cpopt.ok{outline:4px solid #fff;box-shadow:0 0 0 8px rgba(64,192,87,.6)}.cpopt.no{opacity:.6;text-decoration:line-through}
+.cplock{margin-top:12px;font-size:18px;font-weight:700;min-height:1.4em}.cpres{display:inline-block;font-size:clamp(22px,3.4vw,32px);font-weight:800;padding:10px 24px;border-radius:16px;margin-bottom:12px}
+.cpres.ok{background:#2f9e44}.cpres.no{background:#c92a2a}.cpres small{display:block;font-size:14px;font-weight:600;opacity:.9}.cpres.inline{font-size:20px;padding:6px 16px}
+.cpracebox .cpcap{font-size:clamp(18px,2.6vw,26px);font-weight:800;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.5)}.cpracewrap{border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.45);aspect-ratio:1000/440;width:100%}
+.cprace{width:100%;height:100%;display:block}.cpp{transition:transform 1.8s cubic-bezier(.3,.8,.3,1)}.cpbob{animation:cpbob .5s ease-in-out infinite alternate}.cpp.me .cptag rect{fill:#f08c00}
+.cpprog{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}.cpprog span{background:rgba(0,0,0,.4);border-radius:999px;padding:3px 10px;font-size:13px}
+.cpboard{list-style:none;margin:14px auto 0;padding:0;max-width:520px;text-align:left}.cpboard li{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.4);border-radius:12px;padding:4px 12px;margin-bottom:6px}
+.cpboard li.me{outline:2px solid #ffd43b}.cpboard li>span{width:22px;font-weight:800}.cpboard .cpch{width:40px;height:40px}.cpboard b{flex:1}.cpboard em{font-style:normal;font-weight:800}
+.cppod{border-radius:18px;overflow:hidden;aspect-ratio:1000/440;box-shadow:0 14px 40px rgba(0,0,0,.45)}.cppod svg .cppod{animation:cprise .9s cubic-bezier(.2,.9,.3,1.3) both}
+.cpconf{animation:cpfall linear infinite}.cpstats{margin:14px auto;max-width:620px;text-align:left;background:rgba(0,0,0,.45);border-radius:12px;padding:10px 14px}.cpstats div{display:flex;align-items:center;gap:10px;margin:5px 0}.cpstats i{flex:1;height:10px;border-radius:5px;background:rgba(255,255,255,.2);position:relative;overflow:hidden}.cpstats i::after{content:"";position:absolute;inset:0;width:var(--w);background:#40c057}
+@keyframes cpbob{from{transform:translateY(0)}to{transform:translateY(-6px)}}@keyframes cpin{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}@keyframes cppulse{to{transform:scale(1.08)}}
+@keyframes cprise{from{transform:translateY(80px);opacity:0}to{transform:none;opacity:1}}@keyframes cpfall{from{transform:translateY(0) rotate(0)}to{transform:translateY(480px) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.cpbob,.cpconf,.cplp{animation:none}.cpp{transition:none}}
+</style>`);
+
 
 
 /* theme switch */

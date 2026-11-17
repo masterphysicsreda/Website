@@ -1,0 +1,4 @@
+-- 011: game competitions (applied 2026-11-17)
+-- tables: app.comps (questions incl. answer index stay server-side), app.comp_players, app.comp_answers  (RLS on, access only through RPCs)
+-- RPCs: portal_comp_list / get / save / delete / control(open|start|reveal|race|next|end|reset) / state / join / question (self-paced) / answer
+-- scoring: correct = points × (1 − 0.5 × time used / time allowed) + 100 × streak (max 5); answers are checked on the server
