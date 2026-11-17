@@ -5756,7 +5756,8 @@ const isAdmin=()=>admRole()==="admin";
 const admCrs=()=>CAL.user?.crs||[];
 const canEditCourse=k=>isAdmin()||(admRole()==="teacher"&&(admCrs().includes("*")||admCrs().includes(k)));
 const canManage=()=>isAdmin()||(admRole()==="teacher"&&admCrs().length>0);
-const ADM_GRADES=["Grade 9B","Grade 10","Grade 11","Grade 12"];
+const ADM_GRADES0=["Grade 9B","Grade 10","Grade 11","Grade 12"];
+const admGrades=()=>Array.isArray(SITE.grades)&&SITE.grades.length?SITE.grades:ADM_GRADES0;
 const LSECS=["Lesson Planning and Presentation Resources","Learning Resources","Engage","Explain","Explore","Elaborate","Evaluate","Lesson Library","Teacher-added Resources"];
 const MSECS=["Module Planning and Presentation Resources","Learning Resources","Module Opener","Module Wrap-Up","Module Assessment","Module Library"];
 const CSECS=["Learning Resources","Engage","Explain","Explore","Elaborate","Evaluate","Assessment"];
@@ -5853,7 +5854,7 @@ const admLessonCfg=id=>CONTENT.find(x=>x.kind==="lesson"&&x.target===id&&!x.hidd
 /* ---------- admin view ---------- */
 function admView(){let v=$("adminview");if(v)return v;v=document.createElement("section");v.id="adminview";$("gbview").after(v);window.NAVMO?.observe(v,{attributes:true,attributeFilter:["style"]});return v;}
 {const hv=hideAllViews;hideAllViews=function(){const r=hv.apply(this,arguments);const v=$("adminview");if(v)v.style.display="none";return r;};}
-const ADM_TABS=()=>[["overview","📊 Overview","نظرة عامة",isAdmin()],["roster","👥 Roster","الطلاب والمعلمون",isAdmin()],["content","📁 Files & resources","الملفات والموارد",true],["tools","🧰 Tools","الأدوات",true],["lessons","🧩 Lessons","الدروس",true],["courses","📚 Courses","المقررات",isAdmin()],["settings","⚙️ Settings","الإعدادات",isAdmin()],["ai","✨ AI assistant","المساعد الذكي",isAdmin()||SITE.tai!==false]].filter(t=>t[3]);
+const ADM_TABS=()=>[["overview","📊 Overview","نظرة عامة",isAdmin()],["roster","👥 Roster","الطلاب والمعلمون",isAdmin()],["grades","🎓 Grades","الصفوف",isAdmin()],["content","📁 Files & resources","الملفات والموارد",true],["tools","🧰 Tools","الأدوات",true],["lessons","🧩 Lessons","الدروس",true],["courses","📚 Courses","المقررات",isAdmin()],["settings","⚙️ Settings","الإعدادات",isAdmin()],["ai","✨ AI assistant","المساعد الذكي",isAdmin()||SITE.tai!==false]].filter(t=>t[3]);
 function openAdmin(){if(!window.HOSTED){lxToast("The admin panel works on the hosted website (science-alanjal.pages.dev).",true);return;}if(!canManage()){lxToast("Only the admin or teachers with course rights can open this.",true);return;}
   const v=admView();hideAllViews();["teach","home","coursesview","lessonview","analytics","calview","progview"].forEach(id=>{const e=$(id);if(e)e.style.display="none";});v.style.display="block";scrollTo(0,0);
   if(!ADM_TABS().some(t=>t[0]===ADM.tab))ADM.tab=ADM_TABS()[0][0];
@@ -5861,7 +5862,7 @@ function openAdmin(){if(!window.HOSTED){lxToast("The admin panel works on the ho
     <div class="arow"><button class="out" id="admback" style="margin-top:0">← Dashboard</button></div></div>
     <div class="admtabs">${ADM_TABS().map(([k,n,a])=>`<button data-at="${k}" class="${ADM.tab===k?"on":""}">${n}<small>${a}</small></button>`).join("")}</div><div id="admbody" class="admbody"><p class="psub">Loading…</p></div>`;
   $("admback").onclick=goHome;v.querySelectorAll("[data-at]").forEach(b=>b.onclick=()=>{ADM.tab=b.dataset.at;openAdmin();});
-  ({overview:admOverview,roster:admRoster,content:admContent,tools:admTools,lessons:admLessons,courses:admCoursesTab,settings:admSettings,ai:admAI})[ADM.tab]();}
+  ({overview:admOverview,roster:admRoster,grades:admGradesTab,content:admContent,tools:admTools,lessons:admLessons,courses:admCoursesTab,settings:admSettings,ai:admAI})[ADM.tab]();}
 async function admReloadContent(){try{CONTENT=await admApi("content")||[];}catch(_){}admApplyCourses();}
 
 /* overview + performance + self-check */
@@ -5882,7 +5883,7 @@ async function admFindings(full){const F=[];let s=ADM.stats;if(!s){try{s=ADM.sta
   CONTENT.filter(x=>["file","link","tool","dash"].includes(x.kind)&&!/^https:\/\//.test(x.data?.url||"")).forEach(x=>F.push(["warn",`“${x.title}” has no valid https link`,"Files & resources"]));
   if(full){await Promise.all(CONTENT.filter(x=>x.kind==="file").map(async x=>{try{const r=await fetch(x.data.url,{method:"HEAD"});if(!r.ok)F.push(["error",`File missing: “${x.title}” (${r.status})`,"Files & resources"]);}catch(_){F.push(["warn",`Could not reach file “${x.title}”`,"Files & resources"]);}}));}
   if(s.files_mb>800)F.push(["warn",`Uploaded files use ${s.files_mb} MB of the 1 GB free storage`,"Files & resources"]);if(s.db_size_mb>400)F.push(["warn",`Database uses ${s.db_size_mb} MB of 500 MB`,"Overview"]);
-  try{const us=ADM.users||await admApi("admin_users");ADM.users=us;us.filter(u=>u.role==="teacher"&&!(u.crs||[]).length).forEach(u=>F.push(["info",`Teacher ${u.n} has no courses assigned`,"Roster"]));us.filter(u=>u.role==="student"&&!ADM_GRADES.includes(u.g)).forEach(u=>F.push(["info",`Student ${u.n} has an unusual grade “${u.g}”`,"Roster"]));
+  try{const us=ADM.users||await admApi("admin_users");ADM.users=us;us.filter(u=>u.role==="teacher"&&!(u.crs||[]).length).forEach(u=>F.push(["info",`Teacher ${u.n} has no courses assigned`,"Roster"]));us.filter(u=>u.role==="student"&&!admGrades().includes(u.g)).forEach(u=>F.push(["info",`Student ${u.n} has an unusual grade “${u.g}”`,"Roster"]));
     const idle=us.filter(u=>u.role==="student"&&!u.last).length;if(idle)F.push(["info",`${idle} students have not opened any interactive lesson yet`,"Reports"]);}catch(_){}
   Object.values(LXBASE).concat(Object.values(LXLESSONS)).filter((L,i,arr)=>arr.findIndex(x=>x.key===L.key)===i).forEach(L=>{if(!s.by_lesson?.[L.key])F.push(["info",`No student has started “${L.title}” yet`,"Lessons"]);});
   try{const st=await admFn({action:"ai_status"});ADM.aist=st;if(!st.key)F.push(["warn","The AI is not connected: add the ANTHROPIC_API_KEY secret in Supabase","AI assistant"]);}catch(_){}
@@ -5896,10 +5897,10 @@ function admBadge(F){const t=$("admtile");if(!t)return;let b=t.querySelector(".a
 async function admRoster(){const B=$("admbody");B.innerHTML='<p class="psub">Loading…</p>';try{ADM.users=await admApi("admin_users");}catch(e){B.innerHTML=`<p class="psub">Could not load: ${esc(e.message)}</p>`;return;}admRosterDraw();}
 function admCourseKeys(){return [...new Set(["bio","chem","phys","saat",...admCourses().map(c=>c.data?.key).filter(Boolean)])];}
 function admRosterDraw(){const B=$("admbody"),U=ADM.users||[],q=ADM.q.toLowerCase();
-  const grades=[...new Set([...ADM_GRADES,...U.filter(u=>u.role==="student").map(u=>u.g)])].filter(Boolean);
+  const grades=[...new Set([...admGrades(),...U.filter(u=>u.role==="student").map(u=>u.g)])].filter(Boolean);
   const L=U.filter(u=>(!ADM.fr||u.role===ADM.fr)&&(!ADM.fg||u.g===ADM.fg||(u.cls||[]).includes(ADM.fg))&&(!q||u.n.toLowerCase().includes(q)||u.id.includes(q)));
   const cn=k=>COURSES[k]?.t||k;
-  B.innerHTML=`<div class="admbar"><button class="sbtn on" data-add="student">＋ Add student</button><button class="sbtn on" data-add="teacher">＋ Add teacher</button><button class="sbtn" id="admimp">⬆ Import a class list</button>${ADM_MHROSTER?`<a class="sbtn" href="${esc(ADM_MHROSTER)}" target="_blank" rel="noopener" style="text-decoration:none">McGraw Hill roster ↗</a>`:""}<button class="sbtn" id="admcsv">⬇ Export roster</button>
+  B.innerHTML=`<div class="admbar"><button class="sbtn on" data-add="student">＋ Add student</button><button class="sbtn on" data-add="teacher">＋ Add teacher</button><button class="sbtn" data-admgo="grades">🎓 Grades</button><button class="sbtn" id="admimp">⬆ Import a class list</button>${ADM_MHROSTER?`<a class="sbtn" href="${esc(ADM_MHROSTER)}" target="_blank" rel="noopener" style="text-decoration:none">McGraw Hill roster ↗</a>`:""}<button class="sbtn" id="admcsv">⬇ Export roster</button>
     <span class="admsp"></span><input id="admq" placeholder="Search name or ID" value="${esc(ADM.q)}"><select id="admfr"><option value="">All roles</option><option value="student" ${ADM.fr==="student"?"selected":""}>Students</option><option value="teacher" ${ADM.fr==="teacher"?"selected":""}>Teachers</option><option value="admin" ${ADM.fr==="admin"?"selected":""}>Admins</option></select><select id="admfg"><option value="">All grades</option>${grades.map(g=>`<option ${ADM.fg===g?"selected":""}>${esc(g)}</option>`).join("")}</select></div>
     <p class="psub">${L.length} of ${U.length} accounts · new PINs are shown once, so note them or export them</p><div id="admpins"></div>
     <div class="lxtblwrap"><table class="lxtbl admtbl"><thead><tr><th>Name</th><th>ID</th><th>Role</th><th>Grade / classes</th><th>Courses</th><th>Last activity</th><th></th></tr></thead><tbody>${L.map(u=>`<tr><td dir="auto"><b>${esc(u.n)}</b>${u.locked?' <span class="admlv warn">locked</span>':""}</td><td>${esc(u.id)}</td><td><span class="admrole ${u.role}">${u.role}</span></td><td>${u.role==="student"?esc(u.g||""):(u.cls||[]).length?(u.cls||[]).map(esc).join(", "):'<span class="psub">all classes</span>'}</td><td>${u.role==="student"?'<span class="psub">by grade</span>':(u.crs||[]).includes("*")?"all courses":(u.crs||[]).map(cn).map(esc).join(", ")||'<span class="psub">none</span>'}</td><td>${admFmtD(u.last)}</td>
@@ -5917,13 +5918,13 @@ function admDownload(name,rows){const csv="﻿"+rows.map(r=>r.map(v=>`"${String(
 function HS_DLsave(name,blob){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);}
 async function admRefreshRoster(){try{const ro=await hrpc("portal_roster",{p_token:HS.token});HS.roster=ro;const r={};ro.forEach(s=>(r[s.g]??=[]).push({n:s.n,i:s.id.slice(-4),s:{}}));}catch(_){}}
 function admDlg(html){let d=$("admdlg");if(!d){d=document.createElement("dialog");d.id="admdlg";d.className="admdlg";document.body.appendChild(d);}d.innerHTML=`<button class="admx" type="button" aria-label="Close">✕</button>${html}`;d.querySelector(".admx").onclick=()=>d.close();if(!d.open)d.showModal();return d;}
-function admUserDlg(u,role){const isNew=!u;u=u||{id:"",n:"",g:ADM_GRADES[0],role:role||"student",crs:[],cls:[]};const keys=admCourseKeys();
+function admUserDlg(u,role){const isNew=!u;u=u||{id:"",n:"",g:admGrades()[0],role:role||"student",crs:[],cls:[]};const keys=admCourseKeys();
   const d=admDlg(`<h3>${isNew?(u.role==="student"?"Add a student":"Add a teacher"):"Edit "+esc(u.n)}</h3>
     <div class="admform"><label>National / Iqama ID (10 digits)<input id="auid" inputmode="numeric" maxlength="10" value="${esc(u.id)}" ${isNew?"":"disabled"}></label><label>Full name<input id="aun" dir="auto" value="${esc(u.n)}"></label>
     <label>Role<select id="aur"><option value="student" ${u.role==="student"?"selected":""}>Student</option><option value="teacher" ${u.role==="teacher"?"selected":""}>Teacher</option><option value="admin" ${u.role==="admin"?"selected":""}>Admin</option></select></label>
-    <div id="austu"><label>Grade<input id="aug" list="augl" value="${esc(u.role==="student"?u.g||"":ADM_GRADES[0])}"><datalist id="augl">${ADM_GRADES.map(g=>`<option>${g}</option>`).join("")}</datalist></label></div>
+    <div id="austu"><label>Grade<input id="aug" list="augl" value="${esc(u.role==="student"?u.g||"":admGrades()[0])}"><datalist id="augl">${admGrades().map(g=>`<option>${g}</option>`).join("")}</datalist></label></div>
     <div id="autea"><fieldset><legend>Courses this teacher can edit</legend><label class="xtog"><input type="checkbox" value="*" ${u.crs.includes("*")?"checked":""}> All courses</label>${keys.map(k=>`<label class="xtog"><input type="checkbox" value="${esc(k)}" ${u.crs.includes(k)?"checked":""}> ${esc(COURSES[k]?.t||k)}</label>`).join("")}</fieldset>
-      <fieldset><legend>Classes this teacher teaches (sees only these students; none = all)</legend>${ADM_GRADES.map(g=>`<label class="xtog"><input type="checkbox" class="aucls" value="${g}" ${u.cls.includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset></div>
+      <fieldset><legend>Classes this teacher teaches (sees only these students; none = all)</legend>${admGrades().map(g=>`<label class="xtog"><input type="checkbox" class="aucls" value="${g}" ${u.cls.includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset></div>
     <p class="admmsg" id="aumsg"></p><div class="admbtns"><button class="sbtn on" id="ausave">${isNew?"Create account":"Save changes"}</button></div></div>`);
   const sw=()=>{const r=$("aur").value;$("austu").style.display=r==="student"?"":"none";$("autea").style.display=r==="student"?"none":"";};sw();$("aur").onchange=sw;
   $("ausave").onclick=async()=>{const id=$("auid").value.trim(),n=$("aun").value.trim(),r=$("aur").value,msg=$("aumsg");
@@ -5933,7 +5934,7 @@ function admUserDlg(u,role){const isNew=!u;u=u||{id:"",n:"",g:ADM_GRADES[0],role
       if(res.error){msg.textContent={exists:"An account with this ID already exists.",bad_id:"The ID must be 10 digits.",self_role:"You cannot remove your own admin role."}[res.error]||res.error;return;}
       d.close();await admRoster();if(res.pin)admPinNote([{n,id,g:r==="student"?$("aug").value.trim():"Teacher",pin:res.pin}]);admRefreshRoster();lxToast(isNew?"Account created":"Saved");}catch(e){msg.textContent="Could not save: "+e.message;}};}
 function admImportDlg(){const d=admDlg(`<h3>Import a class list</h3><p class="psub">Paste rows from Excel or Classera: <b>ID, name, grade</b> (one student per line; tab or comma separated). Each new student gets a PIN.</p>
-  <textarea id="aimp" rows="10" dir="auto" placeholder="1155687898, Ahmed Ali, Grade 10"></textarea><label>Grade for rows without one <input id="aimpg" list="augl2" value="${ADM_GRADES[1]}"><datalist id="augl2">${ADM_GRADES.map(g=>`<option>${g}</option>`).join("")}</datalist></label><p class="admmsg" id="aimsg"></p><div class="admbtns"><button class="sbtn on" id="aimgo">Import</button></div>`);
+  <textarea id="aimp" rows="10" dir="auto" placeholder="1155687898, Ahmed Ali, Grade 10"></textarea><label>Grade for rows without one <input id="aimpg" list="augl2" value="${(admGrades()[1]||admGrades()[0])}"><datalist id="augl2">${admGrades().map(g=>`<option>${g}</option>`).join("")}</datalist></label><p class="admmsg" id="aimsg"></p><div class="admbtns"><button class="sbtn on" id="aimgo">Import</button></div>`);
   $("aimgo").onclick=async()=>{const def=$("aimpg").value.trim(),rows=$("aimp").value.split(/\r?\n/).map(l=>l.split(/\t|,|;/).map(s=>s.trim())).filter(r=>r[0]).map(r=>{const id=(r.find(x=>/^\d{10}$/.test(x))||r[0]),rest=r.filter(x=>x!==id);return {id,n:rest[0]||"",g:rest[1]||def};});
     if(!rows.length){$("aimsg").textContent="Paste at least one row.";return;}$("aimsg").textContent=`Importing ${rows.length}…`;
     try{const out=await admApi("admin_import",{p_rows:rows});const ok=out.filter(o=>o.pin),bad=out.filter(o=>o.error);d.close();await admRoster();admPinNote(ok.map(o=>({n:o.n,id:o.id,g:o.g,pin:o.pin})));admRefreshRoster();
@@ -6045,7 +6046,7 @@ const admSlug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|
 function admCourseDlg(c){const d0=c?.data||{key:"",t:"",ta:"",color:"#46c48a",grades:[],modules:[]};
   const txt=(d0.modules||[]).map(m=>m.name+"\n"+(m.lessons||[]).map(l=>"- "+l.name).join("\n")).join("\n");
   const d=admDlg(`<h3>${c?.id?"Edit course":"New course"}</h3><div class="admform"><label>Title (English)<input id="act" value="${esc(d0.t)}"></label><label>Title (Arabic)<input id="acta" dir="rtl" value="${esc(d0.ta||"")}"></label><label>Colour<input id="acc" type="color" value="${esc(d0.color||"#46c48a")}"></label>
-    <fieldset class="wide"><legend>Grades that see this course (none = everyone)</legend>${ADM_GRADES.map(g=>`<label class="xtog"><input type="checkbox" class="acg" value="${g}" ${(d0.grades||[]).includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset>
+    <fieldset class="wide"><legend>Grades that see this course (none = everyone)</legend>${admGrades().map(g=>`<label class="xtog"><input type="checkbox" class="acg" value="${g}" ${(d0.grades||[]).includes(g)?"checked":""}> ${g}</label>`).join("")}</fieldset>
     <label class="wide">Short description<input id="acd" dir="auto" value="${esc(d0.desc||"")}"></label>
     <label class="wide">Modules and lessons (a module on its own line; lessons start with “- ”)<textarea id="acm" rows="10" dir="auto" placeholder="Unit 1: Matter\n- Lesson 1: Atoms\n- Lesson 2: The periodic table\nUnit 2: Reactions\n- Lesson 1: Balancing equations">${esc(txt)}</textarea></label>
     <p class="admmsg" id="acmsg"></p><div class="admbtns"><button class="sbtn on" id="acgo">Save course</button></div></div>`);
@@ -6175,6 +6176,29 @@ function openRoster(){if(!window.HOSTED){if(ADM_MHROSTER)window.open(ADM_MHROSTE
   $("admback").onclick=goHome;
   v.querySelectorAll("[data-rp]").forEach(b=>b.onclick=async()=>{const s=R.find(x=>x.id===b.dataset.rp);if(!confirm(`Give ${s.n} a new PIN? The old PIN stops working.`))return;
     try{const r=await hrpc("portal_reset_pin",{p_token:HS.token,p_id:s.id});if(r.pin){s.locked=false;admPinNote([{n:s.n,id:s.id,g:s.g,pin:r.pin}]);}}catch(_){lxToast("Could not reset the PIN.",true);}});}
+
+/* grades / classes */
+document.addEventListener("click",e=>{const b=e.target.closest("[data-admgo]");if(!b)return;ADM.tab=b.dataset.admgo;openAdmin();});
+async function admSaveGrades(list){const site={...SITE,grades:list};await admApi("site_save",{p_site:site});SITE=site;if(CAL.user)CAL.user.site=site;}
+async function admGradesTab(){const B=$("admbody");if(!ADM.users){B.innerHTML='<p class="psub">Loading…</p>';try{ADM.users=await admApi("admin_users");}catch(e){B.innerHTML=`<p class="psub">Could not load: ${esc(e.message)}</p>`;return;}}
+  const U=ADM.users,cnt=g=>U.filter(u=>u.role==="student"&&u.g===g).length,tch=g=>U.filter(u=>u.role!=="student"&&(u.cls||[]).includes(g)).map(u=>u.n);
+  const list=[...admGrades()],extra=[...new Set(U.filter(u=>u.role==="student"&&u.g&&!list.includes(u.g)).map(u=>u.g))];
+  B.innerHTML=`<div class="panel"><h3>Grades and classes <span class="ar">الصفوف والشعب</span></h3><p class="psub">These grades appear when you add students, import class lists, choose a teacher's classes and choose who sees a course. Use any name, e.g. <b>Grade 7</b>, <b>Grade 10A</b>, <b>Grade 11 Mawhiba</b>.</p>
+    <div class="admbar"><input id="agnew" placeholder="New grade or class name" style="width:260px" dir="auto"><button class="sbtn on" id="agadd">＋ Add grade</button></div>
+    <div class="lxtblwrap"><table class="lxtbl admtbl"><thead><tr><th>Order</th><th>Grade / class</th><th>Students</th><th>Teachers</th><th></th></tr></thead><tbody>${list.map((g,i)=>`<tr><td class="admact"><button class="sbtn" data-gu="${i}" ${i?"":"disabled"}>↑</button><button class="sbtn" data-gd="${i}" ${i<list.length-1?"":"disabled"}>↓</button></td><td><b dir="auto">${esc(g)}</b></td><td>${cnt(g)}</td><td class="psub">${tch(g).map(esc).join(", ")||"–"}</td>
+      <td class="admact"><button class="sbtn" data-gr="${i}">Rename</button><button class="sbtn" data-gx="${i}">${cnt(g)?"Move students & remove":"Remove"}</button></td></tr>`).join("")}</tbody></table></div>
+    ${extra.length?`<p class="psub">Students also have these grades that are not in the list: ${extra.map(g=>`<button class="sbtn" data-gk="${esc(g)}">＋ ${esc(g)} (${cnt(g)})</button>`).join(" ")}</p>`:""}<p class="admmsg" id="agmsg"></p></div>`;
+  const msg=t=>{$("agmsg").textContent=t;};const save=async l=>{try{await admSaveGrades(l);admGradesTab();lxToast("Grades saved");}catch(e){msg("Could not save: "+e.message);}};
+  $("agadd").onclick=()=>{const n=$("agnew").value.trim();if(!n)return msg("Type a name first.");if(list.some(g=>g.toLowerCase()===n.toLowerCase()))return msg("This grade already exists.");save([...list,n]);};
+  $("agnew").onkeydown=e=>{if(e.key==="Enter")$("agadd").click();};
+  B.querySelectorAll("[data-gk]").forEach(b=>b.onclick=()=>save([...list,b.dataset.gk]));
+  B.querySelectorAll("[data-gu],[data-gd]").forEach(b=>b.onclick=()=>{const i=+(b.dataset.gu??b.dataset.gd),j=b.dataset.gu!=null?i-1:i+1,l=[...list];[l[i],l[j]]=[l[j],l[i]];save(l);});
+  B.querySelectorAll("[data-gr]").forEach(b=>b.onclick=async()=>{const old=list[+b.dataset.gr],n=(prompt(`New name for “${old}”:`,old)||"").trim();if(!n||n===old)return;if(list.includes(n))return msg("That name is already used.");
+    msg("Renaming…");try{const r=await admApi("admin_grade_rename",{p_old:old,p_new:n});const l=list.map(g=>g===old?n:g);await admSaveGrades(l);ADM.users=null;await admRefreshRoster();admGradesTab();lxToast(`Renamed · ${r.moved||0} students moved`);}catch(e){msg("Could not rename: "+e.message);}});
+  B.querySelectorAll("[data-gx]").forEach(b=>b.onclick=async()=>{const g=list[+b.dataset.gx],n=cnt(g),rest=list.filter(x=>x!==g);
+    if(!n){if(confirm(`Remove “${g}” from the list?`))save(rest);return;}
+    const d=admDlg(`<h3>Remove “${esc(g)}”</h3><p>${n} student${n===1?"":"s"} are in this grade. Move them to:</p><div class="admform"><label>Grade<select id="agto">${rest.map(x=>`<option>${esc(x)}</option>`).join("")}</select></label><div class="admbtns"><button class="sbtn on" id="agmv">Move students and remove</button></div></div>`);
+    $("agmv").onclick=async()=>{const to=$("agto").value;if(!to)return;try{await admApi("admin_grade_rename",{p_old:g,p_new:to});await admSaveGrades(rest);d.close();ADM.users=null;await admRefreshRoster();admGradesTab();lxToast(`${n} students moved to ${to}`);}catch(e){lxToast("Could not move: "+e.message,true);}};});}
 
 
 

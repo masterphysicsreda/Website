@@ -213,3 +213,17 @@ insert into storage.buckets(id, name, public, file_size_limit) values ('site-fil
 
 -- 008d: portal_staff also reports whether the AI assistant is allowed (site setting 'tai' switches it off for teachers)
 -- (applied live as migration 008d_staff_ai_flag; portal_ai_allow allows 400/day for staff, and refuses students when site.ai = false)
+
+-- 008e: rename / merge a grade (moves students, updates teachers' classes)
+create or replace function public.portal_admin_grade_rename(p_token uuid, p_old text, p_new text) returns jsonb language plpgsql security definer set search_path = '' as $$
+declare n int;
+begin
+  perform app.admin(p_token);
+  if coalesce(trim(p_new),'') = '' then return jsonb_build_object('error','no_name'); end if;
+  update app.users set grade = trim(p_new), payload = payload || jsonb_build_object('g', trim(p_new)) where role = 'student' and grade = p_old;
+  get diagnostics n = row_count;
+  update app.users set classes = array_replace(classes, p_old, trim(p_new)), payload = payload || jsonb_build_object('c', array_to_string(array_replace(classes, p_old, trim(p_new)), ' · '))
+    where role <> 'student' and p_old = any(classes);
+  return jsonb_build_object('ok', true, 'moved', n);
+end $$;
+grant execute on function public.portal_admin_grade_rename(uuid, text, text) to anon, authenticated;
