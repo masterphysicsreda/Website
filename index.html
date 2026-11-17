@@ -7394,8 +7394,8 @@ function cpEditForm(c){const v=cpView();CP.view="edit";const grades=(typeof tGra
       <label class="cpchk"><input type="checkbox" id="cpstreak" ${E.settings.streak?"checked":""}> Streak bonus (+100 for each correct answer in a row) · مكافأة التتابع</label>
       <label class="cpchk"><input type="checkbox" id="cpshq" ${E.settings.shufQ?"checked":""}> Shuffle question order · ترتيب عشوائي للأسئلة</label>
       <label class="cpchk"><input type="checkbox" id="cpsha" ${E.settings.shufA?"checked":""}> Shuffle answer choices · ترتيب عشوائي للخيارات</label>
-      <label class="cpchk"><input type="checkbox" id="cprace" ${E.settings.race!==false?"checked":""}> Show the race after each question · عرض السباق بعد كل سؤال</label>
-      <p class="pfhint">Faster correct answers earn more points (from 100% down to 50% of the points as time runs out).</p></div></section>
+      <input type="hidden" id="cprace">
+      <p class="pfhint">The game runs by itself: when everyone has answered (or time runs out) the answer shows, then the race land, then the next question. Faster correct answers earn more points (from 100% down to 50% of the points as time runs out).</p></div></section>
     <div class="cpsave"><button class="sbtn pri" id="cpsave" type="button">💾 Save competition · حفظ</button><span class="pfmsg" id="cpmsg"></span></div></div>`;
   $("cpcancel").onclick=openComps;
   const roster=()=>{const g=$("cpgrade").value,R=typeof tRoster==="function"?tRoster(g):[],all=$("cpall").checked;$("cpslist").innerHTML=all?"":R.length?R.map(s=>`<label class="cpchk"><input type="checkbox" value="${esc(s.id)}" ${E.students.includes(s.id)?"checked":""}> <span dir="auto">${esc(s.n)}</span></label>`).join(""):`<p class="psub">No students listed for this grade.</p>`;
@@ -7416,7 +7416,7 @@ function cpEditForm(c){const v=cpView();CP.view="edit";const grades=(typeof tGra
   $("cpown").onclick=()=>cpOwnQ(q=>{E.questions.push(q);sel();});
   const thprev=()=>{const b=$("cpthprev");cpRaceMount(b,E.theme);const fake=CP_TH[E.theme].chars.slice(0,5).map((x,i)=>({u:"p"+i,n:x[0],ch:E.theme+":"+i,s:[4200,3100,2500,1800,900][i]}));cpRaceUpdate(b,[],{frac:()=>0});setTimeout(()=>cpRaceUpdate(b,fake,{frac:p=>p.s/5000}),60);};
   v.querySelectorAll("[data-th]").forEach(b=>b.onclick=()=>{E.theme=b.dataset.th;v.querySelectorAll("[data-th]").forEach(x=>x.setAttribute("aria-pressed",x===b));thprev();});thprev();
-  $("cpsave").onclick=async()=>{const m=$("cpmsg");E.title=$("cptitle").value.trim();E.mode=$("cpmode").value;Object.assign(E.settings,{time:+$("cptime").value,points:+$("cppts").value,streak:$("cpstreak").checked,shufQ:$("cpshq").checked,shufA:$("cpsha").checked,race:$("cprace").checked});
+  $("cpsave").onclick=async()=>{const m=$("cpmsg");E.title=$("cptitle").value.trim();E.mode=$("cpmode").value;Object.assign(E.settings,{time:+$("cptime").value,points:+$("cppts").value,streak:$("cpstreak").checked,shufQ:$("cpshq").checked,shufA:$("cpsha").checked,race:true});
     if(!E.title){m.textContent="Give the competition a name.";m.className="pfmsg bad";$("cptitle").focus();return;}if(!E.questions.length){m.textContent="Add at least one question.";m.className="pfmsg bad";return;}
     if(!$("cpall").checked&&!E.students.length){m.textContent="Tick at least one student, or choose everyone in the grade.";m.className="pfmsg bad";return;}
     let Q=E.questions.map(q=>({stem:q.stem,opts:[...q.opts],a:q.a,fig:q.fig||null}));
@@ -7469,15 +7469,14 @@ function cpHost(s){const m=$("cpmain"),info=$("cpinfo");info.textContent=`${s.pl
     if(!$("cprw")){m.innerHTML=`<div class="cpracebox"><div class="cpcap">Self-paced race · السباق الذاتي</div><div class="cpracewrap" id="cprw"></div>${""}<div id="cpsb"></div><div class="cpbtns"><button class="sbtn pri" id="cpfin">🏁 End the game and show the podium</button></div></div>`;cpRaceMount($("cprw"),s.theme);$("cpfin").onclick=async()=>{if(confirm("End the game for everyone?")){await cpApi("control",{p_id:s.id,p_act:"end"});cpPoll();}};}
     cpRaceUpdate($("cprw"),s.players,{frac:cpFrac(s)});$("cpsb").innerHTML=`<div class="cpprog">${s.players.map(p=>`<span>${esc(String(p.n||"").split(/\s+/)[0])} <b>${p.qi}/${s.n}</b>${p.done?" ✓":""}</span>`).join("")}</div>`;return;}
   const q=s.q,left=cpLeft(s),all=s.answered>=s.players.length&&s.players.length>0;
-  if(s.phase==="q"){if((left<=0||all)&&!CP.revealing){CP.revealing=1;cpApi("control",{p_id:s.id,p_act:"reveal"}).finally(()=>{CP.revealing=0;cpPoll();});}
-    const key="q"+s.cur;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer" id="cptm"></span><span id="cpans"></span></div>${cpQ(q)}${cpOpts(q,null,false,false)}<div class="cpbtns"><button class="sbtn" id="cpskip">⏭ Stop the timer</button></div></div>`;
+  if(s.phase==="q"){const key="q"+s.cur;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer" id="cptm"></span><span id="cpans"></span></div>${cpQ(q)}${cpOpts(q,null,false,false)}<div class="cpbtns"><button class="sbtn cpsmall" id="cpskip">⏭ Stop the timer now</button></div></div>`;
       $("cpskip").onclick=()=>cpApi("control",{p_id:s.id,p_act:"reveal"}).then(cpPoll);}
-    $("cptm").textContent=left+"s";$("cptm").classList.toggle("low",left<=5);$("cpans").textContent=`${s.answered}/${s.players.length} answered`;return;}
+    const early=cpNow()<new Date(s.q_at).getTime();$("cptm").textContent=early?"Get ready":left+"s";$("cptm").classList.toggle("low",!early&&left<=5);$("cpans").textContent=`${s.answered}/${s.players.length} answered${all?" · everyone answered!":""}`;return;}
   if(s.phase==="r"){const key="r"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;
-    m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span>${Object.values(q.counts||{}).reduce((a,b)=>a+b,0)} answers</span></div>${cpQ(q)}${cpOpts(q,null,true,false)}
-      <div class="cpbtns big">${s.settings?.race!==false?`<button class="sbtn pri" id="cprc">🏁 Show the race</button>`:""}<button class="sbtn ${s.settings?.race!==false?"":"pri"}" id="cpnx">${s.cur+1>=s.n?"🏆 Podium":"Next question ▶"}</button></div></div>`;
-    const nx=async()=>{await cpApi("control",{p_id:s.id,p_act:"next"});cpPoll();};$("cpnx").onclick=nx;if($("cprc"))$("cprc").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"race"});cpPoll();};return;}
-  if(s.phase==="s"){const key="s"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;cpRaceShow(s,`After question ${s.cur+1} · بعد السؤال ${s.cur+1}`,()=>{const m2=$("cpmain");const bx=document.createElement("div");bx.className="cpbtns big";bx.innerHTML=`<button class="sbtn pri" id="cpnx2">${s.cur+1>=s.n?"🏆 Podium":"Next question ▶"}</button>`;m2.querySelector(".cpracebox")?.appendChild(bx);$("cpnx2").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"next"});cpPoll();};});}}
+    m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span>${Object.values(q.counts||{}).reduce((a,b)=>a+b,0)} answers</span></div>${cpQ(q)}${cpOpts(q,null,true,false)}<p class="cpauto">🏁 The race starts in a moment… · السباق بعد لحظات</p></div>`;return;}
+  if(s.phase==="s"){const key="s"+s.cur;if(CP.phaseKey===key)return;CP.phaseKey=key;cpRaceShow(s,`After question ${s.cur+1} · بعد السؤال ${s.cur+1}`);
+    $("cpmain").querySelector(".cpracebox")?.insertAdjacentHTML("beforeend",`<p class="cpauto">${s.cur+1>=s.n?"🏆 The podium is next… · منصة التتويج":"▶ Next question coming… · السؤال التالي"}</p><div class="cpbtns"><button class="sbtn cpsmall" id="cpnx2">⏭ Go on now</button></div>`);
+    $("cpnx2").onclick=async()=>{await cpApi("control",{p_id:s.id,p_act:"next"});cpPoll();};}}
 
 /* student */
 function cpPlay(s){const m=$("cpmain"),me=s.players.find(p=>p.me),info=$("cpinfo");info.textContent=me?`${me.s} pts`:"";
@@ -7489,6 +7488,7 @@ function cpPlay(s){const m=$("cpmain"),me=s.players.find(p=>p.me),info=$("cpinfo
   if(s.status==="lobby"){const key="lobby"+s.players.length;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=cpLobby(s,me);}return;}
   if(s.mode==="self")return cpSelf(s,me);
   const q=s.q;if(!q)return;
+  if(s.phase==="q"&&cpNow()<new Date(s.q_at).getTime()){const key="qw"+s.cur;if(CP.phaseKey!==key){CP.phaseKey=key;m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer">Get ready</span><span>${me.s} pts</span></div>${cpQ(q)}${cpOpts(q,null,false,false)}</div>`;}clearTimeout(CP.wT);CP.wT=setTimeout(()=>{CP.phaseKey="";cpPlay(CP.st);},Math.max(80,new Date(s.q_at).getTime()-cpNow()+30));return;}
   if(s.phase==="q"){const key="q"+s.cur,left=cpLeft(s),mine=s.mine?.choice??CP.ans?.[s.cur];
     if(CP.phaseKey!==key){CP.phaseKey=key;CP.ans=CP.ans||{};m.innerHTML=`<div class="cpqwrap"><div class="cpqmeta"><span>Question ${s.cur+1} / ${s.n}</span><span class="cptimer" id="cptm"></span><span>${me.s} pts</span></div>${cpQ(q)}<div id="cpow">${cpOpts(q,mine,false,mine==null)}</div><p class="cplock" id="cplock">${mine!=null?"Answer locked · بانتظار النتيجة":""}</p></div>`;
       m.querySelectorAll("[data-o]").forEach(b=>b.onclick=async()=>{const o=+b.dataset.o;CP.ans[s.cur]=o;$("cpow").innerHTML=cpOpts(q,o,false,false);$("cplock").textContent="Answer locked · بانتظار النتيجة";lxSfx?.tick?.();
@@ -7508,7 +7508,7 @@ async function cpSelf(s,me){const m=$("cpmain");if(CP.selfBusy)return;
 async function cpSelfAnswer(s,o){if(CP.selfAns)return;CP.selfAns=1;const Q=CP.selfQ;let r;try{r=await cpApi("answer",{p_id:s.id,p_qi:Q.qi,p_choice:o});}catch(e){r={ok:false,pts:0,a:null};}
   r.ok?lxSfx?.right?.():lxSfx?.wrong?.();CP.phaseKey="sr"+Q.qi;$("cpow").innerHTML=cpOpts({...Q.q,a:r.a},o,true,false);$("cplock").innerHTML=`<span class="cpres inline ${r.ok?"ok":"no"}">${r.ok?`✓ Correct! +${r.pts}`:o==null?"⏱ Time's up":"✗ Not this time"}</span>`;
   setTimeout(async()=>{if(CP.view!=="game")return;let st;try{st=await cpApi("state",{p_id:s.id});}catch(_){st=s;}CP.st=st;
-    if(st.settings?.race!==false){cpRaceShow(st,`Question ${Q.qi+1} of ${Q.n} · السؤال ${Q.qi+1}`,()=>{CP.phaseKey="";CP.selfQ=null;cpPoll();});}else{CP.phaseKey="";CP.selfQ=null;cpPoll();}},1100);}
+    if(true){cpRaceShow(st,`Question ${Q.qi+1} of ${Q.n} · السؤال ${Q.qi+1}`,()=>{CP.phaseKey="";CP.selfQ=null;cpPoll();});}else{CP.phaseKey="";CP.selfQ=null;cpPoll();}},1100);}
 
 /* ---------------- styles ---------------- */
 document.head.insertAdjacentHTML("beforeend",`<style data-own>
@@ -7554,6 +7554,7 @@ body.cpgame #sidenav,body.cpgame #navhist{display:none!important}body.cpgame.wit
 .cpopt{display:flex;align-items:center;gap:12px;min-height:70px;padding:12px 16px;border:0;border-radius:16px;background:var(--oc);color:#fff;font:700 clamp(15px,2vw,19px) Inter,Tajawal,sans-serif;text-align:left;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.25);transition:transform .1s,opacity .2s}
 .cpopt:hover:not(:disabled){transform:translateY(-2px)}.cpopt:disabled{cursor:default}.cpopt .cpL{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.25);display:grid;place-items:center;flex:none}.cpopt .cpot{flex:1}
 .cpopt em{font-style:normal;background:rgba(0,0,0,.3);border-radius:999px;padding:2px 10px}.cpopt.pick{outline:4px solid #fff;transform:scale(1.02)}.cpopt.dim{opacity:.35}.cpopt.ok{outline:4px solid #fff;box-shadow:0 0 0 8px rgba(64,192,87,.6)}.cpopt.no{opacity:.6;text-decoration:line-through}
+.cpauto{margin-top:12px;font-size:17px;font-weight:700;text-shadow:0 2px 8px rgba(0,0,0,.6)}.cpsmall{font-size:12.5px!important;padding:6px 12px!important;opacity:.85}
 .cplock{margin-top:12px;font-size:18px;font-weight:700;min-height:1.4em}.cpres{display:inline-block;font-size:clamp(22px,3.4vw,32px);font-weight:800;padding:10px 24px;border-radius:16px;margin-bottom:12px}
 .cpres.ok{background:#2f9e44}.cpres.no{background:#c92a2a}.cpres small{display:block;font-size:14px;font-weight:600;opacity:.9}.cpres.inline{font-size:20px;padding:6px 16px}
 .cpracebox .cpcap{font-size:clamp(18px,2.6vw,26px);font-weight:800;margin-bottom:10px;text-shadow:0 2px 8px rgba(0,0,0,.5)}.cpracewrap{border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.45);aspect-ratio:1000/440;width:100%}

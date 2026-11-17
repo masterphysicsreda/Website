@@ -1,0 +1,4 @@
+-- 012: competitions advance by themselves (applied 2026-11-17)
+-- app.comps.ph_at; app.comp_tick(id) runs on every state/answer call:
+--   question → answer shown when everyone has answered or time is up → race land after 3 s → next question after 4 s (1.5 s get-ready) → podium after the last
+-- start sets q_at = now() + 4.5 s for the 3·2·1·Go countdown; answers before q_at are refused
