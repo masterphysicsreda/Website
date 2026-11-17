@@ -6643,7 +6643,11 @@ const admAIerr=e=>e.code==="no_key"?"The AI is not connected yet (add ANTHROPIC_
 
 /* "Roster" tile → the website's own roster (admin: full management; teachers: their classes) */
 let ADM_MHROSTER=null;
-{const st0=showTeacher;showTeacher=function(st){if(window.HOSTED&&Array.isArray(st.l)){const r=st.l.find(x=>x[0]==="Roster");if(r){if(r[1]!=="#roster"){ADM_MHROSTER=r[1]||null;r[1]="#roster";}}else st.l.push(["Roster","#roster"]);}return st0.apply(this,arguments);};}
+{const st0=showTeacher;showTeacher=function(st){if(Array.isArray(st.l)){
+    st.l=st.l.filter(x=>!(x[0]==="My Tools"&&x[1]!=="#roster"));/* old McGraw Hill "My Tools" tile removed */
+    let r=st.l.find(x=>x[0]==="Roster"||(x[0]==="My Tools"&&x[1]==="#roster"));
+    if(r){if(r[1]!=="#roster"){ADM_MHROSTER=r[1]||null;r[1]="#roster";}r[0]="My Tools";}else if(window.HOSTED)st.l.push(["My Tools","#roster"]);}
+  return st0.apply(this,arguments);};}
 {const rt2=renderTiles;renderTiles=function(box,links){rt2.apply(this,arguments);box.querySelectorAll('a[href="#roster"]').forEach(a=>{if(a._ro)return;a._ro=1;a.addEventListener("click",e=>{e.preventDefault();e.stopImmediatePropagation();openRoster();},true);
   const g=a.querySelector(".go");if(g)g.textContent=isAdmin()?"Add students & teachers · courses →":"My classes · PINs →";});};}
 {const ng2=navGo;navGo=function(url){if(url==="#roster"){openRoster();return;}return ng2.apply(this,arguments);};}
