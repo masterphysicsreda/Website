@@ -7885,6 +7885,35 @@ html[data-theme=light] .cpsteps li{background:#fff}.cpsteps li span{font-size:22
 @media (prefers-reduced-motion:reduce){#cpcd .cpgo,.cplaunch,.cprvchars .cpch{animation:none}}
 </style>`);
 
+/* ---------- settings for each round: change theme, style, time and points every time the game is played ---------- */
+async function cpRoundDlg(id,then){let c;try{c=await cpApi("get",{p_id:id});}catch(_){lxToast("Could not open the settings.",true);return;}const S={time:20,points:1000,streak:true,...(c.settings||{})};let th=c.theme;
+  const d=document.createElement("dialog");d.className="cpdlg cpround";d.innerHTML=`<form method="dialog"><h3>Game settings for this round <span class="ar">إعدادات هذه الجولة</span></h3><p class="pfhint" dir="auto">${esc(c.title)} · ${(c.questions||[]).length} questions</p>
+    <div class="cprth">${CP_THK.map(k=>`<button type="button" data-rt="${k}" aria-pressed="${k===th}" title="${CP_TH[k].t}">${cpEmblem(k,44)}<small>${CP_TH[k].t}</small></button>`).join("")}</div>
+    <label>Game style<select id="cpr_mode"><option value="live" ${c.mode==="live"?"selected":""}>Live · everyone together</option><option value="self" ${c.mode==="self"?"selected":""}>Self-paced · each student at their own speed</option></select></label>
+    <div class="cprg"><label>Time per question<select id="cpr_time">${[10,15,20,30,45,60,90,120].map(t=>`<option value="${t}" ${+S.time===t?"selected":""}>${t} seconds</option>`).join("")}</select></label>
+    <label>Points<select id="cpr_pts">${[500,1000,2000].map(t=>`<option ${+S.points===t?"selected":""}>${t}</option>`).join("")}</select></label></div>
+    <label class="cpchk"><input type="checkbox" id="cpr_streak" ${S.streak?"checked":""}> Streak bonus · مكافأة التتابع</label>
+    <label class="cpchk"><input type="checkbox" id="cpr_shq"> Shuffle the question order this time · ترتيب عشوائي للأسئلة</label>
+    <div class="cpbtns"><button class="sbtn pri" value="ok">▶ Open for players</button><button class="sbtn" value="cancel">Cancel</button></div></form>`;
+  document.body.appendChild(d);d.showModal();d.querySelectorAll("[data-rt]").forEach(b=>b.onclick=()=>{th=b.dataset.rt;d.querySelectorAll("[data-rt]").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+  d.addEventListener("close",async()=>{const ok=d.returnValue==="ok";const v={mode:$("cpr_mode").value,time:+$("cpr_time").value,pts:+$("cpr_pts").value,streak:$("cpr_streak").checked,shq:$("cpr_shq").checked};d.remove();if(!ok)return;
+    let Q=c.questions||[];if(v.shq)Q=tShuf(Q,c.title+Date.now());
+    try{await cpApi("save",{p_comp:{id:c.id,title:c.title,grade:c.grade,students:c.students||[],course:c.course,lessons:c.lessons||[],theme:th,mode:v.mode,settings:{...S,time:v.time,points:v.pts,streak:v.streak,race:true},questions:Q}});
+      if(c.status!=="draft")await cpApi("control",{p_id:c.id,p_act:"reset"});await cpApi("control",{p_id:c.id,p_act:"open"});then?then(c.id):cpGame(c.id);}
+    catch(e){lxToast(e.message==="grade"?"You can only run competitions for your own grades.":"Could not save the settings.",true);}});}
+/* list: Play / Play again always asks for this round's settings; Edit is always there when the game is not running */
+{const ld2=cpListDraw;cpListDraw=function(){const r=ld2.apply(this,arguments);if(!cpT())return r;document.querySelectorAll("#cplist .cpcard").forEach((card,i)=>{const c=(CP.list||[])[i];if(!c)return;const bx=card.querySelector(".cpbtns");if(!bx)return;
+    const host=bx.querySelector("[data-host]");
+    if(c.status==="draft"||c.status==="ended"){const p=document.createElement("button");p.className="sbtn pri";p.textContent=c.status==="ended"?"▶ Play again":"▶ Play";p.onclick=()=>cpRoundDlg(c.id);
+      if(c.status==="draft"&&host){host.replaceWith(p);}else{host.classList.remove("pri");host.textContent="🏆 Results";bx.prepend(p);}}
+    if(c.status==="lobby"&&!bx.querySelector("[data-rset]")){const s=document.createElement("button");s.className="sbtn";s.dataset.rset=c.id;s.textContent="⚙ Settings";s.onclick=()=>cpRoundDlg(c.id);bx.insertBefore(s,bx.querySelector("[data-del]"));}});return r;};}
+/* lobby: change this round's settings before pressing Start */
+{const h3=cpHost;cpHost=function(s){const r=h3.apply(this,arguments);if(s.status==="lobby"){const b=$("cpstart");if(b&&!$("cprset")){const x=document.createElement("button");x.className="sbtn";x.id="cprset";x.textContent="⚙ Change settings";x.onclick=()=>{cpStop();cpRoundDlg(s.id,id=>cpGame(id));};b.after(x);}}return r;};}
+/* podium: Play again asks for new settings too */
+{const e2=cpEnd;cpEnd=function(s){const r=e2.apply(this,arguments);const b=$("cpreset");if(b&&s.staff){b.textContent="▶ Play again (choose settings)";b.onclick=()=>{cpStop();cpRoundDlg(s.id,id=>cpGame(id));};}return r;};}
+document.head.insertAdjacentHTML("beforeend",`<style data-own>.cpround{margin:auto!important;color:#10232f;background:#fff;max-height:92vh;overflow:auto}.cpround::backdrop{background:rgba(4,12,20,.6)}.cpround form{gap:10px}.cpround label{color:#2b4150!important;font:600 13px Inter,sans-serif}.cpround label.cpchk{flex-direction:row!important;align-items:center;justify-content:flex-start!important;gap:10px}.cpround .sbtn{background:#eef3fb;color:#13285c;border:1.5px solid #c9d6ea;padding:10px 18px;border-radius:12px;font:700 14px Inter,sans-serif;cursor:pointer}.cpround .sbtn.pri{background:#1d8656;color:#fff;border-color:#1d8656}.cpround select{color:#10232f;background:#fff}.cprth{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.cprth button{border:2px solid transparent;border-radius:12px;background:#f4f7f6;padding:6px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cprth button[aria-pressed=true]{border-color:#1d8656;background:#e6f5ec}.cprth small{font:600 10.5px Inter,sans-serif;color:#2b4150}.cprg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.cpround select{padding:8px;border-radius:9px;border:1px solid #ccd}.cpround .cpchk{display:flex;flex-direction:row;align-items:center;gap:8px;font-weight:500}</style>`);
+
 
 
 /* theme switch */
